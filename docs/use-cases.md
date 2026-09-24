@@ -66,10 +66,11 @@ Dat is 55%.
 ## Keuzes
 
 - Stereotype «CRUD».
-  Een use case met «CRUD» staat voor vier use cases: toevoegen, bekijken, wijzigen en verwijderen
-  van het item.
-  Zo blijft het diagram leesbaar.
-  Ze volgen het CRUD-sjabloon van de cursus.
+  Voor het beheren van een item tekenen we één use case met «CRUD», zoals de cursus voorschrijft
+  (CRUD Use Cases).
+  Het stereotype is een verkorte weergave van toevoegen, bekijken, wijzigen en verwijderen.
+  Het blijft één use case, ook bij de telling van 65% CRUD.
+  De vier acties volgen het CRUD-sjabloon van de cursus.
   Zie [use-case-beschrijvingen.md](use-case-beschrijvingen.md).
 - Geen «include» of «extend».
   Die geven in dit diagram geen meerwaarde.
