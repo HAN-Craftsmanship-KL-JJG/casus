@@ -1,0 +1,35 @@
+@startuml sd-uc08-geefdekking
+' Sequence diagram van systeemoperatie geefDekking (UC08, stap 1 tot en met 6).
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Opleidingscoördinator" as coordinator
+participant ":OpvragenDekking\nHandler" as handler
+participant "opleidingen :\nOpleidingRepository" as opleidingen
+participant "opleiding :\nOpleiding" as opleiding
+participant "owes[i] : OWE" as owe
+
+coordinator -> handler : dekking = geefDekking(opleidingNaam)
+activate handler
+handler -> opleidingen : opleiding = zoek(opleidingNaam)
+activate opleidingen
+deactivate opleidingen
+handler -> opleiding : dekking = bepaalDekking()
+activate opleiding
+loop voor elke OWE in owes
+  opleiding -> owe : d = bepaalDekking()
+  activate owe
+  ref over owe : SD OWE.bepaalDekking
+  deactivate owe
+end
+deactivate opleiding
+alt dekking is leeg
+  handler --> coordinator : OngeldigeInvoerException (2A)
+else
+  handler --> coordinator : dekking
+end
+deactivate handler
+@enduml

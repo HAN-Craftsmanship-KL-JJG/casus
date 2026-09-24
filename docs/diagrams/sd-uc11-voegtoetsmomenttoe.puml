@@ -1,0 +1,54 @@
+@startuml sd-uc11-voegtoetsmomenttoe
+' Sequence diagram van systeemoperatie voegToetsmomentToe (UC11, Toevoegen toetsmoment,
+' stap 5 tot en met 8). Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Onderwijsontwikkelaar" as ontwikkelaar
+participant ":BeheerPlanning\nHandler" as handler
+participant "owes :\nOWERepository" as owes
+participant "owe : OWE" as owe
+participant "t : Toetsmoment" as toetsmoment
+participant "toetsdrukRegel :\nConsistentieregel" as regel
+participant "alle[i] :\nOvertreding" as overtreding
+
+ontwikkelaar -> handler : overtredingen = voegToetsmomentToe(oweCode, naam,\n\
+soort, startweek, deadlineweek, criteriumCodes)
+activate handler
+handler -> owes : owe = zoek(oweCode)
+activate owes
+deactivate owes
+handler -> owe : t = voegToetsmomentToe(naam, soort,\nstartweek, deadlineweek, criteriumCodes)
+activate owe
+owe -> owe : controleerWeek(startweek)
+owe -> owe : controleerWeek(deadlineweek)
+owe -> owe : criteria = zoekCriteria(criteriumCodes)
+create toetsmoment
+owe -> toetsmoment : create(naam, soort, startweek, deadlineweek, criteria)
+deactivate owe
+handler -> owes : bewaar(owe)
+activate owes
+deactivate owes
+handler -> regel : alle = controleer(owe)
+activate regel
+ref over regel : SD BR5 ToetsdrukRegel
+deactivate regel
+loop voor elke overtreding in alle
+  handler -> overtreding : betreft(t)
+  activate overtreding
+  deactivate overtreding
+end
+handler --> ontwikkelaar : overtredingen
+deactivate handler
+note over owe, toetsmoment
+  7A: controleerWeek, zoekCriteria en create gooien een
+  OngeldigeInvoerException bij ongeldige gegevens [BR14].
+  create controleert dat startweek niet na deadlineweek ligt.
+end note
+note over regel, overtreding
+  overtredingen: de weken met te veel toetsmomenten waarin t loopt.
+  Niet leeg betekent 8A: waarschuwing.
+end note
+@enduml

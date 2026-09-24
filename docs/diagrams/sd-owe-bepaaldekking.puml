@@ -1,0 +1,48 @@
+@startuml sd-owe-bepaaldekking
+' Sequence diagram van OWE.bepaalDekking (UC08, stap 3 en 4).
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+participant "owe : OWE" as owe
+participant "criteria[j] :\nBeoordelingscriterium" as criterium
+participant "toetsmomenten[k] :\nToetsmoment" as toetsmoment
+participant "lessen[m] : Les" as les
+participant "d : Dekking" as dekking
+
+[-> owe : dekking = bepaalDekking()
+activate owe
+owe -> owe : leeruitkomsten = geefLeeruitkomsten()
+owe -> owe : criteria = geefCriteria()
+owe -> owe : toetsmomenten = geefToetsmomenten()
+owe -> owe : lessen = geefLessen()
+loop voor elke l in leeruitkomsten
+  loop voor elk criterium
+    owe -> criterium : getoetst = toetst(l)
+    activate criterium
+    deactivate criterium
+    opt getoetst
+      loop voor elk toetsmoment
+        owe -> toetsmoment : beoordeelt(criterium)
+        activate toetsmoment
+        deactivate toetsmoment
+      end
+      loop voor elke les
+        owe -> les : draagtBijAan(criterium)
+        activate les
+        deactivate les
+      end
+    end
+  end
+  create dekking
+  owe -> dekking : create(l, lc, lt, ll)
+end
+[<-- owe : dekking
+deactivate owe
+note over criterium, dekking
+  lc, lt en ll: de criteria, toetsmomenten en lessen
+  waarvoor de aanroep true gaf, zonder dubbele.
+end note
+@enduml

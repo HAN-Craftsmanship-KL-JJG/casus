@@ -40,13 +40,13 @@ We volgen de richtlijnen voor een design class diagram uit de cursus (Mastermind
   de associatie geen naam.
 - Dependencies die volgen uit parameters en returntypes staan als stippellijn.
 
-De sequence diagrams volgen in #7.
-Daarom leiden we de systeemoperaties nu af uit de stappen van de use cases, zoals een system
-sequence diagram dat doet.
+De systeemoperaties komen uit de system sequence diagrams in
+[sequencediagrammen.md](sequencediagrammen.md).
 We verdelen de verantwoordelijkheden met de GRASP-patterns Controller, Creator, Information
 Expert, Low Coupling en High Cohesion.
-De sequence diagrams in #7 controleren dit ontwerp.
-Wijkt een sequence diagram af, dan passen we dit klassendiagram aan.
+De sequence diagrams controleren dit ontwerp.
+Ze vonden drie gaten, en die hebben we hier verwerkt, zie
+[Wijzigingen in het klassendiagram](sequencediagrammen.md#wijzigingen-in-het-klassendiagram).
 
 ## Van domeinmodel naar ontwerp
 
@@ -263,9 +263,8 @@ Per bedrijfsregel: de klasse die de regel controleert.
 
 ## Open punten
 
-- De sequence diagrams in #7 controleren de operaties en de dependencies in dit ontwerp.
 - OWE heeft 18 operaties.
-  Blijkt in #7 dat OWE te veel doet, dan splitsen we de zoek- en geef-operaties af naar een eigen
-  klasse.
+  De sequence diagrams laten zien dat elke operatie kort is, en OWE blijft zoals hij is, zie keuze
+  4 in [sequencediagrammen.md](sequencediagrammen.md#keuzes).
 - ICDE geeft domeinobjecten terug aan de gebruikersinterface, zoals List<OWE> in UC07.
   Draait de gebruikersinterface op een eigen server, dan worden dat Data Transfer Objects (#10).

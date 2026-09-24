@@ -1,0 +1,52 @@
+@startuml sd-uc04-voeglestoe
+' Sequence diagram van systeemoperatie voegLesToe (UC04, Toevoegen les, stap 5 tot en met 7).
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Onderwijsontwikkelaar" as ontwikkelaar
+participant ":BeheerPlanning\nHandler" as handler
+participant "owes :\nOWERepository" as owes
+participant "owe : OWE" as owe
+participant "les : Les" as les
+participant "lesRegel :\nConsistentieregel" as regel
+participant "alle[i] :\nOvertreding" as overtreding
+
+ontwikkelaar -> handler : overtredingen = voegLesToe(oweCode, naam,\n\
+onderwijsweek, beschrijving, criteriumCodes)
+activate handler
+handler -> owes : owe = zoek(oweCode)
+activate owes
+deactivate owes
+handler -> owe : les = voegLesToe(naam, onderwijsweek,\nbeschrijving, criteriumCodes)
+activate owe
+owe -> owe : controleerWeek(onderwijsweek)
+owe -> owe : criteria = zoekCriteria(criteriumCodes)
+create les
+owe -> les : create(naam, onderwijsweek, beschrijving, criteria)
+deactivate owe
+handler -> owes : bewaar(owe)
+activate owes
+deactivate owes
+handler -> regel : alle = controleer(owe)
+activate regel
+deactivate regel
+loop voor elke overtreding in alle
+  handler -> overtreding : betreft(les)
+  activate overtreding
+  deactivate overtreding
+end
+handler --> ontwikkelaar : overtredingen
+deactivate handler
+note over owe, les
+  7A: controleerWeek, zoekCriteria en create gooien een
+  OngeldigeInvoerException bij ongeldige gegevens [BR11].
+  Dan bewaart de handler niets.
+end note
+note over regel, overtreding
+  overtredingen: de overtredingen die les betreffen.
+  Niet leeg betekent 7B: les opgeslagen, maar BR2 overtreden.
+end note
+@enduml

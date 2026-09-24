@@ -1,0 +1,28 @@
+@startuml ssd-uc08-opvragen-dekking
+' System sequence diagram van UC08 Opvragen dekkingsoverzicht.
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Opleidingscoördinator" as coordinator
+participant ":ICDE" as icde
+
+alt hele opleiding
+  coordinator -> icde : geefDekking(opleidingNaam)
+  activate icde
+else één OWE (1A)
+  coordinator -> icde : geefDekkingVanOWE(oweCode)
+end
+alt geen leeruitkomsten
+  icde --> coordinator : melding: geen leeruitkomsten (2A)
+else
+  icde --> coordinator : dekking per leeruitkomst
+end
+deactivate icde
+note over coordinator, icde
+  Stap 7 en 8 (leeruitkomst kiezen en details tonen) zijn geen systeemoperaties:
+  elke dekking kent haar criteria, toetsmomenten en lessen al.
+end note
+@enduml

@@ -57,7 +57,8 @@ criteriumCodes : List<String>) : List<Overtreding>
   class HergebruikOnderdeelHandler {
     - owes : OWERepository
     + geefOWEsMetGedeeldeOnderdelen() : List<OWE>
-    + neemOp(oweCode : String, onderdeelId : UUID) : void
+    + neemOp(oweCode : String, herkomstCode : String, \
+onderdeelId : UUID) : void
   }
   class OpvragenDekkingHandler {
     - opleidingen : OpleidingRepository
@@ -91,10 +92,13 @@ package domein {
     + zoekAlle() : List<Documentformaat>
     + bewaar(formaat : Documentformaat) : void
   }
-  interface Consistentieregel <<interface>>
+  interface Consistentieregel <<interface>> {
+    + controleer(owe : OWE) : List<Overtreding>
+  }
 }
 
-BeheerPlanningHandler --> "2 regels" Consistentieregel
+BeheerPlanningHandler --> "1 lesRegel" Consistentieregel
+BeheerPlanningHandler --> "\n\n1 toetsdrukRegel" Consistentieregel
 ControleerConsistentieHandler --> "1..* regels" Consistentieregel
 ' Onzichtbare lijnen zetten elke handler naast zijn repositories.
 BeheerOWEHandler -[hidden]-> OpleidingRepository

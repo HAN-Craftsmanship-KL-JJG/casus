@@ -1,0 +1,46 @@
+@startuml sd-uc06-genereer
+' Sequence diagram van systeemoperatie genereer (UC06, stap 3 tot en met 6).
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Onderwijsontwikkelaar" as ontwikkelaar
+participant ":GenereerDocument\nHandler" as handler
+participant "owes :\nOWERepository" as owes
+participant "formaten :\nDocumentformaat\nRepository" as formaten
+participant "formaat :\nDocumentformaat" as formaat
+participant "owe : OWE" as owe
+
+ontwikkelaar -> handler : document = genereer(oweCode, formaatNaam)
+activate handler
+handler -> owes : owe = zoek(oweCode)
+activate owes
+deactivate owes
+handler -> formaten : formaat = zoek(formaatNaam)
+activate formaten
+deactivate formaten
+handler -> formaat : ontbrekend = zoekOntbrekendeGegevens(owe)
+activate formaat
+formaat -> owe : geef-operaties en getters
+activate owe
+deactivate owe
+deactivate formaat
+alt ontbrekend is niet leeg
+  handler --> ontwikkelaar : OngeldigeInvoerException(ontbrekend) (4A)
+else
+  handler -> formaat : document = genereer(owe)
+  activate formaat
+  formaat -> owe : geef-operaties en getters
+  activate owe
+  deactivate owe
+  deactivate formaat
+  handler --> ontwikkelaar : document
+end
+deactivate handler
+note over formaat, owe
+  Het formaat leest alleen de gegevens die de opmaak noemt.
+  Hoe het de opmaak leest, bepaalt de template-engine (blok 2).
+end note
+@enduml
