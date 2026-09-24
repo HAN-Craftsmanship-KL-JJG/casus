@@ -118,9 +118,6 @@ Een offstage stakeholder gebruikt ICDE niet zelf, maar heeft wel belang bij het 
 - Student
   - Wil transparant zien hoe de eigen beoordeling tot stand komt en hoe die groeit.
   - Of de student ICDE direct gebruikt, is een open vraag.
-- Examencommissie
-  - Wil aantoonbaar zien dat de toetsing aansluit op de leeruitkomsten.
-  - Dit is onze aanname, de casus noemt de examencommissie niet.
 
 ## Scope
 
