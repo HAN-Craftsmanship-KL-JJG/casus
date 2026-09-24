@@ -96,7 +96,7 @@ gedurende het hele bestaan van A?
 | --- | --- | --- |
 | Opleiding biedt OWE aan | 1 : 0..* | Een OWE hoort bij één opleiding, de eigenaar. |
 | OWE bestaat uit EVL | 1 : 1..* | Compositie: een EVL bestaat niet zonder OWE. |
-| EVL groepeert Leeruitkomst | 1 : 1..* | Een EVL zonder leeruitkomsten is leeg. |
+| EVL groepeert Leeruitkomst | 1 : 0..* | UC02 voegt leeruitkomsten later toe. |
 | OWE beoordeelt met Beoordelingsdimensie | 1 : 0..* | Een nieuwe OWE heeft nog geen rubric. |
 | Beoordelingsdimensie bestaat uit Beoordelingscriterium | 1 : 1..* | BR10. |
 | Beoordelingscriterium heeft Niveau | 1 : 2..* | Compositie, BR10. |
@@ -126,6 +126,8 @@ De codes verwijzen naar de
 - Een les en een toetsmoment koppelen alleen criteria van hun eigen OWE (BR11, BR14).
 - onderwijsweek, startweek en deadlineweek liggen binnen aantalWeken van de OWE (BR11, BR14).
 - Een OWE hergebruikt alleen onderdelen van een andere OWE met gedeeld = ja.
+
+"Van de OWE" omvat ook de onderdelen die de OWE hergebruikt (UC07).
 
 ## Keuzes
 
@@ -164,24 +166,10 @@ De codes verwijzen naar de
    Geen enkel attribuut verandert in de normale gang van zaken binnen een studiejaar.
    Tussen studiejaren verandert een OWE wel, zie de open punten.
 
-## Traceerbaarheid naar de use cases
+## Validatie
 
-Elke use case gebruikt deze concepten.
-Elk concept komt in minstens één use case voor, zo tonen we de compleetheid aan.
-
-- UC01 Beheren OWE: Opleiding, OWE, EVL.
-- UC02 Beheren leeruitkomsten: EVL, Leeruitkomst.
-- UC03 Beheren beoordelingscriteria: Beoordelingsdimensie, Beoordelingscriterium, Niveau,
-  Leeruitkomst.
-- UC04 Beheren lesplanning: Les, Beoordelingscriterium.
-- UC05 Controleren consistentie OWE: OWE, Leeruitkomst, Beoordelingscriterium, Les, Toetsmoment.
-- UC06 Genereren document: OWE, Documentformaat.
-- UC07 Hergebruiken gedeeld onderdeel: OWE, OWE-onderdeel.
-- UC08 Opvragen dekkingsoverzicht: Opleiding, OWE, Leeruitkomst, Beoordelingscriterium, Les,
-  Toetsmoment.
-- UC09 Delen OWE-onderdeel: OWE-onderdeel.
-- UC10 Beheren documentformaat: Documentformaat.
-- UC11 Beheren toetsplanning: Toetsmoment, Beoordelingscriterium.
+De controle van dit model tegen de use cases staat in
+[domeinmodel-validatie.md](domeinmodel-validatie.md).
 
 ## Open punten
 
