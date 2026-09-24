@@ -107,6 +107,7 @@ class Documentformaat {
   - naam : String
   - soortDocument : SoortDocument
   - opmaak : String
+  + zoekOnbekendeGegevens() : List<String>
   + zoekOntbrekendeGegevens(owe : OWE) : List<String>
   + genereer(owe : OWE) : String
 }

@@ -209,6 +209,8 @@ Per use case: de handler en de klassen die de use case uitvoeren.
 Verwijderen van een onderdeel (UC02, UC03, UC04, UC11) loopt via
 BeheerOWEHandler.verwijderOnderdeel en OWE.verwijder.
 Dat kan met één operatie, omdat alle onderdelen een OWEOnderdeel zijn.
+Verwijderen van een OWE (UC01) loopt via BeheerOWEHandler.verwijderOWE.
+Die controleert BR13 voor elk gedeeld onderdeel van de OWE.
 
 Per bedrijfsregel: de klasse die de regel controleert, en het sequence diagram dat de regel toont.
 De andere regels horen bij CRUD use cases zonder SD.
@@ -222,12 +224,12 @@ De andere regels horen bij CRUD use cases zonder SD.
 | BR5 | ToetsdrukRegel, met Toetsmoment.looptIn | SD BR5, SD voegToetsmomentToe |
 | BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie | SD neemOp |
 | BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het | Geen |
-| BR8 | BeheerOWEHandler.maakOWE, met OWERepository.zoek voor een unieke code | Geen |
+| BR8 | BeheerOWEHandler.maakOWE, met OWERepository.zoek en de eerste EVL | Geen |
 | BR9 | EVL.voegLeeruitkomstToe, met OWE voor een uniek nummer | Geen |
 | BR10 | Beoordelingsdimensie.voegCriteriumToe | Geen |
 | BR11 | OWE.voegLesToe, met controleerWeek en zoekCriteria | SD voegLesToe |
-| BR12 | BeheerDocumentformaatHandler, met DocumentformaatRepository.zoek | Geen |
-| BR13 | BeheerOWEHandler.verwijderOnderdeel, met OWERepository.wordtHergebruikt | Geen |
+| BR12 | BeheerDocumentformaatHandler, met zoek en zoekOnbekendeGegevens | Geen |
+| BR13 | BeheerOWEHandler.verwijderOnderdeel en verwijderOWE, met wordtHergebruikt | Geen |
 | BR14 | OWE.voegToetsmomentToe, met controleerWeek en zoekCriteria | SD voegToetsmomentToe |
 
 ## Wat niet in de diagrammen staat
