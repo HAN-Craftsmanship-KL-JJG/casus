@@ -18,7 +18,8 @@ else wel leeruitkomsten
 end
 deactivate icde
 note over ontwikkelaar, icde
-  Stap 4 en 5 (overtreding kiezen en onderdeel tonen) zijn geen systeemoperaties:
+  Stap 4 en 5 (overtreding kiezen en onderdeel tonen)
+  zijn geen systeemoperaties:
   elke overtreding kent haar onderdelen al.
   Een lege lijst betekent: de OWE is consistent (3A).
 end note

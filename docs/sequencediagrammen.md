@@ -218,7 +218,10 @@ We hebben het klassendiagram aangepast:
 | --- | --- |
 | Overtreding kent `1..* onderdelen` en `betreft(onderdeel)` | UC05 stap 5, keuze 2 |
 | `neemOp` krijgt `herkomstCode` | Keuze 3 |
-| BeheerPlanningHandler: `lesRegel` en `toetsdrukRegel`, niet `2 regels` | Welke regel is BR2? |
+| BeheerPlanningHandler kent `lesRegel` en `toetsdrukRegel` | Welke regel is BR2? |
+
+De handlers tonen hun regels nu als attribuut, net als hun repositories (Larman 7.4).
+Als lijnen vielen de rolnamen over elkaar.
 
 De SD's gebruiken getters die het klassendiagram niet toont, zoals `getAantalWeken` en
 `isGedeeld` (Larman 7.6).

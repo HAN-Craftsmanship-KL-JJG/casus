@@ -14,19 +14,19 @@ participant "t : Toetsmoment" as toetsmoment
 participant "toetsdrukRegel :\nConsistentieregel" as regel
 participant "alle[i] :\nOvertreding" as overtreding
 
-ontwikkelaar -> handler : overtredingen = voegToetsmomentToe(oweCode, naam,\n\
-soort, startweek, deadlineweek, criteriumCodes)
+ontwikkelaar -> handler : overtredingen =\nvoegToetsmomentToe(oweCode, naam,\n\
+soort, startweek, deadlineweek,\ncriteriumCodes)
 activate handler
 handler -> owes : owe = zoek(oweCode)
 activate owes
 deactivate owes
-handler -> owe : t = voegToetsmomentToe(naam, soort,\nstartweek, deadlineweek, criteriumCodes)
+handler -> owe : t = voegToetsmomentToe(naam, soort,\nstartweek, deadlineweek,\ncriteriumCodes)
 activate owe
 owe -> owe : controleerWeek(startweek)
 owe -> owe : controleerWeek(deadlineweek)
 owe -> owe : criteria = zoekCriteria(criteriumCodes)
 create toetsmoment
-owe -> toetsmoment : create(naam, soort, startweek, deadlineweek, criteria)
+owe -> toetsmoment : create(naam, soort, startweek,\ndeadlineweek, criteria)
 deactivate owe
 handler -> owes : bewaar(owe)
 activate owes
@@ -43,12 +43,15 @@ end
 handler --> ontwikkelaar : overtredingen
 deactivate handler
 note over owe, toetsmoment
-  7A: controleerWeek, zoekCriteria en create gooien een
-  OngeldigeInvoerException bij ongeldige gegevens [BR14].
-  create controleert dat startweek niet na deadlineweek ligt.
+  7A: controleerWeek, zoekCriteria en create
+  gooien een OngeldigeInvoerException bij
+  ongeldige gegevens [BR14].
+  create controleert dat startweek niet
+  na deadlineweek ligt.
 end note
 note over regel, overtreding
-  overtredingen: de weken met te veel toetsmomenten waarin t loopt.
+  overtredingen: de weken met te veel
+  toetsmomenten waarin t loopt.
   Niet leeg betekent 8A: waarschuwing.
 end note
 @enduml

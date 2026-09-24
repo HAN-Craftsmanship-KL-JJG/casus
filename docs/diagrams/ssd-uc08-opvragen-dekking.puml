@@ -22,7 +22,9 @@ else
 end
 deactivate icde
 note over coordinator, icde
-  Stap 7 en 8 (leeruitkomst kiezen en details tonen) zijn geen systeemoperaties:
-  elke dekking kent haar criteria, toetsmomenten en lessen al.
+  Stap 7 en 8 (leeruitkomst kiezen en details tonen)
+  zijn geen systeemoperaties:
+  elke dekking kent haar criteria, toetsmomenten
+  en lessen al.
 end note
 @enduml

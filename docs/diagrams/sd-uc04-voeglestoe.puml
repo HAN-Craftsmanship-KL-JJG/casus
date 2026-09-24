@@ -14,8 +14,8 @@ participant "les : Les" as les
 participant "lesRegel :\nConsistentieregel" as regel
 participant "alle[i] :\nOvertreding" as overtreding
 
-ontwikkelaar -> handler : overtredingen = voegLesToe(oweCode, naam,\n\
-onderwijsweek, beschrijving, criteriumCodes)
+ontwikkelaar -> handler : overtredingen =\nvoegLesToe(oweCode, naam,\n\
+onderwijsweek, beschrijving,\ncriteriumCodes)
 activate handler
 handler -> owes : owe = zoek(oweCode)
 activate owes
@@ -25,7 +25,7 @@ activate owe
 owe -> owe : controleerWeek(onderwijsweek)
 owe -> owe : criteria = zoekCriteria(criteriumCodes)
 create les
-owe -> les : create(naam, onderwijsweek, beschrijving, criteria)
+owe -> les : create(naam, onderwijsweek,\nbeschrijving, criteria)
 deactivate owe
 handler -> owes : bewaar(owe)
 activate owes
@@ -41,12 +41,15 @@ end
 handler --> ontwikkelaar : overtredingen
 deactivate handler
 note over owe, les
-  7A: controleerWeek, zoekCriteria en create gooien een
-  OngeldigeInvoerException bij ongeldige gegevens [BR11].
+  7A: controleerWeek, zoekCriteria en create
+  gooien een OngeldigeInvoerException bij
+  ongeldige gegevens [BR11].
   Dan bewaart de handler niets.
 end note
 note over regel, overtreding
-  overtredingen: de overtredingen die les betreffen.
-  Niet leeg betekent 7B: les opgeslagen, maar BR2 overtreden.
+  overtredingen: de overtredingen
+  die les betreffen.
+  Niet leeg betekent 7B: les opgeslagen,
+  maar BR2 overtreden.
 end note
 @enduml

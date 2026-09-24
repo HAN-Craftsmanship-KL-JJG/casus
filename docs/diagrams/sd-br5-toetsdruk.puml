@@ -33,6 +33,7 @@ end
 [<-- regel : overtredingen
 deactivate regel
 note over regel, toetsmoment
-  lopend: de toetsmomenten waarvoor looptIn(week) true gaf.
+  lopend: de toetsmomenten waarvoor
+  looptIn(week) true gaf.
 end note
 @enduml

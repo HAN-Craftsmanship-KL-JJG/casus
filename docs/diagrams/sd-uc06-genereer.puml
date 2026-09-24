@@ -28,7 +28,7 @@ activate owe
 deactivate owe
 deactivate formaat
 alt ontbrekend is niet leeg
-  handler --> ontwikkelaar : OngeldigeInvoerException(ontbrekend) (4A)
+  handler --> ontwikkelaar : OngeldigeInvoerException\n(ontbrekend) (4A)
 else
   handler -> formaat : document = genereer(owe)
   activate formaat
@@ -40,7 +40,9 @@ else
 end
 deactivate handler
 note over formaat, owe
-  Het formaat leest alleen de gegevens die de opmaak noemt.
-  Hoe het de opmaak leest, bepaalt de template-engine (blok 2).
+  Het formaat leest alleen de gegevens
+  die de opmaak noemt.
+  Hoe het de opmaak leest, bepaalt
+  de template-engine (blok 2).
 end note
 @enduml
