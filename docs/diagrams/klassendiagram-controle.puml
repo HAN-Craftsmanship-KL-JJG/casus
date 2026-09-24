@@ -52,6 +52,10 @@ Consistentieregel <|.. CriteriumHeeftLesRegel
 Consistentieregel <|.. CriteriumBeoordeeldRegel
 Consistentieregel <|.. ToetsdrukRegel
 
+' Onzichtbare lijnen zetten de regels in twee rijen, zodat het diagram smaller wordt.
+LeeruitkomstGetoetstRegel -[hidden]down- CriteriumHeeftLesRegel
+LesDraagtBijRegel -[hidden]down- CriteriumBeoordeeldRegel
+
 Consistentieregel ..> OWE
 Consistentieregel ..> Overtreding : <<create>>
 

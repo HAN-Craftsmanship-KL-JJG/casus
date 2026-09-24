@@ -9,8 +9,8 @@ hide empty members
 
 class Opleiding {
   - naam : String
-  + maakOWE(code : String, naam : String, studiepunten : int, \
-aantalWeken : int) : OWE
+  + maakOWE(code : String, naam : String,\n    \
+studiepunten : int, aantalWeken : int) : OWE
   + bepaalDekking() : List<Dekking>
 }
 
@@ -21,13 +21,16 @@ class OWE {
   - aantalWeken : int
   - versie : int
   + voegEVLToe(naam : String, studiepunten : int) : EVL
-  + voegLeeruitkomstToe(evlNaam : String, nummer : int, \
+  + voegLeeruitkomstToe(evlNaam : String, nummer : int,\n    \
 omschrijving : String) : Leeruitkomst
   + voegDimensieToe(naam : String) : Beoordelingsdimensie
-  + voegLesToe(naam : String, onderwijsweek : int, beschrijving : String, \
+  + voegLesToe(naam : String, onderwijsweek : int,\n    \
+beschrijving : String,\n    \
 criteriumCodes : List<String>) : Les
-  + voegToetsmomentToe(naam : String, soort : SoortToetsmoment, startweek : int, \
-deadlineweek : int, criteriumCodes : List<String>) : Toetsmoment
+  + voegToetsmomentToe(naam : String,\n    \
+soort : SoortToetsmoment, startweek : int,\n    \
+deadlineweek : int,\n    \
+criteriumCodes : List<String>) : Toetsmoment
   + hergebruik(onderdeel : OWEOnderdeel) : void
   + verwijder(onderdeel : OWEOnderdeel) : void
   + zoekOnderdeel(id : UUID) : OWEOnderdeel
@@ -46,7 +49,8 @@ deadlineweek : int, criteriumCodes : List<String>) : Toetsmoment
 class EVL {
   - naam : String
   - studiepunten : int
-  + voegLeeruitkomstToe(nummer : int, omschrijving : String) : Leeruitkomst
+  + voegLeeruitkomstToe(nummer : int,\n    \
+omschrijving : String) : Leeruitkomst
 }
 
 abstract class OWEOnderdeel {
@@ -62,8 +66,9 @@ class Leeruitkomst {
 
 class Beoordelingsdimensie {
   - naam : String
-  + voegCriteriumToe(code : String, naam : String, weging : int, \
-minimumscore : int, uitleg : String, niveaus : Map<Integer, String>, \
+  + voegCriteriumToe(code : String, naam : String,\n    \
+weging : int, minimumscore : int, uitleg : String,\n    \
+niveaus : Map<Integer, String>,\n    \
 leeruitkomsten : List<Leeruitkomst>) : Beoordelingscriterium
 }
 
