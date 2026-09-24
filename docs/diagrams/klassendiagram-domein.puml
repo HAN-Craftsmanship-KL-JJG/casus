@@ -1,0 +1,145 @@
+@startuml klassendiagram-domein
+' Design class diagram van ICDE: de domeinklassen. Toelichting: docs/klassendiagram.md
+' Getters en setters staan er niet in, zoals bij Larman (7.6).
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+hide empty members
+
+class Opleiding {
+  - naam : String
+  + maakOWE(code : String, naam : String,\n    \
+studiepunten : int, aantalWeken : int) : OWE
+  + bepaalDekking() : List<Dekking>
+}
+
+class OWE {
+  - code : String
+  - naam : String
+  - studiepunten : int
+  - aantalWeken : int
+  - versie : int
+  + voegEVLToe(naam : String, studiepunten : int) : EVL
+  + voegLeeruitkomstToe(evlNaam : String, nummer : int,\n    \
+omschrijving : String) : Leeruitkomst
+  + voegDimensieToe(naam : String) : Beoordelingsdimensie
+  + voegLesToe(naam : String, onderwijsweek : int,\n    \
+beschrijving : String,\n    \
+criteriumCodes : List<String>) : Les
+  + voegToetsmomentToe(naam : String,\n    \
+soort : SoortToetsmoment, startweek : int,\n    \
+deadlineweek : int,\n    \
+criteriumCodes : List<String>) : Toetsmoment
+  + hergebruik(onderdeel : OWEOnderdeel) : void
+  + verwijder(onderdeel : OWEOnderdeel) : void
+  + zoekOnderdeel(id : UUID) : OWEOnderdeel
+  + zoekDimensie(naam : String) : Beoordelingsdimensie
+  + zoekLeeruitkomsten(nummers : List<Integer>) : List<Leeruitkomst>
+  + geefLeeruitkomsten() : List<Leeruitkomst>
+  + geefCriteria() : List<Beoordelingscriterium>
+  + geefLessen() : List<Les>
+  + geefToetsmomenten() : List<Toetsmoment>
+  + geefGedeeldeOnderdelen() : List<OWEOnderdeel>
+  + bepaalDekking() : List<Dekking>
+  - zoekCriteria(codes : List<String>) : List<Beoordelingscriterium>
+  - controleerWeek(week : int) : void
+}
+
+class EVL {
+  - naam : String
+  - studiepunten : int
+  + voegLeeruitkomstToe(nummer : int,\n    \
+omschrijving : String) : Leeruitkomst
+}
+
+abstract class OWEOnderdeel {
+  - id : UUID
+  - gedeeld : boolean
+  + deel() : void
+}
+
+class Leeruitkomst {
+  - nummer : int
+  - omschrijving : String
+}
+
+class Beoordelingsdimensie {
+  - naam : String
+  + voegCriteriumToe(code : String, naam : String,\n    \
+weging : int, minimumscore : int, uitleg : String,\n    \
+niveaus : Map<Integer, String>,\n    \
+leeruitkomsten : List<Leeruitkomst>) : Beoordelingscriterium
+}
+
+class Beoordelingscriterium {
+  - code : String
+  - naam : String
+  - weging : int
+  - minimumscore : int
+  - uitleg : String
+  + toetst(leeruitkomst : Leeruitkomst) : boolean
+}
+
+class Niveau {
+  - score : int
+  - beschrijving : String
+}
+
+class Les {
+  - naam : String
+  - onderwijsweek : int
+  - beschrijving : String
+  + heeftCriteria() : boolean
+  + draagtBijAan(criterium : Beoordelingscriterium) : boolean
+}
+
+class Toetsmoment {
+  - naam : String
+  - soort : SoortToetsmoment
+  - startweek : int
+  - deadlineweek : int
+  + beoordeelt(criterium : Beoordelingscriterium) : boolean
+  + looptIn(week : int) : boolean
+}
+
+class Documentformaat {
+  - naam : String
+  - soortDocument : SoortDocument
+  - opmaak : String
+  + zoekOntbrekendeGegevens(owe : OWE) : List<String>
+  + genereer(owe : OWE) : String
+}
+
+enum SoortToetsmoment <<enumeration>> {
+  TOETS
+  OPDRACHT
+}
+
+enum SoortDocument <<enumeration>> {
+  OWE_BESCHRIJVING
+  EVL_BESCHRIJVING
+  TOETSPLANNING
+  BEOORDELINGSFORMULIER
+}
+
+Opleiding --> "0..* owes" OWE
+OWE *--> "1..* evls" EVL
+EVL --> "0..* leeruitkomsten" Leeruitkomst
+OWE --> "0..* dimensies" Beoordelingsdimensie
+Beoordelingsdimensie --> "1..* criteria" Beoordelingscriterium
+Beoordelingscriterium *--> "2..* niveaus" Niveau
+Beoordelingscriterium --> "1..* leeruitkomsten" Leeruitkomst
+OWE --> "0..* lessen" Les
+OWE --> "0..* toetsmomenten" Toetsmoment
+Les --> "0..* criteria" Beoordelingscriterium
+Toetsmoment --> "0..* criteria" Beoordelingscriterium
+OWE --> "0..* hergebruikt" OWEOnderdeel
+
+OWEOnderdeel <|-- Leeruitkomst
+OWEOnderdeel <|-- Beoordelingsdimensie
+OWEOnderdeel <|-- Les
+OWEOnderdeel <|-- Toetsmoment
+
+Documentformaat ..> OWE
+@enduml

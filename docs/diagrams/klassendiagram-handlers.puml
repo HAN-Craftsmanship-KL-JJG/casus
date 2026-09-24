@@ -1,0 +1,112 @@
+@startuml klassendiagram-handlers
+' Design class diagram van ICDE: use case controllers en repositories.
+' Toelichting: docs/klassendiagram.md
+' De domeinklassen staan volledig in klassendiagram-domein.puml.
+' Verwijzingen naar repositories staan als attribuut, niet als lijn (Larman 7.4).
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+hide empty members
+left to right direction
+
+package applicatie {
+  class BeheerOWEHandler {
+    - opleidingen : OpleidingRepository
+    - owes : OWERepository
+    + maakOWE(opleidingNaam : String, code : String,\n    \
+naam : String, studiepunten : int,\n    \
+aantalWeken : int) : void
+    + voegEVLToe(oweCode : String, naam : String,\n    \
+studiepunten : int) : void
+    + voegLeeruitkomstToe(oweCode : String,\n    \
+evlNaam : String, nummer : int,\n    \
+omschrijving : String) : void
+    + verwijderOnderdeel(oweCode : String,\n    \
+onderdeelId : UUID) : void
+  }
+  class BeheerRubricHandler {
+    - owes : OWERepository
+    + voegDimensieToe(oweCode : String, naam : String) : void
+    + voegCriteriumToe(oweCode : String,\n    \
+dimensieNaam : String, code : String, naam : String,\n    \
+weging : int, minimumscore : int, uitleg : String,\n    \
+niveaus : Map<Integer, String>,\n    \
+leeruitkomstNummers : List<Integer>) : void
+  }
+  class BeheerPlanningHandler {
+    - owes : OWERepository
+    + voegLesToe(oweCode : String, naam : String,\n    \
+onderwijsweek : int, beschrijving : String,\n    \
+criteriumCodes : List<String>) : List<Overtreding>
+    + voegToetsmomentToe(oweCode : String, naam : String,\n    \
+soort : SoortToetsmoment, startweek : int,\n    \
+deadlineweek : int,\n    \
+criteriumCodes : List<String>) : List<Overtreding>
+  }
+  class ControleerConsistentieHandler {
+    - owes : OWERepository
+    + controleer(oweCode : String) : List<Overtreding>
+  }
+  class GenereerDocumentHandler {
+    - owes : OWERepository
+    - formaten : DocumentformaatRepository
+    + geefFormaten() : List<Documentformaat>
+    + genereer(oweCode : String, formaatNaam : String) : String
+  }
+  class HergebruikOnderdeelHandler {
+    - owes : OWERepository
+    + geefOWEsMetGedeeldeOnderdelen() : List<OWE>
+    + neemOp(oweCode : String, onderdeelId : UUID) : void
+  }
+  class OpvragenDekkingHandler {
+    - opleidingen : OpleidingRepository
+    - owes : OWERepository
+    + geefDekking(opleidingNaam : String) : List<Dekking>
+    + geefDekkingVanOWE(oweCode : String) : List<Dekking>
+  }
+  class DeelOnderdeelHandler {
+    - owes : OWERepository
+    + deel(oweCode : String, onderdeelId : UUID) : void
+  }
+  class BeheerDocumentformaatHandler {
+    - formaten : DocumentformaatRepository
+    + voegFormaatToe(naam : String, soort : SoortDocument,\n    \
+opmaak : String) : void
+  }
+}
+
+package domein {
+  interface OWERepository <<interface>> {
+    + zoek(code : String) : OWE
+    + zoekMetGedeeldeOnderdelen() : List<OWE>
+    + wordtHergebruikt(onderdeelId : UUID) : boolean
+    + bewaar(owe : OWE) : void
+  }
+  interface OpleidingRepository <<interface>> {
+    + zoek(naam : String) : Opleiding
+  }
+  interface DocumentformaatRepository <<interface>> {
+    + zoek(naam : String) : Documentformaat
+    + zoekAlle() : List<Documentformaat>
+    + bewaar(formaat : Documentformaat) : void
+  }
+  interface Consistentieregel <<interface>>
+}
+
+BeheerPlanningHandler --> "2 regels" Consistentieregel
+ControleerConsistentieHandler --> "1..* regels" Consistentieregel
+' Onzichtbare lijnen zetten elke handler naast zijn repositories.
+BeheerOWEHandler -[hidden]-> OpleidingRepository
+BeheerOWEHandler -[hidden]-> OWERepository
+BeheerRubricHandler -[hidden]-> OWERepository
+BeheerPlanningHandler -[hidden]-> OWERepository
+ControleerConsistentieHandler -[hidden]-> OWERepository
+GenereerDocumentHandler -[hidden]-> OWERepository
+GenereerDocumentHandler -[hidden]-> DocumentformaatRepository
+HergebruikOnderdeelHandler -[hidden]-> OWERepository
+OpvragenDekkingHandler -[hidden]-> OpleidingRepository
+OpvragenDekkingHandler -[hidden]-> OWERepository
+DeelOnderdeelHandler -[hidden]-> OWERepository
+BeheerDocumentformaatHandler -[hidden]-> DocumentformaatRepository
+@enduml
