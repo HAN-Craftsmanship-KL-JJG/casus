@@ -17,7 +17,9 @@ When a feature exists in only one agent, keep the instruction readable without i
 Write in plain English.
 Readers are students who are not native English speakers.
 Use short sentences, common words, and the active voice.
-Start every sentence on a new line, so diffs and review comments point at one sentence.
+Start every sentence on a new line in all documentation, including `AGENTS.md`, README files,
+and list items.
+Diffs and review comments then point at one sentence.
 
 Maximise information density while keeping text easy to read.
 Drop filler (just, really, basically, actually, simply), pleasantries, and hedging.
@@ -26,7 +28,10 @@ Never abbreviate them, even when compressing other text.
 
 Style rules for all prose, code, comments, output, and commit messages:
 
-- No em dash. Split the sentence, or use a comma, colon, or parentheses.
+- No em dash or semicolon.
+  Both chain clauses into long sentences.
+  Split the sentence, or use a comma, colon, or parentheses.
+  Semicolons that code syntax requires are exempt.
 - No emojis.
 - No ASCII decoration: banners, boxes, separator bars, ASCII art.
   Box-drawing in a directory tree is structure and is allowed.
