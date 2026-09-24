@@ -101,7 +101,7 @@ Elke associatie komt in minstens één use case of bedrijfsregel voor:
 - OWE bestaat uit EVL: UC01, BR8.
 - EVL groepeert Leeruitkomst: UC02, UC08.
 - OWE beoordeelt met Beoordelingsdimensie, Beoordelingsdimensie bestaat uit
-  Beoordelingscriterium, Beoordelingscriterium heeft Niveau: UC03, BR10.
+  Beoordelingscriterium, Beoordelingscriterium onderscheidt Niveau: UC03, BR10.
 - OWE plant Les: UC04, BR11.
 - OWE plant Toetsmoment: UC11, BR5, BR14.
 - Beoordelingscriterium toetst Leeruitkomst: UC03, UC08, BR1.

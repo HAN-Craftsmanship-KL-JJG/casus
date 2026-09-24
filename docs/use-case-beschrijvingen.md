@@ -265,9 +265,9 @@ Exceptional flows:
 
 ## UC04 Beheren lesplanning
 
-UC04 is een «CRUD» use case.
-Ze staat voor Toevoegen les, Bekijken les, Wijzigen les en Verwijderen les.
-Die volgen het CRUD-sjabloon van de cursus.
+UC04 is één «CRUD» use case.
+Het CRUD-sjabloon van de cursus werkt haar uit als Toevoegen les, Bekijken les, Wijzigen les en
+Verwijderen les.
 Toevoegen les werken we hier uit, omdat de koppeling met beoordelingscriteria afwijkt van het
 sjabloon.
 
@@ -311,9 +311,9 @@ Exceptional flows:
 
 ## UC11 Beheren toetsplanning
 
-UC11 is een «CRUD» use case.
-Ze staat voor Toevoegen toetsmoment, Bekijken toetsmoment, Wijzigen toetsmoment en Verwijderen
-toetsmoment.
+UC11 is één «CRUD» use case.
+Het CRUD-sjabloon werkt haar uit als Toevoegen toetsmoment, Bekijken toetsmoment, Wijzigen
+toetsmoment en Verwijderen toetsmoment.
 Toevoegen toetsmoment werken we hier uit, omdat het systeem daarbij de toetsen per week telt.
 Wijzigen toetsmoment doet dezelfde telling na stap 7 van het CRUD-sjabloon.
 
