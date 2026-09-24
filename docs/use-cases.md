@@ -70,7 +70,7 @@ Dat is 55%.
   (CRUD Use Cases).
   Het stereotype is een verkorte weergave van toevoegen, bekijken, wijzigen en verwijderen.
   Het blijft één use case, ook bij de telling van 65% CRUD.
-  Ze volgen het CRUD-sjabloon van de cursus.
+  De vier acties volgen het CRUD-sjabloon van de cursus.
   Zie [use-case-beschrijvingen.md](use-case-beschrijvingen.md).
 - Geen «include» of «extend».
   Die geven in dit diagram geen meerwaarde.
