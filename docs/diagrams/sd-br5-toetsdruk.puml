@@ -13,7 +13,7 @@ participant "o : Overtreding" as overtreding
 
 [-> regel : overtredingen = controleer(owe)
 activate regel
-regel -> owe : weken = getAantalWeken()
+regel -> owe : weken = geefAantalWeken()
 activate owe
 deactivate owe
 regel -> owe : toetsmomenten = geefToetsmomenten()
@@ -21,7 +21,7 @@ activate owe
 deactivate owe
 loop week = 1 tot en met weken
   loop voor elk toetsmoment
-    regel -> toetsmoment : loopt = looptIn(week)
+    regel -> toetsmoment : loopt = omvat(week)
     activate toetsmoment
     deactivate toetsmoment
   end
@@ -34,6 +34,6 @@ end
 deactivate regel
 note over regel, toetsmoment
   lopend: de toetsmomenten waarvoor
-  looptIn(week) true gaf.
+  omvat(week) true gaf.
 end note
 @enduml

@@ -30,7 +30,7 @@ loop voor elke l in leeruitkomsten
         deactivate toetsmoment
       end
       loop voor elke les
-        owe -> les : draagtBijAan(criterium)
+        owe -> les : dekt(criterium)
         activate les
         deactivate les
       end

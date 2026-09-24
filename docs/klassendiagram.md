@@ -217,10 +217,10 @@ De andere regels horen bij CRUD use cases zonder SD.
 | --- | --- | --- |
 | BR1 | LeeruitkomstGetoetstRegel, met Beoordelingscriterium.toetst | SD BR1 |
 | BR2 | LesDraagtBijRegel, met Les.heeftCriteria | SD controleer, SD toevoegenLes |
-| BR3 | CriteriumHeeftLesRegel, met Les.draagtBijAan | SD controleer |
+| BR3 | CriteriumHeeftLesRegel, met Les.dekt | SD controleer |
 | BR4 | CriteriumBeoordeeldRegel, met Toetsmoment.beoordeelt | SD controleer |
-| BR5 | ToetsdrukRegel, met Toetsmoment.looptIn | SD BR5, SD toevoegenToetsmoment |
-| BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie | SD neemOp |
+| BR5 | ToetsdrukRegel, met Toetsmoment.omvat | SD BR5, SD toevoegenToetsmoment |
+| BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie | SD opnemenOnderdeel |
 | BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het | Geen |
 | BR8 | BeheerOWEHandler.maakOWE, met OWERepository.zoek voor een unieke code | Geen |
 | BR9 | EVL.toevoegenLeeruitkomst, met OWE voor een uniek nummer | Geen |

@@ -60,7 +60,7 @@ criteriumCodes : List<String>) : List<Overtreding>
   class HergebruikOnderdeelHandler {
     - owes : OWERepository
     + geefOWEsMetGedeeldeOnderdelen() : List<OWE>
-    + neemOp(oweCode : String, herkomstCode : String,\n    \
+    + opnemenOnderdeel(oweCode : String, herkomstCode : String,\n    \
 onderdeelId : UUID) : void
   }
   class OpvragenDekkingHandler {

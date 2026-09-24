@@ -1,5 +1,5 @@
-@startuml sd-uc07-neemop
-' Sequence diagram van systeemoperatie neemOp (UC07, stap 5 en 6).
+@startuml sd-uc07-opnemenonderdeel
+' Sequence diagram van systeemoperatie opnemenOnderdeel (UC07, stap 5 en 6).
 ' Toelichting: docs/sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
@@ -13,7 +13,7 @@ participant "herkomst : OWE" as herkomst
 participant "owe : OWE" as owe
 participant "onderdeel :\nOWEOnderdeel" as onderdeel
 
-ontwikkelaar -> handler : neemOp(oweCode, herkomstCode, onderdeelId)
+ontwikkelaar -> handler : opnemenOnderdeel(oweCode, herkomstCode, onderdeelId)
 activate handler
 handler -> owes : owe = zoek(oweCode)
 activate owes
