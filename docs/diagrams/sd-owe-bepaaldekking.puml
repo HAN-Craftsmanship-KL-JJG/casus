@@ -37,7 +37,7 @@ loop voor elke l in leeruitkomsten
     end
   end
   create dekking
-  owe -> dekking : create(l, lc, lt, ll)
+  owe -> dekking : create(code, l, lc, lt, ll)
 end
 [<-- owe : dekking
 deactivate owe

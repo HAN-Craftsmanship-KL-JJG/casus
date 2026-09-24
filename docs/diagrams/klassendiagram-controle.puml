@@ -39,6 +39,7 @@ class Overtreding {
 }
 
 class Dekking {
+  - oweCode : String
   + isVolledig() : boolean
 }
 

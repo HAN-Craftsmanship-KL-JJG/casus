@@ -16,7 +16,9 @@ package applicatie {
     - owes : OWERepository
     + maakOWE(opleidingNaam : String, code : String,\n    \
 naam : String, studiepunten : int,\n    \
-aantalWeken : int) : void
+aantalWeken : int, evlNaam : String,\n    \
+evlStudiepunten : int) : void
+    + verwijderOWE(oweCode : String) : void
     + toevoegenEVL(oweCode : String, naam : String,\n    \
 studiepunten : int) : void
     + toevoegenLeeruitkomst(oweCode : String,\n    \
@@ -86,6 +88,7 @@ package domein {
     + zoekMetGedeeldeOnderdelen() : List<OWE>
     + wordtHergebruikt(onderdeelId : UUID) : boolean
     + bewaar(owe : OWE) : void
+    + verwijder(owe : OWE) : void
   }
   interface OpleidingRepository <<interface>> {
     + zoek(naam : String) : Opleiding
