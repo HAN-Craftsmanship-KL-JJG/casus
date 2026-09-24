@@ -39,8 +39,6 @@ De systeemoperaties komen uit de system sequence diagrams in
 We verdelen de verantwoordelijkheden met de GRASP-patterns Controller, Creator, Information
 Expert, Low Coupling en High Cohesion.
 De sequence diagrams controleren dit ontwerp.
-Ze vonden drie gaten, en die hebben we hier verwerkt, zie
-[Wijzigingen in het klassendiagram](sequencediagrammen.md#wijzigingen-in-het-klassendiagram).
 
 ## Van domeinmodel naar ontwerp
 
@@ -116,7 +114,7 @@ Het id is een UUID, zodat het uniek is over alle OWE's heen.
      Die geven de eigen en de hergebruikte onderdelen samen.
      De rest van het systeem ziet het verschil niet (information hiding).
      Nadeel: OWE heeft 18 operaties.
-     Zie de open punten.
+     Keuze 4 in [sequencediagrammen.md](sequencediagrammen.md#keuzes) weegt dat af.
 5. Consistentieregels als aparte klassen.
    - Probleem: UC05 past BR1 tot en met BR5 toe.
      De opdrachtgever kan regels toevoegen of wijzigen, zie de open punten van de use cases.
@@ -212,24 +210,25 @@ Verwijderen van een onderdeel (UC02, UC03, UC04, UC11) loopt via
 BeheerOWEHandler.verwijderOnderdeel en OWE.verwijder.
 Dat kan met één operatie, omdat alle onderdelen een OWEOnderdeel zijn.
 
-Per bedrijfsregel: de klasse die de regel controleert.
+Per bedrijfsregel: de klasse die de regel controleert, en het sequence diagram dat de regel toont.
+De andere regels horen bij CRUD use cases zonder SD.
 
-| Regel | Klasse en operatie |
-| --- | --- |
-| BR1 | LeeruitkomstGetoetstRegel, met Beoordelingscriterium.toetst |
-| BR2 | LesDraagtBijRegel, met Les.heeftCriteria |
-| BR3 | CriteriumHeeftLesRegel, met Les.draagtBijAan |
-| BR4 | CriteriumBeoordeeldRegel, met Toetsmoment.beoordeelt |
-| BR5 | ToetsdrukRegel, met Toetsmoment.looptIn |
-| BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie |
-| BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het |
-| BR8 | BeheerOWEHandler.maakOWE, met OWERepository.zoek voor een unieke code |
-| BR9 | EVL.voegLeeruitkomstToe, met OWE voor een uniek nummer |
-| BR10 | Beoordelingsdimensie.voegCriteriumToe |
-| BR11 | OWE.voegLesToe, met controleerWeek en zoekCriteria |
-| BR12 | BeheerDocumentformaatHandler, met DocumentformaatRepository.zoek |
-| BR13 | BeheerOWEHandler.verwijderOnderdeel, met OWERepository.wordtHergebruikt |
-| BR14 | OWE.voegToetsmomentToe, met controleerWeek en zoekCriteria |
+| Regel | Klasse en operatie | Sequence diagram |
+| --- | --- | --- |
+| BR1 | LeeruitkomstGetoetstRegel, met Beoordelingscriterium.toetst | SD BR1 |
+| BR2 | LesDraagtBijRegel, met Les.heeftCriteria | SD controleer, SD voegLesToe |
+| BR3 | CriteriumHeeftLesRegel, met Les.draagtBijAan | SD controleer |
+| BR4 | CriteriumBeoordeeldRegel, met Toetsmoment.beoordeelt | SD controleer |
+| BR5 | ToetsdrukRegel, met Toetsmoment.looptIn | SD BR5, SD voegToetsmomentToe |
+| BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie | SD neemOp |
+| BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het | Geen |
+| BR8 | BeheerOWEHandler.maakOWE, met OWERepository.zoek voor een unieke code | Geen |
+| BR9 | EVL.voegLeeruitkomstToe, met OWE voor een uniek nummer | Geen |
+| BR10 | Beoordelingsdimensie.voegCriteriumToe | Geen |
+| BR11 | OWE.voegLesToe, met controleerWeek en zoekCriteria | SD voegLesToe |
+| BR12 | BeheerDocumentformaatHandler, met DocumentformaatRepository.zoek | Geen |
+| BR13 | BeheerOWEHandler.verwijderOnderdeel, met OWERepository.wordtHergebruikt | Geen |
+| BR14 | OWE.voegToetsmomentToe, met controleerWeek en zoekCriteria | SD voegToetsmomentToe |
 
 ## Wat niet in de diagrammen staat
 
@@ -249,8 +248,5 @@ Per bedrijfsregel: de klasse die de regel controleert.
 
 ## Open punten
 
-- OWE heeft 18 operaties.
-  De sequence diagrams laten zien dat elke operatie kort is, en OWE blijft zoals hij is, zie keuze
-  4 in [sequencediagrammen.md](sequencediagrammen.md#keuzes).
 - ICDE geeft domeinobjecten terug aan de gebruikersinterface, zoals List<OWE> in UC07.
   Draait de gebruikersinterface op een eigen server, dan worden dat Data Transfer Objects (#10).

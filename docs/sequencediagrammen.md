@@ -10,35 +10,22 @@ Larman hoofdstuk 4 (System Sequence Diagrams) en 8 (UML Interaction Diagrams).
 
 ## Aanpak
 
-We volgen de werkwijze uit de cursus (Sequence diagrams, dia 8 en 9):
+We volgen de werkwijze uit de cursus (Sequence diagrams, dia 8 en 9) en de richtlijnen bij
+Mastermind (dia 20).
+Per use case levert een system sequence diagram (SSD) de systeemoperaties.
+Per systeemoperatie toont een sequence diagram (SD) hoe de handler uit het klassendiagram het werk
+verdeelt (GRASP Controller).
+Een systeemoperatie die alleen een repository aanroept, krijgt geen SD.
 
-1. Per use case een system sequence diagram (SSD).
-   Het SSD toont het systeem als black box en levert de systeemoperaties.
-2. Per systeemoperatie een sequence diagram (SD).
-   De systeemoperatie is de eerste message.
-   De handler uit het klassendiagram ontvangt haar (GRASP Controller).
-3. De handler delegeert het werk langs de associaties uit het klassendiagram, naar het object dat
-   de informatie heeft (GRASP Information Expert).
+Wat de SD's weglaten of anders tonen:
 
-De SD's volgen de richtlijnen bij Mastermind (dia 20):
-
-- De SD's van een use case brengen samen de preconditie naar de postconditie.
-- Er is een SD per systeemoperatie die meer doet dan één repository-aanroep.
-- Messages lopen via de associaties en dependencies uit het klassendiagram.
-- Messages hebben parameters, en een returnwaarde als de operatie die heeft.
-
-Notatie, zoals in de lessen:
-
-- Een lifeline heet `naam : Klasse`, met de rolnaam uit het klassendiagram als naam.
-- Een returnwaarde staat in de message: `owe = zoek(oweCode)`.
-  Alleen de returnwaarde naar de actor staat als stippellijn.
-- `loop`, `opt` en `alt` tonen herhaling en keuzes.
-  `ref` verwijst naar een ander SD.
-- `lijst[i] : Klasse` is een element van een collectie in een `loop` (Larman 8.4, figuur 8.16).
-- Een exception staat als stippellijn met de naam `OngeldigeInvoerException` en de flow uit de
-  use case, zoals (2A).
 - De gebruikersinterface staat niet in de SD's, zoals in "Van use case tot design".
   De actor stuurt de systeemoperatie direct naar de handler.
+- Een exception staat als stippellijn met de naam `OngeldigeInvoerException` en de flow uit de
+  use case, zoals (2A).
+- De SD's gebruiken getters die het klassendiagram niet toont, zoals `getAantalWeken` en
+  `isGedeeld` (Larman 7.6).
+  Ze maken objecten met `create`, en het klassendiagram toont geen constructors.
 
 ## Keuze van de use cases
 
@@ -202,46 +189,12 @@ Het volgt hetzelfde patroon als `voegLesToe`, met BR14 en ToetsdrukRegel (BR5).
      De gebruikersinterface kent die al uit stap 2.
      De handler vraagt het onderdeel aan die OWE met de bestaande `zoekOnderdeel`.
 4. Is OWE te groot?
-   - Probleem: OWE heeft 18 operaties, zie de open punten van het klassendiagram.
+   - Probleem: OWE heeft 18 operaties, zie keuze 4 in het klassendiagram.
    - Alternatief: de zoek- en geef-operaties naar een eigen klasse.
      Die klasse moet dan alle lijsten van OWE kennen, en OWE geeft zijn structuur prijs.
    - Keuze: OWE blijft zoals hij is.
      De SD's laten zien dat elke operatie van OWE kort is en alleen zijn eigen lijsten gebruikt.
      De cohesie is dus hoog, ook met 18 operaties.
-
-## Wijzigingen in het klassendiagram
-
-De SD's vonden drie gaten in het klassendiagram.
-We hebben het klassendiagram aangepast:
-
-| Wijziging | Reden |
-| --- | --- |
-| Overtreding kent `1..* onderdelen` en `betreft(onderdeel)` | UC05 stap 5, keuze 2 |
-| `neemOp` krijgt `herkomstCode` | Keuze 3 |
-| BeheerPlanningHandler kent `lesRegel` en `toetsdrukRegel` | Welke regel is BR2? |
-
-De handlers tonen hun regels nu als attribuut, net als hun repositories (Larman 7.4).
-Als lijnen vielen de rolnamen over elkaar.
-
-De SD's gebruiken getters die het klassendiagram niet toont, zoals `getAantalWeken` en
-`isGedeeld` (Larman 7.6).
-Ze maken objecten met `create`, en het klassendiagram toont geen constructors.
-
-## Traceerbaarheid
-
-Per bedrijfsregel het SD dat de regel toont:
-
-| Regel | Sequence diagram |
-| --- | --- |
-| BR1 | SD BR1 |
-| BR2, BR3, BR4 | SD controleer, met de tabel onder SD BR1, en SD voegLesToe voor BR2 |
-| BR5 | SD BR5 en SD voegToetsmomentToe |
-| BR6 | SD neemOp |
-| BR11 | SD voegLesToe |
-| BR14 | SD voegToetsmomentToe |
-
-De andere regels horen bij CRUD use cases zonder SD, zie de traceerbaarheid in het
-klassendiagram.
 
 ## Open punten
 
