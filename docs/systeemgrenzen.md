@@ -132,10 +132,10 @@ In scope voor het prototype:
 - Inconsistenties detecteren en melden.
   Dit omvat de controle of lessen en toetsen op elkaar aansluiten.
 - Samenwerken aan dezelfde OWE zonder versieconflicten.
+- Onderdelen delen tussen opleidingen en profielen, en hergebruiken in een andere OWE.
 
 Binnen de systeemgrens, maar later:
 
-- Onderdelen delen tussen opleidingen en profielen.
 - Gegevens voor Iterative Grading.
 - De koppelingen met OnderwijsOnline en Alluris.
   De casus noemt deze koppelingen voor de lange termijn.
