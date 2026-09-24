@@ -1,0 +1,35 @@
+@startuml sd-br1-leeruitkomst-getoetst
+' Sequence diagram van LeeruitkomstGetoetstRegel.controleer (BR1).
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+participant ":LeeruitkomstGetoetst\nRegel" as regel
+participant "owe : OWE" as owe
+participant "criteria[j] :\nBeoordelingscriterium" as criterium
+participant "o : Overtreding" as overtreding
+
+[-> regel : overtredingen = controleer(owe)
+activate regel
+regel -> owe : leeruitkomsten = geefLeeruitkomsten()
+activate owe
+deactivate owe
+regel -> owe : criteria = geefCriteria()
+activate owe
+deactivate owe
+loop voor elke l in leeruitkomsten
+  loop voor elk criterium, tot getoetst
+    regel -> criterium : getoetst = toetst(l)
+    activate criterium
+    deactivate criterium
+  end
+  opt niet getoetst
+    create overtreding
+    regel -> overtreding : create("BR1", melding, [l])
+  end
+end
+[<-- regel : overtredingen
+deactivate regel
+@enduml

@@ -1,0 +1,39 @@
+@startuml sd-br5-toetsdruk
+' Sequence diagram van ToetsdrukRegel.controleer (BR5).
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+participant ":ToetsdrukRegel" as regel
+participant "owe : OWE" as owe
+participant "toetsmomenten[j] :\nToetsmoment" as toetsmoment
+participant "o : Overtreding" as overtreding
+
+[-> regel : overtredingen = controleer(owe)
+activate regel
+regel -> owe : weken = geefAantalWeken()
+activate owe
+deactivate owe
+regel -> owe : toetsmomenten = geefToetsmomenten()
+activate owe
+deactivate owe
+loop week = 1 tot en met weken
+  loop voor elk toetsmoment
+    regel -> toetsmoment : loopt = omvat(week)
+    activate toetsmoment
+    deactivate toetsmoment
+  end
+  opt aantal lopende toetsmomenten > maximum
+    create overtreding
+    regel -> overtreding : create("BR5", melding met week, lopend)
+  end
+end
+[<-- regel : overtredingen
+deactivate regel
+note over regel, toetsmoment
+  lopend: de toetsmomenten waarvoor
+  omvat(week) true gaf.
+end note
+@enduml

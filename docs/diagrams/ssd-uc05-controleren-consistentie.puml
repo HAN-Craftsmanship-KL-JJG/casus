@@ -1,0 +1,26 @@
+@startuml ssd-uc05-controleren-consistentie
+' System sequence diagram van UC05 Controleren consistentie OWE.
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Onderwijsontwikkelaar" as ontwikkelaar
+participant ":ICDE" as icde
+
+ontwikkelaar -> icde : controleer(oweCode)
+activate icde
+alt geen leeruitkomsten
+  icde --> ontwikkelaar : melding: niets te controleren (2A)
+else wel leeruitkomsten
+  icde --> ontwikkelaar : overtredingen
+end
+deactivate icde
+note over ontwikkelaar, icde
+  Stap 4 en 5 (overtreding kiezen en onderdeel tonen)
+  zijn geen systeemoperaties:
+  elke overtreding kent haar onderdelen al.
+  Een lege lijst betekent: de OWE is consistent (3A).
+end note
+@enduml

@@ -1,0 +1,36 @@
+@startuml ssd-uc07-hergebruiken-onderdeel
+' System sequence diagram van UC07 Hergebruiken gedeeld onderdeel.
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Onderwijsontwikkelaar" as ontwikkelaar
+participant ":ICDE" as icde
+
+ontwikkelaar -> icde : geefOWEsMetGedeeldeOnderdelen()
+activate icde
+icde --> ontwikkelaar : owes met gedeelde onderdelen
+deactivate icde
+alt verwijzing
+  ontwikkelaar -> icde : opnemenOnderdeel(oweCode, herkomstCode, onderdeelId)
+  activate icde
+  alt OWE bevat het onderdeel al
+    icde --> ontwikkelaar : melding: al opgenomen (6A)
+  else
+    icde --> ontwikkelaar : onderdeel opgenomen
+  end
+  deactivate icde
+else kopie (5A)
+  ontwikkelaar -> icde : toevoegenLes(oweCode, naam, onderwijsweek,\nbeschrijving, criteriumCodes)
+  activate icde
+  icde --> ontwikkelaar : overtredingen
+  deactivate icde
+  note right
+    Voorbeeld voor een les.
+    Een kopie gebruikt de toevoegoperatie
+    van de soort onderdeel.
+  end note
+end
+@enduml
