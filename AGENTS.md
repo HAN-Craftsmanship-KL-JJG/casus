@@ -15,6 +15,8 @@ When a feature exists in only one agent, keep the instruction readable without i
 ## Writing
 
 Write in plain English.
+Exception: casus deliverables in `docs/` are in Dutch, because the client and the rubric are
+Dutch.
 Readers are students who are not native English speakers.
 Use short sentences, common words, and the active voice.
 Start every sentence on a new line in all documentation, including `AGENTS.md`, README files,
