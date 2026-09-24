@@ -14,7 +14,7 @@ activate icde
 icde --> ontwikkelaar : owes met gedeelde onderdelen
 deactivate icde
 alt verwijzing
-  ontwikkelaar -> icde : neemOp(oweCode, herkomstCode, onderdeelId)
+  ontwikkelaar -> icde : opnemenOnderdeel(oweCode, herkomstCode, onderdeelId)
   activate icde
   alt OWE bevat het onderdeel al
     icde --> ontwikkelaar : melding: al opgenomen (6A)

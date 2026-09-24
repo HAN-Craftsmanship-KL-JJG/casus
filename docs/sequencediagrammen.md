@@ -23,7 +23,7 @@ Wat de SD's weglaten of anders tonen:
   De actor stuurt de systeemoperatie direct naar de handler.
 - Een exception staat als stippellijn met de naam `OngeldigeInvoerException` en de flow uit de
   use case, zoals (2A).
-- De SD's gebruiken getters die het klassendiagram niet toont, zoals `getAantalWeken` en
+- De SD's gebruiken getters die het klassendiagram niet toont, zoals `geefAantalWeken` en
   `isGedeeld` (Larman 7.6).
   Ze maken objecten met `create`, en het klassendiagram toont geen constructors.
 
@@ -66,7 +66,7 @@ UC08 Opvragen dekkingsoverzicht:
 | UC06 | geefFormaten | GenereerDocumentHandler | Geen, zie onder |
 | UC06 | genereer | GenereerDocumentHandler | SD genereer |
 | UC07 | geefOWEsMetGedeeldeOnderdelen | HergebruikOnderdeelHandler | Geen, zie onder |
-| UC07 | neemOp | HergebruikOnderdeelHandler | SD neemOp |
+| UC07 | opnemenOnderdeel | HergebruikOnderdeelHandler | SD opnemenOnderdeel |
 | UC08 | geefDekking | OpvragenDekkingHandler | SD geefDekking, SD OWE.bepaalDekking |
 | UC08 | geefDekkingVanOWE | OpvragenDekkingHandler | SD OWE.bepaalDekking |
 | UC04 | toevoegenLes | BeheerPlanningHandler | SD toevoegenLes |
@@ -105,7 +105,7 @@ BR2, BR3 en BR4 hebben dezelfde vorm als BR1, met een andere lus en vraag:
 | Regel | Lus over | Vraag per element |
 | --- | --- | --- |
 | BR2 LesDraagtBijRegel | `owe.geefLessen()` | `les.heeftCriteria()` |
-| BR3 CriteriumHeeftLesRegel | `owe.geefCriteria()` | `les.draagtBijAan(c)`, voor elke les |
+| BR3 CriteriumHeeftLesRegel | `owe.geefCriteria()` | `les.dekt(c)`, voor elke les |
 | BR4 CriteriumBeoordeeldRegel | `owe.geefCriteria()` | `t.beoordeelt(c)`, voor elk toetsmoment |
 
 BR5 ToetsdrukRegel telt per week de lopende toetsmomenten.
@@ -123,11 +123,11 @@ Documentformaat controleert eerst of de OWE alle gegevens heeft (stap 4) en maak
 
 ### UC07 Hergebruiken gedeeld onderdeel
 
-`neemOp` voert stap 5 en 6 uit.
+`opnemenOnderdeel` voert stap 5 en 6 uit.
 OWE controleert of het onderdeel gedeeld is en of de OWE het al bevat (6A).
 OWE bewaart een verwijzing naar het originele object, zodat de OWE elke wijziging ziet (BR6).
 
-![SD neemOp](diagrams/sd-uc07-neemop.svg)
+![SD opnemenOnderdeel](diagrams/sd-uc07-opnemenonderdeel.svg)
 
 ### UC08 Opvragen dekkingsoverzicht
 
@@ -180,12 +180,12 @@ Het volgt hetzelfde patroon als `toevoegenLes`, met BR14 en ToetsdrukRegel (BR5)
      De handler filtert de overtredingen van de regel.
      Zo blijft elke regel op één plaats.
 3. Hoe vindt de handler een gedeeld onderdeel van een andere OWE? (UC07)
-   - Probleem: `neemOp` kreeg alleen de id van het onderdeel.
+   - Probleem: `opnemenOnderdeel` kreeg alleen de id van het onderdeel.
      OWERepository zoekt op de code van een OWE, niet op de id van een onderdeel.
    - Alternatief: een nieuwe operatie `OWERepository.zoekOnderdeel(id)`.
      Die geeft een onderdeel los van zijn OWE, en dan kan de handler het wijzigen buiten de OWE
      van herkomst om (BR7).
-   - Keuze: `neemOp` krijgt ook de code van de OWE van herkomst.
+   - Keuze: `opnemenOnderdeel` krijgt ook de code van de OWE van herkomst.
      De gebruikersinterface kent die al uit stap 2.
      De handler vraagt het onderdeel aan die OWE met de bestaande `zoekOnderdeel`.
 4. Is OWE te groot?
