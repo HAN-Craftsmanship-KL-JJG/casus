@@ -1,5 +1,5 @@
-@startuml sd-uc11-voegtoetsmomenttoe
-' Sequence diagram van systeemoperatie voegToetsmomentToe (UC11, Toevoegen toetsmoment,
+@startuml sd-uc11-toevoegentoetsmoment
+' Sequence diagram van systeemoperatie toevoegenToetsmoment (UC11, Toevoegen toetsmoment,
 ' stap 5 tot en met 8). Toelichting: docs/sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
@@ -14,13 +14,13 @@ participant "t : Toetsmoment" as toetsmoment
 participant "toetsdrukRegel :\nConsistentieregel" as regel
 participant "alle[i] :\nOvertreding" as overtreding
 
-ontwikkelaar -> handler : overtredingen =\nvoegToetsmomentToe(oweCode, naam,\n\
+ontwikkelaar -> handler : overtredingen =\ntoevoegenToetsmoment(oweCode, naam,\n\
 soort, startweek, deadlineweek,\ncriteriumCodes)
 activate handler
 handler -> owes : owe = zoek(oweCode)
 activate owes
 deactivate owes
-handler -> owe : t = voegToetsmomentToe(naam, soort,\nstartweek, deadlineweek,\ncriteriumCodes)
+handler -> owe : t = toevoegenToetsmoment(naam, soort,\nstartweek, deadlineweek,\ncriteriumCodes)
 activate owe
 owe -> owe : controleerWeek(startweek)
 owe -> owe : controleerWeek(deadlineweek)

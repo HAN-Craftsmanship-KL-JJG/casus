@@ -17,9 +17,9 @@ package applicatie {
     + maakOWE(opleidingNaam : String, code : String,\n    \
 naam : String, studiepunten : int,\n    \
 aantalWeken : int) : void
-    + voegEVLToe(oweCode : String, naam : String,\n    \
+    + toevoegenEVL(oweCode : String, naam : String,\n    \
 studiepunten : int) : void
-    + voegLeeruitkomstToe(oweCode : String,\n    \
+    + toevoegenLeeruitkomst(oweCode : String,\n    \
 evlNaam : String, nummer : int,\n    \
 omschrijving : String) : void
     + verwijderOnderdeel(oweCode : String,\n    \
@@ -27,8 +27,8 @@ onderdeelId : UUID) : void
   }
   class BeheerRubricHandler {
     - owes : OWERepository
-    + voegDimensieToe(oweCode : String, naam : String) : void
-    + voegCriteriumToe(oweCode : String,\n    \
+    + toevoegenDimensie(oweCode : String, naam : String) : void
+    + toevoegenCriterium(oweCode : String,\n    \
 dimensieNaam : String, code : String, naam : String,\n    \
 weging : int, minimumscore : int, uitleg : String,\n    \
 niveaus : Map<Integer, String>,\n    \
@@ -38,10 +38,10 @@ leeruitkomstNummers : List<Integer>) : void
     - owes : OWERepository
     - lesRegel : Consistentieregel
     - toetsdrukRegel : Consistentieregel
-    + voegLesToe(oweCode : String, naam : String,\n    \
+    + toevoegenLes(oweCode : String, naam : String,\n    \
 onderwijsweek : int, beschrijving : String,\n    \
 criteriumCodes : List<String>) : List<Overtreding>
-    + voegToetsmomentToe(oweCode : String, naam : String,\n    \
+    + toevoegenToetsmoment(oweCode : String, naam : String,\n    \
 soort : SoortToetsmoment, startweek : int,\n    \
 deadlineweek : int,\n    \
 criteriumCodes : List<String>) : List<Overtreding>
@@ -75,7 +75,7 @@ onderdeelId : UUID) : void
   }
   class BeheerDocumentformaatHandler {
     - formaten : DocumentformaatRepository
-    + voegFormaatToe(naam : String, soort : SoortDocument,\n    \
+    + toevoegenFormaat(naam : String, soort : SoortDocument,\n    \
 opmaak : String) : void
   }
 }

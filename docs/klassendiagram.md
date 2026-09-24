@@ -156,7 +156,7 @@ Het id is een UUID, zodat het uniek is over alle OWE's heen.
      Een gekopieerde les kan dan een onderwijsweek buiten de looptijd van de OWE hebben.
    - Keuze voor de kopie: de gebruikersinterface vult het toevoegscherm van het onderdeel met de
      inhoud uit stap 4.
-     Het opslaan gaat via de gewone operaties, zoals voegLesToe, met alle validatieregels.
+     Het opslaan gaat via de gewone operaties, zoals toevoegenLes, met alle validatieregels.
      Een gekopieerd criterium verliest zijn koppeling met leeruitkomsten van de andere OWE.
      De ontwikkelaar koppelt het opnieuw.
 8. Wie maakt een onderdeel? (GRASP Creator)
@@ -184,13 +184,13 @@ Het id is een UUID, zodat het uniek is over alle OWE's heen.
 Per use case: de handler en de klassen die de use case uitvoeren.
 
 - UC01 Beheren OWE: BeheerOWEHandler.
-  Opleiding.maakOWE, OWE.voegEVLToe.
+  Opleiding.maakOWE, OWE.toevoegenEVL.
 - UC02 Beheren leeruitkomsten: BeheerOWEHandler.
-  OWE.voegLeeruitkomstToe, EVL.voegLeeruitkomstToe.
+  OWE.toevoegenLeeruitkomst, EVL.toevoegenLeeruitkomst.
 - UC03 Beheren beoordelingscriteria: BeheerRubricHandler.
-  OWE.voegDimensieToe, Beoordelingsdimensie.voegCriteriumToe.
+  OWE.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium.
 - UC04 Beheren lesplanning: BeheerPlanningHandler.
-  OWE.voegLesToe, LesDraagtBijRegel.
+  OWE.toevoegenLes, LesDraagtBijRegel.
 - UC05 Controleren consistentie OWE: ControleerConsistentieHandler.
   Consistentieregel en vijf regels, Overtreding.
 - UC06 Genereren document: GenereerDocumentHandler.
@@ -204,7 +204,7 @@ Per use case: de handler en de klassen die de use case uitvoeren.
 - UC10 Beheren documentformaat: BeheerDocumentformaatHandler.
   Documentformaat.
 - UC11 Beheren toetsplanning: BeheerPlanningHandler.
-  OWE.voegToetsmomentToe, ToetsdrukRegel.
+  OWE.toevoegenToetsmoment, ToetsdrukRegel.
 
 Verwijderen van een onderdeel (UC02, UC03, UC04, UC11) loopt via
 BeheerOWEHandler.verwijderOnderdeel en OWE.verwijder.
@@ -216,19 +216,19 @@ De andere regels horen bij CRUD use cases zonder SD.
 | Regel | Klasse en operatie | Sequence diagram |
 | --- | --- | --- |
 | BR1 | LeeruitkomstGetoetstRegel, met Beoordelingscriterium.toetst | SD BR1 |
-| BR2 | LesDraagtBijRegel, met Les.heeftCriteria | SD controleer, SD voegLesToe |
+| BR2 | LesDraagtBijRegel, met Les.heeftCriteria | SD controleer, SD toevoegenLes |
 | BR3 | CriteriumHeeftLesRegel, met Les.draagtBijAan | SD controleer |
 | BR4 | CriteriumBeoordeeldRegel, met Toetsmoment.beoordeelt | SD controleer |
-| BR5 | ToetsdrukRegel, met Toetsmoment.looptIn | SD BR5, SD voegToetsmomentToe |
+| BR5 | ToetsdrukRegel, met Toetsmoment.looptIn | SD BR5, SD toevoegenToetsmoment |
 | BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie | SD neemOp |
 | BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het | Geen |
 | BR8 | BeheerOWEHandler.maakOWE, met OWERepository.zoek voor een unieke code | Geen |
-| BR9 | EVL.voegLeeruitkomstToe, met OWE voor een uniek nummer | Geen |
-| BR10 | Beoordelingsdimensie.voegCriteriumToe | Geen |
-| BR11 | OWE.voegLesToe, met controleerWeek en zoekCriteria | SD voegLesToe |
+| BR9 | EVL.toevoegenLeeruitkomst, met OWE voor een uniek nummer | Geen |
+| BR10 | Beoordelingsdimensie.toevoegenCriterium | Geen |
+| BR11 | OWE.toevoegenLes, met controleerWeek en zoekCriteria | SD toevoegenLes |
 | BR12 | BeheerDocumentformaatHandler, met DocumentformaatRepository.zoek | Geen |
 | BR13 | BeheerOWEHandler.verwijderOnderdeel, met OWERepository.wordtHergebruikt | Geen |
-| BR14 | OWE.voegToetsmomentToe, met controleerWeek en zoekCriteria | SD voegToetsmomentToe |
+| BR14 | OWE.toevoegenToetsmoment, met controleerWeek en zoekCriteria | SD toevoegenToetsmoment |
 
 ## Wat niet in de diagrammen staat
 

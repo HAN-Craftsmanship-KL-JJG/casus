@@ -23,7 +23,7 @@ alt verwijzing
   end
   deactivate icde
 else kopie (5A)
-  ontwikkelaar -> icde : voegLesToe(oweCode, naam, onderwijsweek,\nbeschrijving, criteriumCodes)
+  ontwikkelaar -> icde : toevoegenLes(oweCode, naam, onderwijsweek,\nbeschrijving, criteriumCodes)
   activate icde
   icde --> ontwikkelaar : overtredingen
   deactivate icde
