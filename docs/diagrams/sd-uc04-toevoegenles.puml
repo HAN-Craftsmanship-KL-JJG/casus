@@ -1,5 +1,5 @@
-@startuml sd-uc04-voeglestoe
-' Sequence diagram van systeemoperatie voegLesToe (UC04, Toevoegen les, stap 5 tot en met 7).
+@startuml sd-uc04-toevoegenles
+' Sequence diagram van systeemoperatie toevoegenLes (UC04, Toevoegen les, stap 5 tot en met 7).
 ' Toelichting: docs/sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
@@ -14,13 +14,13 @@ participant "les : Les" as les
 participant "lesRegel :\nConsistentieregel" as regel
 participant "alle[i] :\nOvertreding" as overtreding
 
-ontwikkelaar -> handler : overtredingen =\nvoegLesToe(oweCode, naam,\n\
+ontwikkelaar -> handler : overtredingen =\ntoevoegenLes(oweCode, naam,\n\
 onderwijsweek, beschrijving,\ncriteriumCodes)
 activate handler
 handler -> owes : owe = zoek(oweCode)
 activate owes
 deactivate owes
-handler -> owe : les = voegLesToe(naam, onderwijsweek,\nbeschrijving, criteriumCodes)
+handler -> owe : les = toevoegenLes(naam, onderwijsweek,\nbeschrijving, criteriumCodes)
 activate owe
 owe -> owe : controleerWeek(onderwijsweek)
 owe -> owe : criteria = zoekCriteria(criteriumCodes)

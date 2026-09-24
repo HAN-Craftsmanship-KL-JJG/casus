@@ -163,7 +163,7 @@ C5 hangt af van een open vraag.
    - Verbetering: Dekking krijgt het attribuut oweCode.
      OWE geeft die mee bij `create` in SD OWE.bepaalDekking.
 2. C2: BR8 eist minstens één EVL, maar maakOWE bewaarde een OWE zonder EVL.
-   De EVL kwam pas met een tweede systeemoperatie voegEVLToe.
+   De EVL kwam pas met een tweede systeemoperatie toevoegenEVL.
    - Alternatief: OWERepository.bewaar controleert BR8.
      Dan kent de datalaag een regel van het domein.
    - Verbetering: BeheerOWEHandler.maakOWE krijgt evlNaam en evlStudiepunten.

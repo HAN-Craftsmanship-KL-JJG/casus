@@ -69,8 +69,8 @@ UC08 Opvragen dekkingsoverzicht:
 | UC07 | neemOp | HergebruikOnderdeelHandler | SD neemOp |
 | UC08 | geefDekking | OpvragenDekkingHandler | SD geefDekking, SD OWE.bepaalDekking |
 | UC08 | geefDekkingVanOWE | OpvragenDekkingHandler | SD OWE.bepaalDekking |
-| UC04 | voegLesToe | BeheerPlanningHandler | SD voegLesToe |
-| UC11 | voegToetsmomentToe | BeheerPlanningHandler | SD voegToetsmomentToe |
+| UC04 | toevoegenLes | BeheerPlanningHandler | SD toevoegenLes |
+| UC11 | toevoegenToetsmoment | BeheerPlanningHandler | SD toevoegenToetsmoment |
 
 Drie systeemoperaties hebben geen eigen SD.
 `geefFormaten` roept alleen `formaten.zoekAlle()` aan.
@@ -144,19 +144,19 @@ OWE maakt de Dekking-objecten (Creator), omdat OWE de gegevens voor de construct
 
 ### UC04 Beheren lesplanning
 
-`voegLesToe` voert stap 5 tot en met 7 van Toevoegen les uit.
+`toevoegenLes` voert stap 5 tot en met 7 van Toevoegen les uit.
 OWE maakt de les (Creator) en controleert de week en de criteria (BR11).
 Na het bewaren vraagt de handler LesDraagtBijRegel om BR2.
 Van alle overtredingen geeft de handler alleen die van de nieuwe les terug (7B).
 
-![SD voegLesToe](diagrams/sd-uc04-voeglestoe.svg)
+![SD toevoegenLes](diagrams/sd-uc04-toevoegenles.svg)
 
 ### UC11 Beheren toetsplanning
 
-`voegToetsmomentToe` voert stap 5 tot en met 8 van Toevoegen toetsmoment uit.
-Het volgt hetzelfde patroon als `voegLesToe`, met BR14 en ToetsdrukRegel (BR5).
+`toevoegenToetsmoment` voert stap 5 tot en met 8 van Toevoegen toetsmoment uit.
+Het volgt hetzelfde patroon als `toevoegenLes`, met BR14 en ToetsdrukRegel (BR5).
 
-![SD voegToetsmomentToe](diagrams/sd-uc11-voegtoetsmomenttoe.svg)
+![SD toevoegenToetsmoment](diagrams/sd-uc11-toevoegentoetsmoment.svg)
 
 ## Keuzes
 
