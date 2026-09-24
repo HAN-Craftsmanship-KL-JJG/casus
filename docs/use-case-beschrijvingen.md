@@ -93,7 +93,6 @@ Validatieregels voor CRUD, voor UC01 tot en met UC04, UC10 en UC11:
 - Stakeholders and interests:
   - Onderwijsontwikkelaar: wil fouten in het ontwerp vroeg zien, zonder handmatig te tellen.
   - Opleidingscoördinator: wil dat elke OWE aansluit op de eigen leeruitkomsten.
-  - Examencommissie: wil aantoonbaar zien dat de toetsing aansluit op de leeruitkomsten.
   - Student: wil op elk beoordelingscriterium worden voorbereid in de lessen.
 - Cross references: BR1 tot en met BR5, UC02, UC03, UC04, UC11.
 - Brief description: De onderwijsontwikkelaar laat het systeem een OWE controleren.
@@ -179,7 +178,6 @@ Exceptional flows:
 - Stakeholders and interests:
   - Opleidingscoördinator: wil zien of de opleiding elke leeruitkomst voldoende afdekt.
   - Onderwijsontwikkelaar: wil weten welke leeruitkomsten meer onderwijs nodig hebben.
-  - Examencommissie: wil aantoonbaar zien dat elke leeruitkomst wordt getoetst.
 - Cross references: BR1, BR3, BR4, UC05.
 - Brief description: De opleidingscoördinator kiest een opleiding.
   Het systeem toont per OWE en per leeruitkomst welke beoordelingscriteria de leeruitkomst toetsen,

@@ -30,15 +30,9 @@ De bronnen zijn [klassendiagram-domein.puml](diagrams/klassendiagram-domein.puml
 
 ## Aanpak
 
-We volgen de richtlijnen voor een design class diagram uit de cursus (Mastermind, dia 23):
-
-- Het klassendiagram is consistent met het domeinmodel en de sequence diagrams.
-- Elk attribuut heeft een visibility en een datatype.
-- Elke operatie heeft een visibility, parameters en een returntype.
-- Een navigeerbare associatie heeft een pijl en een rolnaam aan de kant van het doel.
-  Zoals Larman (7.4) adviseert, staan multipliciteit en rolnaam alleen aan de doelkant en heeft
-  de associatie geen naam.
-- Dependencies die volgen uit parameters en returntypes staan als stippellijn.
+We volgen de richtlijnen voor een design class diagram uit de cursus (Mastermind, dia 23).
+Zoals Larman (7.4) adviseert, staan multipliciteit en rolnaam alleen aan de doelkant en heeft een
+associatie geen naam.
 
 De systeemoperaties komen uit de system sequence diagrams in
 [sequencediagrammen.md](sequencediagrammen.md).
@@ -186,14 +180,6 @@ Het id is een UUID, zodat het uniek is over alle OWE's heen.
    - Keuze: OWE heeft een versie.
      OWERepository.bewaar weigert een OWE met een oude versie, en de ontwikkelaar ziet dat.
      Het data source pattern hiervoor werken we uit in #12.
-10. Lange parameterlijsten.
-    - Probleem: een systeemoperatie krijgt alle velden van een invoerscherm.
-      voegCriteriumToe heeft 9 parameters.
-    - Alternatief: een parameterobject per soort invoer.
-      Dat zijn klassen zonder gedrag, alleen voor het transport.
-    - Keuze: voor nu parameters, zodat het diagram de invoer uit de use cases direct toont.
-      In blok 2 draaien de gebruikersinterface en de domeinlaag op verschillende servers.
-      Dan vervangt een Data Transfer Object de lange lijsten, zie #10.
 
 ## Traceerbaarheid
 
