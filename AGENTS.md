@@ -3,6 +3,17 @@
 Assignment repository for the HAN module OOSE Deeltijd (2026/2027).
 Student teams fork it and build the case (ICDE or their own) across the SAD and DAD blocks.
 
+## Working on an issue
+
+Before you start an issue, read the matching course material in
+https://github.com/HAN-Craftsmanship-KL-JJG/oose.
+The rubric and the teachers grade against that material, not against general practice.
+
+Aim for 10% above each minimum the assessment sets, and no more: a minimum of 10 means 11.
+Extra items make models harder to read and do not raise the grade.
+Cut items that no core use case needs, turn them into attributes, and explain the cuts in the
+deliverable.
+
 ## Agent compatibility
 
 These instructions must work in both Claude Code and OpenAI Codex.
@@ -69,21 +80,6 @@ Do not add AI attribution trailers.
 Forbidden: `Co-authored-by:`, `Generated-by:`, `AI-Generated-by:`, `Assisted-by:`, `Model:`.
 Allowed trailers: `Fixes #...`, `Refs #...`, `BREAKING CHANGE: ...`,
 `Signed-off-by:` (human only).
-
-## Git hooks
-
-Shared hooks live in the tracked `.githooks/` folder, not in `.git/hooks`, which Git never
-tracks.
-Enable them per checkout with `git config core.hooksPath .githooks`.
-
-- `.githooks/<hook>` is a thin wrapper.
-  It runs each executable script in `.githooks/<hook>.d/` in sorted order, passes on the hook
-  arguments, and stops at the first failure.
-- Put the real checks in numbered scripts: `10-lint.sh`, `20-test.sh`, `30-build.sh`.
-- Write scripts in POSIX `sh` and keep them executable, unless the project needs another shell.
-- pre-commit runs fast checks on staged files.
-  pre-push runs slower full checks such as tests and build.
-  CI stays the final check.
 
 ## Dates and times
 
