@@ -99,7 +99,7 @@ gedurende het hele bestaan van A?
 | EVL groepeert Leeruitkomst | 1 : 1..* | Een EVL zonder leeruitkomsten is leeg. |
 | OWE beoordeelt met Beoordelingsdimensie | 1 : 0..* | Een nieuwe OWE heeft nog geen rubric. |
 | Beoordelingsdimensie bestaat uit Beoordelingscriterium | 1 : 1..* | BR10. |
-| Beoordelingscriterium heeft Niveau | 1 : 2..* | Compositie, BR10. |
+| Beoordelingscriterium onderscheidt Niveau | 1 : 2..* | Compositie, BR10. |
 | OWE plant Les | 1 : 0..* | Een nieuwe OWE heeft nog geen lessen. |
 | OWE plant Toetsmoment | 1 : 0..* | Een nieuwe OWE heeft nog geen toetsen. |
 | Beoordelingscriterium toetst Leeruitkomst | 0..* : 1..* | BR1 controleert de kant 0..*. |
