@@ -8,6 +8,8 @@ skinparam shadowing false
 skinparam defaultFontName Helvetica
 skinparam classAttributeIconSize 0
 hide empty members
+left to right direction
+skinparam nodesep 45
 
 interface Consistentieregel <<interface>> {
   + controleer(owe : OWE) : List<Overtreding>
@@ -52,17 +54,17 @@ Consistentieregel <|.. CriteriumHeeftLesRegel
 Consistentieregel <|.. CriteriumBeoordeeldRegel
 Consistentieregel <|.. ToetsdrukRegel
 
-' Onzichtbare lijnen zetten de regels in twee rijen, zodat het diagram smaller wordt.
-LeeruitkomstGetoetstRegel -[hidden]down- CriteriumHeeftLesRegel
-LesDraagtBijRegel -[hidden]down- CriteriumBeoordeeldRegel
-
 Consistentieregel ..> OWE
 Consistentieregel ..> Overtreding : <<create>>
 
 Opleiding ..> Dekking
 OWE ..> Dekking : <<create>>
-Dekking --> "1 leeruitkomst" Leeruitkomst
-Dekking --> "0..* criteria" Beoordelingscriterium
-Dekking --> "0..* toetsmomenten" Toetsmoment
-Dekking --> "0..* lessen" Les
+' Langere lijnen geven de rolnamen bij Dekking ruimte.
+Dekking ---> "1 leeruitkomst" Leeruitkomst
+' Langere lijnen geven de rolnamen bij Dekking ruimte.
+Dekking ---> "0..* criteria" Beoordelingscriterium
+' Langere lijnen geven de rolnamen bij Dekking ruimte.
+Dekking ---> "0..* toetsmomenten" Toetsmoment
+' Langere lijnen geven de rolnamen bij Dekking ruimte.
+Dekking ---> "0..* lessen" Les
 @enduml
