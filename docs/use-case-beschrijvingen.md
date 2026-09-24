@@ -46,6 +46,7 @@ UC09 Delen OWE-onderdeel staat in brief format.
 ## Bedrijfsregels
 
 De use cases verwijzen naar deze regels met hun code, bijvoorbeeld [BR1].
+"Van de OWE" en "van dezelfde OWE" omvatten ook de onderdelen die de OWE hergebruikt (UC07).
 
 Consistentieregels, voor UC05 en UC08:
 
@@ -71,6 +72,7 @@ Validatieregels voor CRUD, voor UC01 tot en met UC04, UC10 en UC11:
 - BR8: De code van een OWE is uniek.
   Een OWE heeft een naam, een opleiding, een aantal studiepunten groter dan 0 en een looptijd van
   minstens één onderwijsweek.
+  Een OWE heeft minstens één EVL, elk met een naam en studiepunten.
 - BR9: Een leeruitkomst heeft een omschrijving.
   Het nummer van een leeruitkomst is uniek binnen de OWE.
 - BR10: Een beoordelingscriterium hoort bij precies één beoordelingsdimensie van dezelfde OWE.
@@ -241,7 +243,7 @@ Main success scenario:
 | Actor action | System responsibility |
 | --- | --- |
 | 1. De ontwikkelaar kiest een OWE en geeft aan een gedeeld onderdeel te willen opnemen. | |
-| | 2. Het systeem toont de gedeelde onderdelen met soort, naam en OWE van herkomst. |
+| | 2. Het systeem toont de gedeelde onderdelen met soort en OWE van herkomst. |
 | 3. De ontwikkelaar kiest een onderdeel. | |
 | | 4. Het systeem toont de inhoud van het onderdeel. |
 | 5. De ontwikkelaar bevestigt het opnemen van het onderdeel. | |
@@ -362,7 +364,7 @@ Stap "Systeem controleert of gegevens valide zijn" gebruikt de genoemde regels.
 
 | Use case | Item | Validatieregels |
 | --- | --- | --- |
-| UC01 Beheren OWE | OWE | BR8, BR13 bij verwijderen |
+| UC01 Beheren OWE | OWE met EVL's | BR8, BR13 bij verwijderen |
 | UC02 Beheren leeruitkomsten | Leeruitkomst | BR9, BR13 bij verwijderen |
 | UC03 Beheren beoordelingscriteria | Beoordelingscriterium | BR10, BR13 bij verwijderen |
 | UC10 Beheren documentformaat | Documentformaat | BR12 |

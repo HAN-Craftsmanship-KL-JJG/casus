@@ -61,7 +61,7 @@ class Documentformaat {
 
 Opleiding "1" -- "0..*" OWE : biedt aan >
 OWE "1" *-- "1..*" EVL : bestaat uit >
-EVL "1" -- "1..*" Leeruitkomst : groepeert >
+EVL "1" -- "0..*" Leeruitkomst : groepeert >
 OWE "1" -- "0..*" Beoordelingsdimensie : beoordeelt met >
 Beoordelingsdimensie "1" -- "1..*" Beoordelingscriterium : bestaat uit >
 Beoordelingscriterium "1" *-- "2..*" Niveau : heeft >
