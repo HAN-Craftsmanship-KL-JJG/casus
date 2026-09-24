@@ -2,7 +2,7 @@
 
 Dit document toont het use case diagram van ICDE en licht de keuzes toe.
 Het bouwt voort op de actoren en de scope in [systeemgrenzen.md](systeemgrenzen.md).
-De uitwerking van de belangrijkste use cases volgt in #3.
+De uitwerking staat in [use-case-beschrijvingen.md](use-case-beschrijvingen.md).
 
 ## Use case diagram
 
@@ -69,7 +69,8 @@ Dat is 55%.
   Een use case met «CRUD» staat voor vier use cases: toevoegen, bekijken, wijzigen en verwijderen
   van het item.
   Zo blijft het diagram leesbaar.
-  We werken ze in #3 uit volgens het CRUD-sjabloon van de cursus.
+  Ze volgen het CRUD-sjabloon van de cursus.
+  Zie [use-case-beschrijvingen.md](use-case-beschrijvingen.md).
 - Geen «include» of «extend».
   Die geven in dit diagram geen meerwaarde.
 - Geen use case Inloggen.
