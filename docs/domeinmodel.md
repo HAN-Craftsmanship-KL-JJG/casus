@@ -14,17 +14,8 @@ De bron is [diagrams/domeinmodel.puml](diagrams/domeinmodel.puml).
 
 ## Aanpak
 
-We volgen de cursus (Thema 3 Domain Modeling en de richtlijnen bij Mastermind):
-
-- Het model toont de werkelijkheid van het onderwijsontwerp, geen software.
-- Het bevat concepten, attributen, associaties en multipliciteiten.
-- Het bevat geen operaties, datatypes, visibility of navigatie.
-  Navigatie is een ontwerpbeslissing.
-- Elke associatie heeft een naam, een werkwoordsvorm.
-  Het driehoekje geeft de leesrichting aan.
-- Generalisatie gebruiken we waar dat zinvol is.
-- We gebruiken de namen van de opdrachtgever ("strategie van de kaartenmaker").
-
+We volgen de regels voor een domeinmodel uit de cursus (Thema 3 Domain Modeling en de
+richtlijnen bij Mastermind).
 We vonden de concepten met Noun Phrase Identification (NPI) volgens het stappenplan van de
 cursus.
 
@@ -61,19 +52,19 @@ Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het s
 
 ## Concepten
 
-| Concept | Betekenis | Attributen |
-| --- | --- | --- |
-| Opleiding | Een HBO-opleiding, zoals HBO-ICT. | naam |
-| OWE | Een onderwijseenheid, zoals OOSE-DT. | code, naam, studiepunten, aantalWeken |
-| EVL | Een eenheid van leeruitkomsten van een OWE. | naam, studiepunten |
-| OWE-onderdeel | Een deel van een OWE dat te delen is. | gedeeld |
-| Leeruitkomst | Wat een student na de OWE kan. | nummer, omschrijving |
-| Beoordelingsdimensie | Een groep criteria, de rubric. | naam |
-| Beoordelingscriterium | Een eis in de rubric. | code, naam, weging, minimumscore, uitleg |
-| Niveau | Een score op een criterium. | score, beschrijving |
-| Les | Een les in de lesplanning. | naam, onderwijsweek, beschrijving |
-| Toetsmoment | Een toets of opdracht. | naam, soort, startweek, deadlineweek |
-| Documentformaat | De vorm van een soort document. | naam, soortDocument, opmaak |
+| Concept | Betekenis |
+| --- | --- |
+| Opleiding | Een HBO-opleiding, zoals HBO-ICT. |
+| OWE | Een onderwijseenheid, zoals OOSE-DT. |
+| EVL | Een eenheid van leeruitkomsten van een OWE. |
+| OWE-onderdeel | Een deel van een OWE dat te delen is. |
+| Leeruitkomst | Wat een student na de OWE kan. |
+| Beoordelingsdimensie | Een groep criteria, de rubric. |
+| Beoordelingscriterium | Een eis in de rubric. |
+| Niveau | Een score op een criterium. |
+| Les | Een les in de lesplanning. |
+| Toetsmoment | Een toets of opdracht. |
+| Documentformaat | De vorm van een soort document. |
 
 OWE-onderdeel is abstract: elk onderdeel is een leeruitkomst, dimensie, les of toetsmoment.
 
@@ -158,11 +149,6 @@ De codes verwijzen naar de
    Die EVL volgt uit de criteria: criterium, leeruitkomst, EVL.
    Een directe associatie zou dubbel zijn en kan tegenspreken.
    Dit is de stap "controleer op redundantie" uit het stappenplan.
-5. Dynamiek.
-   We liepen de attributen langs met de vraag uit het werkboek: verandert dit in de normale
-   gang van zaken?
-   Geen enkel attribuut verandert in de normale gang van zaken binnen een studiejaar.
-   Tussen studiejaren verandert een OWE wel, zie de open punten.
 
 ## Traceerbaarheid naar de use cases
 
