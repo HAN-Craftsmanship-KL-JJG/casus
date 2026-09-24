@@ -91,7 +91,7 @@ class Les {
   - onderwijsweek : int
   - beschrijving : String
   + heeftCriteria() : boolean
-  + draagtBijAan(criterium : Beoordelingscriterium) : boolean
+  + dekt(criterium : Beoordelingscriterium) : boolean
 }
 
 class Toetsmoment {
@@ -100,7 +100,7 @@ class Toetsmoment {
   - startweek : int
   - deadlineweek : int
   + beoordeelt(criterium : Beoordelingscriterium) : boolean
-  + looptIn(week : int) : boolean
+  + omvat(week : int) : boolean
 }
 
 class Documentformaat {

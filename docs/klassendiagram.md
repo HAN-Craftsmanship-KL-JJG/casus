@@ -218,9 +218,9 @@ Per bedrijfsregel: de klasse die de regel controleert.
 | --- | --- |
 | BR1 | LeeruitkomstGetoetstRegel, met Beoordelingscriterium.toetst |
 | BR2 | LesDraagtBijRegel, met Les.heeftCriteria |
-| BR3 | CriteriumHeeftLesRegel, met Les.draagtBijAan |
+| BR3 | CriteriumHeeftLesRegel, met Les.dekt |
 | BR4 | CriteriumBeoordeeldRegel, met Toetsmoment.beoordeelt |
-| BR5 | ToetsdrukRegel, met Toetsmoment.looptIn |
+| BR5 | ToetsdrukRegel, met Toetsmoment.omvat |
 | BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie |
 | BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het |
 | BR8 | BeheerOWEHandler.maakOWE, met OWERepository.zoek voor een unieke code |
