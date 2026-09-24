@@ -20,14 +20,14 @@ class OWE {
   - studiepunten : int
   - aantalWeken : int
   - versie : int
-  + voegEVLToe(naam : String, studiepunten : int) : EVL
-  + voegLeeruitkomstToe(evlNaam : String, nummer : int,\n    \
+  + toevoegenEVL(naam : String, studiepunten : int) : EVL
+  + toevoegenLeeruitkomst(evlNaam : String, nummer : int,\n    \
 omschrijving : String) : Leeruitkomst
-  + voegDimensieToe(naam : String) : Beoordelingsdimensie
-  + voegLesToe(naam : String, onderwijsweek : int,\n    \
+  + toevoegenDimensie(naam : String) : Beoordelingsdimensie
+  + toevoegenLes(naam : String, onderwijsweek : int,\n    \
 beschrijving : String,\n    \
 criteriumCodes : List<String>) : Les
-  + voegToetsmomentToe(naam : String,\n    \
+  + toevoegenToetsmoment(naam : String,\n    \
 soort : SoortToetsmoment, startweek : int,\n    \
 deadlineweek : int,\n    \
 criteriumCodes : List<String>) : Toetsmoment
@@ -49,7 +49,7 @@ criteriumCodes : List<String>) : Toetsmoment
 class EVL {
   - naam : String
   - studiepunten : int
-  + voegLeeruitkomstToe(nummer : int,\n    \
+  + toevoegenLeeruitkomst(nummer : int,\n    \
 omschrijving : String) : Leeruitkomst
 }
 
@@ -66,7 +66,7 @@ class Leeruitkomst {
 
 class Beoordelingsdimensie {
   - naam : String
-  + voegCriteriumToe(code : String, naam : String,\n    \
+  + toevoegenCriterium(code : String, naam : String,\n    \
 weging : int, minimumscore : int, uitleg : String,\n    \
 niveaus : Map<Integer, String>,\n    \
 leeruitkomsten : List<Leeruitkomst>) : Beoordelingscriterium
