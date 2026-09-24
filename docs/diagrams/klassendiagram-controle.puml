@@ -1,0 +1,64 @@
+@startuml klassendiagram-controle
+' Design class diagram van ICDE: consistentieregels en dekking (UC05, UC08).
+' Toelichting: docs/klassendiagram.md
+' OWE, Leeruitkomst, Beoordelingscriterium, Les en Toetsmoment staan volledig in
+' klassendiagram-domein.puml.
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+hide empty members
+
+interface Consistentieregel <<interface>> {
+  + controleer(owe : OWE) : List<Overtreding>
+}
+
+class LeeruitkomstGetoetstRegel {
+  + controleer(owe : OWE) : List<Overtreding>
+}
+class LesDraagtBijRegel {
+  + controleer(owe : OWE) : List<Overtreding>
+}
+class CriteriumHeeftLesRegel {
+  + controleer(owe : OWE) : List<Overtreding>
+}
+class CriteriumBeoordeeldRegel {
+  + controleer(owe : OWE) : List<Overtreding>
+}
+class ToetsdrukRegel {
+  - maximum : int = 3
+  + controleer(owe : OWE) : List<Overtreding>
+}
+
+class Overtreding {
+  - regel : String
+  - melding : String
+}
+
+class Dekking {
+  + isVolledig() : boolean
+}
+
+class OWE
+class Opleiding
+class Leeruitkomst
+class Beoordelingscriterium
+class Les
+class Toetsmoment
+
+Consistentieregel <|.. LeeruitkomstGetoetstRegel
+Consistentieregel <|.. LesDraagtBijRegel
+Consistentieregel <|.. CriteriumHeeftLesRegel
+Consistentieregel <|.. CriteriumBeoordeeldRegel
+Consistentieregel <|.. ToetsdrukRegel
+
+Consistentieregel ..> OWE
+Consistentieregel ..> Overtreding : <<create>>
+
+Opleiding ..> Dekking
+OWE ..> Dekking : <<create>>
+Dekking --> "1 leeruitkomst" Leeruitkomst
+Dekking --> "0..* criteria" Beoordelingscriterium
+Dekking --> "0..* toetsmomenten" Toetsmoment
+Dekking --> "0..* lessen" Les
+@enduml
