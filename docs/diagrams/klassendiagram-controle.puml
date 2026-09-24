@@ -61,10 +61,7 @@ Opleiding ..> Dekking
 OWE ..> Dekking : <<create>>
 ' Langere lijnen geven de rolnamen bij Dekking ruimte.
 Dekking ---> "1 leeruitkomst" Leeruitkomst
-' Langere lijnen geven de rolnamen bij Dekking ruimte.
 Dekking ---> "0..* criteria" Beoordelingscriterium
-' Langere lijnen geven de rolnamen bij Dekking ruimte.
 Dekking ---> "0..* toetsmomenten" Toetsmoment
-' Langere lijnen geven de rolnamen bij Dekking ruimte.
 Dekking ---> "0..* lessen" Les
 @enduml
