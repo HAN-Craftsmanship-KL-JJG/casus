@@ -1,0 +1,80 @@
+@startuml domeinmodel
+' Domeinmodel van ICDE. Toelichting: docs/domeinmodel.md
+' Een domeinmodel heeft geen operaties, datatypes, visibility of navigatie.
+hide circle
+hide methods
+hide empty members
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+
+class Opleiding {
+  naam
+}
+class OWE {
+  code
+  naam
+  studiepunten
+  aantalWeken
+}
+class EVL {
+  naam
+  studiepunten
+}
+abstract class "OWE-onderdeel" as Onderdeel {
+  gedeeld
+}
+class Leeruitkomst {
+  nummer
+  omschrijving
+}
+class Beoordelingsdimensie {
+  naam
+}
+class Beoordelingscriterium {
+  code
+  naam
+  weging
+  minimumscore
+  uitleg
+}
+class Niveau {
+  score
+  beschrijving
+}
+class Les {
+  naam
+  onderwijsweek
+  beschrijving
+}
+class Toetsmoment {
+  naam
+  soort
+  startweek
+  deadlineweek
+}
+class Documentformaat {
+  naam
+  soortDocument
+  opmaak
+}
+
+Opleiding "1" -- "0..*" OWE : biedt aan >
+OWE "1" *-- "1..*" EVL : bestaat uit >
+EVL "1" -- "1..*" Leeruitkomst : groepeert >
+OWE "1" -- "0..*" Beoordelingsdimensie : beoordeelt met >
+Beoordelingsdimensie "1" -- "1..*" Beoordelingscriterium : bestaat uit >
+Beoordelingscriterium "1" *-- "2..*" Niveau : onderscheidt >
+OWE "1" -- "0..*" Les : plant >
+OWE "1" -- "0..*" Toetsmoment : plant >
+
+Beoordelingscriterium "0..*" -- "1..*" Leeruitkomst : toetst >
+Les "0..*" -- "0..*" Beoordelingscriterium : draagt bij aan >
+Toetsmoment "0..*" -- "0..*" Beoordelingscriterium : beoordeelt >
+
+Onderdeel <|-- Leeruitkomst
+Onderdeel <|-- Beoordelingsdimensie
+Onderdeel <|-- Les
+Onderdeel <|-- Toetsmoment
+OWE "0..*" -- "0..*" Onderdeel : hergebruikt >
+@enduml
