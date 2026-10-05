@@ -41,7 +41,7 @@ In plaats van talloze losse Word- en Excel-bestanden bouw je een systeem dat de 
 - data die direct bruikbaar is voor nieuwe aanpakken zoals Iterative Grading, waarbij transparantie en de groei van de student centraal staan;
 - vereenvoudigd delen van onderwijsonderdelen tussen opleidingen en profielen;
 - flexibiliteit in formaten, algemene ontwerpaanpak en uitbreidbaarheid, zodat het HAN-breed inzetbaar is;
-- koppeling op termijn met andere systemen, zoals onderwijsonline (genereren en plaatsen van OWE-beschrijvingen) of Alluris (eindbeoordelingen volgens rubrics overnemen, inclusief onderbouwing).
+- koppeling op termijn met andere systemen, zoals Brightspace (genereren en plaatsen van OWE-beschrijvingen) of Osiris (eindbeoordelingen volgens rubrics overnemen, inclusief onderbouwing).
 
 ### De opdracht (deliverables)
 
