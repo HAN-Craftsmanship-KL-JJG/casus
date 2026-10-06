@@ -1,11 +1,7 @@
 # Systeemgrenzen ICDE
 
-Dit document bepaalt de grens van ICDE (Integrated Course Design Environment).
-We bekijken ICDE als black box: wat het systeem doet en met wie het communiceert, niet hoe.
-Het is de basis voor het use case diagram (#2) en de uitgewerkte use cases (#3).
-Bronnen: de ICDE-casus in [README.md](../README.md) en de Modulebeschrijving van de toets Casus.
-De Modulebeschrijving noemt extra wensen van de opdrachtgever, zie
-[Aanvullende wensen](#aanvullende-wensen-van-de-opdrachtgever).
+Dit document bepaalt de grenzen van het ICDE (Integrated Course Design Environment) project.
+Bronnen: de ICDE-casus en de Modulebeschrijving van de toets Casus.
 
 ## ICDE als black box
 
@@ -28,9 +24,9 @@ Het systeem doet het volgende:
 ICDE doet het volgende niet:
 
 - Het is geen leeromgeving.
-  Studenten volgen hun onderwijs in OnderwijsOnline (Brightspace).
+  Studenten volgen hun onderwijs in Brightspace.
 - Het is geen cijferadministratie.
-  Eindbeoordelingen staan in Alluris.
+  Eindbeoordelingen staan in Osiris.
 - Het beoordeelt de inhoud van onderwijs niet.
   Het signaleert inconsistenties, en de ontwikkelaar beslist wat er verandert.
 
@@ -60,8 +56,8 @@ flowchart LR
 
   icde(["ICDE"])
 
-  onderwijsonline["OnderwijsOnline (Brightspace)"]
-  alluris["Alluris"]
+  Brightspace["Brightspace"]
+  Osiris["Osiris"]
   inlogdienst["HAN-inlogdienst"]
 
   ontwikkelaar <-- "OWE-gegevens / documenten, inconsistentiemeldingen" --> icde
@@ -69,8 +65,8 @@ flowchart LR
   docent <-- "tussentijdse beoordelingen / rubrics, groeioverzicht" --> icde
   beheerder -- "documentformaten" --> icde
 
-  icde -. "OWE-beschrijvingen" .-> onderwijsonline
-  icde -. "eindbeoordelingen met onderbouwing" .-> alluris
+  icde -. "OWE-beschrijvingen" .-> Brightspace
+  icde -. "eindbeoordelingen met onderbouwing" .-> Osiris
   icde -. "identiteit controleren" .-> inlogdienst
 ```
 
@@ -101,10 +97,10 @@ Een primary actor gebruikt ICDE om een eigen doel te halen.
 
 Een supporting actor levert een dienst aan ICDE of ontvangt gegevens van ICDE.
 
-- OnderwijsOnline (Brightspace)
+- Brightspace
   - Ontvangt gegenereerde OWE-beschrijvingen en publiceert ze.
   - Koppeling voor later.
-- Alluris
+- Osiris
   - Ontvangt eindbeoordelingen volgens de rubrics, met onderbouwing.
   - Koppeling voor later.
 - HAN-inlogdienst
@@ -134,13 +130,13 @@ In scope voor het prototype:
 Binnen de systeemgrens, maar later:
 
 - Gegevens voor Iterative Grading.
-- De koppelingen met OnderwijsOnline en Alluris.
+- De koppelingen met Brightspace en Osiris.
   De casus noemt deze koppelingen voor de lange termijn.
 
 Buiten de systeemgrens:
 
-- De leeromgeving zelf (OnderwijsOnline).
-- De cijferadministratie zelf (Alluris).
+- De leeromgeving zelf (Brightspace).
+- De cijferadministratie zelf (Osiris).
 - Het beheer van HAN-accounts.
 
 ## Aanvullende wensen van de opdrachtgever
@@ -156,8 +152,17 @@ De Modulebeschrijving van de toets Casus voegt bij de ICDE-casus brondocumenten 
 
 ## Open vragen voor de opdrachtgever
 
-1. Is de student een directe gebruiker van ICDE, of alleen belanghebbende?
+1. Wie zijn daadwerkelijke gebruikers en wat zijn hun rollen binnen de applicatie?
 2. Legt de docent beoordelingen vast in ICDE, of levert ICDE alleen de rubrics aan?
 3. Regelt ICDE het inloggen zelf, of gebruikt het de HAN-inlogdienst?
-4. Moet het prototype een koppeling met OnderwijsOnline of Alluris laten zien?
+4. Moet het prototype een koppeling met Brightspace of Osiris laten zien?
 5. Zijn onderwijsontwikkelaar en opleidingscoördinator aparte rollen, of vaak dezelfde persoon?
+6. Is er de wens om bepaalde informatie af te schermen voor verschillende rollen en/of gebruikers?
+7. Wat is de definitie van collaboratief werken voor deze applicatie?
+8. Is er een bron onderwijseenheid gegevens (OWE)? Zo nee kan er een standaard format aangeleverd worden?
+9. Hoe moet het delen tussen opleidingen werken? 
+10. Welke documenten moet ICDE minimaal genereren? 
+11. In welk format de te genereren documentatie zijn? 
+12. Moet het systeem gegevensinvoer wijzigen als het incompleet is? 
+13. Welke prioiteiten heeft de functionaliteiten binnen ICDE?
+14. Is er een kader voor beoordelingscriteria, mogen wij een voorstel doen of is er door de school een standaard?
