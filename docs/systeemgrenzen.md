@@ -157,11 +157,12 @@ De Modulebeschrijving van de toets Casus voegt bij de ICDE-casus brondocumenten 
 3. Regelt ICDE het inloggen zelf, of gebruikt het de HAN-inlogdienst?
 4. Moet het prototype een koppeling met Brightspace of Osiris laten zien?
 5. Zijn onderwijsontwikkelaar en opleidingscoördinator aparte rollen, of vaak dezelfde persoon?
-6. Is er de wens om bepaalde informatie af te schermen voor verschillende rollen gebruikers?
+6. Is er de wens om bepaalde informatie af te schermen voor verschillende rollen en/of gebruikers?
 7. Wat is de definitie van collaboratief werken voor deze applicatie?
-8. Is er een bron de gegevens van onderwijseenheid (OWE)? Zo nee kan er een standaard format aangeleverd worden 
+8. Is er een bron onderwijseenheid gegevens (OWE)? Zo nee kan er een standaard format aangeleverd worden?
 9. Hoe moet het delen tussen opleidingen werken? 
 10. Welke documenten moet ICDE minimaal genereren? 
 11. In welk format de te genereren documentatie zijn? 
 12. Moet het systeem gegevensinvoer wijzigen als het incompleet is? 
 13. Welke prioiteiten heeft de functionaliteiten binnen ICDE?
+14. Is er een kader voor beoordelingscriteria, mogen wij een voorstel doen of is er door de school een standaard?
