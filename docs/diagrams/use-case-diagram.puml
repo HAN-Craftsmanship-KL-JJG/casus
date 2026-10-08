@@ -1,0 +1,39 @@
+@startuml use-case-diagram
+' Use case diagram van ICDE. Toelichting: docs/use-cases.md
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+actor Onderwijsontwikkelaar as ontwikkelaar
+actor "Opleidings-\ncoördinator" as coordinator
+actor "Functioneel\nbeheerder" as beheerder
+
+rectangle ICDE {
+  usecase "Beheren OWE" as UC01 <<CRUD>>
+  usecase "Beheren leeruitkomsten" as UC02 <<CRUD>>
+  usecase "Beheren beoordelingscriteria" as UC03 <<CRUD>>
+  usecase "Beheren lesplanning" as UC04 <<CRUD>>
+  usecase "Controleren consistentie OWE" as UC05
+  usecase "Genereren document" as UC06
+  usecase "Hergebruiken gedeeld onderdeel" as UC07
+  usecase "Opvragen dekkingsoverzicht" as UC08
+  usecase "Delen OWE-onderdeel" as UC09
+  usecase "Beheren documentformaat" as UC10 <<CRUD>>
+  usecase "Beheren toetsplanning" as UC11 <<CRUD>>
+}
+
+ontwikkelaar -- UC01
+ontwikkelaar -- UC02
+ontwikkelaar -- UC03
+ontwikkelaar -- UC04
+ontwikkelaar -- UC05
+ontwikkelaar -- UC06
+ontwikkelaar -- UC07
+ontwikkelaar -- UC11
+
+coordinator -- UC08
+coordinator -- UC09
+
+beheerder -- UC10
+@enduml

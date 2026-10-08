@@ -57,6 +57,14 @@ Limit hand-written lines to 100 characters.
 Generated and vendored files are exempt.
 In source, only unbreakable tokens (URLs, hashes) may exceed the limit.
 
+## Diagrams
+
+Draw UML diagrams in PlantUML in `docs/diagrams/`, because the rubric grades standard UML
+notation and Mermaid has no real UML use case or class notation.
+Mermaid is fine for informal diagrams inside Markdown.
+GitHub does not render PlantUML: after you change a `.puml` file, render it to SVG and commit
+the SVG with it.
+
 ## Git commits
 
 Use Conventional Commits: `type(scope?): subject`.
