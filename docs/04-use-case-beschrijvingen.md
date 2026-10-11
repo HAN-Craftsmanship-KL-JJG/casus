@@ -1,6 +1,7 @@
-# Use case beschrijvingen ICDE
+# Use case beschrijvingen
 
-Dit document werkt de belangrijkste use cases uit het [use case diagram](use-cases.md) uit.
+Dit hoofdstuk werkt de belangrijkste use cases uit het
+[use case diagram](03-use-cases.md#use-case-diagram) uit.
 
 ## Aanpak
 
@@ -18,13 +19,7 @@ Daar koppelt het systeem de planning aan de beoordelingscriteria en controleert 
 
 De consistentieregels controleren de verbanden tussen de onderdelen van een OWE:
 
-```mermaid
-flowchart LR
-  LU[Leeruitkomst] -- "getoetst door (BR1)" --> BC[Beoordelingscriterium]
-  L[Les] -- "draagt bij aan (BR2, BR3)" --> BC
-  BC -- "beoordeeld in (BR4)" --> TM[Toetsmoment]
-  TM -- "max. 3 per week (BR5)" --> TM
-```
+![Verbanden die de consistentieregels controleren](diagrams/bedrijfsregels.svg)
 
 Consistentieregels:
 

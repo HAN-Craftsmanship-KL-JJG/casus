@@ -1,6 +1,6 @@
 @startuml sd-uc07-opnemenonderdeel
 ' Sequence diagram van systeemoperatie opnemenOnderdeel (UC07, stap 3 en 4).
-' Toelichting: docs/sequencediagrammen.md
+' Toelichting: docs/09-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

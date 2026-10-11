@@ -1,0 +1,27 @@
+@startuml contextdiagram
+' Contextdiagram van ICDE. Toelichting: docs/02-systeemgrenzen.md
+' Een stippellijn is een koppeling voor later, buiten het prototype.
+left to right direction
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+actor Onderwijsontwikkelaar as ontwikkelaar
+actor "Opleidings-\ncoördinator" as coordinator
+actor Docent as docent
+actor "Functioneel\nbeheerder" as beheerder
+
+rectangle ICDE as icde
+
+actor Brightspace as brightspace <<systeem>>
+actor Osiris as osiris <<systeem>>
+actor "HAN-inlogdienst" as inlogdienst <<systeem>>
+
+ontwikkelaar <--> icde : OWE-gegevens /\ndocumenten,\ninconsistentiemeldingen
+coordinator <--> icde : deelverzoeken /\ndekkingsoverzichten
+docent <--> icde : tussentijdse beoordelingen /\nrubrics, groeioverzicht
+beheerder --> icde : documentformaten
+
+icde ..> brightspace : OWE-beschrijvingen
+icde ..> osiris : eindbeoordelingen\nmet onderbouwing
+icde ..> inlogdienst : identiteit\ncontroleren
+@enduml

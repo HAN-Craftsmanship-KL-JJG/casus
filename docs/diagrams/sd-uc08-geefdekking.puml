@@ -1,6 +1,6 @@
 @startuml sd-uc08-geefdekking
 ' Sequence diagram van systeemoperatie geefDekking (UC08, stap 1 tot en met 4).
-' Toelichting: docs/sequencediagrammen.md
+' Toelichting: docs/09-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

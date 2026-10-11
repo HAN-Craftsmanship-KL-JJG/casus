@@ -1,27 +1,10 @@
-# Ontwerpdocument ICDE
+# Ontwerp
 
-Dit document is de ingang van het ontwerp van ICDE.
-Het is bedoeld voor wie ICDE in blok 2 bouwt, en voor reviewers en docenten.
+Dit hoofdstuk is de ingang van het ontwerp van ICDE.
 Het legt de architectuur vast, geeft een overzicht van de modellen en ontwerpkeuzes, en controleert
 of het ontwerp consistent is met de requirements.
-De modellen zelf staan in de documenten waar dit document naar verwijst.
+De modellen zelf staan in de hoofdstukken die volgen.
 Bron: de leeruitkomst Software Design Modeling in de Modulebeschrijving.
-
-## Leeswijzer
-
-De documentatie bestaat uit een requirements-specificatie (SRS) en een ontwerp (SDD).
-Lees de documenten in deze volgorde:
-
-| Deel | Document | Inhoud | Criterium B_Casus1 |
-| --- | --- | --- | --- |
-| SRS | [systeemgrenzen.md](systeemgrenzen.md) | Actoren, scope, wensen van de opdrachtgever | 1 |
-| SRS | [use-cases.md](use-cases.md) | Use case diagram, 11 use cases | 1 |
-| SRS | [use-case-beschrijvingen.md](use-case-beschrijvingen.md) | Fully dressed, BR1-BR14 | 1 |
-| SRS | [domeinmodel.md](domeinmodel.md) | Domeinmodel, 11 concepten | 2 |
-| SRS | [domeinmodel-validatie.md](domeinmodel-validatie.md) | Domeinmodel tegen use cases | 2 |
-| SDD | Dit document | Architectuur, keuzes, consistentie | 3.1, 3.2, 4 |
-| SDD | [klassendiagram.md](klassendiagram.md) | Statisch ontwerp, traceerbaarheid | 3.1, 3.2 |
-| SDD | [sequencediagrammen.md](sequencediagrammen.md) | Dynamisch ontwerp | 3.1, 3.2 |
 
 ## Architectuur
 
@@ -29,8 +12,6 @@ De casus eist dat presentatielaag, domeinlaag en datalaag elk op een eigen serve
 Het component diagram toont de lagen en de interfaces ertussen.
 
 ![Component diagram van ICDE](diagrams/componentdiagram.svg)
-
-De bron is [componentdiagram.puml](diagrams/componentdiagram.puml).
 
 | Component | Inhoud | Server |
 | --- | --- | --- |
@@ -68,9 +49,9 @@ Keuze A1: waar draait de domeinlogica?
 | Soort | Model | Waar |
 | --- | --- | --- |
 | Statisch | Component diagram | [Architectuur](#architectuur) |
-| Statisch | Design class diagram, in drie diagrammen | [klassendiagram.md](klassendiagram.md) |
-| Dynamisch | Vier system sequence diagrams | [sequencediagrammen.md](sequencediagrammen.md) |
-| Dynamisch | Tien sequence diagrams | [sequencediagrammen.md](sequencediagrammen.md) |
+| Statisch | Design class diagram, in drie diagrammen | [Klassendiagram](08-klassendiagram.md#klassendiagram) |
+| Dynamisch | Vier system sequence diagrams | [Sequence diagrams](09-sequencediagrammen.md#system-sequence-diagrams) |
+| Dynamisch | Tien sequence diagrams | [Sequence diagrams](09-sequencediagrammen.md#diagrammen-per-use-case) |
 
 ICDE heeft veel interactie tussen objecten, zoals de consistentiecontrole en het
 dekkingsoverzicht.
@@ -80,8 +61,8 @@ Daarom toont het ontwerp naast statische ook dynamische modellen.
 
 Elke keuze beschrijft het probleem, de alternatieven en de reden.
 Deze tabel geeft het overzicht.
-K staat voor [klassendiagram.md](klassendiagram.md#keuzes), S voor
-[sequencediagrammen.md](sequencediagrammen.md#keuzes).
+K staat voor een keuze in het [klassendiagram](08-klassendiagram.md#keuzes), S voor een keuze bij
+de [sequence diagrams](09-sequencediagrammen.md#keuzes).
 
 | Keuze | Probleem | Principe of pattern |
 | --- | --- | --- |
@@ -105,7 +86,7 @@ De design patterns werken we uit in #9.
 
 ## Eisen uit de casus
 
-De [traceerbaarheid](klassendiagram.md#traceerbaarheid) in het klassendiagram koppelt elke use
+De [traceerbaarheid](08-klassendiagram.md#traceerbaarheid) in het klassendiagram koppelt elke use
 case en elke bedrijfsregel aan het ontwerp.
 Deze tabel doet dat voor de eisen uit de casus, de Modulebeschrijving en de wensen van de
 opdrachtgever.
@@ -135,7 +116,7 @@ Een latere koppeling roept dezelfde systeemoperaties aan als de gebruikersinterf
 ## Consistentie met de requirements
 
 We controleren het ontwerp in twee richtingen, zoals bij de
-[validatie van het domeinmodel](domeinmodel-validatie.md).
+[validatie van het domeinmodel](06-domeinmodel-validatie.md#validatie-domeinmodel).
 Van requirement naar ontwerp: elke use case, bedrijfsregel en eis heeft een klasse en een operatie.
 Van ontwerp naar requirement: elke klasse en operatie dient een use case, regel of eis.
 
@@ -193,5 +174,5 @@ Deze punten liggen nog open, met het issue dat ze uitwerkt:
 | #15 | Drie servers | Deployment |
 
 De open punten van de requirements staan in
-[use-case-beschrijvingen.md](use-case-beschrijvingen.md#open-punten) en
-[domeinmodel.md](domeinmodel.md#open-punten).
+[Use case beschrijvingen](04-use-case-beschrijvingen.md#open-punten) en
+[Domeinmodel](05-domeinmodel.md#open-punten).

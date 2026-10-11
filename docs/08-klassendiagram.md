@@ -1,9 +1,9 @@
-# Klassendiagram ICDE
+# Klassendiagram
 
-Dit document toont het statische ontwerp van ICDE als design class diagram (DCD).
+Dit hoofdstuk toont het statische ontwerp van ICDE als design class diagram (DCD).
 Het legt ook uit waarom het ontwerp zo is.
-Het bouwt voort op het [domeinmodel](domeinmodel.md) en de
-[use case beschrijvingen](use-case-beschrijvingen.md).
+Het bouwt voort op het [domeinmodel](05-domeinmodel.md#domeinmodel) en de
+[use case beschrijvingen](04-use-case-beschrijvingen.md#use-case-beschrijvingen).
 
 Bronnen: Larman hoofdstuk 7 (UML Class Diagrams) en 17 (GRASP).
 
@@ -21,27 +21,21 @@ Het ontwerp staat in drie diagrammen, zodat elk diagram leesbaar blijft.
 
 ![Domeinklassen van ICDE](diagrams/klassendiagram-domein.svg)
 
-Bron: [klassendiagram-domein.puml](diagrams/klassendiagram-domein.puml).
-
 ### Consistentieregels en dekking
 
 ![Consistentieregels en dekking van ICDE](diagrams/klassendiagram-controle.svg)
 
-Bron: [klassendiagram-controle.puml](diagrams/klassendiagram-controle.puml).
-
 ### Handlers en repositories
 
 ![Handlers en repositories van ICDE](diagrams/klassendiagram-handlers.svg)
-
-Bron: [klassendiagram-handlers.puml](diagrams/klassendiagram-handlers.puml).
 
 ## Aanpak
 
 Een associatie heeft geen naam.
 Multipliciteit en rolnaam staan alleen aan de doelkant (Larman 7.4).
 
-De systeemoperaties komen uit de system sequence diagrams in
-[sequencediagrammen.md](sequencediagrammen.md).
+De systeemoperaties komen uit de
+[system sequence diagrams](09-sequencediagrammen.md#system-sequence-diagrams).
 We verdelen de verantwoordelijkheden met de GRASP-patterns Controller, Creator, Information
 Expert, Low Coupling en High Cohesion.
 De sequence diagrams controleren dit ontwerp.
@@ -167,7 +161,8 @@ Expert).
 Ze geven eigen en hergebruikte onderdelen samen.
 De rest van het systeem ziet het verschil niet (information hiding).
 Nadeel: OWE heeft 19 operaties.
-Keuze 4 in [sequencediagrammen.md](sequencediagrammen.md#keuze-4-owe-blijft-één-klasse) weegt dat af.
+[Keuze 4 bij de sequence diagrams](09-sequencediagrammen.md#keuze-4-owe-blijft-één-klasse) weegt
+dat af.
 
 ### Een klasse per consistentieregel
 
@@ -249,7 +244,7 @@ hun eigen manier uitwerken (Polymorphism).
 - HergebruikOnderdeelHandler.opnemenKopie controleert dat het onderdeel Kopieerbaar is.
 - Les.kopieerNaar roept owe.toevoegenLes aan, Toetsmoment.kopieerNaar owe.toevoegenToetsmoment.
   Zo controleert OWE BR11 en BR14 net als bij toevoegen, zonder de soort te testen
-  (keuze 3 in [sequencediagrammen.md](sequencediagrammen.md#keuze-3-kopie-via-toevoegen)).
+  ([keuze 3 bij de sequence diagrams](09-sequencediagrammen.md#keuze-3-kopie-via-toevoegen)).
 - De kopie heeft geen koppelingen met criteria, want die horen bij de andere OWE.
   Les en Toetsmoment mogen 0 criteria hebben, en UC05 meldt dat (BR2, BR4).
   De ontwikkelaar koppelt de kopie daarna aan eigen criteria.
@@ -331,7 +326,7 @@ VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebru
 | UC10 | BeheerDocumentsjabloonHandler | Documentsjabloon |
 | UC11 | BeheerPlanningHandler | OWE.toevoegenToetsmoment, ToetsdrukRegel |
 
-De namen van de use cases staan in [use-cases.md](use-cases.md#use-cases).
+De namen van de use cases staan in het [overzicht use cases](03-use-cases.md#overzicht-use-cases).
 
 Verwijderen gaat zo:
 
@@ -346,8 +341,8 @@ Verwijderen gaat zo:
 ### Per bedrijfsregel
 
 Per regel de klasse die de regel controleert, en het sequence diagram (SD) dat de regel toont.
-De regels zonder SD horen bij CRUD use cases, zie
-[sequencediagrammen.md](sequencediagrammen.md#aanpak).
+De regels zonder SD horen bij CRUD use cases, zie de
+[aanpak van de sequence diagrams](09-sequencediagrammen.md#aanpak).
 
 | Regel | Klasse en operatie | SD |
 | --- | --- | --- |

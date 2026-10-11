@@ -1,5 +1,5 @@
 @startuml klassendiagram-domein
-' Design class diagram van ICDE: de domeinklassen. Toelichting: docs/klassendiagram.md
+' Design class diagram van ICDE: de domeinklassen. Toelichting: docs/08-klassendiagram.md
 ' Getters en setters staan er niet in, zoals bij Larman (7.6).
 skinparam style strictuml
 skinparam shadowing false

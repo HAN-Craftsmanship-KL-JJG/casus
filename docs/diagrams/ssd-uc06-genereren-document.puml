@@ -1,6 +1,6 @@
 @startuml ssd-uc06-genereren-document
 ' System sequence diagram van UC06 Genereren document.
-' Toelichting: docs/sequencediagrammen.md
+' Toelichting: docs/09-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

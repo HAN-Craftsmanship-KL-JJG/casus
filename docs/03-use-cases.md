@@ -1,16 +1,15 @@
-# Use cases ICDE
+# Use cases
 
-Dit document toont het use case diagram van ICDE en licht de keuzes toe.
-Het bouwt voort op de actoren en de scope in [systeemgrenzen.md](systeemgrenzen.md).
-De uitwerking staat in [use-case-beschrijvingen.md](use-case-beschrijvingen.md).
+Dit hoofdstuk toont het use case diagram van ICDE en licht de keuzes toe.
+Het bouwt voort op de actoren en de scope in [Systeemgrenzen](02-systeemgrenzen.md#systeemgrenzen).
+De uitwerking staat in
+[Use case beschrijvingen](04-use-case-beschrijvingen.md#use-case-beschrijvingen).
 
 ## Use case diagram
 
 ![Use case diagram van ICDE](diagrams/use-case-diagram.svg)
 
-De bron is [diagrams/use-case-diagram.puml](diagrams/use-case-diagram.puml).
-
-## Use cases
+## Overzicht use cases
 
 We vonden de use cases per primary actor, vanuit de doelen van die actor.
 Elke use case is een elementair bedrijfsproces: één persoon voert het uit op één plaats en één
@@ -55,7 +54,7 @@ Het doel van elke use case:
   Delen met andere opleidingen is niet nodig.
 - UC10 Beheren documentsjabloon: sjablonen voor documenten vastleggen, los van de inhoud.
   Een sjabloon bepaalt welke onderdelen een document toont, in welke volgorde en met welke opmaak.
-  [systeemgrenzen.md](systeemgrenzen.md) noemt dit documentformaten.
+  [Systeemgrenzen](02-systeemgrenzen.md#systeemgrenzen) noemt dit documentformaten.
   Het bestandstype (PDF of Word) kiest de gebruiker in UC06.
 - UC11 Beheren toetsplanning: toetsmomenten vastleggen, met een startweek, een deadlineweek en de
   beoordelingscriteria die ze beoordelen.
@@ -76,7 +75,7 @@ Dat is 55%.
   Het stereotype is een verkorte weergave van toevoegen, bekijken, wijzigen en verwijderen.
   Het blijft één use case, ook bij de telling van 65% CRUD.
   De vier acties volgen het CRUD-sjabloon van de cursus.
-  Zie [use-case-beschrijvingen.md](use-case-beschrijvingen.md).
+  Zie [CRUD use cases](04-use-case-beschrijvingen.md#crud-use-cases).
 - Geen «include» of «extend».
   Die geven in dit diagram geen meerwaarde.
 - Geen use case Inloggen.
@@ -112,5 +111,5 @@ Ze staan niet in het diagram.
   Het prototype heeft geen koppeling met Brightspace of Osiris.
 
 Daarom staan de docent, Brightspace en Osiris uit
-[systeemgrenzen.md](systeemgrenzen.md#actoren) niet in het diagram.
+[Actoren](02-systeemgrenzen.md#actoren) niet in het diagram.
 De student is geen gebruiker van ICDE, en heeft dus geen use case.

@@ -1,0 +1,17 @@
+@startuml bedrijfsregels
+' De verbanden die de consistentieregels BR1 tot en met BR5 controleren.
+' Toelichting: docs/04-use-case-beschrijvingen.md
+left to right direction
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+rectangle Leeruitkomst as lu
+rectangle Beoordelingscriterium as bc
+rectangle Les as les
+rectangle Toetsmoment as tm
+
+lu --> bc : getoetst door (BR1)
+les --> bc : draagt bij aan (BR2, BR3)
+bc --> tm : beoordeeld in (BR4)
+tm --> tm : max. 3 per week (BR5)
+@enduml

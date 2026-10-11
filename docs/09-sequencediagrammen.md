@@ -1,8 +1,9 @@
-# Sequence diagrams ICDE
+# Sequence diagrams
 
-Dit document toont hoe de objecten van ICDE samenwerken in de kern-use-cases.
-Het bouwt voort op de [use case beschrijvingen](use-case-beschrijvingen.md) en het
-[klassendiagram](klassendiagram.md).
+Dit hoofdstuk toont hoe de objecten van ICDE samenwerken in de kern-use-cases.
+Het bouwt voort op de
+[use case beschrijvingen](04-use-case-beschrijvingen.md#use-case-beschrijvingen) en het
+[klassendiagram](08-klassendiagram.md#klassendiagram).
 Bronnen: Larman hoofdstuk 4 (System Sequence Diagrams) en 8 (UML Interaction Diagrams).
 
 ## Aanpak
@@ -52,7 +53,7 @@ De operaties zonder SD halen alleen gegevens op.
 `geefCriteria` geeft `owe.geefCriteria()`: de eigen en hergebruikte criteria (BR11, BR14).
 `geefGedeeldeOnderdelen` laat de onderdelen weg waarvoor `owe.bevat` true geeft.
 
-## Sequence diagrams
+## Diagrammen per use case
 
 ### UC04 Toevoegen les
 

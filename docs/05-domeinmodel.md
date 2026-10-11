@@ -1,16 +1,13 @@
-# Domeinmodel ICDE
+# Domeinmodel
 
-Dit document toont het domeinmodel van ICDE en onderbouwt het.
-Het bouwt voort op [systeemgrenzen.md](systeemgrenzen.md), [use-cases.md](use-cases.md) en
-[use-case-beschrijvingen.md](use-case-beschrijvingen.md).
-Bronnen: de ICDE-casus in [README.md](../README.md), de Modulebeschrijving van de toets Casus, de
-lesplanning en de rubric van OOSE-DT als voorbeeld van echte OWE-gegevens.
+Dit hoofdstuk toont het domeinmodel van ICDE en onderbouwt het.
+Het bouwt voort op de systeemgrenzen en de use cases.
+Bronnen: de ICDE-casus, de Modulebeschrijving van de toets Casus, de lesplanning en de rubric van
+OOSE-DT als voorbeeld van echte OWE-gegevens.
 
-## Domeinmodel
+## Diagram
 
 ![Domeinmodel van ICDE](diagrams/domeinmodel.svg)
-
-De bron is [diagrams/domeinmodel.puml](diagrams/domeinmodel.puml).
 
 ## Aanpak
 
@@ -115,7 +112,7 @@ UC06 combineert een sjabloon en een OWE pas bij het genereren.
 Een UML-multipliciteit kan niet alles zeggen.
 Deze regels gelden ook.
 De codes verwijzen naar de
-[bedrijfsregels](use-case-beschrijvingen.md#bedrijfsregels).
+[bedrijfsregels](04-use-case-beschrijvingen.md#bedrijfsregels).
 Met "een onderdeel van de OWE" bedoelen we een eigen onderdeel, of een onderdeel dat de OWE
 hergebruikt.
 
@@ -158,7 +155,7 @@ hergebruikt.
    Bijna elk concept bestaat niet zonder zijn OWE, dus compositie zou overal staan.
    Dat voegt geen informatie toe, en de cursus vraagt geen compositie in een domeinmodel.
 6. Les en Toetsmoment hangen aan de OWE, niet aan een EVL.
-   [systeemgrenzen.md](systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert en
+   [Begrippen](02-systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert en
    de toetsen die ze beoordelen.
    In de lesplanning van OOSE-DT staat ook per les een EVL.
    Die EVL volgt uit de criteria: criterium, leeruitkomst, EVL.
@@ -168,7 +165,7 @@ hergebruikt.
 ## Validatie
 
 De controle van dit model tegen de use cases staat in
-[domeinmodel-validatie.md](domeinmodel-validatie.md).
+[Validatie domeinmodel](06-domeinmodel-validatie.md#validatie-domeinmodel).
 
 ## Open punten
 

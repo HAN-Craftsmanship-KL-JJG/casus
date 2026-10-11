@@ -1,6 +1,6 @@
 @startuml sd-uc04-toevoegenles
 ' Sequence diagram van systeemoperatie toevoegenLes (UC04, Toevoegen les, stap 3 tot en met 6).
-' Toelichting: docs/sequencediagrammen.md
+' Toelichting: docs/09-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

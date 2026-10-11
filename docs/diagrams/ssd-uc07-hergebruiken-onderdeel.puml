@@ -1,6 +1,6 @@
 @startuml ssd-uc07-hergebruiken-onderdeel
 ' System sequence diagram van UC07 Hergebruiken gedeeld onderdeel.
-' Toelichting: docs/sequencediagrammen.md
+' Toelichting: docs/09-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
