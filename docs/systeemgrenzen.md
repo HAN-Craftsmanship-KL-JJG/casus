@@ -153,16 +153,28 @@ De Modulebeschrijving van de toets Casus voegt bij de ICDE-casus brondocumenten 
 ## Open vragen voor de opdrachtgever
 
 1. Wie zijn daadwerkelijke gebruikers en wat zijn hun rollen binnen de applicatie?
+-> Dit wordt gedekt door de actoren benoemnd in dit document
 2. Legt de docent beoordelingen vast in ICDE, of levert ICDE alleen de rubrics aan?
+-> Er worden geen beoordelingen vastgelegd in ICDE
 3. Regelt ICDE het inloggen zelf, of gebruikt het de HAN-inlogdienst?
+-> Voor nu ICDE zelf met mogelijke koppeling naar HAN-inlogdienst Surfcontext
 4. Moet het prototype een koppeling met Brightspace of Osiris laten zien?
+-> Geen koppeling met Osiris of Brightspace
 5. Zijn onderwijsontwikkelaar en opleidingscoördinator aparte rollen, of vaak dezelfde persoon?
+-> Aparte rollen
 6. Is er de wens om bepaalde informatie af te schermen voor verschillende rollen en/of gebruikers?
+-> Nee voor op dit moment niet
 7. Wat is de definitie van collaboratief werken voor deze applicatie?
+-> Tegelijk een bestand kunnen aanpassen. Wanneer iemand in een invoerveld zit dan is deze geblokkeerd voor een andere gebruiker. Elders in het bestand moet wel gewerkt kunnen blijven worden
 8. Is er een bron onderwijseenheid gegevens (OWE)? Zo nee kan er een standaard format aangeleverd worden?
+-> Nog geen standaard formaat. Alle informatie is te vinden in het OER en op ISAS. 
 9. Hoe moet het delen tussen opleidingen werken? 
+-> Er hoeft enkel rekening gehouden te worden met HBO-ICT.
 10. Welke documenten moet ICDE minimaal genereren? 
+-> Er moet een selectie gemaakt kunnen worden in de informatie die gegenereert wordt. Of alles, of in delen. 
 11. In welk format de te genereren documentatie zijn? 
+-> PDF, Word
 12. Moet het systeem gegevensinvoer wijzigen als het incompleet is? 
+-> Gegevensinvoer is real-time richting de backend. 
 13. Welke prioiteiten heeft de functionaliteiten binnen ICDE?
-14. Is er een kader voor beoordelingscriteria, mogen wij een voorstel doen of is er door de school een standaard?
+-> Gegevensvalidatie van OWE.
