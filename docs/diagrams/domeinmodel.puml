@@ -11,9 +11,6 @@ skinparam classAttributeIconSize 0
 class Opleiding {
   naam
 }
-class Profiel {
-  naam
-}
 class OWE {
   code
   naam
@@ -24,7 +21,9 @@ class EVL {
   naam
   studiepunten
 }
-abstract class "OWE-onderdeel" as Onderdeel
+abstract class "OWE-onderdeel" as Onderdeel {
+  gedeeld
+}
 class Leeruitkomst {
   nummer
   omschrijving
@@ -62,9 +61,7 @@ class Documentsjabloon {
   opmaak
 }
 
-Opleiding "1" -- "0..*" Profiel : heeft >
 Opleiding "1" -- "0..*" OWE : biedt aan >
-Profiel "0..*" -- "0..*" OWE : omvat >
 OWE "1" -- "1..*" EVL : bestaat uit >
 EVL "1" -- "0..*" Leeruitkomst : groepeert >
 OWE "1" -- "0..*" Beoordelingsdimensie : beoordeelt met >
@@ -81,6 +78,5 @@ Onderdeel <|-- Leeruitkomst
 Onderdeel <|-- Beoordelingsdimensie
 Onderdeel <|-- Les
 Onderdeel <|-- Toetsmoment
-Onderdeel "0..*" -- "0..*" Profiel : gedeeld met >
 OWE "0..*" -- "0..*" Onderdeel : hergebruikt >
 @enduml
