@@ -27,21 +27,6 @@ UC04 en UC11 hebben geen SSD: stap 2 is `geefCriteria`, stap 3 tot en met 6 de t
 
 ![SSD UC08 Opvragen dekkingsoverzicht](diagrams/ssd-uc08-opvragen-dekking.svg)
 
-## Systeemoperaties
-
-| Use case | Systeemoperatie | Handler | SD |
-| --- | --- | --- | --- |
-| UC04, UC11 | geefCriteria | BeheerPlanningHandler | Geen |
-| UC04 | toevoegenLes | BeheerPlanningHandler | toevoegenLes |
-| UC05 | controleer | ControleerConsistentieHandler | controleer, BR1, BR5 |
-| UC06 | geefSjablonen | GenereerDocumentHandler | Geen |
-| UC06 | genereer | GenereerDocumentHandler | genereer |
-| UC07 | geefGedeeldeOnderdelen | HergebruikOnderdeelHandler | Geen |
-| UC07 | opnemenOnderdeel | HergebruikOnderdeelHandler | opnemenOnderdeel |
-| UC07 | opnemenKopie | HergebruikOnderdeelHandler | opnemenKopie |
-| UC08 | geefDekking | OpvragenDekkingHandler | geefDekking, OWE.bepaalDekking |
-| UC11 | toevoegenToetsmoment | BeheerPlanningHandler | toevoegenToetsmoment |
-
 `geefCriteria` geeft `owe.geefCriteria()`: de eigen en hergebruikte criteria (BR11, BR14).
 `geefGedeeldeOnderdelen` laat de onderdelen weg waarvoor `owe.bevat` true geeft.
 
@@ -156,14 +141,3 @@ Keuze: `Kopieerbaar.kopieerNaar(owe)`.
 Een Les roept `owe.toevoegenLes` aan, een Toetsmoment `owe.toevoegenToetsmoment`, zonder
 criteria.
 Zo controleert OWE de week zoals bij toevoegen.
-
-### S4 OWE blijft één klasse
-
-Probleem: OWE heeft 19 operaties (K4).
-
-Alternatief: de zoek- en geef-operaties naar een eigen klasse.
-Die klasse moet dan alle lijsten van OWE kennen.
-
-Keuze: OWE blijft één klasse.
-De SD's tonen dat elke operatie kort is en alleen de eigen lijsten gebruikt, dus de cohesie is
-hoog.
