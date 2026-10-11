@@ -18,7 +18,7 @@ moment, en de gegevens zijn daarna consistent.
 | UC02 | Beheren leeruitkomsten | Onderwijsontwikkelaar | ja | hoog |
 | UC03 | Beheren beoordelingscriteria | Onderwijsontwikkelaar | ja | hoog |
 | UC04 | Beheren lesplanning | Onderwijsontwikkelaar | ja | hoog |
-| UC05 | Controleren consistentie OWE | Onderwijsontwikkelaar | nee | hoog |
+| UC05 | Controleren consistentie OWE | Onderwijsontwikkelaar | nee | hoogst |
 | UC06 | Genereren document | Onderwijsontwikkelaar | nee | hoog |
 | UC07 | Hergebruiken gedeeld onderdeel | Onderwijsontwikkelaar | nee | middel |
 | UC08 | Opvragen dekkingsoverzicht | Opleidingscoördinator | nee | hoog |
@@ -79,6 +79,6 @@ en de rest van de OWE blijft bewerkbaar.
 
 ### Prioriteit
 
-Hoog is de kern van de casus: gegevens vastleggen, controleren en documenten genereren.
+Hoogst is UC05, omdat de opdrachtgever gegevensvalidatie voorop zet.
+Hoog is de rest van de kern van de casus: gegevens vastleggen en documenten genereren.
 Middel zijn delen, hergebruiken en sjabloonbeheer.
-UC05 heeft de hoogste prioriteit, omdat de opdrachtgever gegevensvalidatie voorop zet.

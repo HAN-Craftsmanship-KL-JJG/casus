@@ -22,7 +22,6 @@ Deze tabel doet dat voor de eisen uit de casus en de wensen van de opdrachtgever
 | Onderdelen delen binnen HBO-ICT | OWEOnderdeel.deel, OWE.hergebruik (K6) | Ontworpen |
 | Overzicht van de dekking | Opleiding.bepaalDekking, Dekking.voegToe | Ontworpen |
 | Uitbreidbaar | Nieuwe regel is een nieuwe klasse, nieuw sjabloon is data | Ontworpen |
-| Drie servers | Component diagram, A1 | Ontworpen, uitwerking in blok 2 |
 | Inloggen door ICDE zelf | Geen, zie C1 | Open, blok 2 |
 | Iterative Grading | Geen, ICDE legt geen beoordelingen vast | Buiten het prototype |
 | Koppeling Brightspace, Osiris | Geen, het prototype heeft geen koppeling | Buiten het prototype |

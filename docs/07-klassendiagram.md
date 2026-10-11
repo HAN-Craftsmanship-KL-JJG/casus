@@ -66,7 +66,7 @@ Use cases van verschillende actoren veranderen om verschillende redenen, en dele
 ### K2 Repositories vinden de objecten
 
 Probleem: een handler krijgt een code of naam en moet het object vinden.
-De database draait op een eigen server, zoals de casus eist.
+De database draait op een eigen server.
 
 Alternatieven:
 
