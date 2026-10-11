@@ -32,16 +32,20 @@ Het component diagram toont de lagen en de interfaces ertussen.
 
 ### A1 Waar draait de domeinlogica?
 
-- Probleem: de consistentieregels, de validatieregels en het genereren van documenten moeten
-  ergens draaien.
-  Meerdere gebruikers werken tegelijk aan dezelfde OWE.
-- Alternatief A: in de gebruikersinterface, met een server die alleen gegevens opslaat.
+Probleem: de consistentieregels, de validatieregels en het genereren van documenten moeten ergens
+draaien.
+Meerdere gebruikers werken tegelijk aan dezelfde OWE.
+
+Alternatieven:
+
+- In de gebruikersinterface, met een server die alleen gegevens opslaat.
   Dan draait elke regel op elke client.
   Een latere koppeling met Brightspace of Osiris moet de regels opnieuw bouwen.
-- Alternatief B: in de database, als stored procedures en constraints.
+- In de database, als stored procedures en constraints.
   Een regel als BR5 (toetsen per week) is dan moeilijk te schrijven en te testen.
   De regels hangen dan af van één databaseproduct, en OO-patterns zoals Strategy zijn niet
   bruikbaar.
-- Keuze: een eigen applicatie- en domeinlaag op de applicatieserver.
-  Elke regel staat op één plaats, voor alle gebruikers en latere koppelingen.
-  Gebruikersinterface en database zijn vervangbaar zonder het domein te wijzigen (Low Coupling).
+
+Keuze: een eigen applicatie- en domeinlaag op de applicatieserver.
+Elke regel staat op één plaats, voor alle gebruikers en latere koppelingen.
+Gebruikersinterface en database zijn vervangbaar zonder het domein te wijzigen (Low Coupling).

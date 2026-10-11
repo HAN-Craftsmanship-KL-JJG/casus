@@ -83,25 +83,33 @@ Van ontwerp naar requirement: elke klasse en operatie dient een use case, regel 
 
 ### Inconsistenties
 
+Elke inconsistentie noemt het probleem, een alternatief en de verbetering.
 C2 hebben we in deze versie verwerkt.
 C1 werken we uit in issue #10.
 
-1. C1: elke use case eist een ingelogde gebruiker, en ICDE regelt het inloggen zelf.
-   Onderwijsontwikkelaar en opleidingscoördinator zijn aparte rollen.
-   UC08 en UC09 zijn alleen voor de opleidingscoördinator, UC10 alleen voor de functioneel
-   beheerder.
-   Het ontwerp kent geen gebruiker of rol.
-   Alleen VergrendelVeldHandler haalt de gebruiker uit de sessie (K9).
-   - Alternatief: elke systeemoperatie krijgt de gebruiker als parameter.
-     Dan kan een client zich voordoen als een andere gebruiker.
-   - Verbetering: de remote facade in issue #10 regelt het inloggen en controleert de rol per
-     handler.
-     Omdat use cases van verschillende actoren geen handler delen (K1), is dat één controle per
-     handler.
-2. C2: UC07 3A neemt een kopie op, maar de use case had geen extensie voor een kopie die BR11 of
-   BR14 overtreedt.
-   Een les in week 8 past niet in een OWE van 7 weken.
-   Het ontwerp gooit dan een OngeldigeInvoerException (SD opnemenKopie).
-   - Alternatief: de kopie krijgt de laatste week van de eigen OWE.
-     Dan wijzigt het systeem gegevens zonder dat de ontwikkelaar het weet.
-   - Verbetering: UC07 krijgt de extensie 3A2A, die de ongeldige week meldt.
+#### C1 Het ontwerp kent geen gebruiker of rol
+
+Probleem: elke use case eist een ingelogde gebruiker, en ICDE regelt het inloggen zelf.
+Onderwijsontwikkelaar en opleidingscoördinator zijn aparte rollen.
+UC08 en UC09 zijn alleen voor de opleidingscoördinator, UC10 alleen voor de functioneel beheerder.
+Het ontwerp kent geen gebruiker of rol.
+Alleen VergrendelVeldHandler haalt de gebruiker uit de sessie (K9).
+
+Alternatief: elke systeemoperatie krijgt de gebruiker als parameter.
+Dan kan een client zich voordoen als een andere gebruiker.
+
+Verbetering: de remote facade in issue #10 regelt het inloggen en controleert de rol per handler.
+Omdat use cases van verschillende actoren geen handler delen (K1), is dat één controle per
+handler.
+
+#### C2 Een kopie kan buiten de looptijd vallen
+
+Probleem: UC07 flow 3A neemt een kopie op, maar de use case had geen flow voor een kopie die BR11
+of BR14 overtreedt.
+Een les in week 8 past niet in een OWE van 7 weken.
+Het ontwerp gooit dan een OngeldigeInvoerException (SD opnemenKopie).
+
+Alternatief: de kopie krijgt de laatste week van de eigen OWE.
+Dan wijzigt het systeem gegevens zonder dat de ontwikkelaar het weet.
+
+Verbetering: UC07 krijgt flow 3A2A, die de ongeldige week meldt.

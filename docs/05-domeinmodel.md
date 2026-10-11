@@ -4,15 +4,15 @@ De use cases en bedrijfsregels noemen de begrippen waar ICDE mee werkt.
 Dit hoofdstuk legt die begrippen en hun verbanden vast in een domeinmodel, en controleert het model
 tegen de use cases.
 
-## Diagram
-
-![Domeinmodel van ICDE](diagrams/domeinmodel.svg)
-
 ## Aanpak
 
 We volgen de regels voor een domeinmodel uit de cursus.
 We vonden de concepten met Noun Phrase Identification (NPI) volgens het stappenplan van de
 cursus.
+
+## Diagram
+
+![Domeinmodel van ICDE](diagrams/domeinmodel.svg)
 
 ## Kandidaat-concepten
 
@@ -124,13 +124,21 @@ hergebruikt.
 
 ### D1 Minimum 0 bij de consistentieregels
 
-BR1 tot en met BR4 zeggen "minstens één", maar het model zegt 0..*.
-ICDE moet een OWE met een inconsistentie kunnen bewaren, anders kan UC05 die niet melden.
+Probleem: BR1 tot en met BR4 zeggen "minstens één".
+Welke multipliciteit krijgen die associaties?
+
+Alternatief: 1..*, zoals de regels zeggen.
+Dan kan ICDE een OWE met een inconsistentie niet bewaren, en kan UC05 die niet melden.
+
+Keuze: 0..*.
 Een ontwikkelaar legt eerst een les vast en koppelt later de criteria.
-UC04 waarschuwt dan, maar slaat de les wel op (alternate flow 6A).
+UC04 waarschuwt dan, maar slaat de les wel op (flow 6A).
 
 ### D2 Een klein model
 
+Probleem: welke kandidaat-concepten worden een concept?
+
+Keuze: alleen de concepten die een use case nodig heeft.
 De casus eist minimaal 10 concepten, dit model heeft er 11.
 Deze kandidaten vielen af:
 
@@ -143,34 +151,51 @@ Deze kandidaten vielen af:
 
 ### D3 Generalisatie OWE-onderdeel
 
-UC09 deelt "een onderdeel, zoals een leeruitkomst of een rubric".
+Probleem: UC09 deelt "een onderdeel, zoals een leeruitkomst of een rubric".
 Leeruitkomst, Beoordelingsdimensie, Les en Toetsmoment zijn allemaal te delen.
+Hoe toont het model dat?
+
+Alternatief: een aparte associatie hergebruikt per soort onderdeel.
+Dat zijn vier lijnen die hetzelfde zeggen.
+
+Keuze: een abstract concept OWE-onderdeel met vier specialisaties.
 De generalisatie laat zien dat delen (UC09) en hergebruiken (UC07) voor alle vier hetzelfde
 werken.
-Alternatief was een aparte associatie hergebruikt per soort onderdeel: vier lijnen die
-hetzelfde zeggen.
 Een gedeelde dimensie neemt haar criteria en niveaus mee.
-Een kopie (UC07, alternate flow 3A) is een nieuw onderdeel van de eigen OWE, geen hergebruik.
+Een kopie (UC07, flow 3A) is een nieuw onderdeel van de eigen OWE, geen hergebruik.
 
 ### D4 Geen concept Profiel
 
-De casus noemt delen "tussen opleidingen en profielen".
-De HAN kent geen profielen als specialisatie binnen een opleiding, Opleiding dekt dit.
+Probleem: de casus noemt delen "tussen opleidingen en profielen".
+
+Alternatief: een concept Profiel, als specialisatie binnen een opleiding.
+De HAN kent zulke profielen niet, en Opleiding dekt dit al.
+
+Keuze: geen concept Profiel.
 ICDE deelt alleen binnen HBO-ICT, dus een onderdeel is gedeeld of niet.
 Het attribuut gedeeld legt dat vast, en een gedeeld onderdeel is zichtbaar voor elke andere OWE.
 
 ### D5 Geen compositie
 
-Bijna elk concept bestaat niet zonder zijn OWE, dus compositie zou overal staan.
-Dat voegt geen informatie toe, en de cursus vraagt geen compositie in een domeinmodel.
+Probleem: bijna elk concept bestaat niet zonder zijn OWE.
+
+Alternatief: compositie bij elk van die associaties.
+Dan staat compositie bijna overal, en dat voegt geen informatie toe.
+
+Keuze: gewone associaties.
+De cursus vraagt geen compositie in een domeinmodel.
 
 ### D6 Les en Toetsmoment hangen aan de OWE, niet aan een EVL
 
-[Begrippen](02-systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert en
-de toetsen die ze beoordelen.
+Probleem: [Begrippen](02-systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert
+en de toetsen die ze beoordelen.
 In de lesplanning van OOSE-DT staat ook per les een EVL.
-Die EVL volgt uit de criteria: criterium, leeruitkomst, EVL.
-Een directe associatie zou dubbel zijn en kan tegenspreken.
+
+Alternatief: een directe associatie van Les en Toetsmoment naar EVL.
+Die EVL volgt al uit de criteria: criterium, leeruitkomst, EVL.
+Een directe associatie is dus dubbel en kan tegenspreken.
+
+Keuze: Les en Toetsmoment hangen aan de OWE.
 Dit is de stap "controleer op redundantie" uit het stappenplan.
 
 ## Validatie
@@ -196,8 +221,8 @@ Dit is de stap "Valideer het model" uit het NPI-stappenplan van de cursus.
 
 Toelichting bij de tabel:
 
-- UC04 alternate flow 6A bewaart een les zonder criteria, dat kan door draagt bij aan 0..*.
-- UC05 en UC08 exceptional flow 2A melden een OWE zonder leeruitkomsten, dat kan door
+- UC04 flow 6A bewaart een les zonder criteria, dat kan door draagt bij aan 0..*.
+- UC05 en UC08 flow 2A melden een OWE zonder leeruitkomsten, dat kan door
   groepeert 0..*.
 - Een rubric is een Beoordelingsdimensie met haar criteria en niveaus.
 - Een kopie in UC07 is een nieuwe les of een nieuw toetsmoment van de eigen OWE.

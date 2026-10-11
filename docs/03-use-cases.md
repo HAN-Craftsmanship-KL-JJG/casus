@@ -68,34 +68,45 @@ Dat is 55%.
 
 ## Keuzes
 
-- Stereotype «CRUD».
-  Voor het beheren van een item tekenen we één use case met «CRUD», zoals de cursus voorschrijft
-  (CRUD Use Cases).
-  Het stereotype is een verkorte weergave van toevoegen, bekijken, wijzigen en verwijderen.
-  Het blijft één use case, ook bij de telling van 65% CRUD.
-  De vier acties volgen het CRUD-sjabloon van de cursus.
-  Zie [CRUD use cases](04-use-case-beschrijvingen.md#crud-use-cases).
-- Geen «include» of «extend».
-  Die geven in dit diagram geen meerwaarde.
-- Geen use case Inloggen.
-  Inloggen levert zelf geen waarde voor de gebruiker, en is dus geen elementair bedrijfsproces.
-  Een ingelogde gebruiker is een preconditie van elke use case.
-  ICDE regelt het inloggen voorlopig zelf.
-  Een koppeling met de HAN-inlogdienst (SURFconext) kan later, en staat niet in het diagram.
-- Geen use case voor samenwerken zonder versieconflicten.
-  Dit is een eigenschap van alle wijzig-use cases, geen apart doel van een actor.
-  We leggen het vast als niet-functionele requirement.
-  De opdrachtgever bedoelt: een invoerveld is geblokkeerd zolang iemand het wijzigt, en de rest
-  van de OWE blijft bewerkbaar.
-- Prioriteit.
-  Hoog zijn de use cases die de kern van de casus vormen: gegevens vastleggen, controleren en
-  documenten genereren.
-  Middel zijn delen, hergebruiken en het beheer van sjablonen.
-  UC05 Controleren consistentie OWE heeft de hoogste prioriteit, omdat de opdrachtgever
-  gegevensvalidatie van een OWE voorop zet.
-- Een klein diagram.
-  De casus eist minimaal 10 use cases.
-  We nemen er 11 op, zodat de analyse en het ontwerp gericht blijven.
+### Stereotype «CRUD»
+
+Voor het beheren van een item tekenen we één use case met «CRUD», zoals de cursus voorschrijft
+(CRUD Use Cases).
+Het stereotype is een verkorte weergave van toevoegen, bekijken, wijzigen en verwijderen.
+Het blijft één use case, ook bij de telling van 65% CRUD.
+De vier acties volgen het CRUD-sjabloon van de cursus.
+Zie [CRUD use cases](04-use-case-beschrijvingen.md#crud-use-cases).
+
+### Geen «include» of «extend»
+
+Die geven in dit diagram geen meerwaarde.
+
+### Geen use case Inloggen
+
+Inloggen levert zelf geen waarde voor de gebruiker, en is dus geen elementair bedrijfsproces.
+Een ingelogde gebruiker is een preconditie van elke use case.
+ICDE regelt het inloggen voorlopig zelf.
+Een koppeling met de HAN-inlogdienst (SURFconext) kan later, en staat niet in het diagram.
+
+### Geen use case voor samenwerken zonder versieconflicten
+
+Dit is een eigenschap van alle wijzig-use cases, geen apart doel van een actor.
+We leggen het vast als niet-functionele requirement.
+De opdrachtgever bedoelt: een invoerveld is geblokkeerd zolang iemand het wijzigt, en de rest
+van de OWE blijft bewerkbaar.
+
+### Prioriteit
+
+Hoog zijn de use cases die de kern van de casus vormen: gegevens vastleggen, controleren en
+documenten genereren.
+Middel zijn delen, hergebruiken en het beheer van sjablonen.
+UC05 Controleren consistentie OWE heeft de hoogste prioriteit, omdat de opdrachtgever
+gegevensvalidatie van een OWE voorop zet.
+
+### Een klein diagram
+
+De casus eist minimaal 10 use cases.
+We nemen er 11 op, zodat de analyse en het ontwerp gericht blijven.
 
 ## Buiten het diagram
 

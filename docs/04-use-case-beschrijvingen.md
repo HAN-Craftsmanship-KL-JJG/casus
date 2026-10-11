@@ -13,7 +13,7 @@ Een extensie heet naar de stap waar ze begint (3A), met de conditie tussen recht
 Zonder "Ga naar stap N" of "Einde use case" gaat het main success scenario verder.
 
 De cursus legt de nadruk op use cases met logica, niet op CRUD.
-Daarom werken we UC05, UC06, UC08 en UC07 fully dressed uit.
+Daarom werken we UC05, UC06, UC07 en UC08 fully dressed uit.
 Van de CRUD use cases werken we alleen het toevoegen uit bij UC04 en UC11.
 Daar koppelt het systeem de planning aan de beoordelingscriteria en controleert het een regel.
 
@@ -127,41 +127,6 @@ Exceptional flows:
   - 4A1. Het systeem toont welke gegevens ontbreken.
   - 4A2. Einde use case.
 
-## UC08 Opvragen dekkingsoverzicht
-
-- Primary actor: Opleidingscoördinator.
-- Stakeholders and interests:
-  - Opleidingscoördinator: wil zien of de opleiding elke leeruitkomst voldoende afdekt.
-  - Onderwijsontwikkelaar: wil weten welke leeruitkomsten meer onderwijs nodig hebben.
-- Cross references: BR1, BR3, BR4.
-- Brief description: Het systeem toont per leeruitkomst van een opleiding hoeveel criteria,
-  toetsmomenten en lessen eraan bijdragen, en markeert de gaten.
-- Preconditions: De opleiding heeft minstens één OWE.
-- Postconditions on success: Het systeem heeft per leeruitkomst het aantal criteria,
-  toetsmomenten en lessen getoond.
-  Elke leeruitkomst waarvan een van die aantallen 0 is, is gemarkeerd.
-- Postconditions on failure: Het systeem heeft geen overzicht getoond.
-
-Main success scenario:
-
-| Actor action | System responsibility |
-| --- | --- |
-| 1. De coördinator kiest een opleiding en vraagt het dekkingsoverzicht op. | |
-| | 2. Het systeem verzamelt de leeruitkomsten van alle OWE's van de opleiding. |
-| | 3. Het systeem telt per leeruitkomst de criteria, toetsmomenten en lessen. |
-| | 4. Het systeem toont de aantallen en markeert elke leeruitkomst met een aantal 0. |
-
-Alternate flows:
-
-- 4A. [Geen enkel aantal is 0]
-  - 4A1. Het systeem meldt dat de opleiding alle leeruitkomsten afdekt.
-
-Exceptional flows:
-
-- 2A. [Geen OWE van de opleiding heeft leeruitkomsten]
-  - 2A1. Het systeem meldt dat er geen leeruitkomsten zijn om te tonen.
-  - 2A2. Einde use case.
-
 ## UC07 Hergebruiken gedeeld onderdeel
 
 - Primary actor: Onderwijsontwikkelaar.
@@ -205,6 +170,41 @@ Exceptional flows:
   - 4A1. Het systeem meldt dat het onderdeel niet meer bestaat.
   - 4A2. Ga naar stap 2.
 
+## UC08 Opvragen dekkingsoverzicht
+
+- Primary actor: Opleidingscoördinator.
+- Stakeholders and interests:
+  - Opleidingscoördinator: wil zien of de opleiding elke leeruitkomst voldoende afdekt.
+  - Onderwijsontwikkelaar: wil weten welke leeruitkomsten meer onderwijs nodig hebben.
+- Cross references: BR1, BR3, BR4.
+- Brief description: Het systeem toont per leeruitkomst van een opleiding hoeveel criteria,
+  toetsmomenten en lessen eraan bijdragen, en markeert de gaten.
+- Preconditions: De opleiding heeft minstens één OWE.
+- Postconditions on success: Het systeem heeft per leeruitkomst het aantal criteria,
+  toetsmomenten en lessen getoond.
+  Elke leeruitkomst waarvan een van die aantallen 0 is, is gemarkeerd.
+- Postconditions on failure: Het systeem heeft geen overzicht getoond.
+
+Main success scenario:
+
+| Actor action | System responsibility |
+| --- | --- |
+| 1. De coördinator kiest een opleiding en vraagt het dekkingsoverzicht op. | |
+| | 2. Het systeem verzamelt de leeruitkomsten van alle OWE's van de opleiding. |
+| | 3. Het systeem telt per leeruitkomst de criteria, toetsmomenten en lessen. |
+| | 4. Het systeem toont de aantallen en markeert elke leeruitkomst met een aantal 0. |
+
+Alternate flows:
+
+- 4A. [Geen enkel aantal is 0]
+  - 4A1. Het systeem meldt dat de opleiding alle leeruitkomsten afdekt.
+
+Exceptional flows:
+
+- 2A. [Geen OWE van de opleiding heeft leeruitkomsten]
+  - 2A1. Het systeem meldt dat er geen leeruitkomsten zijn om te tonen.
+  - 2A2. Einde use case.
+
 ## CRUD use cases
 
 Elke «CRUD» use case bestaat uit toevoegen, bekijken, wijzigen en verwijderen, volgens het
@@ -237,6 +237,8 @@ De rest van de OWE blijft bewerkbaar.
 - Postconditions on success: De OWE heeft een nieuwe les die voldoet aan BR11.
 - Postconditions on failure: De lesplanning van de OWE is niet gewijzigd.
 
+Main success scenario:
+
 | Actor action | System responsibility |
 | --- | --- |
 | 1. De ontwikkelaar geeft aan een les te willen toevoegen aan een OWE. | |
@@ -246,11 +248,16 @@ De rest van de OWE blijft bewerkbaar.
 | | 5. Het systeem slaat de les op. |
 | | 6. Het systeem controleert of de les bijdraagt aan een criterium [BR2]. |
 
-- 4A. [gegevens zijn niet valide]
-  - 4A1. Het systeem meldt welke gegevens onjuist zijn.
-  - 4A2. Ga naar stap 2.
+Alternate flows:
+
 - 6A. [De les draagt aan geen enkel criterium bij]
   - 6A1. Het systeem waarschuwt dat de les BR2 overtreedt.
+
+Exceptional flows:
+
+- 4A. [De gegevens zijn niet valide]
+  - 4A1. Het systeem meldt welke gegevens onjuist zijn.
+  - 4A2. Ga naar stap 2.
 
 ### UC11 Toevoegen toetsmoment
 
@@ -261,6 +268,8 @@ De rest van de OWE blijft bewerkbaar.
   Overtreedt de toetsplanning BR5, dan heeft het systeem gewaarschuwd.
 - Postconditions on failure: De toetsplanning van de OWE is niet gewijzigd.
 
+Main success scenario:
+
 | Actor action | System responsibility |
 | --- | --- |
 | 1. De ontwikkelaar geeft aan een toetsmoment te willen toevoegen aan een OWE. | |
@@ -270,11 +279,16 @@ De rest van de OWE blijft bewerkbaar.
 | | 5. Het systeem slaat het toetsmoment op. |
 | | 6. Het systeem telt per week van het toetsmoment de lopende toetsmomenten [BR5]. |
 
-- 4A. [gegevens zijn niet valide]
-  - 4A1. Het systeem meldt welke gegevens onjuist zijn.
-  - 4A2. Ga naar stap 2.
+Alternate flows:
+
 - 6A. [In een week lopen meer dan 3 toetsmomenten]
   - 6A1. Het systeem waarschuwt en toont die weken met hun toetsmomenten.
+
+Exceptional flows:
+
+- 4A. [De gegevens zijn niet valide]
+  - 4A1. Het systeem meldt welke gegevens onjuist zijn.
+  - 4A2. Ga naar stap 2.
 
 ## UC09 Delen OWE-onderdeel (brief format)
 

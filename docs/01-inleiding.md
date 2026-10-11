@@ -29,6 +29,7 @@ Daarom toont het ontwerp naast statische ook dynamische modellen.
 Elke ontwerpkeuze heeft een code.
 De letter geeft het hoofdstuk: D voor het domeinmodel, A voor de architectuur, K voor het
 klassendiagram en S voor de sequence diagrams.
+Elke keuze heeft dezelfde vorm: het probleem, de alternatieven met hun nadeel, en de keuze.
 
 ## Bronnen
 

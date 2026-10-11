@@ -1,7 +1,7 @@
 # Sequence diagrams
 
 Het klassendiagram toont de klassen, maar niet hoe ze samenwerken.
-Dit hoofdstuk toont dat voor de kern-use-cases, en controleert zo ook het klassendiagram.
+Dit hoofdstuk toont dat voor de kern van de use cases, en controleert zo ook het klassendiagram.
 
 ## Aanpak
 
@@ -46,7 +46,6 @@ Stap 2 haalt de criteria op met `geefCriteria`, stap 3 tot en met 6 is de toevoe
 | UC08 | geefDekking | OpvragenDekkingHandler | geefDekking, OWE.bepaalDekking |
 | UC11 | toevoegenToetsmoment | BeheerPlanningHandler | toevoegenToetsmoment |
 
-De operaties zonder SD halen alleen gegevens op.
 `geefCriteria` geeft `owe.geefCriteria()`: de eigen en hergebruikte criteria (BR11, BR14).
 `geefGedeeldeOnderdelen` laat de onderdelen weg waarvoor `owe.bevat` true geeft.
 
@@ -156,7 +155,7 @@ Probleem: een kopie (UC07, 3A) moet in de lijst van haar soort, en OWE controlee
 (BR11, BR14).
 
 Alternatief: OWE of de handler vraagt de kopie en test de soort.
-Een test op de soort vervangt Polymorphism door een switch.
+Dan vervangt een switch op de soort het Polymorphism.
 
 Keuze: `Kopieerbaar.kopieerNaar(owe)`.
 Een Les roept `owe.toevoegenLes` aan, een Toetsmoment `owe.toevoegenToetsmoment`, zonder
