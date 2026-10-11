@@ -7,7 +7,6 @@ skinparam defaultFontName Helvetica
 
 actor Onderwijsontwikkelaar as ontwikkelaar
 actor "Opleidings-\ncoördinator" as coordinator
-actor Docent as docent
 actor "Functioneel\nbeheerder" as beheerder
 
 rectangle ICDE as icde
@@ -18,10 +17,9 @@ actor "HAN-inlogdienst" as inlogdienst <<systeem>>
 
 ontwikkelaar <--> icde : OWE-gegevens /\ndocumenten,\ninconsistentiemeldingen
 coordinator <--> icde : deelverzoeken /\ndekkingsoverzichten
-docent <--> icde : tussentijdse beoordelingen /\nrubrics, groeioverzicht
 beheerder --> icde : documentformaten
 
 icde ..> brightspace : OWE-beschrijvingen
-icde ..> osiris : eindbeoordelingen\nmet onderbouwing
+icde ..> osiris : OWE-gegevens
 icde ..> inlogdienst : identiteit\ncontroleren
 @enduml
