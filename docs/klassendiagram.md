@@ -1,9 +1,10 @@
 # Klassendiagram ICDE
 
-Dit document toont het statische ontwerp van ICDE als design class diagram (DCD) en onderbouwt
-de ontwerpbeslissingen.
+Dit document toont het statische ontwerp van ICDE als design class diagram (DCD).
+Het legt ook uit waarom het ontwerp zo is.
 Het bouwt voort op het [domeinmodel](domeinmodel.md) en de
 [use case beschrijvingen](use-case-beschrijvingen.md).
+
 Bronnen: de lessen Design Class Diagrams en "Van use case tot design" (week 2), GRASP Controller
 (week 4), de richtlijnen bij Mastermind en Larman hoofdstuk 7 (UML Class Diagrams) en 17 (GRASP).
 
@@ -11,40 +12,50 @@ Bronnen: de lessen Design Class Diagrams en "Van use case tot design" (week 2), 
 
 Het ontwerp staat in drie diagrammen, zodat elk diagram leesbaar blijft.
 
-Domeinklassen: de concepten uit het domeinmodel als softwareklassen.
+| Diagram | Inhoud |
+| --- | --- |
+| Domeinklassen | De concepten uit het domeinmodel als softwareklassen |
+| Consistentieregels en dekking | De klassen voor UC05 en UC08 |
+| Handlers en repositories | De klassen die systeemoperaties ontvangen en objecten ophalen |
+
+### Domeinklassen
 
 ![Domeinklassen van ICDE](diagrams/klassendiagram-domein.svg)
 
-Consistentieregels en dekking, voor UC05 Controleren consistentie OWE en UC08 Opvragen
-dekkingsoverzicht.
+Bron: [klassendiagram-domein.puml](diagrams/klassendiagram-domein.puml).
+
+### Consistentieregels en dekking
 
 ![Consistentieregels en dekking van ICDE](diagrams/klassendiagram-controle.svg)
 
-Handlers en repositories: de klassen die de systeemoperaties ontvangen.
+Bron: [klassendiagram-controle.puml](diagrams/klassendiagram-controle.puml).
+
+### Handlers en repositories
 
 ![Handlers en repositories van ICDE](diagrams/klassendiagram-handlers.svg)
 
-De bronnen zijn [klassendiagram-domein.puml](diagrams/klassendiagram-domein.puml),
-[klassendiagram-controle.puml](diagrams/klassendiagram-controle.puml) en
-[klassendiagram-handlers.puml](diagrams/klassendiagram-handlers.puml).
+Bron: [klassendiagram-handlers.puml](diagrams/klassendiagram-handlers.puml).
 
 ## Aanpak
 
 We volgen de richtlijnen voor een design class diagram uit de cursus (Mastermind, dia 23).
-Zoals Larman (7.4) adviseert, staan multipliciteit en rolnaam alleen aan de doelkant en heeft een
-associatie geen naam.
+Een associatie heeft geen naam.
+Multipliciteit en rolnaam staan alleen aan de doelkant (Larman 7.4).
 
 De sequence diagrams volgen in #7.
-Daarom leiden we de systeemoperaties nu af uit de stappen van de use cases, zoals een system
-sequence diagram dat doet.
+Tot dan leiden we de systeemoperaties af uit de stappen van de use cases, zoals in een system
+sequence diagram.
 We verdelen de verantwoordelijkheden met de GRASP-patterns Controller, Creator, Information
 Expert, Low Coupling en High Cohesion.
-De sequence diagrams in #7 controleren dit ontwerp.
-Wijkt een sequence diagram af, dan passen we dit klassendiagram aan.
+Wijkt een sequence diagram in #7 af, dan passen we dit klassendiagram aan.
 
 ## Van domeinmodel naar ontwerp
 
 Het domeinmodel toont de werkelijkheid, het klassendiagram de software.
+De elf concepten uit het domeinmodel zijn elf klassen gebleven, met dezelfde naam.
+Alleen het streepje valt weg: OWE-onderdeel heet OWEOnderdeel.
+Net als het domeinmodel gebruikt het klassendiagram geen compositie (domeinmodel, keuze 5).
+
 Dit veranderde:
 
 | Wat | Domeinmodel | Klassendiagram |
@@ -55,193 +66,270 @@ Dit veranderde:
 | soort, soortDocument | Een attribuut | Enumeraties SoortToetsmoment en SoortDocument |
 | onderdelen, volgorde | Twee attributen van Documentsjabloon | Eén geordende lijst onderdelen |
 | Bestandstype | Geen attribuut | Enumeratie Bestandstype, een parameter van UC06 |
-| OWE-onderdeel | Alleen gedeeld | Ook een id, zodat UC07 en UC09 een onderdeel kunnen aanwijzen |
+| OWE-onderdeel | Alleen gedeeld | Ook een id (UUID), uniek over alle OWE's heen |
 | Nieuwe klassen | Geen | Handlers, repositories, regels, Overtreding, Dekking, Vergrendeling |
 
-De elf concepten uit het domeinmodel zijn alle elf een klasse gebleven.
-De namen blijven gelijk, zonder streepje: OWE-onderdeel heet OWEOnderdeel.
-Net als in het domeinmodel staat er geen compositie in het diagram (domeinmodel, keuze 5).
-Het id is een UUID, zodat het uniek is over alle OWE's heen.
+Met het id wijzen UC07 en UC09 een onderdeel aan.
 
 ## Keuzes
 
-1. Wie ontvangt een systeemoperatie? (GRASP Controller)
-   - Probleem: ICDE heeft 11 use cases met samen meer dan 30 systeemoperaties.
-   - Alternatief A: één facade controller ICDE.
-     Die krijgt alle operaties en heeft dan een lage cohesie.
-     Larman noemt dat een bloated controller.
-   - Alternatief B: één use case controller per use case.
-     Dat geeft 11 handlers, en vier daarvan doen hetzelfde: een OWE ophalen, een onderdeel
-     toevoegen en de OWE bewaren.
-   - Keuze: een use case controller per use case, met de naam van de use case en het achtervoegsel
-     Handler, zoals Larman.
-     CRUD use cases van dezelfde actor over dezelfde gegevens delen een handler, tot ongeveer 10
-     systeemoperaties.
-     Die grens komt uit "Van use case tot design".
-     Zo delen UC01 en UC02 de BeheerOWEHandler, en UC04 en UC11 de BeheerPlanningHandler.
-     UC03 heeft met dimensies, criteria en niveaus genoeg operaties voor een eigen handler.
-     Use cases van verschillende actoren delen geen handler, omdat ze om verschillende redenen
-     veranderen (Single Responsibility Principle).
-     Daarom zijn UC07 en UC09 twee handlers, net als UC05 en UC08.
-2. Hoe vindt een handler een OWE?
-   - Probleem: een handler krijgt een code of naam en moet het object vinden.
-     De casus eist dat de database op een eigen server draait.
-   - Alternatief A: een rootobject Catalogus dat alle opleidingen in het geheugen houdt, zoals
-     Store bij Larman.
-     Dat laadt alle gegevens van alle opleidingen voor elke vraag.
-   - Alternatief B: statische zoekoperaties op de domeinklassen, zoals OWE.zoek(code).
-     Dan kent elke domeinklasse de database, en is de klasse moeilijk te testen.
-   - Keuze: een repository-interface per ingang: OWERepository, OpleidingRepository,
-     DocumentsjabloonRepository en VergrendelingRepository.
-     De interface hoort bij het domein, de implementatie bij de datalaag.
-     Zo hangt het domein niet af van de database (Dependency Inversion Principle).
-     Welk data source pattern de implementatie gebruikt, bepalen we in #12.
-3. Associaties in één richting.
-   - Probleem: welke kant van elke associatie is navigeerbaar?
-   - Alternatief: beide richtingen, zodat elk object zijn buren kent.
-     Dat verdubbelt de koppeling, en beide kanten moeten gelijk blijven.
-   - Keuze: elke associatie in één richting, van eigenaar naar onderdeel en van les of
-     toetsmoment naar criterium (Low Coupling).
-     Er is geen cyclus.
-     De omgekeerde vraag, zoals "welke lessen dragen bij aan dit criterium?", beantwoordt OWE,
-     want die kent alle lessen.
-     Voor BR13 moet ICDE weten of een andere OWE een onderdeel hergebruikt.
-     Dat vraagt de handler aan OWERepository.wordtHergebruikt, niet aan het onderdeel.
-     Voor UC07 zoekt OWERepository.zoekGedeeldeOnderdelen de gedeelde onderdelen van alle OWE's.
-4. OWE is de ingang voor alle gegevens van een OWE. (GRASP Information Expert)
-   - Probleem: de consistentieregels, de dekking en de documenten hebben alle leeruitkomsten,
-     criteria, lessen en toetsmomenten van een OWE nodig.
-     "Van de OWE" omvat ook de hergebruikte onderdelen.
-   - Alternatief: elke regel loopt zelf de EVL's, dimensies en hergebruikte onderdelen langs.
-     Dan kent elke regel de structuur van OWE en het verschil tussen eigen en hergebruikte
-     onderdelen.
-   - Keuze: OWE heeft geefLeeruitkomsten, geefCriteria, geefLessen en geefToetsmomenten.
-     Die geven de eigen en de hergebruikte onderdelen samen.
-     De rest van het systeem ziet het verschil niet (information hiding).
-     Nadeel: OWE heeft 19 operaties.
-     Zie de open punten.
-5. Consistentieregels als aparte klassen.
-   - Probleem: UC05 past BR1 tot en met BR5 toe.
-     De opdrachtgever kan regels toevoegen of wijzigen, zie de open punten van de use cases.
-   - Alternatief A: een operatie per regel in OWE.
-     OWE krijgt dan nog meer verantwoordelijkheden, en een nieuwe regel wijzigt OWE.
-   - Alternatief B: alle regels in ControleerConsistentieHandler.
-     Dan zit domeinlogica in de handler, en UC04 en UC11 kunnen de regels niet hergebruiken.
-   - Keuze: een interface Consistentieregel met een klasse per regel.
-     ControleerConsistentieHandler loopt de lijst regels af en weet niet welke regels er zijn.
-     Een nieuwe regel is een nieuwe klasse, zonder wijziging van bestaande code (Open/Closed
-     Principle).
-     BeheerPlanningHandler gebruikt dezelfde klassen voor BR2 (UC04, stap 6) en BR5 (UC11,
-     stap 6).
-     ToetsdrukRegel heeft het maximum als attribuut, zodat een andere grens geen nieuwe klasse
-     vraagt.
-     Deze opzet lijkt op het Strategy pattern.
-     De design patterns werken we uit in #9.
-6. Wie maakt een document? (UC06)
-   - Probleem: ICDE scheidt inhoud en vorm.
-   - Alternatief A: OWE.genereer(sjabloon).
-     Dan kent OWE de opmaak van documenten, en dat is niet zijn taak (High Cohesion).
-   - Alternatief B: een generatorklasse per soort document.
-     Dan vraagt een nieuwe soort document een nieuwe klasse, terwijl de functioneel beheerder
-     sjablonen zonder programmeur wil aanpassen (UC10).
-   - Keuze: Documentsjabloon maakt het document, want het kent zijn eigen onderdelen en opmaak
-     (Information Expert).
-     zoekOntbrekendeGegevens voert stap 4 uit, genereer stap 5.
-     Beide krijgen de onderdelen die de ontwikkelaar koos in stap 3.
-     Een lege lijst betekent alle onderdelen van het sjabloon (flow 3A).
-     genereer geeft de inhoud van een PDF- of Word-bestand terug, daarom byte[].
-     Documentsjabloon kent OWE alleen als parameter, dus als dependency en niet als associatie.
-     Welke template-engine de opmaak leest en het bestand maakt, is een technologiekeuze voor
-     blok 2.
-7. Hergebruik als verwijzing of als kopie. (UC07)
-   - Probleem: een hergebruikt onderdeel toont altijd de actuele versie (BR6).
-     Een kopie hangt niet meer af van het origineel (flow 3A).
-     Stap 2 toont alleen gedeelde onderdelen die de OWE nog niet bevat.
-   - Keuze voor de lijst: HergebruikOnderdeelHandler.geefGedeeldeOnderdelen haalt alle gedeelde
-     onderdelen op en laat de onderdelen weg waarvoor OWE.bevat waar geeft.
-   - Keuze voor de verwijzing: OWE.hergebruik voegt het originele object toe aan de lijst
-     hergebruikt.
-     Er is geen kopie, dus de OWE ziet elke wijziging meteen.
-   - Alternatief voor de kopie: de gebruikersinterface vult het toevoegscherm met de inhoud van
-     het origineel, en de ontwikkelaar slaat het op.
-     Flow 3A heeft die stap niet: het systeem neemt de kopie zelf op.
-   - Keuze voor de kopie: een abstracte operatie kopieer op OWEOnderdeel, met een uitwerking per
-     subklasse (Polymorphism).
-     Elke subklasse weet welke gegevens hij heeft, en een gedeelde dimensie kopieert haar
-     criteria en niveaus mee.
-     OWE.kopieer vraagt de kopie aan het onderdeel en neemt hem op in de eigen lijsten.
-     Daarbij controleert OWE BR11 en BR14 met controleerWeek, net als bij toevoegen.
-     Een kopie houdt geen koppeling met criteria of leeruitkomsten van de andere OWE.
-     De ontwikkelaar koppelt het opnieuw.
-   - Is het origineel verwijderd (flow 4A), dan vindt OWERepository.zoekGedeeldOnderdeel het
-     niet, en meldt de handler dat.
-8. Wie maakt een onderdeel? (GRASP Creator)
-   - Keuze: de klasse die het onderdeel bevat, maakt het.
-     Opleiding maakt OWE, OWE maakt EVL, dimensie, les en toetsmoment, EVL maakt leeruitkomst en
-     dimensie maakt criterium.
-     Opleiding.maakOWE krijgt de gegevens van de eerste EVL mee, want BR8 eist minstens één EVL.
-     Zo bestaat er geen OWE zonder EVL.
-   - Gevolg: OWE krijgt de criteriumcodes, niet de criteria zelf.
-     OWE zoekt ze op in de eigen en hergebruikte dimensies.
-     Een code van een andere OWE vindt OWE niet, en dat is een fout.
-     Zo dwingt het ontwerp BR11 en BR14 af: een les of toetsmoment koppelt alleen criteria van de
-     eigen OWE.
-   - controleerWeek is private en controleert BR11 en BR14 voor onderwijsweek, startweek en
-     deadlineweek.
-9. Samenwerken zonder versieconflicten.
-   - Probleem: twee ontwikkelaars wijzigen tegelijk dezelfde OWE.
-     De opdrachtgever wil dat een invoerveld geblokkeerd is zolang iemand het wijzigt, en dat de
-     rest van de OWE bewerkbaar blijft (niet-functionele eis).
-   - Alternatief A: een versienummer op OWE, en bewaar weigert een OWE met een oude versie.
-     Dan ziet de tweede ontwikkelaar het conflict pas bij het opslaan, en is het werk verloren.
-   - Alternatief B: de hele OWE vergrendelen zolang iemand hem wijzigt.
-     Dan wacht de tweede ontwikkelaar, ook als de wijzigingen elkaar niet raken.
-   - Keuze: een Vergrendeling per veld.
-     Begint een ontwikkelaar een veld te wijzigen, dan vraagt de gebruikersinterface
-     VergrendelVeldHandler.vergrendel aan.
-     Die geeft false als een ander het veld al heeft, en de gebruikersinterface blokkeert het
-     veld.
-     Na het opslaan of annuleren volgt ontgrendel.
-     onderdeelId is leeg voor een veld van de OWE zelf.
-     VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebruikt.
+Elke keuze noemt het probleem, de alternatieven en de onderbouwing.
+
+| Nr | Keuze | Principe |
+| --- | --- | --- |
+| 1 | [Een handler per use case](#een-handler-per-use-case) | GRASP Controller |
+| 2 | [Repositories vinden de objecten](#repositories-vinden-de-objecten) | DIP |
+| 3 | [Associaties in één richting](#associaties-in-één-richting) | Low Coupling |
+| 4 | [OWE geeft alle gegevens van een OWE](#owe-geeft-alle-gegevens-van-een-owe) | Expert |
+| 5 | [Een klasse per consistentieregel](#een-klasse-per-consistentieregel) | Open/Closed |
+| 6 | [Documentsjabloon maakt het document](#documentsjabloon-maakt-het-document) | Expert |
+| 7 | [Hergebruik: verwijzing of kopie](#hergebruik-verwijzing-of-kopie) | Polymorphism |
+| 8 | [De eigenaar maakt een onderdeel](#de-eigenaar-maakt-een-onderdeel) | GRASP Creator |
+| 9 | [Een vergrendeling per invoerveld](#een-vergrendeling-per-invoerveld) | |
+
+DIP is het Dependency Inversion Principle, Expert is GRASP Information Expert.
+
+### Een handler per use case
+
+Probleem: ICDE heeft 11 use cases met samen meer dan 30 systeemoperaties.
+Welke klasse ontvangt ze (GRASP Controller)?
+
+| Alternatief | Nadeel |
+| --- | --- |
+| Eén facade controller ICDE | Alle operaties in één klasse: lage cohesie (bloated controller) |
+| Altijd één handler per use case | 11 handlers, en vier doen hetzelfde |
+
+De vier gelijke handlers halen een OWE op, voegen een onderdeel toe en bewaren de OWE.
+
+Keuze: een use case controller per use case.
+De naam is de naam van de use case met het achtervoegsel Handler, zoals bij Larman.
+CRUD use cases van dezelfde actor over dezelfde gegevens delen een handler, tot ongeveer 10
+systeemoperaties.
+Die grens komt uit "Van use case tot design".
+
+- UC01 en UC02 delen BeheerOWEHandler.
+- UC04 en UC11 delen BeheerPlanningHandler.
+- UC03 heeft met dimensies, criteria en niveaus genoeg operaties voor een eigen handler.
+
+Use cases van verschillende actoren delen geen handler, omdat ze om verschillende redenen
+veranderen (Single Responsibility Principle).
+Daarom hebben UC07 en UC09 elk een eigen handler, net als UC05 en UC08.
+
+### Repositories vinden de objecten
+
+Probleem: een handler krijgt een code of naam en moet het object vinden.
+De database draait op een eigen server, zoals de casus eist.
+
+| Alternatief | Nadeel |
+| --- | --- |
+| Een rootobject Catalogus, zoals Store bij Larman | Laadt alle opleidingen voor elke vraag |
+| Statische zoekoperaties, zoals OWE.zoek(code) | Elke domeinklasse kent de database |
+
+Een domeinklasse die de database kent, is ook moeilijk te testen.
+
+Keuze: een repository-interface per ingang.
+Dat zijn OWERepository, OpleidingRepository, DocumentsjabloonRepository en
+VergrendelingRepository.
+De interface hoort bij het domein, de implementatie bij de datalaag.
+Zo hangt het domein niet af van de database (Dependency Inversion Principle).
+Welk data source pattern de implementatie gebruikt, bepalen we in #12.
+
+### Associaties in één richting
+
+Probleem: welke kant van een associatie is navigeerbaar?
+
+| Alternatief | Nadeel |
+| --- | --- |
+| Beide richtingen | Dubbele koppeling, en beide kanten moeten gelijk blijven |
+
+Keuze: elke associatie gaat één kant op (Low Coupling).
+
+- Van eigenaar naar onderdeel.
+- Van les of toetsmoment naar criterium.
+
+Er is geen cyclus.
+Een vraag in de andere richting gaat naar een klasse met overzicht:
+
+- "Welke lessen dragen bij aan dit criterium?" beantwoordt OWE, want die kent alle lessen.
+- "Hergebruikt een andere OWE dit onderdeel?" (BR13) beantwoordt
+  OWERepository.wordtHergebruikt.
+- "Welke onderdelen zijn gedeeld?" (UC07) beantwoordt OWERepository.zoekGedeeldeOnderdelen.
+
+### OWE geeft alle gegevens van een OWE
+
+Probleem: de consistentieregels, de dekking en de documenten hebben alle leeruitkomsten,
+criteria, lessen en toetsmomenten van een OWE nodig.
+Daar horen ook de hergebruikte onderdelen bij.
+
+| Alternatief | Nadeel |
+| --- | --- |
+| Elke regel zoekt zelf in EVL's, dimensies en hergebruik | Elke regel kent de structuur van OWE |
+
+Keuze: OWE heeft geefLeeruitkomsten, geefCriteria, geefLessen en geefToetsmomenten (Information
+Expert).
+Ze geven eigen en hergebruikte onderdelen samen.
+De rest van het systeem ziet het verschil niet (information hiding).
+Nadeel: OWE heeft 19 operaties, zie de open punten.
+
+### Een klasse per consistentieregel
+
+Probleem: UC05 past BR1 tot en met BR5 toe.
+De opdrachtgever kan regels toevoegen of wijzigen, zie de open punten van de use cases.
+
+| Alternatief | Nadeel |
+| --- | --- |
+| Een operatie per regel in OWE | OWE krijgt meer taken, en elke nieuwe regel wijzigt OWE |
+| Alle regels in ControleerConsistentieHandler | Domeinlogica in de handler, geen hergebruik |
+
+Zonder hergebruik kunnen UC04 en UC11 de regels niet gebruiken.
+
+Keuze: een interface Consistentieregel, met een klasse per regel.
+
+- ControleerConsistentieHandler loopt de lijst regels af en weet niet welke regels er zijn.
+- Een nieuwe regel is een nieuwe klasse, zonder wijziging van bestaande code (Open/Closed
+  Principle).
+- BeheerPlanningHandler hergebruikt LesDraagtBijRegel voor BR2 (UC04, stap 6).
+- BeheerPlanningHandler hergebruikt ToetsdrukRegel voor BR5 (UC11, stap 6).
+- ToetsdrukRegel heeft het maximum als attribuut.
+  Een andere grens vraagt dus geen nieuwe klasse.
+
+Deze opzet lijkt op het Strategy pattern.
+De design patterns werken we uit in #9.
+
+### Documentsjabloon maakt het document
+
+Probleem: ICDE scheidt inhoud en vorm (UC06).
+
+| Alternatief | Nadeel |
+| --- | --- |
+| OWE.genereer(sjabloon) | OWE kent dan de opmaak, en dat is niet zijn taak (High Cohesion) |
+| Een generatorklasse per soort document | Een nieuwe soort document vraagt een programmeur |
+
+De functioneel beheerder wil sjablonen aanpassen zonder programmeur (UC10).
+
+Keuze: Documentsjabloon maakt het document, want het kent zijn onderdelen en opmaak
+(Information Expert).
+
+- zoekOntbrekendeGegevens voert stap 4 uit, genereer stap 5.
+- Beide krijgen de onderdelen die de ontwikkelaar in stap 3 koos.
+  Een lege lijst betekent alle onderdelen van het sjabloon (flow 3A).
+- genereer geeft de inhoud van een PDF- of Word-bestand terug, daarom byte[].
+- Documentsjabloon kent OWE alleen als parameter: een dependency, geen associatie.
+
+Welke template-engine het bestand maakt, is een technologiekeuze voor blok 2.
+
+### Hergebruik: verwijzing of kopie
+
+Probleem: UC07 neemt een gedeeld onderdeel op in een OWE.
+Een verwijzing toont altijd de actuele versie (BR6).
+Een kopie hangt niet meer af van het origineel (flow 3A).
+
+Lijst (stap 2): HergebruikOnderdeelHandler.geefGedeeldeOnderdelen haalt alle gedeelde onderdelen
+op.
+Het laat de onderdelen weg die de OWE al bevat (OWE.bevat).
+
+Verwijzing (stap 4): OWE.hergebruik voegt het originele object toe aan de lijst hergebruikt.
+Er is geen kopie, dus de OWE ziet elke wijziging meteen.
+
+Kopie (flow 3A):
+
+| Alternatief | Nadeel |
+| --- | --- |
+| De gebruikersinterface vult het toevoegscherm met het origineel | Flow 3A heeft die stap niet |
+
+In flow 3A neemt het systeem de kopie zelf op, zonder invoer van de ontwikkelaar.
+
+Keuze: OWEOnderdeel heeft een abstracte operatie kopieer, met een uitwerking per subklasse
+(Polymorphism).
+
+- Elke subklasse kent haar eigen gegevens.
+  Een dimensie kopieert haar criteria en niveaus mee.
+- OWE.kopieer vraagt de kopie aan het onderdeel en neemt haar op in de eigen lijsten.
+- OWE controleert daarbij BR11 en BR14 met controleerWeek, net als bij toevoegen.
+- De kopie houdt geen koppeling met criteria of leeruitkomsten van de andere OWE.
+  De ontwikkelaar koppelt haar opnieuw.
+
+Origineel verwijderd (flow 4A): OWERepository.zoekGedeeldOnderdeel vindt het niet, en de handler
+meldt dat.
+
+### De eigenaar maakt een onderdeel
+
+Probleem: welke klasse maakt een nieuw onderdeel (GRASP Creator)?
+
+Keuze: de klasse die het onderdeel bevat.
+
+| Klasse | Maakt |
+| --- | --- |
+| Opleiding | OWE, met de eerste EVL |
+| OWE | EVL, Beoordelingsdimensie, Les en Toetsmoment |
+| EVL | Leeruitkomst |
+| Beoordelingsdimensie | Beoordelingscriterium |
+
+Gevolgen:
+
+- Opleiding.maakOWE krijgt de gegevens van de eerste EVL mee, want BR8 eist minstens één EVL.
+  Zo bestaat er geen OWE zonder EVL.
+- OWE krijgt bij een les of toetsmoment de criteriumcodes, niet de criteria zelf.
+  OWE zoekt ze op in de eigen en hergebruikte dimensies (zoekCriteria).
+  Een code van een andere OWE vindt OWE niet, en dat geeft een fout.
+  Zo dwingt het ontwerp BR11 en BR14 af.
+- De private operatie controleerWeek controleert onderwijsweek, startweek en deadlineweek
+  (BR11, BR14).
+
+### Een vergrendeling per invoerveld
+
+Probleem: twee ontwikkelaars wijzigen tegelijk dezelfde OWE.
+De opdrachtgever wil dat een invoerveld geblokkeerd is zolang iemand het wijzigt.
+De rest van de OWE blijft bewerkbaar.
+
+| Alternatief | Nadeel |
+| --- | --- |
+| Een versienummer op OWE, bewaar weigert een oude versie | Het conflict blijkt pas bij opslaan |
+| De hele OWE vergrendelen | De tweede ontwikkelaar wacht, ook bij een ander veld |
+
+Bij een versienummer is het werk van de tweede ontwikkelaar verloren.
+
+Keuze: een Vergrendeling per veld.
+
+- Begint een ontwikkelaar een veld te wijzigen, dan vraagt de gebruikersinterface
+  VergrendelVeldHandler.vergrendel aan.
+- Heeft een ander het veld al, dan geeft vergrendel false, en blokkeert de gebruikersinterface
+  het veld.
+- Na het opslaan of annuleren volgt ontgrendel.
+- onderdeelId is leeg voor een veld van de OWE zelf.
+
+VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebruikt.
 
 ## Traceerbaarheid
 
-Per use case: de handler en de klassen die de use case uitvoeren.
+### Per use case
 
-- UC01 Beheren OWE: BeheerOWEHandler.
-  Opleiding.maakOWE, OWE.toevoegenEVL.
-- UC02 Beheren leeruitkomsten: BeheerOWEHandler.
-  OWE.toevoegenLeeruitkomst, EVL.toevoegenLeeruitkomst.
-- UC03 Beheren beoordelingscriteria: BeheerRubricHandler.
-  OWE.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium.
-- UC04 Beheren lesplanning: BeheerPlanningHandler.
-  OWE.toevoegenLes, LesDraagtBijRegel.
-- UC05 Controleren consistentie OWE: ControleerConsistentieHandler.
-  Consistentieregel en vijf regels, Overtreding.
-- UC06 Genereren document: GenereerDocumentHandler.
-  Documentsjabloon.zoekOntbrekendeGegevens, genereer.
-- UC07 Hergebruiken gedeeld onderdeel: HergebruikOnderdeelHandler.
-  OWERepository.zoekGedeeldeOnderdelen, OWE.bevat, OWE.hergebruik, OWE.kopieer,
-  OWEOnderdeel.kopieer.
-- UC08 Opvragen dekkingsoverzicht: OpvragenDekkingHandler.
-  Opleiding.bepaalDekking, OWE.bepaalDekking, Dekking.
-- UC09 Delen OWE-onderdeel: DeelOnderdeelHandler.
-  OWEOnderdeel.deel.
-- UC10 Beheren documentsjabloon: BeheerDocumentsjabloonHandler.
-  Documentsjabloon.
-- UC11 Beheren toetsplanning: BeheerPlanningHandler.
-  OWE.toevoegenToetsmoment, ToetsdrukRegel.
+| Use case | Handler | Klassen en operaties |
+| --- | --- | --- |
+| UC01 | BeheerOWEHandler | Opleiding.maakOWE, OWE.toevoegenEVL |
+| UC02 | BeheerOWEHandler | OWE.toevoegenLeeruitkomst, EVL.toevoegenLeeruitkomst |
+| UC03 | BeheerRubricHandler | OWE.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium |
+| UC04 | BeheerPlanningHandler | OWE.toevoegenLes, LesDraagtBijRegel |
+| UC05 | ControleerConsistentieHandler | Consistentieregel met vijf regels, Overtreding |
+| UC06 | GenereerDocumentHandler | Documentsjabloon.zoekOntbrekendeGegevens, genereer |
+| UC07 | HergebruikOnderdeelHandler | OWE.bevat, OWE.hergebruik, OWE.kopieer, OWEOnderdeel.kopieer |
+| UC08 | OpvragenDekkingHandler | Opleiding.bepaalDekking, OWE.bepaalDekking, Dekking |
+| UC09 | DeelOnderdeelHandler | OWEOnderdeel.deel |
+| UC10 | BeheerDocumentsjabloonHandler | Documentsjabloon |
+| UC11 | BeheerPlanningHandler | OWE.toevoegenToetsmoment, ToetsdrukRegel |
 
-Verwijderen van een onderdeel (UC02, een dimensie in UC03, UC04, UC11) loopt via
-BeheerOWEHandler.verwijderOnderdeel en OWE.verwijder.
-Dat kan met één operatie, omdat alle onderdelen een OWEOnderdeel zijn.
-Een criterium is geen OWEOnderdeel.
-Dat verwijdert BeheerRubricHandler.verwijderCriterium met
-Beoordelingsdimensie.verwijderCriterium.
-Een OWE verwijdert BeheerOWEHandler.verwijderOWE met OWERepository.verwijder.
+De namen van de use cases staan in [use-cases.md](use-cases.md#use-cases).
 
-Per bedrijfsregel: de klasse die de regel controleert.
+Verwijderen gaat zo:
+
+- Een leeruitkomst, dimensie, les of toetsmoment: BeheerOWEHandler.verwijderOnderdeel en
+  OWE.verwijder.
+  Eén operatie is genoeg, omdat het allemaal een OWEOnderdeel is.
+- Een criterium is geen OWEOnderdeel: BeheerRubricHandler.verwijderCriterium en
+  Beoordelingsdimensie.verwijderCriterium.
+- Een OWE: BeheerOWEHandler.verwijderOWE en OWERepository.verwijder.
+
+### Per bedrijfsregel
 
 | Regel | Klasse en operatie |
 | --- | --- |
@@ -265,14 +353,15 @@ Per bedrijfsregel: de klasse die de regel controleert.
 - Getters en setters.
   Ze voegen veel regels toe en weinig informatie (Larman 7.6).
 - Constructors.
-  De operaties die een object maken (keuze 8) tonen al wie wat maakt.
+  De operaties die een object maken, tonen al wie wat maakt
+  (zie [De eigenaar maakt een onderdeel](#de-eigenaar-maakt-een-onderdeel)).
 - Wijzigen en bekijken bij de CRUD use cases.
   Die volgen het CRUD-sjabloon, met dezelfde parameters als toevoegen.
   De diagrammen tonen toevoegen, net als de use case beschrijvingen.
 - Foutmeldingen.
   Een operatie die een validatieregel of een exceptional flow tegenkomt, gooit een
   OngeldigeInvoerException met de melding.
-  Voorbeelden: UC05 flow 2A, UC06 flow 4A, UC07 flow 4A en flow 4A bij UC04 en UC11.
+  Voorbeelden: flow 2A van UC05, en flow 4A van UC04, UC06, UC07 en UC11.
 - De gebruikersinterface en de implementatie van de repositories.
   Die horen bij de technologiekeuze in blok 2.
 
@@ -282,8 +371,8 @@ Per bedrijfsregel: de klasse die de regel controleert.
 - OWE heeft 19 operaties.
   Blijkt in #7 dat OWE te veel doet, dan splitsen we de zoek- en geef-operaties af naar een eigen
   klasse.
-- ICDE geeft domeinobjecten terug aan de gebruikersinterface, zoals List<OWE> in UC07.
-  Draait de gebruikersinterface op een eigen server, dan worden dat Data Transfer Objects (#10).
+- ICDE geeft domeinobjecten terug aan de gebruikersinterface, zoals List<OWEOnderdeel> in UC07.
+  De gebruikersinterface draait op een eigen server, dus dat worden Data Transfer Objects (#10).
 - Een Vergrendeling blijft staan als een ontwikkelaar de browser sluit zonder op te slaan.
   Hoe lang een vergrendeling geldt, stemmen we af met de opdrachtgever.
 - UC07 flow 3A heeft geen extensie voor een kopie die BR11 of BR14 overtreedt, bijvoorbeeld een
