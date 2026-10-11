@@ -7,12 +7,12 @@ verwijst.
 
 ## Aanpak
 
-We volgen het fully dressed Use Case template van de cursus, met de sectienamen in het Engels.
+We volgen het fully dressed Use Case template, met de sectienamen in het Engels.
 Het main success scenario heeft twee kolommen, met doorlopende stapnummers.
 Een extensie heet naar de stap waar ze begint (3A), met de conditie tussen rechte haken.
 Zonder "Ga naar stap N" of "Einde use case" gaat het main success scenario verder.
 
-De cursus legt de nadruk op use cases met logica, niet op CRUD.
+Use cases met logica zeggen het meeste over het systeem.
 Daarom werken we UC05, UC06, UC07 en UC08 fully dressed uit.
 Van de CRUD use cases werken we alleen het toevoegen uit bij UC04 en UC11.
 Daar koppelt het systeem de planning aan de beoordelingscriteria en controleert het een regel.
@@ -207,8 +207,7 @@ Exceptional flows:
 
 ## CRUD use cases
 
-Elke «CRUD» use case bestaat uit toevoegen, bekijken, wijzigen en verwijderen, volgens het
-CRUD-sjabloon van de cursus.
+Elke «CRUD» use case bestaat uit toevoegen, bekijken, wijzigen en verwijderen.
 De stap "Systeem controleert of gegevens valide zijn" gebruikt deze regels:
 
 | Use case | Item | Validatieregels |

@@ -16,8 +16,7 @@ Dit hoofdstuk noemt wat nog open is.
 ## Ontwerp
 
 - ICDE geeft domeinobjecten terug aan de gebruikersinterface, zoals List<OWEOnderdeel> in UC07.
-  De gebruikersinterface draait op een eigen server, dus dat worden Data Transfer Objects
-  (issue #10).
+  De gebruikersinterface draait op een eigen server, dus dat worden Data Transfer Objects.
 - Een Vergrendeling blijft staan als een ontwikkelaar de browser sluit zonder het veld te
   verlaten.
   Hoe lang een vergrendeling geldt, stemmen we af met de opdrachtgever.

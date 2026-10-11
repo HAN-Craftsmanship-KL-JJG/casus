@@ -6,9 +6,7 @@ tegen de use cases.
 
 ## Aanpak
 
-We volgen de regels voor een domeinmodel uit de cursus.
-We vonden de concepten met Noun Phrase Identification (NPI) volgens het stappenplan van de
-cursus.
+We vonden de concepten met Noun Phrase Identification (NPI).
 
 ## Diagram
 
@@ -83,7 +81,7 @@ Toelichting bij enkele attributen:
 ## Associaties
 
 Een multipliciteit staat bij het concept waarvan je het aantal telt.
-We stelden per associatie de vraag uit het werkboek: met hoeveel B's heeft een A te maken,
+We stelden per associatie de vraag: met hoeveel B's heeft een A te maken,
 gedurende het hele bestaan van A?
 
 | Associatie | Multipliciteit | Onderbouwing |
@@ -171,7 +169,6 @@ Alternatief: compositie bij elk van die associaties.
 Dan staat compositie bijna overal, en dat voegt geen informatie toe.
 
 Keuze: gewone associaties.
-De cursus vraagt geen compositie in een domeinmodel.
 
 ### D5 Les en Toetsmoment hangen aan de OWE, niet aan een EVL
 
@@ -183,13 +180,11 @@ Alternatief: een directe associatie van Les en Toetsmoment naar EVL.
 Die EVL volgt al uit de criteria: criterium, leeruitkomst, EVL.
 Een directe associatie is dus dubbel en kan tegenspreken.
 
-Keuze: Les en Toetsmoment hangen aan de OWE.
-Dit is de stap "controleer op redundantie" uit het stappenplan.
+Keuze: Les en Toetsmoment hangen aan de OWE, zonder redundante associatie.
 
 ## Validatie
 
 Deze sectie toont aan dat het domeinmodel de use cases dekt.
-Dit is de stap "Valideer het model" uit het NPI-stappenplan van de cursus.
 
 ### Dekking per use case
 

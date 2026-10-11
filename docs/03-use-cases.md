@@ -70,11 +70,9 @@ Dat is 55%.
 
 ### Stereotype «CRUD»
 
-Voor het beheren van een item tekenen we één use case met «CRUD», zoals de cursus voorschrijft
-(CRUD Use Cases).
+Voor het beheren van een item tekenen we één use case met «CRUD».
 Het stereotype is een verkorte weergave van toevoegen, bekijken, wijzigen en verwijderen.
 Het blijft één use case, ook bij de telling van 65% CRUD.
-De vier acties volgen het CRUD-sjabloon van de cursus.
 Zie [CRUD use cases](04-use-case-beschrijvingen.md#crud-use-cases).
 
 ### Geen «include» of «extend»

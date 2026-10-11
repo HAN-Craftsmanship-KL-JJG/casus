@@ -103,7 +103,7 @@ Dat zijn OWERepository, OpleidingRepository, DocumentsjabloonRepository en
 VergrendelingRepository.
 De interface hoort bij het domein, de implementatie bij de datalaag.
 Zo hangt het domein niet af van de database (Dependency Inversion Principle).
-Welk data source pattern de implementatie gebruikt, bepalen we in issue #12.
+Het data source pattern volgt in blok 2.
 
 ### K3 Associaties in één richting
 
@@ -165,7 +165,6 @@ Keuze: een interface Consistentieregel, met een klasse per regel.
   Een andere grens vraagt dus geen nieuwe klasse.
 
 Deze opzet lijkt op het Strategy pattern.
-De design patterns werken we uit in issue #9.
 
 ### K6 Documentsjabloon maakt het document
 

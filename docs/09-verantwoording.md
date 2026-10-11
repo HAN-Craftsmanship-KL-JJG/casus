@@ -29,7 +29,6 @@ De keuzes in het domeinmodel (D1 tot en met D5) staan in het hoofdstuk
 | S4 | Is OWE te groot? | High Cohesion |
 
 De verbeteringen uit de [consistentiecontrole](#inconsistenties) hebben ook alternatieven.
-De design patterns werken we uit in issue #9.
 
 ## Eisen uit de casus
 
@@ -40,7 +39,7 @@ opdrachtgever.
 
 | Eis | Ontwerp | Status |
 | --- | --- | --- |
-| Samenwerken zonder versieconflicten | Vergrendeling (K9) | Ontworpen, issue #12 |
+| Samenwerken zonder versieconflicten | Vergrendeling (K9) | Ontworpen |
 | Scheiding van inhoud en vorm | Documentsjabloon (K6), UC10 | Ontworpen |
 | Document als PDF of Word, geheel of deels | Bestandstype, onderdelen (UC06) | Ontworpen |
 | EVL-beschrijving en toetsplanning | SoortDocument, zie onder | Ontworpen |
@@ -51,8 +50,8 @@ opdrachtgever.
 | Onderdelen delen binnen HBO-ICT | OWEOnderdeel.deel, OWE.hergebruik (K7) | Ontworpen |
 | Overzicht van de dekking | Opleiding.bepaalDekking, Dekking.voegToe | Ontworpen |
 | Uitbreidbaar | Nieuwe regel is een nieuwe klasse, nieuw sjabloon is data | Ontworpen |
-| Drie servers | Component diagram, A1 | Ontworpen, uitwerking in issue #10 en #14 |
-| Inloggen door ICDE zelf | Geen, zie C1 | Open, issue #10 |
+| Drie servers | Component diagram, A1 | Ontworpen, uitwerking in blok 2 |
+| Inloggen door ICDE zelf | Geen, zie C1 | Open, blok 2 |
 | Iterative Grading | Geen, ICDE legt geen beoordelingen vast | Buiten het prototype |
 | Koppeling Brightspace, Osiris | Geen, het prototype heeft geen koppeling | Buiten het prototype |
 
@@ -85,7 +84,7 @@ Van ontwerp naar requirement: elke klasse en operatie dient een use case, regel 
 
 Elke inconsistentie noemt het probleem, een alternatief en de verbetering.
 C2 hebben we in deze versie verwerkt.
-C1 werken we uit in issue #10.
+C1 volgt in blok 2.
 
 #### C1 Het ontwerp kent geen gebruiker of rol
 
@@ -98,7 +97,7 @@ Alleen VergrendelVeldHandler haalt de gebruiker uit de sessie (K9).
 Alternatief: elke systeemoperatie krijgt de gebruiker als parameter.
 Dan kan een client zich voordoen als een andere gebruiker.
 
-Verbetering: de remote facade in issue #10 regelt het inloggen en controleert de rol per handler.
+Verbetering: de remote facade regelt het inloggen en controleert de rol per handler.
 Omdat use cases van verschillende actoren geen handler delen (K1), is dat één controle per
 handler.
 
