@@ -9,15 +9,11 @@ hide footbox
 actor ":Onderwijsontwikkelaar" as ontwikkelaar
 participant ":ICDE" as icde
 
-ontwikkelaar -> icde : geefFormaten()
+ontwikkelaar -> icde : geefSjablonen()
 activate icde
-icde --> ontwikkelaar : formaten
+icde --> ontwikkelaar : sjablonen
 deactivate icde
-note over ontwikkelaar, icde
-  De ontwikkelaar kiest een formaat.
-  Is er precies één formaat, dan kiest de gebruikersinterface dat (2A).
-end note
-ontwikkelaar -> icde : genereer(oweCode, formaatNaam)
+ontwikkelaar -> icde : genereer(oweCode, sjabloonNaam,\nonderdelen, bestandstype)
 activate icde
 alt OWE mist gegevens
   icde --> ontwikkelaar : melding met ontbrekende gegevens (4A)
@@ -25,4 +21,8 @@ else OWE heeft alle gegevens
   icde --> ontwikkelaar : document
 end
 deactivate icde
+note over ontwikkelaar, icde
+  Een lege lijst onderdelen betekent:
+  alle onderdelen van het sjabloon (3A).
+end note
 @enduml

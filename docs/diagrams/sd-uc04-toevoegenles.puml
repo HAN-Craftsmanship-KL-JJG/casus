@@ -1,5 +1,5 @@
 @startuml sd-uc04-toevoegenles
-' Sequence diagram van systeemoperatie toevoegenLes (UC04, Toevoegen les, stap 5 tot en met 7).
+' Sequence diagram van systeemoperatie toevoegenLes (UC04, Toevoegen les, stap 3 tot en met 6).
 ' Toelichting: docs/sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
@@ -41,7 +41,7 @@ end
 handler --> ontwikkelaar : overtredingen
 deactivate handler
 note over owe, les
-  7A: controleerWeek, zoekCriteria en create
+  4A: controleerWeek, zoekCriteria en create
   gooien een OngeldigeInvoerException bij
   ongeldige gegevens [BR11].
   Dan bewaart de handler niets.
@@ -49,7 +49,7 @@ end note
 note over regel, overtreding
   overtredingen: de overtredingen
   die les betreffen.
-  Niet leeg betekent 7B: les opgeslagen,
+  Niet leeg betekent 6A: les opgeslagen,
   maar BR2 overtreden.
 end note
 @enduml

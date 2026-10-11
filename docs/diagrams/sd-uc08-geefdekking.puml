@@ -1,5 +1,5 @@
 @startuml sd-uc08-geefdekking
-' Sequence diagram van systeemoperatie geefDekking (UC08, stap 1 tot en met 6).
+' Sequence diagram van systeemoperatie geefDekking (UC08, stap 1 tot en met 4).
 ' Toelichting: docs/sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false

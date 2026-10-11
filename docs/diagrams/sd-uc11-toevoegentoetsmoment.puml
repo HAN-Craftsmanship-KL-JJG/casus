@@ -1,6 +1,6 @@
 @startuml sd-uc11-toevoegentoetsmoment
 ' Sequence diagram van systeemoperatie toevoegenToetsmoment (UC11, Toevoegen toetsmoment,
-' stap 5 tot en met 8). Toelichting: docs/sequencediagrammen.md
+' stap 3 tot en met 6). Toelichting: docs/sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
@@ -43,7 +43,7 @@ end
 handler --> ontwikkelaar : overtredingen
 deactivate handler
 note over owe, toetsmoment
-  7A: controleerWeek, zoekCriteria en create
+  4A: controleerWeek, zoekCriteria en create
   gooien een OngeldigeInvoerException bij
   ongeldige gegevens [BR14].
   create controleert dat startweek niet
@@ -52,6 +52,6 @@ end note
 note over regel, overtreding
   overtredingen: de weken met te veel
   toetsmomenten waarin t loopt.
-  Niet leeg betekent 8A: waarschuwing.
+  Niet leeg betekent 6A: waarschuwing.
 end note
 @enduml

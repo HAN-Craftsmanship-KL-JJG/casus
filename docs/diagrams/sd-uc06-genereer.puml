@@ -1,5 +1,5 @@
 @startuml sd-uc06-genereer
-' Sequence diagram van systeemoperatie genereer (UC06, stap 3 tot en met 6).
+' Sequence diagram van systeemoperatie genereer (UC06, stap 3 tot en met 5).
 ' Toelichting: docs/sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
@@ -9,40 +9,42 @@ hide footbox
 actor ":Onderwijsontwikkelaar" as ontwikkelaar
 participant ":GenereerDocument\nHandler" as handler
 participant "owes :\nOWERepository" as owes
-participant "formaten :\nDocumentformaat\nRepository" as formaten
-participant "formaat :\nDocumentformaat" as formaat
+participant "sjablonen :\nDocumentsjabloon\nRepository" as sjablonen
+participant "sjabloon :\nDocumentsjabloon" as sjabloon
 participant "owe : OWE" as owe
 
-ontwikkelaar -> handler : document = genereer(oweCode, formaatNaam)
+ontwikkelaar -> handler : document = genereer(oweCode,\nsjabloonNaam, onderdelen,\nbestandstype)
 activate handler
 handler -> owes : owe = zoek(oweCode)
 activate owes
 deactivate owes
-handler -> formaten : formaat = zoek(formaatNaam)
-activate formaten
-deactivate formaten
-handler -> formaat : ontbrekend = zoekOntbrekendeGegevens(owe)
-activate formaat
-formaat -> owe : geef-operaties en getters
+handler -> sjablonen : sjabloon = zoek(sjabloonNaam)
+activate sjablonen
+deactivate sjablonen
+handler -> sjabloon : ontbrekend =\nzoekOntbrekendeGegevens(owe, onderdelen)
+activate sjabloon
+sjabloon -> owe : geef-operaties en getters
 activate owe
 deactivate owe
-deactivate formaat
+deactivate sjabloon
 alt ontbrekend is niet leeg
   handler --> ontwikkelaar : OngeldigeInvoerException\n(ontbrekend) (4A)
 else
-  handler -> formaat : document = genereer(owe)
-  activate formaat
-  formaat -> owe : geef-operaties en getters
+  handler -> sjabloon : document = genereer(owe,\nonderdelen, bestandstype)
+  activate sjabloon
+  sjabloon -> owe : geef-operaties en getters
   activate owe
   deactivate owe
-  deactivate formaat
+  deactivate sjabloon
   handler --> ontwikkelaar : document
 end
 deactivate handler
-note over formaat, owe
-  Het formaat leest alleen de gegevens
-  die de opmaak noemt.
-  Hoe het de opmaak leest, bepaalt
+note over sjabloon, owe
+  Een lege lijst onderdelen betekent:
+  alle onderdelen van het sjabloon (3A).
+  Het sjabloon leest alleen de gegevens
+  van die onderdelen.
+  Hoe het de opmaak toepast, bepaalt
   de template-engine (blok 2).
 end note
 @enduml

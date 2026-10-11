@@ -9,28 +9,20 @@ hide footbox
 actor ":Onderwijsontwikkelaar" as ontwikkelaar
 participant ":ICDE" as icde
 
-ontwikkelaar -> icde : geefOWEsMetGedeeldeOnderdelen()
+ontwikkelaar -> icde : geefGedeeldeOnderdelen(oweCode)
 activate icde
-icde --> ontwikkelaar : owes met gedeelde onderdelen
+icde --> ontwikkelaar : gedeelde onderdelen
 deactivate icde
 alt verwijzing
-  ontwikkelaar -> icde : opnemenOnderdeel(oweCode, herkomstCode, onderdeelId)
+  ontwikkelaar -> icde : opnemenOnderdeel(oweCode, onderdeelId)
   activate icde
-  alt OWE bevat het onderdeel al
-    icde --> ontwikkelaar : melding: al opgenomen (6A)
-  else
-    icde --> ontwikkelaar : onderdeel opgenomen
-  end
-  deactivate icde
-else kopie (5A)
-  ontwikkelaar -> icde : toevoegenLes(oweCode, naam, onderwijsweek,\nbeschrijving, criteriumCodes)
-  activate icde
-  icde --> ontwikkelaar : overtredingen
-  deactivate icde
-  note right
-    Voorbeeld voor een les.
-    Een kopie gebruikt de toevoegoperatie
-    van de soort onderdeel.
-  end note
+else kopie (3A)
+  ontwikkelaar -> icde : opnemenKopie(oweCode, onderdeelId)
 end
+alt origineel verwijderd
+  icde --> ontwikkelaar : melding: onderdeel bestaat niet meer (4A)
+else
+  icde --> ontwikkelaar : onderdeel opgenomen
+end
+deactivate icde
 @enduml

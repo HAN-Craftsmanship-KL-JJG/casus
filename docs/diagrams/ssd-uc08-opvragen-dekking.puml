@@ -9,12 +9,8 @@ hide footbox
 actor ":Opleidingscoördinator" as coordinator
 participant ":ICDE" as icde
 
-alt hele opleiding
-  coordinator -> icde : geefDekking(opleidingNaam)
-  activate icde
-else één OWE (1A)
-  coordinator -> icde : geefDekkingVanOWE(oweCode)
-end
+coordinator -> icde : geefDekking(opleidingNaam)
+activate icde
 alt geen leeruitkomsten
   icde --> coordinator : melding: geen leeruitkomsten (2A)
 else
@@ -22,9 +18,8 @@ else
 end
 deactivate icde
 note over coordinator, icde
-  Stap 7 en 8 (leeruitkomst kiezen en details tonen)
-  zijn geen systeemoperaties:
-  elke dekking kent haar criteria, toetsmomenten
-  en lessen al.
+  Een dekking met isVolledig() false
+  wordt gemarkeerd (stap 4).
+  Is elke dekking volledig, dan is alles afgedekt (4A).
 end note
 @enduml
