@@ -82,16 +82,3 @@ en de rest van de OWE blijft bewerkbaar.
 Hoog is de kern van de casus: gegevens vastleggen, controleren en documenten genereren.
 Middel zijn delen, hergebruiken en sjabloonbeheer.
 UC05 heeft de hoogste prioriteit, omdat de opdrachtgever gegevensvalidatie voorop zet.
-
-## Buiten het diagram
-
-Deze kandidaat-use cases vallen buiten het prototype:
-
-- Vastleggen tussentijdse beoordeling en Bekijken groeioverzicht, voor de docent.
-  ICDE legt geen beoordelingen vast.
-- Publiceren OWE-beschrijving in Brightspace en Doorzetten eindbeoordeling naar Osiris.
-  Het prototype heeft geen koppelingen.
-
-Daarom staan de docent, Brightspace en Osiris uit [Actoren](02-systeemgrenzen.md#actoren) niet in
-het diagram.
-De student gebruikt ICDE niet.

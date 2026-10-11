@@ -7,26 +7,28 @@ tegen de use cases.
 
 ![Domeinmodel van ICDE](diagrams/domeinmodel.svg)
 
-## Kandidaat-concepten
+## Concepten
 
-De kandidaten komen uit Noun Phrase Identification: de zelfstandige naamwoorden in de casus, de
+De concepten komen uit Noun Phrase Identification: de zelfstandige naamwoorden in de casus, de
 Modulebeschrijving en de use case beschrijvingen.
 Synoniemen, rollen en dingen buiten het systeem vallen af.
+De casus eist minimaal 10 concepten.
+Het model heeft er 11: alleen de concepten die een use case nodig heeft.
 
-| Zelfstandig naamwoord | Besluit | Reden |
+| Zelfstandig naamwoord | Besluit | Betekenis of reden |
 | --- | --- | --- |
-| opleiding | concept | UC08 kiest een opleiding. |
+| opleiding | concept Opleiding | Een HBO-opleiding, zoals HBO-ICT. UC08 kiest een opleiding. |
+| OWE, onderwijseenheid, module | concept OWE | Een onderwijseenheid, zoals OOSE-DT. |
+| eenheid van leeruitkomsten | concept EVL | Een deel van een OWE. ICDE genereert de EVL-beschrijving. |
+| leeruitkomst, leerdoel | concept Leeruitkomst | Wat een student na de OWE kan. |
+| beoordelingsdimensie | concept Beoordelingsdimensie | Een groep criteria in de rubric. |
+| beoordelingscriterium | concept Beoordelingscriterium | Een eis in de rubric, de kern van de consistentiecontrole. |
+| niveau | concept Niveau | Een score op een criterium, met een beschrijving. |
+| les, lesplanning | concept Les | Een les. De lesplanning is de verzameling lessen. |
+| toets, opdracht, toetsmoment | concept Toetsmoment | Een toets of opdracht in de toetsplanning. |
+| onderdeel, onderwijsonderdeel | concept OWE-onderdeel | Abstract: een leeruitkomst, dimensie, les of toetsmoment die te delen is (D2). |
+| documentsjabloon, documentformaat, sjabloon | concept Documentsjabloon | De vorm van een soort document, los van de inhoud. |
 | profiel, opleidingsprofiel | geen concept | De HAN kent geen profielen, zie D3. |
-| OWE, onderwijseenheid, module | concept OWE | Drie namen voor hetzelfde. |
-| eenheid van leeruitkomsten | concept EVL | ICDE genereert de EVL-beschrijving. |
-| leeruitkomst, leerdoel | concept Leeruitkomst | De casus gebruikt beide woorden. |
-| beoordelingsdimensie | concept | Groep criteria in de rubric. |
-| beoordelingscriterium | concept | De kern van de consistentiecontrole. |
-| niveau | concept | Een criterium heeft niveaus met elk een beschrijving. |
-| les, lesplanning | concept Les | De lesplanning is de verzameling lessen. |
-| toets, opdracht, toetsmoment | concept Toetsmoment | Toets en opdracht zijn soorten. |
-| onderdeel, onderwijsonderdeel | concept OWE-onderdeel | Wat een OWE deelt, zie D2. |
-| documentsjabloon, documentformaat, sjabloon | concept Documentsjabloon | Vorm los van inhoud. |
 | rubric | geen concept | Een dimensie met criteria en niveaus. |
 | toetsplanning | geen concept | De verzameling toetsmomenten. |
 | onderwijsweek | attribuut | Een weeknummer zonder eigen eigenschappen. |
@@ -38,27 +40,6 @@ Synoniemen, rollen en dingen buiten het systeem vallen af.
 | versie, versiebeheer | geen concept | Een niet-functionele eis voor samenwerken. |
 | Brightspace, Osiris | geen concept | Externe systemen zonder koppeling in het prototype. |
 | didactiek | geen concept | Een werkwijze, geen ding met gegevens. |
-
-## Concepten
-
-De casus eist minimaal 10 concepten.
-Het model heeft er 11: alleen de concepten die een use case nodig heeft.
-
-| Concept | Betekenis |
-| --- | --- |
-| Opleiding | Een HBO-opleiding, zoals HBO-ICT. |
-| OWE | Een onderwijseenheid, zoals OOSE-DT. |
-| EVL | Een eenheid van leeruitkomsten van een OWE. |
-| OWE-onderdeel | Een deel van een OWE dat te delen is. |
-| Leeruitkomst | Wat een student na de OWE kan. |
-| Beoordelingsdimensie | Een groep criteria, de rubric. |
-| Beoordelingscriterium | Een eis in de rubric. |
-| Niveau | Een score op een criterium. |
-| Les | Een les in de lesplanning. |
-| Toetsmoment | Een toets of opdracht. |
-| Documentsjabloon | De vorm van een soort document. |
-
-OWE-onderdeel is abstract: elk onderdeel is een leeruitkomst, dimensie, les of toetsmoment.
 
 Toelichting bij enkele attributen:
 
@@ -95,6 +76,9 @@ De vraag per associatie: met hoeveel B's heeft een A te maken, gedurende het hel
 
 Lees 0..* : 1..* bij toetst zo: een criterium toetst minstens één leeruitkomst, en een
 leeruitkomst wordt door nul of meer criteria getoetst.
+
+Het model gebruikt geen compositie: bijna elk concept bestaat niet zonder zijn OWE, dus compositie
+zou overal staan zonder iets toe te voegen.
 
 Documentsjabloon heeft geen associatie, want een sjabloon geldt voor alle OWE's.
 UC06 combineert sjabloon en OWE pas bij het genereren.
@@ -150,16 +134,7 @@ Keuze: geen concept Profiel.
 ICDE deelt alleen binnen HBO-ICT, dus een onderdeel is gedeeld of niet.
 Het attribuut gedeeld legt dat vast, en een gedeeld onderdeel is zichtbaar voor elke andere OWE.
 
-### D4 Geen compositie
-
-Probleem: bijna elk concept bestaat niet zonder zijn OWE.
-
-Alternatief: compositie bij elk van die associaties.
-Dan staat compositie bijna overal, en dat voegt geen informatie toe.
-
-Keuze: gewone associaties.
-
-### D5 Les en Toetsmoment hangen aan de OWE, niet aan een EVL
+### D4 Les en Toetsmoment hangen aan de OWE, niet aan een EVL
 
 Probleem: [Begrippen](02-systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert
 en de toetsen die ze beoordelen.

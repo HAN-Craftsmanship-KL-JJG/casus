@@ -30,21 +30,13 @@ Het ontwerp staat in drie diagrammen, zodat elk diagram leesbaar blijft.
 ## Van domeinmodel naar ontwerp
 
 De elf concepten zijn elf klassen met dezelfde naam, zonder streepje: OWEOnderdeel.
-Net als het domeinmodel gebruikt het klassendiagram geen compositie (D4).
+Net als het domeinmodel gebruikt het klassendiagram geen compositie.
+OWEOnderdeel krijgt een id (UUID), waarmee UC07 en UC09 een onderdeel aanwijzen.
 
-| Wat | Domeinmodel | Klassendiagram |
-| --- | --- | --- |
-| Attributen | Alleen een naam | Visibility private en een datatype |
-| Operaties | Geen | Uit de stappen van de use cases |
-| Associaties | Naam, geen richting | Pijl, rolnaam en multipliciteit aan de doelkant |
-| soort, soortDocument | Een attribuut | Enumeraties SoortToetsmoment en SoortDocument |
-| onderdelen, volgorde | Twee attributen van Documentsjabloon | Eén geordende lijst onderdelen |
-| Bestandstype | Geen attribuut | Enumeratie Bestandstype, een parameter van UC06 |
-| OWE-onderdeel | Alleen gedeeld | Ook een id (UUID), uniek over alle OWE's heen |
-| Nieuwe klassen | Geen | Handlers, repositories, regels, Overtreding, Dekking, Vergrendeling |
-| Kopieerbaar | Geen | Interface voor de onderdelen die UC07 kan kopiëren |
-
-Met het id wijzen UC07 en UC09 een onderdeel aan.
+Elke associatie is navigeerbaar in één richting, van eigenaar naar onderdeel en van les of
+toetsmoment naar criterium, zonder cyclus (Low Coupling).
+Een vraag in de andere richting gaat naar een klasse met overzicht, zoals OWE voor de lessen bij
+een criterium en OWERepository.wordtHergebruikt voor BR13.
 
 ## Keuzes
 
@@ -89,24 +81,7 @@ De interface hoort bij het domein, de implementatie bij de datalaag.
 Zo hangt het domein niet af van de database (Dependency Inversion Principle).
 Het data source pattern volgt in blok 2.
 
-### K3 Associaties in één richting
-
-Probleem: welke kant van een associatie is navigeerbaar?
-
-Alternatief: beide richtingen.
-Dat is een dubbele koppeling, en beide kanten moeten gelijk blijven.
-
-Keuze: elke associatie gaat één kant op, van eigenaar naar onderdeel en van les of toetsmoment
-naar criterium (Low Coupling).
-Er is geen cyclus.
-Een vraag in de andere richting gaat naar een klasse met overzicht:
-
-- "Welke lessen dragen bij aan dit criterium?" beantwoordt OWE, want die kent alle lessen.
-- "Hergebruikt een andere OWE dit onderdeel?" (BR13) beantwoordt
-  OWERepository.wordtHergebruikt.
-- "Welke onderdelen zijn gedeeld?" (UC07) beantwoordt OWERepository.zoekGedeeldeOnderdelen.
-
-### K4 OWE geeft alle gegevens van een OWE
+### K3 OWE geeft alle gegevens van een OWE
 
 Probleem: de consistentieregels, de dekking en de documenten hebben alle leeruitkomsten,
 criteria, lessen en toetsmomenten van een OWE nodig.
@@ -119,14 +94,13 @@ Keuze: OWE heeft geefLeeruitkomsten, geefCriteria, geefLessen en geefToetsmoment
 Expert).
 Ze geven eigen en hergebruikte onderdelen samen, zodat de rest van het systeem het verschil niet
 ziet (information hiding).
-Nadeel: OWE heeft 19 operaties.
-[S4](08-sequencediagrammen.md#s4-owe-blijft-één-klasse) weegt dat af.
+OWE heeft daardoor 19 operaties, maar de sequence diagrams tonen dat elke operatie kort is en alleen
+de eigen lijsten gebruikt, dus de cohesie blijft hoog.
 
-### K5 Een klasse per consistentieregel
+### K4 Een klasse per consistentieregel
 
 Probleem: UC05 past BR1 tot en met BR5 toe.
-De opdrachtgever kan regels toevoegen of wijzigen, zie
-[Open punten en overdracht](10-open-punten.md#requirements).
+De opdrachtgever kan regels toevoegen of wijzigen.
 
 Alternatieven:
 
@@ -146,7 +120,7 @@ Keuze: een interface Consistentieregel, met een klasse per regel.
 
 Deze opzet lijkt op het Strategy pattern.
 
-### K6 Documentsjabloon maakt het document
+### K5 Documentsjabloon maakt het document
 
 Probleem: ICDE scheidt inhoud en vorm (UC06).
 De functioneel beheerder wil sjablonen aanpassen zonder programmeur (UC10).
@@ -169,7 +143,7 @@ Keuze: Documentsjabloon maakt het document, want het kent zijn onderdelen en opm
 
 Welke template-engine het bestand maakt, is een technologiekeuze voor blok 2.
 
-### K7 Hergebruik: verwijzing of kopie
+### K6 Hergebruik: verwijzing of kopie
 
 Probleem: UC07 neemt een gedeeld onderdeel op in een OWE, als verwijzing of als kopie.
 Een verwijzing toont altijd de actuele versie (BR6).
@@ -204,7 +178,7 @@ hun eigen manier uitwerken (Polymorphism).
 - Flow 4A: OWERepository.zoekGedeeldOnderdeel vindt een verwijderd origineel niet, en de handler
   meldt dat.
 
-### K8 De eigenaar maakt een onderdeel
+### K7 De eigenaar maakt een onderdeel
 
 Probleem: welke klasse maakt een nieuw onderdeel (GRASP Creator)?
 
@@ -237,7 +211,7 @@ Gevolgen:
 - De private operatie controleerWeek controleert onderwijsweek, startweek en deadlineweek
   (BR11, BR14).
 
-### K9 Een vergrendeling per invoerveld
+### K8 Een vergrendeling per invoerveld
 
 Probleem: twee ontwikkelaars wijzigen tegelijk dezelfde OWE.
 De opdrachtgever wil dat een invoerveld geblokkeerd is zolang iemand het wijzigt.
@@ -319,7 +293,7 @@ De regels zonder SD horen bij CRUD use cases, zie de
 ## Wat niet in de diagrammen staat
 
 - Getters en setters, omdat ze weinig informatie toevoegen (Larman 7.6).
-- Constructors, omdat de maak-operaties al tonen wie wat maakt (K8).
+- Constructors, omdat de maak-operaties al tonen wie wat maakt (K7).
 - Wijzigen en bekijken bij de CRUD use cases, met dezelfde parameters als toevoegen.
 - Foutmeldingen: een validatieregel of exceptional flow gooit een OngeldigeInvoerException,
   zoals flow 2A van UC05 en flow 4A van UC04, UC06, UC07 en UC11.

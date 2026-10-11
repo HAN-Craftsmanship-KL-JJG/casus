@@ -1,32 +1,7 @@
 # Verantwoording
 
-Dit hoofdstuk zet de ontwerpkeuzes op een rij, koppelt de eisen uit de casus aan het ontwerp, en
-controleert of het ontwerp consistent is met de requirements.
-
-## Ontwerpkeuzes
-
-De tabel geeft het overzicht van de keuzes in het ontwerp.
-De keuzes in het domeinmodel (D1 tot en met D5) staan in het hoofdstuk
-[Domeinmodel](05-domeinmodel.md#keuzes).
-
-| Keuze | Probleem | Principe of pattern |
-| --- | --- | --- |
-| [A1](06-architectuur.md#keuzes) | Waar draait de domeinlogica? | Low Coupling, lagen |
-| [K1](07-klassendiagram.md#keuzes) | Wie ontvangt een systeemoperatie? | GRASP Controller, SRP |
-| K2 | Hoe vindt een handler een object? | Repository, DIP |
-| K3 | Welke kant van een associatie is navigeerbaar? | Low Coupling |
-| K4 | Wie geeft alle gegevens van een OWE? | Information Expert, information hiding |
-| K5 | Waar staan de consistentieregels? | Open/Closed, lijkt op Strategy |
-| K6 | Wie maakt een document? | Information Expert, High Cohesion |
-| K7 | Hergebruik als verwijzing of kopie? | Polymorphism, Liskov Substitution |
-| K8 | Wie maakt een onderdeel? | GRASP Creator |
-| K9 | Hoe samenwerken zonder versieconflicten? | Vergrendeling per invoerveld |
-| [S1](08-sequencediagrammen.md#keuzes) | Waar staat een foutcontrole? | Information Expert |
-| S2 | Welke overtredingen horen bij een nieuw onderdeel? | Eén plaats per regel |
-| S3 | Hoe komt een kopie in de juiste lijst? | Polymorphism |
-| S4 | Is OWE te groot? | High Cohesion |
-
-De verbeteringen uit de [consistentiecontrole](#inconsistenties) hebben ook alternatieven.
+Dit hoofdstuk koppelt de eisen uit de casus aan het ontwerp, en controleert of het ontwerp
+consistent is met de requirements.
 
 ## Eisen uit de casus
 
@@ -36,15 +11,15 @@ Deze tabel doet dat voor de eisen uit de casus en de wensen van de opdrachtgever
 
 | Eis | Ontwerp | Status |
 | --- | --- | --- |
-| Samenwerken zonder versieconflicten | Vergrendeling (K9) | Ontworpen |
-| Scheiding van inhoud en vorm | Documentsjabloon (K6), UC10 | Ontworpen |
+| Samenwerken zonder versieconflicten | Vergrendeling (K8) | Ontworpen |
+| Scheiding van inhoud en vorm | Documentsjabloon (K5), UC10 | Ontworpen |
 | Document als PDF of Word, geheel of deels | Bestandstype, onderdelen (UC06) | Ontworpen |
 | EVL-beschrijving en toetsplanning | SoortDocument, zie onder | Ontworpen |
 | Gegevensvalidatie van een OWE | Validatie in de domeinklassen (S1), UC05 | Ontworpen |
-| Inconsistenties detecteren | Consistentieregel en vijf regels (K5) | Ontworpen |
+| Inconsistenties detecteren | Consistentieregel en vijf regels (K4) | Ontworpen |
 | Lessen sluiten aan op toetsen | CriteriumHeeftLesRegel, CriteriumBeoordeeldRegel | Ontworpen |
 | Meer dan 3 toetsen in een week | ToetsdrukRegel (BR5), ook in UC11 | Ontworpen |
-| Onderdelen delen binnen HBO-ICT | OWEOnderdeel.deel, OWE.hergebruik (K7) | Ontworpen |
+| Onderdelen delen binnen HBO-ICT | OWEOnderdeel.deel, OWE.hergebruik (K6) | Ontworpen |
 | Overzicht van de dekking | Opleiding.bepaalDekking, Dekking.voegToe | Ontworpen |
 | Uitbreidbaar | Nieuwe regel is een nieuwe klasse, nieuw sjabloon is data | Ontworpen |
 | Drie servers | Component diagram, A1 | Ontworpen, uitwerking in blok 2 |
@@ -86,7 +61,7 @@ Probleem: elke use case eist een ingelogde gebruiker, en ICDE regelt het inlogge
 Onderwijsontwikkelaar en opleidingscoördinator zijn aparte rollen.
 UC08 en UC09 zijn alleen voor de opleidingscoördinator, UC10 alleen voor de functioneel beheerder.
 Het ontwerp kent geen gebruiker of rol.
-Alleen VergrendelVeldHandler haalt de gebruiker uit de sessie (K9).
+Alleen VergrendelVeldHandler haalt de gebruiker uit de sessie (K8).
 
 Alternatief: elke systeemoperatie krijgt de gebruiker als parameter.
 Dan kan een client zich voordoen als een andere gebruiker.

@@ -20,18 +20,10 @@ ICDE heeft veel interactie tussen objecten, dus het ontwerp toont ook dynamische
 | SDD | [Architectuur](06-architectuur.md#architectuur) | Component diagram, lagen en servers | 3.2 |
 | SDD | [Klassendiagram](07-klassendiagram.md#klassendiagram) | Statisch ontwerp, traceerbaarheid | 3.1, 3.2 |
 | SDD | [Sequence diagrams](08-sequencediagrammen.md#sequence-diagrams) | Dynamisch ontwerp | 3.1, 3.2 |
-| SDD | [Verantwoording](09-verantwoording.md#verantwoording) | Keuzes, eisen, consistentie | 3.1, 3.2, 4 |
-| | [Open punten en overdracht](10-open-punten.md#open-punten-en-overdracht) | Wat nog open is | |
+| SDD | [Verantwoording](09-verantwoording.md#verantwoording) | Eisen, consistentie | 3.1, 4 |
 
 Elke ontwerpkeuze heeft een code: D voor het domeinmodel, A voor de architectuur, K voor het
 klassendiagram en S voor de sequence diagrams.
 Elke keuze noemt het probleem, de alternatieven met hun nadeel, en de keuze.
-
-## Bronnen
-
-- De ICDE-casus van Christian Köppe en Rody Middelkoop.
-- De Modulebeschrijving van de toets Casus, met de aanvullende wensen van de opdrachtgever.
-- De lesplanning en de rubric van OOSE-DT, als voorbeeld van echte OWE-gegevens.
-- Larman, Applying UML and Patterns: hoofdstuk 4, 7, 8 en 17.
 
 De bron van elk diagram staat in PlantUML in `docs/diagrams/`, met dezelfde naam als de afbeelding.
