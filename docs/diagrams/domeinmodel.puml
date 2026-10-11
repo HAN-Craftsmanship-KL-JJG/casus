@@ -1,6 +1,4 @@
 @startuml domeinmodel
-' Domeinmodel van ICDE. Toelichting: docs/domeinmodel.md
-' Een domeinmodel heeft geen operaties, datatypes, visibility of navigatie.
 hide circle
 hide methods
 hide empty members
