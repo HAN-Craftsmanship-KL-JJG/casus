@@ -1,9 +1,8 @@
 # Domeinmodel
 
-Dit hoofdstuk toont het domeinmodel van ICDE en onderbouwt het.
-Het bouwt voort op de systeemgrenzen en de use cases.
-Bronnen: de ICDE-casus, de Modulebeschrijving van de toets Casus, de lesplanning en de rubric van
-OOSE-DT als voorbeeld van echte OWE-gegevens.
+De use cases en bedrijfsregels noemen de begrippen waar ICDE mee werkt.
+Dit hoofdstuk legt die begrippen en hun verbanden vast in een domeinmodel, en controleert het model
+tegen de use cases.
 
 ## Diagram
 
@@ -24,7 +23,7 @@ Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het s
 | Zelfstandig naamwoord | Besluit | Reden |
 | --- | --- | --- |
 | opleiding | concept | UC08 kiest een opleiding. |
-| profiel, opleidingsprofiel | geen concept | De HAN kent geen profielen, zie keuze 4. |
+| profiel, opleidingsprofiel | geen concept | De HAN kent geen profielen, zie D4. |
 | OWE, onderwijseenheid, module | concept OWE | Drie namen voor hetzelfde. |
 | eenheid van leeruitkomsten | concept EVL | ICDE genereert de EVL-beschrijving. |
 | leeruitkomst, leerdoel | concept Leeruitkomst | De casus gebruikt beide woorden. |
@@ -33,15 +32,15 @@ Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het s
 | niveau | concept | Een criterium heeft niveaus met elk een beschrijving. |
 | les, lesplanning | concept Les | De lesplanning is de verzameling lessen. |
 | toets, opdracht, toetsmoment | concept Toetsmoment | Toets en opdracht zijn soorten. |
-| onderdeel, onderwijsonderdeel | concept OWE-onderdeel | Wat een OWE deelt, zie keuze 3. |
+| onderdeel, onderwijsonderdeel | concept OWE-onderdeel | Wat een OWE deelt, zie D3. |
 | documentsjabloon, documentformaat, sjabloon | concept Documentsjabloon | Vorm los van inhoud. |
 | rubric | geen concept | Een dimensie met criteria en niveaus. |
 | toetsplanning | geen concept | De verzameling toetsmomenten. |
 | onderwijsweek | attribuut | Een weeknummer zonder eigen eigenschappen. |
-| ontwikkelaar, coördinator, beheerder | geen concept | Rollen van actoren, zie keuze 2. |
-| OWE-beschrijving, beoordelingsformulier | geen concept | Uitvoer van UC06, zie keuze 2. |
+| ontwikkelaar, coördinator, beheerder | geen concept | Rollen van actoren, zie D2. |
+| OWE-beschrijving, beoordelingsformulier | geen concept | Uitvoer van UC06, zie D2. |
 | PDF, Word | geen concept | Bestandstype dat de gebruiker kiest in UC06. |
-| student, beoordeling | geen concept | ICDE legt geen beoordelingen vast, zie keuze 2. |
+| student, beoordeling | geen concept | ICDE legt geen beoordelingen vast, zie D2. |
 | inconsistentie, dekkingsoverzicht | geen concept | Uitvoer van UC05 en UC08. |
 | versie, versiebeheer | geen concept | Een niet-functionele eis voor samenwerken. |
 | Brightspace, Osiris | geen concept | Externe systemen zonder koppeling in het prototype. |
@@ -123,51 +122,91 @@ hergebruikt.
 
 ## Keuzes
 
-1. Minimum 0 bij de consistentieregels.
-   BR1 tot en met BR4 zeggen "minstens één", maar het model zegt 0..*.
-   ICDE moet een OWE met een inconsistentie kunnen bewaren, anders kan UC05 die niet melden.
-   Een ontwikkelaar legt eerst een les vast en koppelt later de criteria.
-   UC04 waarschuwt dan, maar slaat de les wel op (alternate flow 6A).
-2. Een klein model.
-   De casus eist minimaal 10 concepten, dit model heeft er 11.
-   Deze kandidaten vielen af:
-   - Student en beoordeling horen bij Iterative Grading.
-     ICDE legt geen beoordelingen vast, en de student is geen gebruiker van ICDE.
-   - Onderwijsontwikkelaar, coördinator en beheerder zijn actoren in het use case diagram.
-     Wie iets doet is toegangsbeheer, geen domeinkennis.
-   - Een document is de uitvoer van UC06 uit een OWE en een sjabloon.
-     Of ICDE documenten bewaart, is een ontwerpkeuze voor later.
-3. Generalisatie OWE-onderdeel.
-   UC09 deelt "een onderdeel, zoals een leeruitkomst of een rubric".
-   Leeruitkomst, Beoordelingsdimensie, Les en Toetsmoment zijn allemaal te delen.
-   De generalisatie laat zien dat delen (UC09) en hergebruiken (UC07) voor alle vier hetzelfde
-   werken.
-   Alternatief was een aparte associatie hergebruikt per soort onderdeel: vier lijnen die
-   hetzelfde zeggen.
-   Een gedeelde dimensie neemt haar criteria en niveaus mee.
-   Een kopie (UC07, alternate flow 3A) is een nieuw onderdeel van de eigen OWE, geen hergebruik.
-4. Geen concept Profiel.
-   De casus noemt delen "tussen opleidingen en profielen".
-   De HAN kent geen profielen als specialisatie binnen een opleiding, Opleiding dekt dit.
-   ICDE deelt alleen binnen HBO-ICT, dus een onderdeel is gedeeld of niet.
-   Het attribuut gedeeld legt dat vast, en een gedeeld onderdeel is zichtbaar voor elke andere OWE.
-5. Geen compositie.
-   Bijna elk concept bestaat niet zonder zijn OWE, dus compositie zou overal staan.
-   Dat voegt geen informatie toe, en de cursus vraagt geen compositie in een domeinmodel.
-6. Les en Toetsmoment hangen aan de OWE, niet aan een EVL.
-   [Begrippen](02-systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert en
-   de toetsen die ze beoordelen.
-   In de lesplanning van OOSE-DT staat ook per les een EVL.
-   Die EVL volgt uit de criteria: criterium, leeruitkomst, EVL.
-   Een directe associatie zou dubbel zijn en kan tegenspreken.
-   Dit is de stap "controleer op redundantie" uit het stappenplan.
+### D1 Minimum 0 bij de consistentieregels
+
+BR1 tot en met BR4 zeggen "minstens één", maar het model zegt 0..*.
+ICDE moet een OWE met een inconsistentie kunnen bewaren, anders kan UC05 die niet melden.
+Een ontwikkelaar legt eerst een les vast en koppelt later de criteria.
+UC04 waarschuwt dan, maar slaat de les wel op (alternate flow 6A).
+
+### D2 Een klein model
+
+De casus eist minimaal 10 concepten, dit model heeft er 11.
+Deze kandidaten vielen af:
+
+- Student en beoordeling horen bij Iterative Grading.
+  ICDE legt geen beoordelingen vast, en de student is geen gebruiker van ICDE.
+- Onderwijsontwikkelaar, coördinator en beheerder zijn actoren in het use case diagram.
+  Wie iets doet is toegangsbeheer, geen domeinkennis.
+- Een document is de uitvoer van UC06 uit een OWE en een sjabloon.
+  Of ICDE documenten bewaart, is een ontwerpkeuze voor later.
+
+### D3 Generalisatie OWE-onderdeel
+
+UC09 deelt "een onderdeel, zoals een leeruitkomst of een rubric".
+Leeruitkomst, Beoordelingsdimensie, Les en Toetsmoment zijn allemaal te delen.
+De generalisatie laat zien dat delen (UC09) en hergebruiken (UC07) voor alle vier hetzelfde
+werken.
+Alternatief was een aparte associatie hergebruikt per soort onderdeel: vier lijnen die
+hetzelfde zeggen.
+Een gedeelde dimensie neemt haar criteria en niveaus mee.
+Een kopie (UC07, alternate flow 3A) is een nieuw onderdeel van de eigen OWE, geen hergebruik.
+
+### D4 Geen concept Profiel
+
+De casus noemt delen "tussen opleidingen en profielen".
+De HAN kent geen profielen als specialisatie binnen een opleiding, Opleiding dekt dit.
+ICDE deelt alleen binnen HBO-ICT, dus een onderdeel is gedeeld of niet.
+Het attribuut gedeeld legt dat vast, en een gedeeld onderdeel is zichtbaar voor elke andere OWE.
+
+### D5 Geen compositie
+
+Bijna elk concept bestaat niet zonder zijn OWE, dus compositie zou overal staan.
+Dat voegt geen informatie toe, en de cursus vraagt geen compositie in een domeinmodel.
+
+### D6 Les en Toetsmoment hangen aan de OWE, niet aan een EVL
+
+[Begrippen](02-systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert en
+de toetsen die ze beoordelen.
+In de lesplanning van OOSE-DT staat ook per les een EVL.
+Die EVL volgt uit de criteria: criterium, leeruitkomst, EVL.
+Een directe associatie zou dubbel zijn en kan tegenspreken.
+Dit is de stap "controleer op redundantie" uit het stappenplan.
 
 ## Validatie
 
-De controle van dit model tegen de use cases staat in
-[Validatie domeinmodel](06-domeinmodel-validatie.md#validatie-domeinmodel).
+Deze sectie toont aan dat het domeinmodel de use cases dekt.
+Dit is de stap "Valideer het model" uit het NPI-stappenplan van de cursus.
 
-## Open punten
+### Dekking per use case
 
-- Een OWE verandert per studiejaar.
-  Moet ICDE oude jaren bewaren, dan wordt een uitvoering per studiejaar een eigen concept.
+| Use case | Regels | Gegevens | In het model |
+| --- | --- | --- | --- |
+| UC01 Beheren OWE | BR8, BR13 | OWE met opleiding en EVL's | OWE, biedt aan, bestaat uit |
+| UC02 Beheren leeruitkomsten | BR9, BR13 | Leeruitkomst met EVL | Leeruitkomst, groepeert |
+| UC03 Beheren beoordelingscriteria | BR10, BR13 | Rubric, getoetste leeruitkomsten | Beoordelingsdimensie, Beoordelingscriterium, Niveau, toetst |
+| UC04 Beheren lesplanning | BR2, BR11, BR13 | Les met criteria | Les, plant, draagt bij aan |
+| UC05 Controleren consistentie OWE | BR1 tot en met BR5 | Koppelingen en weken | toetst, draagt bij aan, beoordeelt, startweek, deadlineweek |
+| UC06 Genereren document | BR12 | Sjabloon en inhoud van de OWE | Documentsjabloon, OWE met haar onderdelen |
+| UC07 Hergebruiken gedeeld onderdeel | BR6, BR7, BR13 | Gedeeld onderdeel | OWE-onderdeel, gedeeld, hergebruikt |
+| UC08 Opvragen dekkingsoverzicht | BR1, BR3, BR4 | Per leeruitkomst de criteria, toetsmomenten en lessen | biedt aan, bestaat uit, groepeert, toetst, draagt bij aan, beoordeelt |
+| UC09 Delen OWE-onderdeel | | Leeruitkomst of rubric | OWE-onderdeel, gedeeld |
+| UC10 Beheren documentsjabloon | BR12 | Sjabloon | Documentsjabloon |
+| UC11 Beheren toetsplanning | BR5, BR13, BR14 | Toetsmoment met criteria | Toetsmoment, plant, beoordeelt |
+
+Toelichting bij de tabel:
+
+- UC04 alternate flow 6A bewaart een les zonder criteria, dat kan door draagt bij aan 0..*.
+- UC05 en UC08 exceptional flow 2A melden een OWE zonder leeruitkomsten, dat kan door
+  groepeert 0..*.
+- Een rubric is een Beoordelingsdimensie met haar criteria en niveaus.
+- Een kopie in UC07 is een nieuwe les of een nieuw toetsmoment van de eigen OWE.
+
+### Conclusie
+
+Elke use case vindt haar gegevens in het model, en elke flow past bij de multipliciteiten.
+Om dat te bereiken, zijn enkele use case teksten aangepast:
+
+- BR8 noemt nu de opleiding en de EVL's van een OWE, BR9 de EVL van een leeruitkomst.
+- UC07 en UC09 spreken van OWE's in plaats van profielen, want het model kent geen profielen.
+- De samenvattingen van UC05 en UC08 en stap 3 van UC04 en UC11 volgen nu het model.

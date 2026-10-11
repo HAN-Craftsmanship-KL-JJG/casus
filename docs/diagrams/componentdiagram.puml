@@ -1,5 +1,5 @@
 @startuml componentdiagram
-' Component diagram van ICDE: de lagen en hun interfaces. Toelichting: docs/07-ontwerp.md
+' Component diagram van ICDE: de lagen en hun interfaces. Toelichting: docs/06-architectuur.md
 ' De interfaces van Repositories horen bij het domein, de datalaag implementeert ze.
 skinparam style strictuml
 skinparam shadowing false

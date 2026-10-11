@@ -1,7 +1,6 @@
 # Systeemgrenzen
 
-Dit hoofdstuk bepaalt de grenzen van ICDE.
-Bronnen: de ICDE-casus en de Modulebeschrijving van de toets Casus.
+Dit hoofdstuk bepaalt wat ICDE wel en niet doet, wie het gebruikt en wat in het prototype komt.
 
 ## ICDE als black box
 

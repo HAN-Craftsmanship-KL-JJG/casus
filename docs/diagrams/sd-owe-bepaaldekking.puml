@@ -1,6 +1,6 @@
 @startuml sd-owe-bepaaldekking
 ' Sequence diagram van OWE.bepaalDekking (UC08, stap 3).
-' Toelichting: docs/09-sequencediagrammen.md
+' Toelichting: docs/08-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

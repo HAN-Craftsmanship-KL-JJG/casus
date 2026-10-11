@@ -1,6 +1,6 @@
 @startuml ssd-uc08-opvragen-dekking
 ' System sequence diagram van UC08 Opvragen dekkingsoverzicht.
-' Toelichting: docs/09-sequencediagrammen.md
+' Toelichting: docs/08-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

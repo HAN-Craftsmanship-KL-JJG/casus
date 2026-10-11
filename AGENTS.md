@@ -72,7 +72,8 @@ In source, only unbreakable tokens (URLs, hashes) may exceed the limit.
 
 Each `docs/NN-*.md` file is one chapter of the design document.
 The workflow `.github/workflows/ontwerpdocument.yml` merges them into one PDF in filename order,
-so a new chapter needs the prefix that puts it in reading order.
+so a new chapter needs the two-digit prefix that puts it in reading order.
+Renumber the files after it, and the `Toelichting` comments in `docs/diagrams/*.puml`.
 Write each chapter as part of one document: say "dit hoofdstuk", not "dit document".
 Link to another chapter with a heading anchor, such as
 `[Domeinmodel](05-domeinmodel.md#domeinmodel)`.

@@ -1,6 +1,6 @@
 @startuml klassendiagram-handlers
 ' Design class diagram van ICDE: use case controllers en repositories.
-' Toelichting: docs/08-klassendiagram.md
+' Toelichting: docs/07-klassendiagram.md
 ' De domeinklassen staan volledig in klassendiagram-domein.puml.
 ' Verwijzingen naar repositories en regels staan als attribuut, niet als lijn (Larman 7.4).
 skinparam style strictuml

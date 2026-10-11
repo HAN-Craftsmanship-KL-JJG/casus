@@ -1,6 +1,6 @@
 @startuml sd-br5-toetsdruk
 ' Sequence diagram van ToetsdrukRegel.controleer (BR5).
-' Toelichting: docs/09-sequencediagrammen.md
+' Toelichting: docs/08-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

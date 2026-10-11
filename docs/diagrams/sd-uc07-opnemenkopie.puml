@@ -1,6 +1,6 @@
 @startuml sd-uc07-opnemenkopie
 ' Sequence diagram van systeemoperatie opnemenKopie (UC07, flow 3A).
-' Toelichting: docs/09-sequencediagrammen.md
+' Toelichting: docs/08-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

@@ -1,11 +1,8 @@
 # Klassendiagram
 
-Dit hoofdstuk toont het statische ontwerp van ICDE als design class diagram (DCD).
-Het legt ook uit waarom het ontwerp zo is.
-Het bouwt voort op het [domeinmodel](05-domeinmodel.md#domeinmodel) en de
-[use case beschrijvingen](04-use-case-beschrijvingen.md#use-case-beschrijvingen).
-
-Bronnen: Larman hoofdstuk 7 (UML Class Diagrams) en 17 (GRASP).
+De architectuur zet de handlers en de domeinklassen op de applicatieserver.
+Dit hoofdstuk werkt die klassen uit als design class diagram (DCD), en legt uit waarom het ontwerp
+zo is.
 
 ## Klassendiagrammen
 
@@ -35,7 +32,7 @@ Een associatie heeft geen naam.
 Multipliciteit en rolnaam staan alleen aan de doelkant (Larman 7.4).
 
 De systeemoperaties komen uit de
-[system sequence diagrams](09-sequencediagrammen.md#system-sequence-diagrams).
+[system sequence diagrams](08-sequencediagrammen.md#system-sequence-diagrams).
 We verdelen de verantwoordelijkheden met de GRASP-patterns Controller, Creator, Information
 Expert, Low Coupling en High Cohesion.
 De sequence diagrams controleren dit ontwerp.
@@ -45,7 +42,7 @@ De sequence diagrams controleren dit ontwerp.
 Het domeinmodel toont de werkelijkheid, het klassendiagram de software.
 De elf concepten uit het domeinmodel zijn elf klassen gebleven, met dezelfde naam.
 Alleen het streepje valt weg: OWE-onderdeel heet OWEOnderdeel.
-Net als het domeinmodel gebruikt het klassendiagram geen compositie (domeinmodel, keuze 5).
+Net als het domeinmodel gebruikt het klassendiagram geen compositie (D5).
 
 Dit veranderde:
 
@@ -67,21 +64,21 @@ Met het id wijzen UC07 en UC09 een onderdeel aan.
 
 Elke keuze noemt het probleem, de alternatieven en de onderbouwing.
 
-| Nr | Keuze | Principe |
+| Code | Keuze | Principe |
 | --- | --- | --- |
-| 1 | [Een handler per use case](#een-handler-per-use-case) | GRASP Controller |
-| 2 | [Repositories vinden de objecten](#repositories-vinden-de-objecten) | DIP |
-| 3 | [Associaties in één richting](#associaties-in-één-richting) | Low Coupling |
-| 4 | [OWE geeft alle gegevens van een OWE](#owe-geeft-alle-gegevens-van-een-owe) | Expert |
-| 5 | [Een klasse per consistentieregel](#een-klasse-per-consistentieregel) | Open/Closed |
-| 6 | [Documentsjabloon maakt het document](#documentsjabloon-maakt-het-document) | Expert |
-| 7 | [Hergebruik: verwijzing of kopie](#hergebruik-verwijzing-of-kopie) | Polymorphism |
-| 8 | [De eigenaar maakt een onderdeel](#de-eigenaar-maakt-een-onderdeel) | GRASP Creator |
-| 9 | [Een vergrendeling per invoerveld](#een-vergrendeling-per-invoerveld) | |
+| K1 | [Een handler per use case](#k1-een-handler-per-use-case) | GRASP Controller |
+| K2 | [Repositories vinden de objecten](#k2-repositories-vinden-de-objecten) | DIP |
+| K3 | [Associaties in één richting](#k3-associaties-in-één-richting) | Low Coupling |
+| K4 | [OWE geeft alle gegevens van een OWE](#k4-owe-geeft-alle-gegevens-van-een-owe) | Expert |
+| K5 | [Een klasse per consistentieregel](#k5-een-klasse-per-consistentieregel) | Open/Closed |
+| K6 | [Documentsjabloon maakt het document](#k6-documentsjabloon-maakt-het-document) | Expert |
+| K7 | [Hergebruik: verwijzing of kopie](#k7-hergebruik-verwijzing-of-kopie) | Polymorphism |
+| K8 | [De eigenaar maakt een onderdeel](#k8-de-eigenaar-maakt-een-onderdeel) | GRASP Creator |
+| K9 | [Een vergrendeling per invoerveld](#k9-een-vergrendeling-per-invoerveld) | |
 
 DIP is het Dependency Inversion Principle, Expert is GRASP Information Expert.
 
-### Een handler per use case
+### K1 Een handler per use case
 
 Probleem: ICDE heeft 11 use cases met samen meer dan 30 systeemoperaties.
 Welke klasse ontvangt ze (GRASP Controller)?
@@ -106,7 +103,7 @@ Use cases van verschillende actoren delen geen handler, omdat ze om verschillend
 veranderen (Single Responsibility Principle).
 Daarom hebben UC07 en UC09 elk een eigen handler, net als UC05 en UC08.
 
-### Repositories vinden de objecten
+### K2 Repositories vinden de objecten
 
 Probleem: een handler krijgt een code of naam en moet het object vinden.
 De database draait op een eigen server, zoals de casus eist.
@@ -123,9 +120,9 @@ Dat zijn OWERepository, OpleidingRepository, DocumentsjabloonRepository en
 VergrendelingRepository.
 De interface hoort bij het domein, de implementatie bij de datalaag.
 Zo hangt het domein niet af van de database (Dependency Inversion Principle).
-Welk data source pattern de implementatie gebruikt, bepalen we in #12.
+Welk data source pattern de implementatie gebruikt, bepalen we in issue #12.
 
-### Associaties in één richting
+### K3 Associaties in één richting
 
 Probleem: welke kant van een associatie is navigeerbaar?
 
@@ -146,7 +143,7 @@ Een vraag in de andere richting gaat naar een klasse met overzicht:
   OWERepository.wordtHergebruikt.
 - "Welke onderdelen zijn gedeeld?" (UC07) beantwoordt OWERepository.zoekGedeeldeOnderdelen.
 
-### OWE geeft alle gegevens van een OWE
+### K4 OWE geeft alle gegevens van een OWE
 
 Probleem: de consistentieregels, de dekking en de documenten hebben alle leeruitkomsten,
 criteria, lessen en toetsmomenten van een OWE nodig.
@@ -161,13 +158,13 @@ Expert).
 Ze geven eigen en hergebruikte onderdelen samen.
 De rest van het systeem ziet het verschil niet (information hiding).
 Nadeel: OWE heeft 19 operaties.
-[Keuze 4 bij de sequence diagrams](09-sequencediagrammen.md#keuze-4-owe-blijft-één-klasse) weegt
-dat af.
+[S4](08-sequencediagrammen.md#s4-owe-blijft-één-klasse) weegt dat af.
 
-### Een klasse per consistentieregel
+### K5 Een klasse per consistentieregel
 
 Probleem: UC05 past BR1 tot en met BR5 toe.
-De opdrachtgever kan regels toevoegen of wijzigen, zie de open punten van de use cases.
+De opdrachtgever kan regels toevoegen of wijzigen, zie
+[Open punten en overdracht](10-open-punten.md#requirements).
 
 | Alternatief | Nadeel |
 | --- | --- |
@@ -187,9 +184,9 @@ Keuze: een interface Consistentieregel, met een klasse per regel.
   Een andere grens vraagt dus geen nieuwe klasse.
 
 Deze opzet lijkt op het Strategy pattern.
-De design patterns werken we uit in #9.
+De design patterns werken we uit in issue #9.
 
-### Documentsjabloon maakt het document
+### K6 Documentsjabloon maakt het document
 
 Probleem: ICDE scheidt inhoud en vorm (UC06).
 
@@ -211,7 +208,7 @@ Keuze: Documentsjabloon maakt het document, want het kent zijn onderdelen en opm
 
 Welke template-engine het bestand maakt, is een technologiekeuze voor blok 2.
 
-### Hergebruik: verwijzing of kopie
+### K7 Hergebruik: verwijzing of kopie
 
 Probleem: UC07 neemt een gedeeld onderdeel op in een OWE.
 Een verwijzing toont altijd de actuele versie (BR6).
@@ -244,7 +241,7 @@ hun eigen manier uitwerken (Polymorphism).
 - HergebruikOnderdeelHandler.opnemenKopie controleert dat het onderdeel Kopieerbaar is.
 - Les.kopieerNaar roept owe.toevoegenLes aan, Toetsmoment.kopieerNaar owe.toevoegenToetsmoment.
   Zo controleert OWE BR11 en BR14 net als bij toevoegen, zonder de soort te testen
-  ([keuze 3 bij de sequence diagrams](09-sequencediagrammen.md#keuze-3-kopie-via-toevoegen)).
+  ([S3](08-sequencediagrammen.md#s3-kopie-via-toevoegen)).
 - De kopie heeft geen koppelingen met criteria, want die horen bij de andere OWE.
   Les en Toetsmoment mogen 0 criteria hebben, en UC05 meldt dat (BR2, BR4).
   De ontwikkelaar koppelt de kopie daarna aan eigen criteria.
@@ -252,7 +249,7 @@ hun eigen manier uitwerken (Polymorphism).
 Origineel verwijderd (flow 4A): OWERepository.zoekGedeeldOnderdeel vindt het niet, en de handler
 meldt dat.
 
-### De eigenaar maakt een onderdeel
+### K8 De eigenaar maakt een onderdeel
 
 Probleem: welke klasse maakt een nieuw onderdeel (GRASP Creator)?
 
@@ -281,7 +278,7 @@ Gevolgen:
 - De private operatie controleerWeek controleert onderwijsweek, startweek en deadlineweek
   (BR11, BR14).
 
-### Een vergrendeling per invoerveld
+### K9 Een vergrendeling per invoerveld
 
 Probleem: twee ontwikkelaars wijzigen tegelijk dezelfde OWE.
 De opdrachtgever wil dat een invoerveld geblokkeerd is zolang iemand het wijzigt.
@@ -342,7 +339,7 @@ Verwijderen gaat zo:
 
 Per regel de klasse die de regel controleert, en het sequence diagram (SD) dat de regel toont.
 De regels zonder SD horen bij CRUD use cases, zie de
-[aanpak van de sequence diagrams](09-sequencediagrammen.md#aanpak).
+[aanpak van de sequence diagrams](08-sequencediagrammen.md#aanpak).
 
 | Regel | Klasse en operatie | SD |
 | --- | --- | --- |
@@ -367,7 +364,7 @@ De regels zonder SD horen bij CRUD use cases, zie de
   Ze voegen veel regels toe en weinig informatie (Larman 7.6).
 - Constructors.
   De operaties die een object maken, tonen al wie wat maakt
-  (zie [De eigenaar maakt een onderdeel](#de-eigenaar-maakt-een-onderdeel)).
+  (K8).
 - Wijzigen en bekijken bij de CRUD use cases.
   Die volgen het CRUD-sjabloon, met dezelfde parameters als toevoegen.
   De diagrammen tonen toevoegen, net als de use case beschrijvingen.
@@ -377,11 +374,3 @@ De regels zonder SD horen bij CRUD use cases, zie de
   Voorbeelden: flow 2A van UC05, flow 3A2A van UC07, en flow 4A van UC04, UC06, UC07 en UC11.
 - De gebruikersinterface en de implementatie van de repositories.
   Die horen bij de technologiekeuze in blok 2.
-
-## Open punten
-
-- ICDE geeft domeinobjecten terug aan de gebruikersinterface, zoals List<OWEOnderdeel> in UC07.
-  De gebruikersinterface draait op een eigen server, dus dat worden Data Transfer Objects (#10).
-- Een Vergrendeling blijft staan als een ontwikkelaar de browser sluit zonder het veld te
-  verlaten.
-  Hoe lang een vergrendeling geldt, stemmen we af met de opdrachtgever.

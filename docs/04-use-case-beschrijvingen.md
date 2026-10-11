@@ -2,6 +2,8 @@
 
 Dit hoofdstuk werkt de belangrijkste use cases uit het
 [use case diagram](03-use-cases.md#use-case-diagram) uit.
+Het legt ook de bedrijfsregels BR1 tot en met BR14 vast, waar de rest van het document naar
+verwijst.
 
 ## Aanpak
 
@@ -279,10 +281,3 @@ De rest van de OWE blijft bewerkbaar.
 De opleidingscoördinator kiest een onderdeel van een OWE, zoals een leeruitkomst of een rubric.
 Het systeem maakt het onderdeel zichtbaar voor de andere OWE's binnen HBO-ICT.
 Een ontwikkelaar kan het daarna hergebruiken met UC07.
-
-## Open punten
-
-- BR3 vraagt minstens één les per criterium.
-  De opdrachtgever kan een hogere drempel willen, bijvoorbeeld per studiepunt.
-- UC07 neemt standaard een verwijzing op, en als alternatief een kopie.
-- BR5 telt alleen de toetsmomenten van één OWE, ook als studenten meerdere OWE's tegelijk volgen.

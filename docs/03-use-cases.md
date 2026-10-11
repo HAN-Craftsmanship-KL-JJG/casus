@@ -1,9 +1,8 @@
 # Use cases
 
-Dit hoofdstuk toont het use case diagram van ICDE en licht de keuzes toe.
-Het bouwt voort op de actoren en de scope in [Systeemgrenzen](02-systeemgrenzen.md#systeemgrenzen).
-De uitwerking staat in
-[Use case beschrijvingen](04-use-case-beschrijvingen.md#use-case-beschrijvingen).
+De actoren en de scope uit het vorige hoofdstuk leiden tot de use cases van ICDE.
+Dit hoofdstuk toont het use case diagram en licht de keuzes toe.
+Het volgende hoofdstuk werkt de belangrijkste use cases uit.
 
 ## Use case diagram
 
