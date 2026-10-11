@@ -33,7 +33,7 @@ moment, en de gegevens zijn daarna consistent.
 Het doel van elke use case:
 
 - UC01 Beheren OWE: een onderwijseenheid aanmaken, bekijken, wijzigen en verwijderen.
-- UC02 Beheren leeruitkomsten: de leeruitkomsten van een OWE vastleggen.
+- UC02 Beheren leeruitkomsten: de leeruitkomsten van een OWE vastleggen, per EVL.
 - UC03 Beheren beoordelingscriteria: beoordelingsdimensies, criteria en niveaus (de rubric) van
   een OWE vastleggen.
 - UC04 Beheren lesplanning: lessen vastleggen en per les aangeven aan welke beoordelingscriteria

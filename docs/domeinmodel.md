@@ -28,26 +28,27 @@ Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het s
 | Zelfstandig naamwoord | Besluit | Reden |
 | --- | --- | --- |
 | opleiding | concept | UC08 kiest een opleiding. |
+| profiel, opleidingsprofiel | concept Profiel | UC09 deelt onderdelen met andere profielen. |
 | OWE, onderwijseenheid, module | concept OWE | Drie namen voor hetzelfde. |
 | eenheid van leeruitkomsten | concept EVL | ICDE genereert de EVL-beschrijving. |
 | leeruitkomst, leerdoel | concept Leeruitkomst | De casus gebruikt beide woorden. |
 | beoordelingsdimensie | concept | Groep criteria in de rubric. |
 | beoordelingscriterium | concept | De kern van de consistentiecontrole. |
-| niveau | concept | Een criterium heeft meerdere niveaus met een beschrijving. |
+| niveau | concept | Een criterium heeft niveaus met elk een beschrijving. |
 | les, lesplanning | concept Les | De lesplanning is de verzameling lessen. |
 | toets, opdracht, toetsmoment | concept Toetsmoment | Toets en opdracht zijn soorten. |
-| onderdeel, onderwijsonderdeel | concept OWE-onderdeel | Wat een opleiding deelt, zie keuze 3. |
-| documentformaat, formaat, sjabloon | concept Documentformaat | De vorm, los van de inhoud. |
+| onderdeel, onderwijsonderdeel | concept OWE-onderdeel | Wat een profiel deelt, zie keuze 3. |
+| documentsjabloon, documentformaat, sjabloon | concept Documentsjabloon | Vorm los van inhoud. |
 | rubric | geen concept | Een dimensie met criteria en niveaus. |
 | toetsplanning | geen concept | De verzameling toetsmomenten. |
 | onderwijsweek | attribuut | Een weeknummer zonder eigen eigenschappen. |
-| opleidingsprofiel | geen concept | Zie keuze 2. |
 | ontwikkelaar, coördinator, beheerder | geen concept | Rollen van actoren, zie keuze 2. |
 | OWE-beschrijving, beoordelingsformulier | geen concept | Uitvoer van UC06, zie keuze 2. |
-| student, beoordeling | geen concept | Iterative Grading valt buiten het diagram, zie keuze 2. |
+| PDF, Word | geen concept | Bestandstype dat de gebruiker kiest in UC06. |
+| student, beoordeling | geen concept | ICDE legt geen beoordelingen vast, zie keuze 2. |
 | inconsistentie, dekkingsoverzicht | geen concept | Uitvoer van UC05 en UC08. |
-| versie, versiebeheer | geen concept | Een ontwerpprobleem. |
-| OnderwijsOnline, Alluris | geen concept | Externe systemen. |
+| versie, versiebeheer | geen concept | Een niet-functionele eis voor samenwerken. |
+| Brightspace, Osiris | geen concept | Externe systemen zonder koppeling in het prototype. |
 | didactiek | geen concept | Een werkwijze, geen ding met gegevens. |
 
 ## Concepten
@@ -55,6 +56,7 @@ Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het s
 | Concept | Betekenis |
 | --- | --- |
 | Opleiding | Een HBO-opleiding, zoals HBO-ICT. |
+| Profiel | Een profiel binnen een opleiding. |
 | OWE | Een onderwijseenheid, zoals OOSE-DT. |
 | EVL | Een eenheid van leeruitkomsten van een OWE. |
 | OWE-onderdeel | Een deel van een OWE dat te delen is. |
@@ -64,7 +66,7 @@ Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het s
 | Niveau | Een score op een criterium. |
 | Les | Een les in de lesplanning. |
 | Toetsmoment | Een toets of opdracht. |
-| Documentformaat | De vorm van een soort document. |
+| Documentsjabloon | De vorm van een soort document. |
 
 OWE-onderdeel is abstract: elk onderdeel is een leeruitkomst, dimensie, les of toetsmoment.
 
@@ -75,7 +77,10 @@ Toelichting bij enkele attributen:
   In de rubric van OOSE-DT heeft criterium B_Casus1-2 weging 10 en minimum 4.
 - soort van Toetsmoment is toets of opdracht.
 - soortDocument is OWE-beschrijving, EVL-beschrijving, toetsplanning of beoordelingsformulier.
-- gedeeld zegt of andere opleidingen het onderdeel kunnen hergebruiken (UC09).
+- onderdelen, volgorde en opmaak van Documentsjabloon bepalen welke gegevens het document toont,
+  in welke volgorde en hoe.
+  Het bestandstype (PDF of Word) is geen attribuut, want de gebruiker kiest het per document in
+  UC06.
 
 ## Associaties
 
@@ -85,26 +90,29 @@ gedurende het hele bestaan van A?
 
 | Associatie | Multipliciteit | Onderbouwing |
 | --- | --- | --- |
+| Opleiding heeft Profiel | 1 : 0..* | Een profiel hoort bij één opleiding. |
 | Opleiding biedt OWE aan | 1 : 0..* | Een OWE hoort bij één opleiding, de eigenaar. |
-| OWE bestaat uit EVL | 1 : 1..* | Compositie: een EVL bestaat niet zonder OWE. |
-| EVL groepeert Leeruitkomst | 1 : 1..* | Een EVL zonder leeruitkomsten is leeg. |
+| Profiel omvat OWE | 0..* : 0..* | Een OWE kan in meerdere profielen zitten, of in geen. |
+| OWE bestaat uit EVL | 1 : 1..* | De casus: een OWE bestaat uit een of meer EVL's. |
+| EVL groepeert Leeruitkomst | 1 : 0..* | UC05 meldt een OWE zonder leeruitkomsten (2A). |
 | OWE beoordeelt met Beoordelingsdimensie | 1 : 0..* | Een nieuwe OWE heeft nog geen rubric. |
-| Beoordelingsdimensie bestaat uit Beoordelingscriterium | 1 : 1..* | BR10. |
-| Beoordelingscriterium onderscheidt Niveau | 1 : 2..* | Compositie, BR10. |
+| Beoordelingsdimensie bestaat uit Beoordelingscriterium | 1 : 1..* | BR10, groep criteria. |
+| Beoordelingscriterium onderscheidt Niveau | 1 : 1..* | Zonder niveau valt er niets te scoren. |
 | OWE plant Les | 1 : 0..* | Een nieuwe OWE heeft nog geen lessen. |
 | OWE plant Toetsmoment | 1 : 0..* | Een nieuwe OWE heeft nog geen toetsen. |
 | Beoordelingscriterium toetst Leeruitkomst | 0..* : 1..* | BR1 controleert de kant 0..*. |
 | Les draagt bij aan Beoordelingscriterium | 0..* : 0..* | BR2 en BR3. |
 | Toetsmoment beoordeelt Beoordelingscriterium | 0..* : 0..* | BR4. |
+| OWE-onderdeel gedeeld met Profiel | 0..* : 0..* | UC09, een onderdeel is standaard niet gedeeld. |
 | OWE hergebruikt OWE-onderdeel | 0..* : 0..* | UC07, BR6, BR7, BR13. |
 
 Voorbeeld van lezen: Beoordelingscriterium toetst Leeruitkomst, 0..* : 1..*.
 Een criterium toetst minstens één leeruitkomst.
 Een leeruitkomst wordt door nul of meer criteria getoetst.
 
-Documentformaat heeft geen associatie.
-Een formaat geldt voor alle OWE's.
-UC06 combineert een formaat en een OWE pas bij het genereren.
+Documentsjabloon heeft geen associatie.
+Een sjabloon geldt voor alle OWE's.
+UC06 combineert een sjabloon en een OWE pas bij het genereren.
 
 ## Beperkingen die het diagram niet toont
 
@@ -112,40 +120,51 @@ Een UML-multipliciteit kan niet alles zeggen.
 Deze regels gelden ook.
 De codes verwijzen naar de
 [bedrijfsregels](use-case-beschrijvingen.md#bedrijfsregels).
+Met "een onderdeel van de OWE" bedoelen we een eigen onderdeel, of een onderdeel dat de OWE
+hergebruikt.
 
 - Een criterium toetst alleen leeruitkomsten van de OWE van zijn dimensie.
-- Een les en een toetsmoment koppelen alleen criteria van hun eigen OWE (BR11, BR14).
+- Een les en een toetsmoment koppelen alleen criteria van hun OWE (BR11, BR14).
 - onderwijsweek, startweek en deadlineweek liggen binnen aantalWeken van de OWE (BR11, BR14).
-- Een OWE hergebruikt alleen onderdelen van een andere OWE met gedeeld = ja.
+- Een OWE hergebruikt alleen onderdelen van een andere OWE, gedeeld met een profiel van de OWE.
+- Een OWE zit alleen in profielen van haar eigen opleiding.
+  Een onderdeel is alleen gedeeld met profielen van de opleiding van zijn OWE.
 
 ## Keuzes
 
 1. Minimum 0 bij de consistentieregels.
    BR1 tot en met BR4 zeggen "minstens één", maar het model zegt 0..*.
    ICDE moet een OWE met een inconsistentie kunnen bewaren, anders kan UC05 die niet melden.
-   Een ontwikkelaar legt eerst een les vast en koppelt later de criteria (UC04, alternate flow 7B).
+   Een ontwikkelaar legt eerst een les vast en koppelt later de criteria.
+   UC04 waarschuwt dan, maar slaat de les wel op (alternate flow 6A).
 2. Een klein model.
-   De casus eist minimaal 10 concepten, dit model heeft er 11.
+   De casus eist minimaal 10 concepten, dit model heeft er 12.
    Deze kandidaten vielen af:
    - Student en beoordeling horen bij Iterative Grading.
-     Die use cases staan niet in het diagram, zie
-     [use-cases.md](use-cases.md#buiten-het-diagram).
-   - Opleidingsprofiel komt alleen terloops voor bij delen (UC09).
-     Het attribuut gedeeld dekt dat.
+     ICDE legt geen beoordelingen vast, en de student is geen gebruiker van ICDE.
    - Onderwijsontwikkelaar, coördinator en beheerder zijn actoren in het use case diagram.
      Wie iets doet is toegangsbeheer, geen domeinkennis.
-   - Een document is de uitvoer van UC06 uit een OWE en een formaat.
+   - Een document is de uitvoer van UC06 uit een OWE en een sjabloon.
      Of ICDE documenten bewaart, is een ontwerpkeuze voor later.
 3. Generalisatie OWE-onderdeel.
    UC09 deelt "een onderdeel, zoals een leeruitkomst of een rubric".
    Leeruitkomst, Beoordelingsdimensie, Les en Toetsmoment zijn allemaal te delen.
-   De generalisatie laat zien dat hergebruiken (UC07) voor alle vier hetzelfde werkt.
-   Alternatief was een aparte associatie hergebruikt per soort onderdeel: vier lijnen die
-   hetzelfde zeggen.
+   De generalisatie laat zien dat delen (UC09) en hergebruiken (UC07) voor alle vier hetzelfde
+   werken.
+   Alternatief was een aparte associatie per soort onderdeel: acht lijnen die hetzelfde zeggen.
    Een gedeelde dimensie neemt haar criteria en niveaus mee.
-   Een kopie (UC07, alternate flow 5A) is een nieuw onderdeel van de eigen OWE, geen hergebruik.
-4. Les en Toetsmoment hangen aan de OWE, niet aan een EVL.
-   In de lesplanning van OOSE-DT staat per les een EVL.
+   Een kopie (UC07, alternate flow 3A) is een nieuw onderdeel van de eigen OWE, geen hergebruik.
+4. Delen met een Profiel, niet met een attribuut gedeeld.
+   Delen gebeurt alleen tussen profielen binnen HBO-ICT.
+   Een associatie met Profiel legt vast met welke profielen een onderdeel gedeeld is.
+   Een attribuut gedeeld = ja/nee kan dat niet.
+5. Geen compositie.
+   Bijna elk concept bestaat niet zonder zijn OWE, dus compositie zou overal staan.
+   Dat voegt geen informatie toe, en de cursus vraagt geen compositie in een domeinmodel.
+6. Les en Toetsmoment hangen aan de OWE, niet aan een EVL.
+   [systeemgrenzen.md](systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert en
+   de toetsen die ze beoordelen.
+   In de lesplanning van OOSE-DT staat ook per les een EVL.
    Die EVL volgt uit de criteria: criterium, leeruitkomst, EVL.
    Een directe associatie zou dubbel zijn en kan tegenspreken.
    Dit is de stap "controleer op redundantie" uit het stappenplan.
@@ -155,24 +174,21 @@ De codes verwijzen naar de
 Elke use case gebruikt deze concepten.
 Elk concept komt in minstens één use case voor, zo tonen we de compleetheid aan.
 
-- UC01 Beheren OWE: Opleiding, OWE, EVL.
+- UC01 Beheren OWE: Opleiding, Profiel, OWE, EVL.
 - UC02 Beheren leeruitkomsten: EVL, Leeruitkomst.
 - UC03 Beheren beoordelingscriteria: Beoordelingsdimensie, Beoordelingscriterium, Niveau,
   Leeruitkomst.
 - UC04 Beheren lesplanning: Les, Beoordelingscriterium.
 - UC05 Controleren consistentie OWE: OWE, Leeruitkomst, Beoordelingscriterium, Les, Toetsmoment.
-- UC06 Genereren document: OWE, Documentformaat.
-- UC07 Hergebruiken gedeeld onderdeel: OWE, OWE-onderdeel.
+- UC06 Genereren document: OWE, Documentsjabloon.
+- UC07 Hergebruiken gedeeld onderdeel: OWE, OWE-onderdeel, Profiel.
 - UC08 Opvragen dekkingsoverzicht: Opleiding, OWE, Leeruitkomst, Beoordelingscriterium, Les,
   Toetsmoment.
-- UC09 Delen OWE-onderdeel: OWE-onderdeel.
-- UC10 Beheren documentformaat: Documentformaat.
+- UC09 Delen OWE-onderdeel: OWE-onderdeel, Profiel.
+- UC10 Beheren documentsjabloon: Documentsjabloon.
 - UC11 Beheren toetsplanning: Toetsmoment, Beoordelingscriterium.
 
 ## Open punten
 
-- UC02 legt leeruitkomsten vast bij een OWE.
-  In het model hoort een leeruitkomst bij een EVL van die OWE.
-  Bij het toevoegen kiest de ontwikkelaar dus ook de EVL.
 - Een OWE verandert per studiejaar.
   Moet ICDE oude jaren bewaren, dan wordt een uitvoering per studiejaar een eigen concept.
