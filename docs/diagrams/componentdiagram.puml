@@ -1,0 +1,25 @@
+@startuml componentdiagram
+' Component diagram van ICDE: de lagen en hun interfaces. Toelichting: docs/ontwerpdocument.md
+' De interfaces van Repositories horen bij het domein, de datalaag implementeert ze.
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam componentStyle uml2
+
+component Gebruikersinterface
+component Applicatie
+component Domein
+component Datalaag
+database Database
+
+interface Systeemoperaties
+interface Repositories
+
+Gebruikersinterface -down-( Systeemoperaties
+Systeemoperaties -down- Applicatie
+Applicatie .right.> Domein
+Applicatie -down-( Repositories
+Repositories -down- Datalaag
+Datalaag .up.> Domein
+Datalaag -down-> Database
+@enduml

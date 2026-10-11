@@ -15,10 +15,10 @@ icde --> ontwikkelaar : gedeelde onderdelen
 deactivate icde
 alt verwijzing
   ontwikkelaar -> icde : opnemenOnderdeel(oweCode, onderdeelId)
-  activate icde
 else kopie (3A)
   ontwikkelaar -> icde : opnemenKopie(oweCode, onderdeelId)
 end
+activate icde
 alt origineel verwijderd
   icde --> ontwikkelaar : melding: onderdeel bestaat niet meer (4A)
 else

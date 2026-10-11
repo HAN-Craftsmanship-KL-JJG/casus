@@ -379,7 +379,7 @@ De regels zonder SD horen bij CRUD use cases, zie
 - Foutmeldingen.
   Een operatie die een validatieregel of een exceptional flow tegenkomt, gooit een
   OngeldigeInvoerException met de melding.
-  Voorbeelden: flow 2A van UC05, en flow 4A van UC04, UC06, UC07 en UC11.
+  Voorbeelden: flow 2A van UC05, flow 3A2A van UC07, en flow 4A van UC04, UC06, UC07 en UC11.
 - De gebruikersinterface en de implementatie van de repositories.
   Die horen bij de technologiekeuze in blok 2.
 
@@ -387,8 +387,6 @@ De regels zonder SD horen bij CRUD use cases, zie
 
 - ICDE geeft domeinobjecten terug aan de gebruikersinterface, zoals List<OWEOnderdeel> in UC07.
   De gebruikersinterface draait op een eigen server, dus dat worden Data Transfer Objects (#10).
-- Een Vergrendeling blijft staan als een ontwikkelaar de browser sluit zonder op te slaan.
+- Een Vergrendeling blijft staan als een ontwikkelaar de browser sluit zonder het veld te
+  verlaten.
   Hoe lang een vergrendeling geldt, stemmen we af met de opdrachtgever.
-- UC07 flow 3A heeft geen extensie voor een kopie die BR11 of BR14 overtreedt, bijvoorbeeld een
-  les buiten de looptijd van de eigen OWE.
-  toevoegenLes of toevoegenToetsmoment gooit dan een OngeldigeInvoerException.
