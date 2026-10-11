@@ -2,7 +2,7 @@
 ' Design class diagram van ICDE: use case controllers en repositories.
 ' Toelichting: docs/klassendiagram.md
 ' De domeinklassen staan volledig in klassendiagram-domein.puml.
-' Verwijzingen naar repositories staan als attribuut, niet als lijn (Larman 7.4).
+' Verwijzingen naar repositories en regels staan als attribuut, niet als lijn (Larman 7.4).
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
@@ -45,6 +45,9 @@ dimensieNaam : String, code : String) : void
   }
   class BeheerPlanningHandler {
     - owes : OWERepository
+    - lesRegel : Consistentieregel
+    - toetsdrukRegel : Consistentieregel
+    + geefCriteria(oweCode : String) : List<Beoordelingscriterium>
     + toevoegenLes(oweCode : String, naam : String,\n    \
 onderwijsweek : int, beschrijving : String,\n    \
 criteriumCodes : List<String>) : List<Overtreding>
@@ -55,6 +58,7 @@ criteriumCodes : List<String>) : List<Overtreding>
   }
   class ControleerConsistentieHandler {
     - owes : OWERepository
+    - regels : List<Consistentieregel>
     + controleer(oweCode : String) : List<Overtreding>
   }
   class GenereerDocumentHandler {
@@ -73,7 +77,6 @@ bestandstype : Bestandstype) : byte[]
   }
   class OpvragenDekkingHandler {
     - opleidingen : OpleidingRepository
-    - owes : OWERepository
     + geefDekking(opleidingNaam : String) : List<Dekking>
   }
   class DeelOnderdeelHandler {
@@ -124,22 +127,23 @@ veld : String) : Vergrendeling
     - gebruiker : String
     - sinds : Instant
   }
-  interface Consistentieregel <<interface>>
+  interface Consistentieregel <<interface>> {
+    + controleer(owe : OWE) : List<Overtreding>
+  }
 }
 
-BeheerPlanningHandler --> "2 regels" Consistentieregel
-ControleerConsistentieHandler --> "1..* regels" Consistentieregel
 ' Onzichtbare lijnen zetten elke handler naast zijn repositories.
 BeheerOWEHandler -[hidden]-> OpleidingRepository
 BeheerOWEHandler -[hidden]-> OWERepository
 BeheerRubricHandler -[hidden]-> OWERepository
 BeheerPlanningHandler -[hidden]-> OWERepository
 ControleerConsistentieHandler -[hidden]-> OWERepository
+ControleerConsistentieHandler -[hidden]-> Consistentieregel
+BeheerPlanningHandler -[hidden]-> Consistentieregel
 GenereerDocumentHandler -[hidden]-> OWERepository
 GenereerDocumentHandler -[hidden]-> DocumentsjabloonRepository
 HergebruikOnderdeelHandler -[hidden]-> OWERepository
 OpvragenDekkingHandler -[hidden]-> OpleidingRepository
-OpvragenDekkingHandler -[hidden]-> OWERepository
 DeelOnderdeelHandler -[hidden]-> OWERepository
 BeheerDocumentsjabloonHandler -[hidden]-> DocumentsjabloonRepository
 VergrendelVeldHandler -[hidden]-> VergrendelingRepository

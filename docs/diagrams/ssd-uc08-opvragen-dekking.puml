@@ -1,0 +1,25 @@
+@startuml ssd-uc08-opvragen-dekking
+' System sequence diagram van UC08 Opvragen dekkingsoverzicht.
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Opleidingscoördinator" as coordinator
+participant ":ICDE" as icde
+
+coordinator -> icde : geefDekking(opleidingNaam)
+activate icde
+alt geen leeruitkomsten
+  icde --> coordinator : melding: geen leeruitkomsten (2A)
+else
+  icde --> coordinator : dekking per leeruitkomst
+end
+deactivate icde
+note over coordinator, icde
+  Een dekking met isVolledig() false
+  wordt gemarkeerd (stap 4).
+  Is elke dekking volledig, dan is alles afgedekt (4A).
+end note
+@enduml

@@ -35,10 +35,12 @@ class ToetsdrukRegel {
 class Overtreding {
   - regel : String
   - melding : String
+  + betreft(onderdeel : OWEOnderdeel) : boolean
 }
 
 class Dekking {
   + isVolledig() : boolean
+  + voegToe(andere : Dekking) : void
 }
 
 class OWE
@@ -47,6 +49,7 @@ class Leeruitkomst
 class Beoordelingscriterium
 class Les
 class Toetsmoment
+abstract class OWEOnderdeel
 
 Consistentieregel <|.. LeeruitkomstGetoetstRegel
 Consistentieregel <|.. LesDraagtBijRegel
@@ -56,6 +59,8 @@ Consistentieregel <|.. ToetsdrukRegel
 
 Consistentieregel ..> OWE
 Consistentieregel ..> Overtreding : <<create>>
+Overtreding --> "0..* onderdelen" OWEOnderdeel
+Overtreding --> "0..1 criterium" Beoordelingscriterium
 
 Opleiding ..> Dekking
 OWE ..> Dekking : <<create>>

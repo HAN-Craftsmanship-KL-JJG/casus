@@ -1,0 +1,38 @@
+@startuml sd-uc07-opnemenonderdeel
+' Sequence diagram van systeemoperatie opnemenOnderdeel (UC07, stap 3 en 4).
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Onderwijsontwikkelaar" as ontwikkelaar
+participant ":HergebruikOnderdeel\nHandler" as handler
+participant "owes :\nOWERepository" as owes
+participant "owe : OWE" as owe
+
+ontwikkelaar -> handler : opnemenOnderdeel(oweCode, onderdeelId)
+activate handler
+handler -> owes : owe = zoek(oweCode)
+activate owes
+deactivate owes
+handler -> owes : onderdeel =\nzoekGedeeldOnderdeel(onderdeelId)
+activate owes
+deactivate owes
+alt onderdeel is null
+  handler --> ontwikkelaar : OngeldigeInvoerException (4A)
+else
+  handler -> owe : hergebruik(onderdeel)
+  activate owe
+  owe -> owe : hergebruikt.add(onderdeel)
+  deactivate owe
+  handler -> owes : bewaar(owe)
+  activate owes
+  deactivate owes
+end
+deactivate handler
+note over owe
+  owe bewaart een verwijzing,
+  geen kopie [BR6].
+end note
+@enduml

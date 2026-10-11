@@ -14,8 +14,7 @@ De bron is [diagrams/domeinmodel.puml](diagrams/domeinmodel.puml).
 
 ## Aanpak
 
-We volgen de regels voor een domeinmodel uit de cursus (Thema 3 Domain Modeling en de
-richtlijnen bij Mastermind).
+We volgen de regels voor een domeinmodel uit de cursus.
 We vonden de concepten met Noun Phrase Identification (NPI) volgens het stappenplan van de
 cursus.
 

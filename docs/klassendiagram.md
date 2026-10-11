@@ -5,8 +5,7 @@ Het legt ook uit waarom het ontwerp zo is.
 Het bouwt voort op het [domeinmodel](domeinmodel.md) en de
 [use case beschrijvingen](use-case-beschrijvingen.md).
 
-Bronnen: de lessen Design Class Diagrams en "Van use case tot design" (week 2), GRASP Controller
-(week 4), de richtlijnen bij Mastermind en Larman hoofdstuk 7 (UML Class Diagrams) en 17 (GRASP).
+Bronnen: Larman hoofdstuk 7 (UML Class Diagrams) en 17 (GRASP).
 
 ## Klassendiagrammen
 
@@ -38,16 +37,14 @@ Bron: [klassendiagram-handlers.puml](diagrams/klassendiagram-handlers.puml).
 
 ## Aanpak
 
-We volgen de richtlijnen voor een design class diagram uit de cursus (Mastermind, dia 23).
 Een associatie heeft geen naam.
 Multipliciteit en rolnaam staan alleen aan de doelkant (Larman 7.4).
 
-De sequence diagrams volgen in #7.
-Tot dan leiden we de systeemoperaties af uit de stappen van de use cases, zoals in een system
-sequence diagram.
+De systeemoperaties komen uit de system sequence diagrams in
+[sequencediagrammen.md](sequencediagrammen.md).
 We verdelen de verantwoordelijkheden met de GRASP-patterns Controller, Creator, Information
 Expert, Low Coupling en High Cohesion.
-Wijkt een sequence diagram in #7 af, dan passen we dit klassendiagram aan.
+De sequence diagrams controleren dit ontwerp.
 
 ## Van domeinmodel naar ontwerp
 
@@ -106,7 +103,6 @@ Keuze: een use case controller per use case.
 De naam is de naam van de use case met het achtervoegsel Handler, zoals bij Larman.
 CRUD use cases van dezelfde actor over dezelfde gegevens delen een handler, tot ongeveer 10
 systeemoperaties.
-Die grens komt uit "Van use case tot design".
 
 - UC01 en UC02 delen BeheerOWEHandler.
 - UC04 en UC11 delen BeheerPlanningHandler.
@@ -170,7 +166,8 @@ Keuze: OWE heeft geefLeeruitkomsten, geefCriteria, geefLessen en geefToetsmoment
 Expert).
 Ze geven eigen en hergebruikte onderdelen samen.
 De rest van het systeem ziet het verschil niet (information hiding).
-Nadeel: OWE heeft 20 operaties, zie de open punten.
+Nadeel: OWE heeft 19 operaties.
+Keuze 4 in [sequencediagrammen.md](sequencediagrammen.md#keuze-4-owe-blijft-één-klasse) weegt dat af.
 
 ### Een klasse per consistentieregel
 
@@ -241,17 +238,18 @@ Kopie (flow 3A):
 
 In flow 3A neemt het systeem de kopie zelf op, zonder invoer van de ontwikkelaar.
 
-Keuze: een interface Kopieerbaar met de operatie kopieer, die Les en Toetsmoment elk op hun
-eigen manier uitwerken (Polymorphism).
+Keuze: een interface Kopieerbaar met de operatie kopieerNaar(owe), die Les en Toetsmoment elk op
+hun eigen manier uitwerken (Polymorphism).
 
 - Leeruitkomst en Beoordelingsdimensie zijn niet Kopieerbaar.
   Een gekopieerde leeruitkomst heeft een EVL en een nieuw nummer nodig (BR9).
   Een gekopieerd criterium verliest zijn leeruitkomsten, terwijl het er minstens één toetst.
-- Een abstracte kopieer op OWEOnderdeel zou bij twee van de vier subklassen een fout geven.
+- Een abstracte kopieerNaar op OWEOnderdeel zou bij twee van de vier subklassen een fout geven.
   Dat schendt het Liskov Substitution Principle.
 - HergebruikOnderdeelHandler.opnemenKopie controleert dat het onderdeel Kopieerbaar is.
-- OWE.kopieer vraagt de kopie aan het onderdeel en neemt haar op in de eigen lijsten.
-- OWE controleert daarbij BR11 en BR14 met controleerWeek, net als bij toevoegen.
+- Les.kopieerNaar roept owe.toevoegenLes aan, Toetsmoment.kopieerNaar owe.toevoegenToetsmoment.
+  Zo controleert OWE BR11 en BR14 net als bij toevoegen, zonder de soort te testen
+  (keuze 3 in [sequencediagrammen.md](sequencediagrammen.md#keuze-3-kopie-via-toevoegen)).
 - De kopie heeft geen koppelingen met criteria, want die horen bij de andere OWE.
   Les en Toetsmoment mogen 0 criteria hebben, en UC05 meldt dat (BR2, BR4).
   De ontwikkelaar koppelt de kopie daarna aan eigen criteria.
@@ -327,8 +325,8 @@ VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebru
 | UC04 | BeheerPlanningHandler | OWE.toevoegenLes, LesDraagtBijRegel |
 | UC05 | ControleerConsistentieHandler | Consistentieregel met vijf regels, Overtreding |
 | UC06 | GenereerDocumentHandler | Documentsjabloon.zoekOntbrekendeGegevens, genereer |
-| UC07 | HergebruikOnderdeelHandler | OWE.bevat, OWE.hergebruik, OWE.kopieer, Kopieerbaar |
-| UC08 | OpvragenDekkingHandler | Opleiding.bepaalDekking, OWE.bepaalDekking, Dekking |
+| UC07 | HergebruikOnderdeelHandler | OWE.bevat, OWE.hergebruik, Kopieerbaar.kopieerNaar |
+| UC08 | OpvragenDekkingHandler | Opleiding.bepaalDekking, OWE.bepaalDekking, Dekking.voegToe |
 | UC09 | DeelOnderdeelHandler | OWEOnderdeel.deel |
 | UC10 | BeheerDocumentsjabloonHandler | Documentsjabloon |
 | UC11 | BeheerPlanningHandler | OWE.toevoegenToetsmoment, ToetsdrukRegel |
@@ -347,22 +345,26 @@ Verwijderen gaat zo:
 
 ### Per bedrijfsregel
 
-| Regel | Klasse en operatie |
-| --- | --- |
-| BR1 | LeeruitkomstGetoetstRegel, met Beoordelingscriterium.toetst |
-| BR2 | LesDraagtBijRegel, met Les.heeftCriteria |
-| BR3 | CriteriumHeeftLesRegel, met Les.dekt |
-| BR4 | CriteriumBeoordeeldRegel, met Toetsmoment.beoordeelt |
-| BR5 | ToetsdrukRegel, met Toetsmoment.omvat |
-| BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie |
-| BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het |
-| BR8 | Opleiding.maakOWE met de eerste EVL, OWE.verwijderEVL, OWERepository.zoek voor de code |
-| BR9 | EVL.toevoegenLeeruitkomst, met OWE voor een uniek nummer |
-| BR10 | OWE.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium en verwijderCriterium |
-| BR11 | OWE.toevoegenLes, met controleerWeek en zoekCriteria |
-| BR12 | BeheerDocumentsjabloonHandler, met DocumentsjabloonRepository.zoek |
-| BR13 | verwijderOnderdeel, verwijderCriterium, verwijderOWE, met OWERepository.wordtHergebruikt |
-| BR14 | OWE.toevoegenToetsmoment, met controleerWeek en zoekCriteria |
+Per regel de klasse die de regel controleert, en het sequence diagram (SD) dat de regel toont.
+De regels zonder SD horen bij CRUD use cases, zie
+[sequencediagrammen.md](sequencediagrammen.md#aanpak).
+
+| Regel | Klasse en operatie | SD |
+| --- | --- | --- |
+| BR1 | LeeruitkomstGetoetstRegel, met Beoordelingscriterium.toetst | BR1 |
+| BR2 | LesDraagtBijRegel, met Les.heeftCriteria | controleer, toevoegenLes |
+| BR3 | CriteriumHeeftLesRegel, met Les.dekt | controleer |
+| BR4 | CriteriumBeoordeeldRegel, met Toetsmoment.beoordeelt | controleer |
+| BR5 | ToetsdrukRegel, met Toetsmoment.omvat | BR5, toevoegenToetsmoment |
+| BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie | opnemenOnderdeel |
+| BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het | - |
+| BR8 | Opleiding.maakOWE met de eerste EVL, OWE.verwijderEVL, OWERepository.zoek | - |
+| BR9 | EVL.toevoegenLeeruitkomst, met OWE voor een uniek nummer | - |
+| BR10 | OWE.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium, verwijderCriterium | - |
+| BR11 | OWE.toevoegenLes, met controleerWeek en zoekCriteria | toevoegenLes, opnemenKopie |
+| BR12 | BeheerDocumentsjabloonHandler, met DocumentsjabloonRepository.zoek | - |
+| BR13 | verwijderOnderdeel, verwijderCriterium, verwijderOWE, OWERepository.wordtHergebruikt | - |
+| BR14 | OWE.toevoegenToetsmoment, met controleerWeek en zoekCriteria | toevoegenToetsmoment |
 
 ## Wat niet in de diagrammen staat
 
@@ -383,14 +385,10 @@ Verwijderen gaat zo:
 
 ## Open punten
 
-- De sequence diagrams in #7 controleren de operaties en de dependencies in dit ontwerp.
-- OWE heeft 20 operaties.
-  Blijkt in #7 dat OWE te veel doet, dan splitsen we de zoek- en geef-operaties af naar een eigen
-  klasse.
 - ICDE geeft domeinobjecten terug aan de gebruikersinterface, zoals List<OWEOnderdeel> in UC07.
   De gebruikersinterface draait op een eigen server, dus dat worden Data Transfer Objects (#10).
 - Een Vergrendeling blijft staan als een ontwikkelaar de browser sluit zonder op te slaan.
   Hoe lang een vergrendeling geldt, stemmen we af met de opdrachtgever.
 - UC07 flow 3A heeft geen extensie voor een kopie die BR11 of BR14 overtreedt, bijvoorbeeld een
   les buiten de looptijd van de eigen OWE.
-  OWE.kopieer gooit dan een OngeldigeInvoerException, net als bij toevoegen.
+  toevoegenLes of toevoegenToetsmoment gooit dan een OngeldigeInvoerException.

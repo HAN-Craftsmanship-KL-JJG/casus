@@ -1,0 +1,50 @@
+@startuml sd-uc08-geefdekking
+' Sequence diagram van systeemoperatie geefDekking (UC08, stap 1 tot en met 4).
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Opleidingscoördinator" as coordinator
+participant ":OpvragenDekking\nHandler" as handler
+participant "opleidingen :\nOpleidingRepository" as opleidingen
+participant "opleiding :\nOpleiding" as opleiding
+participant "owes[i] : OWE" as owe
+participant "bestaande :\nDekking" as bestaande
+
+coordinator -> handler : dekking = geefDekking(opleidingNaam)
+activate handler
+handler -> opleidingen : opleiding = zoek(opleidingNaam)
+activate opleidingen
+deactivate opleidingen
+handler -> opleiding : dekking = bepaalDekking()
+activate opleiding
+loop voor elke OWE in owes
+  opleiding -> owe : lijst = bepaalDekking()
+  activate owe
+  ref over owe : SD OWE.bepaalDekking
+  deactivate owe
+  loop voor elke d in lijst
+    alt dekking heeft al een Dekking voor de leeruitkomst van d
+      opleiding -> bestaande : voegToe(d)
+      activate bestaande
+      deactivate bestaande
+    else
+      opleiding -> opleiding : dekking.add(d)
+    end
+  end
+end
+deactivate opleiding
+alt dekking is leeg
+  handler --> coordinator : OngeldigeInvoerException (2A)
+else
+  handler --> coordinator : dekking
+end
+deactivate handler
+note over opleiding, bestaande
+  Een hergebruikte leeruitkomst komt in
+  meer OWE's voor. Opleiding voegt haar
+  dekkingen samen tot één Dekking.
+end note
+@enduml

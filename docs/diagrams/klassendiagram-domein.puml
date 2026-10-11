@@ -36,7 +36,6 @@ soort : SoortToetsmoment, startweek : int,\n    \
 deadlineweek : int,\n    \
 criteriumCodes : List<String>) : Toetsmoment
   + hergebruik(onderdeel : OWEOnderdeel) : void
-  + kopieer(onderdeel : Kopieerbaar) : void
   + verwijder(onderdeel : OWEOnderdeel) : void
   + verwijderEVL(naam : String) : void
   + bevat(onderdeel : OWEOnderdeel) : boolean
@@ -97,7 +96,7 @@ class Les {
   - naam : String
   - onderwijsweek : int
   - beschrijving : String
-  + kopieer() : OWEOnderdeel
+  + kopieerNaar(owe : OWE) : OWEOnderdeel
   + heeftCriteria() : boolean
   + dekt(criterium : Beoordelingscriterium) : boolean
 }
@@ -107,7 +106,7 @@ class Toetsmoment {
   - soort : SoortToetsmoment
   - startweek : int
   - deadlineweek : int
-  + kopieer() : OWEOnderdeel
+  + kopieerNaar(owe : OWE) : OWEOnderdeel
   + beoordeelt(criterium : Beoordelingscriterium) : boolean
   + omvat(week : int) : boolean
 }
@@ -124,7 +123,7 @@ bestandstype : Bestandstype) : byte[]
 }
 
 interface Kopieerbaar <<interface>> {
-  + kopieer() : OWEOnderdeel
+  + kopieerNaar(owe : OWE) : OWEOnderdeel
 }
 
 enum SoortToetsmoment <<enumeration>> {
