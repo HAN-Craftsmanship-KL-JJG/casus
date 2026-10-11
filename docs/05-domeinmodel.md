@@ -23,7 +23,7 @@ Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het s
 | Zelfstandig naamwoord | Besluit | Reden |
 | --- | --- | --- |
 | opleiding | concept | UC08 kiest een opleiding. |
-| profiel, opleidingsprofiel | geen concept | De HAN kent geen profielen, zie D4. |
+| profiel, opleidingsprofiel | geen concept | De HAN kent geen profielen, zie D3. |
 | OWE, onderwijseenheid, module | concept OWE | Drie namen voor hetzelfde. |
 | eenheid van leeruitkomsten | concept EVL | ICDE genereert de EVL-beschrijving. |
 | leeruitkomst, leerdoel | concept Leeruitkomst | De casus gebruikt beide woorden. |
@@ -32,21 +32,24 @@ Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het s
 | niveau | concept | Een criterium heeft niveaus met elk een beschrijving. |
 | les, lesplanning | concept Les | De lesplanning is de verzameling lessen. |
 | toets, opdracht, toetsmoment | concept Toetsmoment | Toets en opdracht zijn soorten. |
-| onderdeel, onderwijsonderdeel | concept OWE-onderdeel | Wat een OWE deelt, zie D3. |
+| onderdeel, onderwijsonderdeel | concept OWE-onderdeel | Wat een OWE deelt, zie D2. |
 | documentsjabloon, documentformaat, sjabloon | concept Documentsjabloon | Vorm los van inhoud. |
 | rubric | geen concept | Een dimensie met criteria en niveaus. |
 | toetsplanning | geen concept | De verzameling toetsmomenten. |
 | onderwijsweek | attribuut | Een weeknummer zonder eigen eigenschappen. |
-| ontwikkelaar, coördinator, beheerder | geen concept | Rollen van actoren, zie D2. |
-| OWE-beschrijving, beoordelingsformulier | geen concept | Uitvoer van UC06, zie D2. |
+| ontwikkelaar, coördinator, beheerder | geen concept | Rollen van actoren, geen domeinkennis. |
+| OWE-beschrijving, beoordelingsformulier | geen concept | Uitvoer van UC06, niet bewaard. |
 | PDF, Word | geen concept | Bestandstype dat de gebruiker kiest in UC06. |
-| student, beoordeling | geen concept | ICDE legt geen beoordelingen vast, zie D2. |
+| student, beoordeling | geen concept | ICDE legt geen beoordelingen vast. |
 | inconsistentie, dekkingsoverzicht | geen concept | Uitvoer van UC05 en UC08. |
 | versie, versiebeheer | geen concept | Een niet-functionele eis voor samenwerken. |
 | Brightspace, Osiris | geen concept | Externe systemen zonder koppeling in het prototype. |
 | didactiek | geen concept | Een werkwijze, geen ding met gegevens. |
 
 ## Concepten
+
+De casus eist minimaal 10 concepten.
+Het model heeft er 11: alleen de concepten die een use case nodig heeft.
 
 | Concept | Betekenis |
 | --- | --- |
@@ -134,22 +137,7 @@ Keuze: 0..*.
 Een ontwikkelaar legt eerst een les vast en koppelt later de criteria.
 UC04 waarschuwt dan, maar slaat de les wel op (flow 6A).
 
-### D2 Een klein model
-
-Probleem: welke kandidaat-concepten worden een concept?
-
-Keuze: alleen de concepten die een use case nodig heeft.
-De casus eist minimaal 10 concepten, dit model heeft er 11.
-Deze kandidaten vielen af:
-
-- Student en beoordeling horen bij Iterative Grading.
-  ICDE legt geen beoordelingen vast, en de student is geen gebruiker van ICDE.
-- Onderwijsontwikkelaar, coördinator en beheerder zijn actoren in het use case diagram.
-  Wie iets doet is toegangsbeheer, geen domeinkennis.
-- Een document is de uitvoer van UC06 uit een OWE en een sjabloon.
-  Of ICDE documenten bewaart, is een ontwerpkeuze voor later.
-
-### D3 Generalisatie OWE-onderdeel
+### D2 Generalisatie OWE-onderdeel
 
 Probleem: UC09 deelt "een onderdeel, zoals een leeruitkomst of een rubric".
 Leeruitkomst, Beoordelingsdimensie, Les en Toetsmoment zijn allemaal te delen.
@@ -164,7 +152,7 @@ werken.
 Een gedeelde dimensie neemt haar criteria en niveaus mee.
 Een kopie (UC07, flow 3A) is een nieuw onderdeel van de eigen OWE, geen hergebruik.
 
-### D4 Geen concept Profiel
+### D3 Geen concept Profiel
 
 Probleem: de casus noemt delen "tussen opleidingen en profielen".
 
@@ -175,7 +163,7 @@ Keuze: geen concept Profiel.
 ICDE deelt alleen binnen HBO-ICT, dus een onderdeel is gedeeld of niet.
 Het attribuut gedeeld legt dat vast, en een gedeeld onderdeel is zichtbaar voor elke andere OWE.
 
-### D5 Geen compositie
+### D4 Geen compositie
 
 Probleem: bijna elk concept bestaat niet zonder zijn OWE.
 
@@ -185,7 +173,7 @@ Dan staat compositie bijna overal, en dat voegt geen informatie toe.
 Keuze: gewone associaties.
 De cursus vraagt geen compositie in een domeinmodel.
 
-### D6 Les en Toetsmoment hangen aan de OWE, niet aan een EVL
+### D5 Les en Toetsmoment hangen aan de OWE, niet aan een EVL
 
 Probleem: [Begrippen](02-systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert
 en de toetsen die ze beoordelen.
@@ -219,19 +207,10 @@ Dit is de stap "Valideer het model" uit het NPI-stappenplan van de cursus.
 | UC10 Beheren documentsjabloon | BR12 | Sjabloon | Documentsjabloon |
 | UC11 Beheren toetsplanning | BR5, BR13, BR14 | Toetsmoment met criteria | Toetsmoment, plant, beoordeelt |
 
-Toelichting bij de tabel:
+Elke flow past bij de multipliciteiten:
 
 - UC04 flow 6A bewaart een les zonder criteria, dat kan door draagt bij aan 0..*.
 - UC05 en UC08 flow 2A melden een OWE zonder leeruitkomsten, dat kan door
   groepeert 0..*.
 - Een rubric is een Beoordelingsdimensie met haar criteria en niveaus.
 - Een kopie in UC07 is een nieuwe les of een nieuw toetsmoment van de eigen OWE.
-
-### Conclusie
-
-Elke use case vindt haar gegevens in het model, en elke flow past bij de multipliciteiten.
-Om dat te bereiken, zijn enkele use case teksten aangepast:
-
-- BR8 noemt nu de opleiding en de EVL's van een OWE, BR9 de EVL van een leeruitkomst.
-- UC07 en UC09 spreken van OWE's in plaats van profielen, want het model kent geen profielen.
-- De samenvattingen van UC05 en UC08 en stap 3 van UC04 en UC11 volgen nu het model.

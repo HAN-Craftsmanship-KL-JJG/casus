@@ -103,11 +103,6 @@ Middel zijn delen, hergebruiken en het beheer van sjablonen.
 UC05 Controleren consistentie OWE heeft de hoogste prioriteit, omdat de opdrachtgever
 gegevensvalidatie van een OWE voorop zet.
 
-### Een klein diagram
-
-De casus eist minimaal 10 use cases.
-We nemen er 11 op, zodat de analyse en het ontwerp gericht blijven.
-
 ## Buiten het diagram
 
 Deze kandidaat-use cases vallen buiten het prototype.

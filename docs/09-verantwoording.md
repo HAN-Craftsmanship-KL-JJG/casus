@@ -8,7 +8,7 @@ controleert of het ontwerp consistent is met de requirements.
 
 Elke keuze beschrijft het probleem, de alternatieven en de reden.
 Deze tabel geeft het overzicht van de keuzes in het ontwerp.
-De keuzes in het domeinmodel (D1 tot en met D6) staan in het hoofdstuk
+De keuzes in het domeinmodel (D1 tot en met D5) staan in het hoofdstuk
 [Domeinmodel](05-domeinmodel.md#keuzes).
 
 | Keuze | Probleem | Principe of pattern |

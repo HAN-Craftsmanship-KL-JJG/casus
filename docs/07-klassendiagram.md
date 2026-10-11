@@ -42,7 +42,7 @@ Het ontwerp staat in drie diagrammen, zodat elk diagram leesbaar blijft.
 Het domeinmodel toont de werkelijkheid, het klassendiagram de software.
 De elf concepten uit het domeinmodel zijn elf klassen gebleven, met dezelfde naam.
 Alleen het streepje valt weg: OWE-onderdeel heet OWEOnderdeel.
-Net als het domeinmodel gebruikt het klassendiagram geen compositie (D5).
+Net als het domeinmodel gebruikt het klassendiagram geen compositie (D4).
 
 Dit veranderde:
 
@@ -61,22 +61,6 @@ Dit veranderde:
 Met het id wijzen UC07 en UC09 een onderdeel aan.
 
 ## Keuzes
-
-Elke keuze noemt het probleem, de alternatieven en de keuze.
-
-| Code | Keuze | Principe |
-| --- | --- | --- |
-| K1 | [Een handler per use case](#k1-een-handler-per-use-case) | GRASP Controller |
-| K2 | [Repositories vinden de objecten](#k2-repositories-vinden-de-objecten) | DIP |
-| K3 | [Associaties in één richting](#k3-associaties-in-één-richting) | Low Coupling |
-| K4 | [OWE geeft alle gegevens van een OWE](#k4-owe-geeft-alle-gegevens-van-een-owe) | Expert |
-| K5 | [Een klasse per consistentieregel](#k5-een-klasse-per-consistentieregel) | Open/Closed |
-| K6 | [Documentsjabloon maakt het document](#k6-documentsjabloon-maakt-het-document) | Expert |
-| K7 | [Hergebruik: verwijzing of kopie](#k7-hergebruik-verwijzing-of-kopie) | Polymorphism |
-| K8 | [De eigenaar maakt een onderdeel](#k8-de-eigenaar-maakt-een-onderdeel) | GRASP Creator |
-| K9 | [Een vergrendeling per invoerveld](#k9-een-vergrendeling-per-invoerveld) | |
-
-DIP is het Dependency Inversion Principle, Expert is GRASP Information Expert.
 
 ### K1 Een handler per use case
 
