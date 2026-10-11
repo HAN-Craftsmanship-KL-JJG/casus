@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   pdf:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     outputs:
       pdf: ${{ steps.build.outputs.pdf }}
     steps:
@@ -51,7 +51,7 @@ jobs:
   release:
     if: github.event_name == 'push'
     needs: pdf
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     concurrency:
