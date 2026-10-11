@@ -28,7 +28,7 @@ Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het s
 | Zelfstandig naamwoord | Besluit | Reden |
 | --- | --- | --- |
 | opleiding | concept | UC08 kiest een opleiding. |
-| profiel, opleidingsprofiel | geen concept | Zie keuze 4. |
+| profiel, opleidingsprofiel | geen concept | De HAN kent geen profielen, zie keuze 4. |
 | OWE, onderwijseenheid, module | concept OWE | Drie namen voor hetzelfde. |
 | eenheid van leeruitkomsten | concept EVL | ICDE genereert de EVL-beschrijving. |
 | leeruitkomst, leerdoel | concept Leeruitkomst | De casus gebruikt beide woorden. |
@@ -150,11 +150,11 @@ hergebruikt.
    hetzelfde zeggen.
    Een gedeelde dimensie neemt haar criteria en niveaus mee.
    Een kopie (UC07, alternate flow 3A) is een nieuw onderdeel van de eigen OWE, geen hergebruik.
-4. Delen met een attribuut gedeeld, niet met een concept Profiel.
+4. Geen concept Profiel.
+   De casus noemt delen "tussen opleidingen en profielen".
+   De HAN kent geen profielen als specialisatie binnen een opleiding, Opleiding dekt dit.
    ICDE deelt alleen binnen HBO-ICT, dus een onderdeel is gedeeld of niet.
-   Een gedeeld onderdeel is zichtbaar voor elke andere OWE.
-   Een concept Profiel is pas nodig als een onderdeel met bepaalde profielen gedeeld wordt.
-   Geen bron of use case vraagt dat.
+   Het attribuut gedeeld legt dat vast, en een gedeeld onderdeel is zichtbaar voor elke andere OWE.
 5. Geen compositie.
    Bijna elk concept bestaat niet zonder zijn OWE, dus compositie zou overal staan.
    Dat voegt geen informatie toe, en de cursus vraagt geen compositie in een domeinmodel.
