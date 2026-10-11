@@ -1,12 +1,10 @@
 # Pandoc metadata for the merged design document PDF.
 # The workflow in .github/workflows/ontwerpdocument.yml reads this file.
+# The layout is in ontwerpdocument.typ.
 title: Ontwerpdocument ICDE
 subtitle: Integrated Course Design Environment
 lang: nl-NL
 papersize: a4
-header-includes: |
-  ```{=typst}
-  #show heading.where(level: 1): it => { pagebreak(weak: true); it }
-  #show table.cell: set align(left)
-  #set par(justify: false)
-  ```
+margin:
+  x: 2cm
+  y: 2cm
