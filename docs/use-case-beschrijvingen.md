@@ -16,6 +16,16 @@ Daar koppelt het systeem de planning aan de beoordelingscriteria en controleert 
 
 ## Bedrijfsregels
 
+De consistentieregels controleren de verbanden tussen de onderdelen van een OWE:
+
+```mermaid
+flowchart LR
+  LU[Leeruitkomst] -- "getoetst door (BR1)" --> BC[Beoordelingscriterium]
+  L[Les] -- "draagt bij aan (BR2, BR3)" --> BC
+  BC -- "beoordeeld in (BR4)" --> TM[Toetsmoment]
+  TM -- "max. 3 per week (BR5)" --> TM
+```
+
 Consistentieregels:
 
 - BR1: Elke leeruitkomst van een OWE wordt getoetst door minstens één beoordelingscriterium.
