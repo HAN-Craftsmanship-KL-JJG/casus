@@ -40,6 +40,7 @@ class Overtreding {
 
 class Dekking {
   + isVolledig() : boolean
+  + voegToe(andere : Dekking) : void
 }
 
 class OWE

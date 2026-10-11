@@ -11,6 +11,7 @@ participant ":OpvragenDekking\nHandler" as handler
 participant "opleidingen :\nOpleidingRepository" as opleidingen
 participant "opleiding :\nOpleiding" as opleiding
 participant "owes[i] : OWE" as owe
+participant "bestaande :\nDekking" as bestaande
 
 coordinator -> handler : dekking = geefDekking(opleidingNaam)
 activate handler
@@ -20,10 +21,19 @@ deactivate opleidingen
 handler -> opleiding : dekking = bepaalDekking()
 activate opleiding
 loop voor elke OWE in owes
-  opleiding -> owe : d = bepaalDekking()
+  opleiding -> owe : lijst = bepaalDekking()
   activate owe
   ref over owe : SD OWE.bepaalDekking
   deactivate owe
+  loop voor elke d in lijst
+    alt dekking heeft al een Dekking voor de leeruitkomst van d
+      opleiding -> bestaande : voegToe(d)
+      activate bestaande
+      deactivate bestaande
+    else
+      opleiding -> opleiding : dekking.add(d)
+    end
+  end
 end
 deactivate opleiding
 alt dekking is leeg
@@ -32,4 +42,9 @@ else
   handler --> coordinator : dekking
 end
 deactivate handler
+note over opleiding, bestaande
+  Een hergebruikte leeruitkomst komt in
+  meer OWE's voor. Opleiding voegt haar
+  dekkingen samen tot één Dekking.
+end note
 @enduml

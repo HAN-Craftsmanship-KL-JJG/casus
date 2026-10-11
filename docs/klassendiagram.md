@@ -326,7 +326,7 @@ VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebru
 | UC05 | ControleerConsistentieHandler | Consistentieregel met vijf regels, Overtreding |
 | UC06 | GenereerDocumentHandler | Documentsjabloon.zoekOntbrekendeGegevens, genereer |
 | UC07 | HergebruikOnderdeelHandler | OWE.bevat, OWE.hergebruik, Kopieerbaar.kopieerNaar |
-| UC08 | OpvragenDekkingHandler | Opleiding.bepaalDekking, OWE.bepaalDekking, Dekking |
+| UC08 | OpvragenDekkingHandler | Opleiding.bepaalDekking, OWE.bepaalDekking, Dekking.voegToe |
 | UC09 | DeelOnderdeelHandler | OWEOnderdeel.deel |
 | UC10 | BeheerDocumentsjabloonHandler | Documentsjabloon |
 | UC11 | BeheerPlanningHandler | OWE.toevoegenToetsmoment, ToetsdrukRegel |

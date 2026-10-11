@@ -105,6 +105,9 @@ Een kopie (3A) loopt via de toevoegoperatie van de OWE (keuze 3).
 ### UC08 Opvragen dekkingsoverzicht
 
 Opleiding vraagt elke OWE om haar dekking.
+Een hergebruikte leeruitkomst komt in meer OWE's voor.
+Opleiding voegt die dekkingen samen met `Dekking.voegToe`, zodat elke leeruitkomst één keer in
+het overzicht staat.
 De gebruikersinterface markeert elke dekking waarvoor `isVolledig()` false geeft.
 
 ![SD geefDekking](diagrams/sd-uc08-geefdekking.svg)
