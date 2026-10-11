@@ -50,7 +50,7 @@ Het doel van elke use case:
   OWE.
 - UC08 Opvragen dekkingsoverzicht: het systeem toont per leeruitkomst van een opleiding in welke
   OWE's en lessen die aan bod komt.
-- UC09 Delen OWE-onderdeel: een onderdeel van een OWE beschikbaar maken voor andere profielen
+- UC09 Delen OWE-onderdeel: een onderdeel van een OWE beschikbaar maken voor andere OWE's
   binnen HBO-ICT.
   Delen met andere opleidingen is niet nodig.
 - UC10 Beheren documentsjabloon: sjablonen voor documenten vastleggen, los van de inhoud.

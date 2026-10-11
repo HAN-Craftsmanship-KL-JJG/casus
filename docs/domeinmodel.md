@@ -166,24 +166,10 @@ hergebruikt.
    Een directe associatie zou dubbel zijn en kan tegenspreken.
    Dit is de stap "controleer op redundantie" uit het stappenplan.
 
-## Traceerbaarheid naar de use cases
+## Validatie
 
-Elke use case gebruikt deze concepten.
-Elk concept komt in minstens één use case voor, zo tonen we de compleetheid aan.
-
-- UC01 Beheren OWE: Opleiding, OWE, EVL.
-- UC02 Beheren leeruitkomsten: EVL, Leeruitkomst.
-- UC03 Beheren beoordelingscriteria: Beoordelingsdimensie, Beoordelingscriterium, Niveau,
-  Leeruitkomst.
-- UC04 Beheren lesplanning: Les, Beoordelingscriterium.
-- UC05 Controleren consistentie OWE: OWE, Leeruitkomst, Beoordelingscriterium, Les, Toetsmoment.
-- UC06 Genereren document: OWE, Documentsjabloon.
-- UC07 Hergebruiken gedeeld onderdeel: OWE, OWE-onderdeel.
-- UC08 Opvragen dekkingsoverzicht: Opleiding, OWE, Leeruitkomst, Beoordelingscriterium, Les,
-  Toetsmoment.
-- UC09 Delen OWE-onderdeel: OWE-onderdeel.
-- UC10 Beheren documentsjabloon: Documentsjabloon.
-- UC11 Beheren toetsplanning: Toetsmoment, Beoordelingscriterium.
+De controle van dit model tegen de use cases staat in
+[domeinmodel-validatie.md](domeinmodel-validatie.md).
 
 ## Open punten
 
