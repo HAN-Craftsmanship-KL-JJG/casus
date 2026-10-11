@@ -10,7 +10,8 @@ hide empty members
 class Opleiding {
   - naam : String
   + maakOWE(code : String, naam : String,\n    \
-studiepunten : int, aantalWeken : int) : OWE
+studiepunten : int, aantalWeken : int,\n    \
+evlNaam : String, evlStudiepunten : int) : OWE
   + bepaalDekking() : List<Dekking>
 }
 
@@ -19,7 +20,6 @@ class OWE {
   - naam : String
   - studiepunten : int
   - aantalWeken : int
-  - versie : int
   + toevoegenEVL(naam : String, studiepunten : int) : EVL
   + toevoegenLeeruitkomst(evlNaam : String, nummer : int,\n    \
 omschrijving : String) : Leeruitkomst
@@ -32,7 +32,9 @@ soort : SoortToetsmoment, startweek : int,\n    \
 deadlineweek : int,\n    \
 criteriumCodes : List<String>) : Toetsmoment
   + hergebruik(onderdeel : OWEOnderdeel) : void
+  + kopieer(onderdeel : OWEOnderdeel) : void
   + verwijder(onderdeel : OWEOnderdeel) : void
+  + bevat(onderdeel : OWEOnderdeel) : boolean
   + zoekOnderdeel(id : UUID) : OWEOnderdeel
   + zoekDimensie(naam : String) : Beoordelingsdimensie
   + zoekLeeruitkomsten(nummers : List<Integer>) : List<Leeruitkomst>
@@ -40,7 +42,6 @@ criteriumCodes : List<String>) : Toetsmoment
   + geefCriteria() : List<Beoordelingscriterium>
   + geefLessen() : List<Les>
   + geefToetsmomenten() : List<Toetsmoment>
-  + geefGedeeldeOnderdelen() : List<OWEOnderdeel>
   + bepaalDekking() : List<Dekking>
   - zoekCriteria(codes : List<String>) : List<Beoordelingscriterium>
   - controleerWeek(week : int) : void
@@ -57,6 +58,7 @@ abstract class OWEOnderdeel {
   - id : UUID
   - gedeeld : boolean
   + deel() : void
+  + {abstract} kopieer() : OWEOnderdeel
 }
 
 class Leeruitkomst {
@@ -70,6 +72,7 @@ class Beoordelingsdimensie {
 weging : int, minimumscore : int, uitleg : String,\n    \
 niveaus : Map<Integer, String>,\n    \
 leeruitkomsten : List<Leeruitkomst>) : Beoordelingscriterium
+  + verwijderCriterium(code : String) : void
 }
 
 class Beoordelingscriterium {
@@ -103,12 +106,15 @@ class Toetsmoment {
   + omvat(week : int) : boolean
 }
 
-class Documentformaat {
+class Documentsjabloon {
   - naam : String
   - soortDocument : SoortDocument
+  - onderdelen : List<String>
   - opmaak : String
-  + zoekOntbrekendeGegevens(owe : OWE) : List<String>
-  + genereer(owe : OWE) : String
+  + zoekOntbrekendeGegevens(owe : OWE,\n    \
+onderdelen : List<String>) : List<String>
+  + genereer(owe : OWE, onderdelen : List<String>,\n    \
+bestandstype : Bestandstype) : byte[]
 }
 
 enum SoortToetsmoment <<enumeration>> {
@@ -123,12 +129,17 @@ enum SoortDocument <<enumeration>> {
   BEOORDELINGSFORMULIER
 }
 
+enum Bestandstype <<enumeration>> {
+  PDF
+  WORD
+}
+
 Opleiding --> "0..* owes" OWE
-OWE *--> "1..* evls" EVL
+OWE --> "1..* evls" EVL
 EVL --> "0..* leeruitkomsten" Leeruitkomst
 OWE --> "0..* dimensies" Beoordelingsdimensie
 Beoordelingsdimensie --> "1..* criteria" Beoordelingscriterium
-Beoordelingscriterium *--> "2..* niveaus" Niveau
+Beoordelingscriterium --> "1..* niveaus" Niveau
 Beoordelingscriterium --> "1..* leeruitkomsten" Leeruitkomst
 OWE --> "0..* lessen" Les
 OWE --> "0..* toetsmomenten" Toetsmoment
@@ -141,5 +152,5 @@ OWEOnderdeel <|-- Beoordelingsdimensie
 OWEOnderdeel <|-- Les
 OWEOnderdeel <|-- Toetsmoment
 
-Documentformaat ..> OWE
+Documentsjabloon ..> OWE
 @enduml

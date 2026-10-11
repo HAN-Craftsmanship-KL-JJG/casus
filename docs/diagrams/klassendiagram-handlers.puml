@@ -16,7 +16,8 @@ package applicatie {
     - owes : OWERepository
     + maakOWE(opleidingNaam : String, code : String,\n    \
 naam : String, studiepunten : int,\n    \
-aantalWeken : int) : void
+aantalWeken : int, evlNaam : String,\n    \
+evlStudiepunten : int) : void
     + toevoegenEVL(oweCode : String, naam : String,\n    \
 studiepunten : int) : void
     + toevoegenLeeruitkomst(oweCode : String,\n    \
@@ -24,6 +25,7 @@ evlNaam : String, nummer : int,\n    \
 omschrijving : String) : void
     + verwijderOnderdeel(oweCode : String,\n    \
 onderdeelId : UUID) : void
+    + verwijderOWE(oweCode : String) : void
   }
   class BeheerRubricHandler {
     - owes : OWERepository
@@ -33,6 +35,8 @@ dimensieNaam : String, code : String, naam : String,\n    \
 weging : int, minimumscore : int, uitleg : String,\n    \
 niveaus : Map<Integer, String>,\n    \
 leeruitkomstNummers : List<Integer>) : void
+    + verwijderCriterium(oweCode : String,\n    \
+dimensieNaam : String, code : String) : void
   }
   class BeheerPlanningHandler {
     - owes : OWERepository
@@ -50,14 +54,17 @@ criteriumCodes : List<String>) : List<Overtreding>
   }
   class GenereerDocumentHandler {
     - owes : OWERepository
-    - formaten : DocumentformaatRepository
-    + geefFormaten() : List<Documentformaat>
-    + genereer(oweCode : String, formaatNaam : String) : String
+    - sjablonen : DocumentsjabloonRepository
+    + geefSjablonen() : List<Documentsjabloon>
+    + genereer(oweCode : String, sjabloonNaam : String,\n    \
+onderdelen : List<String>,\n    \
+bestandstype : Bestandstype) : byte[]
   }
   class HergebruikOnderdeelHandler {
     - owes : OWERepository
-    + geefOWEsMetGedeeldeOnderdelen() : List<OWE>
+    + geefGedeeldeOnderdelen(oweCode : String) : List<OWEOnderdeel>
     + opnemenOnderdeel(oweCode : String, onderdeelId : UUID) : void
+    + opnemenKopie(oweCode : String, onderdeelId : UUID) : void
   }
   class OpvragenDekkingHandler {
     - opleidingen : OpleidingRepository
@@ -69,27 +76,49 @@ criteriumCodes : List<String>) : List<Overtreding>
     - owes : OWERepository
     + deel(oweCode : String, onderdeelId : UUID) : void
   }
-  class BeheerDocumentformaatHandler {
-    - formaten : DocumentformaatRepository
-    + toevoegenFormaat(naam : String, soort : SoortDocument,\n    \
-opmaak : String) : void
+  class BeheerDocumentsjabloonHandler {
+    - sjablonen : DocumentsjabloonRepository
+    + toevoegenSjabloon(naam : String, soort : SoortDocument,\n    \
+onderdelen : List<String>, opmaak : String) : void
+  }
+  class VergrendelVeldHandler {
+    - vergrendelingen : VergrendelingRepository
+    + vergrendel(oweCode : String, onderdeelId : UUID,\n    \
+veld : String, gebruiker : String) : boolean
+    + ontgrendel(oweCode : String, onderdeelId : UUID,\n    \
+veld : String, gebruiker : String) : void
   }
 }
 
 package domein {
   interface OWERepository <<interface>> {
     + zoek(code : String) : OWE
-    + zoekMetGedeeldeOnderdelen() : List<OWE>
+    + zoekGedeeldeOnderdelen() : List<OWEOnderdeel>
+    + zoekGedeeldOnderdeel(onderdeelId : UUID) : OWEOnderdeel
     + wordtHergebruikt(onderdeelId : UUID) : boolean
     + bewaar(owe : OWE) : void
+    + verwijder(owe : OWE) : void
   }
   interface OpleidingRepository <<interface>> {
     + zoek(naam : String) : Opleiding
   }
-  interface DocumentformaatRepository <<interface>> {
-    + zoek(naam : String) : Documentformaat
-    + zoekAlle() : List<Documentformaat>
-    + bewaar(formaat : Documentformaat) : void
+  interface DocumentsjabloonRepository <<interface>> {
+    + zoek(naam : String) : Documentsjabloon
+    + zoekAlle() : List<Documentsjabloon>
+    + bewaar(sjabloon : Documentsjabloon) : void
+  }
+  interface VergrendelingRepository <<interface>> {
+    + zoek(oweCode : String, onderdeelId : UUID,\n    \
+veld : String) : Vergrendeling
+    + bewaar(vergrendeling : Vergrendeling) : void
+    + verwijder(vergrendeling : Vergrendeling) : void
+  }
+  class Vergrendeling {
+    - oweCode : String
+    - onderdeelId : UUID
+    - veld : String
+    - gebruiker : String
+    - sinds : Instant
   }
   interface Consistentieregel <<interface>>
 }
@@ -103,10 +132,12 @@ BeheerRubricHandler -[hidden]-> OWERepository
 BeheerPlanningHandler -[hidden]-> OWERepository
 ControleerConsistentieHandler -[hidden]-> OWERepository
 GenereerDocumentHandler -[hidden]-> OWERepository
-GenereerDocumentHandler -[hidden]-> DocumentformaatRepository
+GenereerDocumentHandler -[hidden]-> DocumentsjabloonRepository
 HergebruikOnderdeelHandler -[hidden]-> OWERepository
 OpvragenDekkingHandler -[hidden]-> OpleidingRepository
 OpvragenDekkingHandler -[hidden]-> OWERepository
 DeelOnderdeelHandler -[hidden]-> OWERepository
-BeheerDocumentformaatHandler -[hidden]-> DocumentformaatRepository
+BeheerDocumentsjabloonHandler -[hidden]-> DocumentsjabloonRepository
+VergrendelVeldHandler -[hidden]-> VergrendelingRepository
+VergrendelingRepository ..> Vergrendeling
 @enduml
