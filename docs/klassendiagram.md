@@ -167,7 +167,7 @@ Expert).
 Ze geven eigen en hergebruikte onderdelen samen.
 De rest van het systeem ziet het verschil niet (information hiding).
 Nadeel: OWE heeft 19 operaties.
-Keuze 4 in [sequencediagrammen.md](sequencediagrammen.md#owe-blijft-één-klasse) weegt dat af.
+Keuze 4 in [sequencediagrammen.md](sequencediagrammen.md#keuze-4-owe-blijft-één-klasse) weegt dat af.
 
 ### Een klasse per consistentieregel
 
@@ -249,7 +249,7 @@ hun eigen manier uitwerken (Polymorphism).
 - HergebruikOnderdeelHandler.opnemenKopie controleert dat het onderdeel Kopieerbaar is.
 - Les.kopieerNaar roept owe.toevoegenLes aan, Toetsmoment.kopieerNaar owe.toevoegenToetsmoment.
   Zo controleert OWE BR11 en BR14 net als bij toevoegen, zonder de soort te testen
-  (keuze 3 in [sequencediagrammen.md](sequencediagrammen.md#kopie-via-toevoegen)).
+  (keuze 3 in [sequencediagrammen.md](sequencediagrammen.md#keuze-3-kopie-via-toevoegen)).
 - De kopie heeft geen koppelingen met criteria, want die horen bij de andere OWE.
   Les en Toetsmoment mogen 0 criteria hebben, en UC05 meldt dat (BR2, BR4).
   De ontwikkelaar koppelt de kopie daarna aan eigen criteria.
@@ -347,7 +347,7 @@ Verwijderen gaat zo:
 
 Per regel de klasse die de regel controleert, en het sequence diagram (SD) dat de regel toont.
 De regels zonder SD horen bij CRUD use cases, zie
-[sequencediagrammen.md](sequencediagrammen.md#keuze-van-de-use-cases).
+[sequencediagrammen.md](sequencediagrammen.md#aanpak).
 
 | Regel | Klasse en operatie | SD |
 | --- | --- | --- |

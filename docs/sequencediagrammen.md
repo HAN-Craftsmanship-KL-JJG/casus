@@ -1,99 +1,78 @@
 # Sequence diagrams ICDE
 
-Dit document toont het dynamische ontwerp van ICDE: hoe de objecten samenwerken om de
-kern-use-cases uit te voeren.
+Dit document toont hoe de objecten van ICDE samenwerken in de kern-use-cases.
 Het bouwt voort op de [use case beschrijvingen](use-case-beschrijvingen.md) en het
 [klassendiagram](klassendiagram.md).
 Bronnen: Larman hoofdstuk 4 (System Sequence Diagrams) en 8 (UML Interaction Diagrams).
 
 ## Aanpak
 
-Per use case levert een system sequence diagram (SSD) de systeemoperaties.
-Per systeemoperatie toont een sequence diagram (SD) hoe de handler uit het klassendiagram het werk
-verdeelt (GRASP Controller).
-Een systeemoperatie die alleen gegevens ophaalt, krijgt geen SD.
+We tekenen de use cases met logica: UC05, UC06, UC07 en UC08, en het toevoegen bij UC04 en
+UC11.
+De andere CRUD use cases hebben geen eigen logica.
 
-Wat de SD's weglaten of anders tonen:
+- Een system sequence diagram (SSD) per use case levert de systeemoperaties.
+- Een sequence diagram (SD) per systeemoperatie toont hoe de handler het werk verdeelt.
+- Een systeemoperatie die alleen gegevens ophaalt, krijgt geen SD.
 
-- De gebruikersinterface staat niet in de SD's.
-  De actor stuurt de systeemoperatie direct naar de handler.
-- Een exception staat als stippellijn met de naam `OngeldigeInvoerException` en de flow uit de
-  use case, zoals (2A).
-- De SD's gebruiken getters die het klassendiagram niet toont, zoals `geefAantalWeken`
-  (Larman 7.6).
-  Ze maken objecten met `create`, en het klassendiagram toont geen constructors.
-- VergrendelVeldHandler staat niet in de SD's.
-  De gebruikersinterface vraagt de vergrendeling per invoerveld aan, los van de
-  systeemoperaties (keuze 9 in het klassendiagram).
-
-## Keuze van de use cases
-
-We maken SD's voor de use cases die fully dressed zijn uitgewerkt, omdat daar de logica zit:
-UC05, UC06, UC08 en UC07, en het toevoegen bij UC04 en UC11.
-De andere CRUD use cases volgen het CRUD-sjabloon en hebben geen eigen logica.
-Hun systeemoperaties staan in de [traceerbaarheid](klassendiagram.md#traceerbaarheid) van het
-klassendiagram.
+De SD's tonen de gebruikersinterface niet: de actor roept de handler direct aan.
+Een exception staat als stippellijn `OngeldigeInvoerException` met de flow uit de use case, zoals
+(2A).
+De SD's gebruiken getters en constructors (`create`) die het klassendiagram weglaat (Larman 7.6).
 
 ## System sequence diagrams
 
-Het SSD gebruikt parameters zonder datatype, omdat het bij de analyse hoort.
-UC04 en UC11 hebben geen SSD: Toevoegen les en Toevoegen toetsmoment hebben elk één
-systeemoperatie, zie de tabel hieronder.
-In de SSD's is een exception een melding met de flow uit de use case.
+UC04 en UC11 hebben geen SSD, omdat ze één systeemoperatie hebben.
 
-UC05 Controleren consistentie OWE:
+![SSD UC05 Controleren consistentie OWE](diagrams/ssd-uc05-controleren-consistentie.svg)
 
-![SSD UC05](diagrams/ssd-uc05-controleren-consistentie.svg)
+![SSD UC06 Genereren document](diagrams/ssd-uc06-genereren-document.svg)
 
-UC06 Genereren document:
+![SSD UC07 Hergebruiken gedeeld onderdeel](diagrams/ssd-uc07-hergebruiken-onderdeel.svg)
 
-![SSD UC06](diagrams/ssd-uc06-genereren-document.svg)
-
-UC07 Hergebruiken gedeeld onderdeel:
-
-![SSD UC07](diagrams/ssd-uc07-hergebruiken-onderdeel.svg)
-
-UC08 Opvragen dekkingsoverzicht:
-
-![SSD UC08](diagrams/ssd-uc08-opvragen-dekking.svg)
+![SSD UC08 Opvragen dekkingsoverzicht](diagrams/ssd-uc08-opvragen-dekking.svg)
 
 ## Systeemoperaties
 
-| Use case | Systeemoperatie | Handler | Sequence diagram |
+| Use case | Systeemoperatie | Handler | SD |
 | --- | --- | --- | --- |
-| UC05 | controleer | ControleerConsistentieHandler | SD controleer, SD BR1, SD BR5 |
-| UC06 | geefSjablonen | GenereerDocumentHandler | Geen, zie onder |
-| UC06 | genereer | GenereerDocumentHandler | SD genereer |
-| UC07 | geefGedeeldeOnderdelen | HergebruikOnderdeelHandler | Geen, zie onder |
-| UC07 | opnemenOnderdeel | HergebruikOnderdeelHandler | SD opnemenOnderdeel |
-| UC07 | opnemenKopie | HergebruikOnderdeelHandler | SD opnemenKopie |
-| UC08 | geefDekking | OpvragenDekkingHandler | SD geefDekking, SD OWE.bepaalDekking |
-| UC04 | toevoegenLes | BeheerPlanningHandler | SD toevoegenLes |
-| UC11 | toevoegenToetsmoment | BeheerPlanningHandler | SD toevoegenToetsmoment |
+| UC04 | toevoegenLes | BeheerPlanningHandler | toevoegenLes |
+| UC05 | controleer | ControleerConsistentieHandler | controleer, BR1, BR5 |
+| UC06 | geefSjablonen | GenereerDocumentHandler | Geen |
+| UC06 | genereer | GenereerDocumentHandler | genereer |
+| UC07 | geefGedeeldeOnderdelen | HergebruikOnderdeelHandler | Geen |
+| UC07 | opnemenOnderdeel | HergebruikOnderdeelHandler | opnemenOnderdeel |
+| UC07 | opnemenKopie | HergebruikOnderdeelHandler | opnemenKopie |
+| UC08 | geefDekking | OpvragenDekkingHandler | geefDekking, OWE.bepaalDekking |
+| UC11 | toevoegenToetsmoment | BeheerPlanningHandler | toevoegenToetsmoment |
 
-Twee systeemoperaties halen alleen gegevens op en hebben geen eigen SD.
-`geefSjablonen` roept `sjablonen.zoekAlle()` aan.
-`geefGedeeldeOnderdelen` roept `owes.zoekGedeeldeOnderdelen()` aan en laat de onderdelen weg
-waarvoor `owe.bevat` true geeft.
+`geefSjablonen` en `geefGedeeldeOnderdelen` halen alleen gegevens op uit een repository.
 
 ## Sequence diagrams
 
+### UC04 Toevoegen les
+
+OWE maakt de les en controleert de week en de criteria (BR11, 4A).
+Daarna controleert LesDraagtBijRegel BR2.
+De handler geeft alleen de overtredingen van de nieuwe les terug (6A, keuze 2).
+
+![SD toevoegenLes](diagrams/sd-uc04-toevoegenles.svg)
+
 ### UC05 Controleren consistentie OWE
 
-`controleer` voert stap 1 tot en met 3 uit.
 De handler kent alleen de interface Consistentieregel.
-`controleer(owe)` op een regel is een polymorfe message: elke regel werkt haar eigen controle uit.
+`controleer(owe)` is een polymorfe message: elke regel werkt haar eigen controle uit.
 
 ![SD controleer](diagrams/sd-uc05-controleer.svg)
 
-Larman tekent een apart SD per concrete uitwerking van een polymorfe message (figuur 8.21).
-We tekenen BR1 en BR5, omdat die twee verschillende vormen hebben.
-
-BR1 LeeruitkomstGetoetstRegel zoekt per leeruitkomst een criterium dat haar toetst:
+Larman tekent een SD per uitwerking van een polymorfe message (figuur 8.21).
+BR1 en BR5 hebben elk een eigen vorm.
 
 ![SD BR1](diagrams/sd-br1-leeruitkomst-getoetst.svg)
 
-BR2, BR3 en BR4 hebben dezelfde vorm als BR1, met een andere lus en vraag:
+![SD BR5](diagrams/sd-br5-toetsdruk.svg)
+
+BR2, BR3 en BR4 hebben de vorm van BR1, met een andere lus en vraag:
 
 | Regel | Lus over | Vraag per element |
 | --- | --- | --- |
@@ -101,144 +80,91 @@ BR2, BR3 en BR4 hebben dezelfde vorm als BR1, met een andere lus en vraag:
 | BR3 CriteriumHeeftLesRegel | `owe.geefCriteria()` | `les.dekt(c)`, voor elke les |
 | BR4 CriteriumBeoordeeldRegel | `owe.geefCriteria()` | `t.beoordeelt(c)`, voor elk toetsmoment |
 
-BR5 ToetsdrukRegel telt per week de lopende toetsmomenten.
-UC11 gebruikt dezelfde regel.
-
-![SD BR5](diagrams/sd-br5-toetsdruk.svg)
-
 ### UC06 Genereren document
 
-`genereer` voert stap 3 tot en met 5 uit.
-Documentsjabloon controleert eerst of de OWE de gegevens van de gekozen onderdelen heeft (stap 4).
-Daarna maakt het sjabloon het document (stap 5).
+Documentsjabloon controleert eerst of de OWE de gegevens heeft (4A) en maakt dan het document.
 
 ![SD genereer](diagrams/sd-uc06-genereer.svg)
 
 ### UC07 Hergebruiken gedeeld onderdeel
 
-`opnemenOnderdeel` voert stap 3 en 4 uit.
-OWERepository vindt alleen een gedeeld onderdeel.
-Is het origineel verwijderd, dan vindt de repository niets en volgt 4A.
-OWE bewaart een verwijzing naar het originele object, zodat de OWE elke wijziging ziet (BR6).
+OWERepository vindt alleen gedeelde onderdelen.
+Is het origineel verwijderd, dan volgt 4A.
+OWE bewaart een verwijzing, geen kopie (BR6).
 
 ![SD opnemenOnderdeel](diagrams/sd-uc07-opnemenonderdeel.svg)
 
-`opnemenKopie` voert flow 3A uit.
-`kopieerNaar(owe)` is een polymorfe message: een Les roept `owe.toevoegenLes` aan, een
-Toetsmoment `owe.toevoegenToetsmoment`.
-Zie keuze 3.
+Een kopie (3A) loopt via de toevoegoperatie van de OWE (keuze 3).
 
 ![SD opnemenKopie](diagrams/sd-uc07-opnemenkopie.svg)
 
 ### UC08 Opvragen dekkingsoverzicht
 
-`geefDekking` voert stap 1 tot en met 4 uit.
-Bij het tonen markeert de gebruikersinterface elke dekking waarvoor `isVolledig()` false geeft.
 Opleiding vraagt elke OWE om haar dekking.
+De gebruikersinterface markeert elke dekking waarvoor `isVolledig()` false geeft.
 
 ![SD geefDekking](diagrams/sd-uc08-geefdekking.svg)
 
-OWE bepaalt de dekking, omdat OWE alle leeruitkomsten, criteria, toetsmomenten en lessen kent
-(Information Expert, keuze 4 in het klassendiagram).
-OWE maakt de Dekking-objecten (Creator), omdat OWE de gegevens voor de constructor heeft.
+OWE kent alle leeruitkomsten, criteria, toetsmomenten en lessen, dus OWE bepaalt de dekking en
+maakt de Dekking-objecten (Information Expert, Creator).
 
 ![SD OWE.bepaalDekking](diagrams/sd-owe-bepaaldekking.svg)
 
-### UC04 Beheren lesplanning
+### UC11 Toevoegen toetsmoment
 
-`toevoegenLes` voert stap 3 tot en met 6 van Toevoegen les uit.
-OWE maakt de les (Creator) en controleert de week en de criteria (BR11, 4A).
-Na het bewaren vraagt de handler LesDraagtBijRegel om BR2.
-Van alle overtredingen geeft de handler alleen die van de nieuwe les terug (6A).
-
-![SD toevoegenLes](diagrams/sd-uc04-toevoegenles.svg)
-
-### UC11 Beheren toetsplanning
-
-`toevoegenToetsmoment` voert stap 3 tot en met 6 van Toevoegen toetsmoment uit.
-Het volgt hetzelfde patroon als `toevoegenLes`, met BR14 en ToetsdrukRegel (BR5).
+Dit volgt het patroon van UC04, met BR14 en ToetsdrukRegel (BR5).
 
 ![SD toevoegenToetsmoment](diagrams/sd-uc11-toevoegentoetsmoment.svg)
 
 ## Keuzes
 
-Elke keuze noemt het probleem, de alternatieven en de onderbouwing.
+### Keuze 1: controle bij de gegevens
 
-| Nr | Keuze | Principe |
-| --- | --- | --- |
-| 1 | [Controle bij de gegevens](#controle-bij-de-gegevens) | Expert |
-| 2 | [Overtreding kent haar onderdelen](#overtreding-kent-haar-onderdelen) | Expert |
-| 3 | [Kopie via toevoegen](#kopie-via-toevoegen) | Polymorphism |
-| 4 | [OWE blijft één klasse](#owe-blijft-één-klasse) | High Cohesion |
+Probleem: waar staan de controles voor exceptional flows, zoals 4A in UC04?
 
-Expert is GRASP Information Expert.
+Alternatief: de handler controleert alle invoer.
+Dan kent de handler de regels van het domein en wordt hij een bloated controller.
 
-### Controle bij de gegevens
+Keuze: het object met de gegevens controleert ze (Information Expert).
+OWE controleert de week en de criteria, Toetsmoment de volgorde van start- en deadlineweek.
+De handler controleert alleen of er iets te doen is, zoals 2A in UC05 en UC08.
 
-Probleem: de use cases hebben exceptional flows, zoals 2A in UC05 en 4A in UC04.
-Waar staat de controle?
+### Keuze 2: Overtreding kent haar onderdelen
 
-| Alternatief | Nadeel |
-| --- | --- |
-| De handler controleert alle invoer voor hij het domein aanroept | De handler kent de regels |
+Probleem: UC04 en UC11 melden alleen overtredingen van het nieuwe onderdeel (6A).
+Een regel controleert de hele OWE.
 
-Zo groeit de handler tot een bloated controller (GRASP Controller).
+Alternatieven:
 
-Keuze: het object dat de gegevens heeft, controleert ze.
+- Een tweede operatie `controleer(owe, onderdeel)` op elke regel.
+  Dan heeft elke regel twee bijna gelijke operaties.
+- De handler controleert BR2 zelf.
+  Dan staat BR2 op twee plaatsen, en voor BR5 werkt het niet.
 
-- OWE controleert de week (`controleerWeek`) en de criteria (`zoekCriteria`).
-- Toetsmoment controleert dat de startweek niet na de deadlineweek ligt.
-- De handler controleert alleen of er iets te doen is, zoals 2A in UC05 en UC08.
+Keuze: Overtreding kent haar onderdelen en beantwoordt `betreft(onderdeel)`.
+De handler filtert daarmee, en elke regel blijft op één plaats.
+Een criterium is geen OWEOnderdeel, dus Overtreding kent voor BR3 en BR4 ook `0..1 criterium`.
 
-### Overtreding kent haar onderdelen
+### Keuze 3: kopie via toevoegen
 
-Probleem: UC04 (6A) en UC11 (6A) melden alleen een overtreding van het nieuwe onderdeel.
-Een consistentieregel controleert de hele OWE.
+Probleem: een kopie (UC07, 3A) moet in de lijst van haar soort, en OWE controleert de week
+(BR11, BR14).
 
-| Alternatief | Nadeel |
-| --- | --- |
-| Een tweede operatie `controleer(owe, onderdeel)` op elke regel | Twee bijna gelijke operaties |
-| De handler controleert BR2 zelf met `les.heeftCriteria()` | BR2 op twee plaatsen |
-
-Het tweede alternatief werkt niet voor BR5, want die telt over alle toetsmomenten.
-
-Keuze: Overtreding kent de onderdelen die de regel overtreden en beantwoordt
-`betreft(onderdeel)`.
-
-- De handler filtert de overtredingen van de regel.
-  Zo blijft elke regel op één plaats.
-- BR3 en BR4 gaan over een criterium, en een criterium is geen OWEOnderdeel.
-  Daarom kent Overtreding ook `0..1 criterium`.
-- UC05 toont met dezelfde gegevens per regel de onderdelen (stap 3).
-
-### Kopie via toevoegen
-
-Probleem: in UC07 (3A) neemt OWE een kopie van een les of toetsmoment op.
-De kopie moet in de lijst van haar soort, en OWE controleert de week (BR11, BR14).
-
-| Alternatief | Nadeel |
-| --- | --- |
-| OWE.kopieer vraagt de kopie en zet haar in de juiste lijst | OWE test de soort van de kopie |
-| De handler vraagt de kopie en roept de toevoegoperatie aan | De handler test de soort |
-
-Een test op de soort is een switch op het type, en die vervangt GRASP Polymorphism.
+Alternatief: OWE of de handler vraagt de kopie en test de soort.
+Een test op de soort vervangt Polymorphism door een switch.
 
 Keuze: `Kopieerbaar.kopieerNaar(owe)`.
+Een Les roept `owe.toevoegenLes` aan, een Toetsmoment `owe.toevoegenToetsmoment`, zonder
+criteria.
+Zo controleert OWE de week zoals bij toevoegen.
 
-- Les roept `owe.toevoegenLes` aan, Toetsmoment `owe.toevoegenToetsmoment`, zonder criteria.
-- OWE controleert de week dus zoals bij toevoegen.
-- OWE heeft geen operatie `kopieer` nodig.
+### Keuze 4: OWE blijft één klasse
 
-### OWE blijft één klasse
+Probleem: OWE heeft 19 operaties (keuze 4 in het klassendiagram).
 
-Probleem: OWE heeft 19 operaties, zie keuze 4 in het klassendiagram.
+Alternatief: de zoek- en geef-operaties naar een eigen klasse.
+Die klasse moet dan alle lijsten van OWE kennen.
 
-| Alternatief | Nadeel |
-| --- | --- |
-| De zoek- en geef-operaties naar een eigen klasse | Die klasse kent alle lijsten van OWE |
-
-Dan geeft OWE zijn structuur prijs.
-
-Keuze: OWE blijft zoals hij is.
-De SD's laten zien dat elke operatie van OWE kort is en alleen de eigen lijsten gebruikt.
-De cohesie is dus hoog, ook met 19 operaties.
+Keuze: OWE blijft één klasse.
+De SD's tonen dat elke operatie kort is en alleen de eigen lijsten gebruikt, dus de cohesie is
+hoog.
