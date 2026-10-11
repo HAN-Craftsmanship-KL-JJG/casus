@@ -46,7 +46,7 @@ Regels voor gedeelde onderdelen:
 Validatieregels:
 
 - BR8: Een OWE heeft een unieke code, een naam en een looptijd van minstens één onderwijsweek.
-  Ze heeft minstens één EVL, elk met een naam en studiepunten.
+  Ze hoort bij één opleiding en heeft minstens één EVL, elk met een naam en studiepunten.
 - BR9: Een leeruitkomst heeft een omschrijving en een nummer dat uniek is binnen de OWE.
   Ze hoort bij één EVL van de OWE.
 - BR10: Een beoordelingscriterium hoort bij één beoordelingsdimensie van dezelfde OWE.

@@ -9,8 +9,8 @@ Dit is de stap "Valideer het model" uit het NPI-stappenplan van de cursus (Thema
 | Use case | Regels | Gegevens | In het model |
 | --- | --- | --- | --- |
 | UC01 Beheren OWE | BR8, BR13 | OWE met opleiding en EVL's | OWE, biedt aan, bestaat uit |
-| UC02 Beheren leeruitkomsten | BR9 | Leeruitkomst met EVL | Leeruitkomst, groepeert |
-| UC03 Beheren beoordelingscriteria | BR10 | Rubric, getoetste leeruitkomsten | Beoordelingsdimensie, Beoordelingscriterium, Niveau, toetst |
+| UC02 Beheren leeruitkomsten | BR9, BR13 | Leeruitkomst met EVL | Leeruitkomst, groepeert |
+| UC03 Beheren beoordelingscriteria | BR10, BR13 | Rubric, getoetste leeruitkomsten | Beoordelingsdimensie, Beoordelingscriterium, Niveau, toetst |
 | UC04 Beheren lesplanning | BR2, BR11 | Les met criteria | Les, plant, draagt bij aan |
 | UC05 Controleren consistentie OWE | BR1 tot en met BR5 | Koppelingen en weken | toetst, draagt bij aan, beoordeelt, startweek, deadlineweek |
 | UC06 Genereren document | BR12 | Sjabloon en inhoud van de OWE | Documentsjabloon, OWE met haar onderdelen |
@@ -33,6 +33,6 @@ Toelichting bij de tabel:
 Elke use case vindt haar gegevens in het model, en elke flow past bij de multipliciteiten.
 Om dat te bereiken, zijn enkele use case teksten aangepast:
 
-- BR8 en BR9 noemen nu de EVL.
+- BR8 noemt nu de opleiding en de EVL's van een OWE, BR9 de EVL van een leeruitkomst.
 - UC07 en UC09 spreken van OWE's in plaats van profielen, want het model kent geen profielen.
 - De samenvattingen van UC05 en UC08 en stap 3 van UC04 en UC11 volgen nu het model.
