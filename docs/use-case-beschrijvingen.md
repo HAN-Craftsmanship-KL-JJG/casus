@@ -238,7 +238,7 @@ De rest van de OWE blijft bewerkbaar.
 | --- | --- |
 | 1. De ontwikkelaar geeft aan een les te willen toevoegen aan een OWE. | |
 | | 2. Het systeem toont de invoervelden en de criteria van de OWE. |
-| 3. De ontwikkelaar vult naam en onderwijsweek in, kiest de criteria en bevestigt. | |
+| 3. De ontwikkelaar vult naam, onderwijsweek en beschrijving in, kiest criteria en bevestigt. | |
 | | 4. Het systeem controleert of de gegevens valide zijn [BR11]. |
 | | 5. Het systeem slaat de les op. |
 | | 6. Het systeem controleert of de les bijdraagt aan een criterium [BR2]. |
@@ -262,7 +262,7 @@ De rest van de OWE blijft bewerkbaar.
 | --- | --- |
 | 1. De ontwikkelaar geeft aan een toetsmoment te willen toevoegen aan een OWE. | |
 | | 2. Het systeem toont de invoervelden en de criteria van de OWE. |
-| 3. De ontwikkelaar vult naam, startweek en deadlineweek in, kiest de criteria en bevestigt. | |
+| 3. De ontwikkelaar vult naam, soort, start- en deadlineweek in, kiest criteria en bevestigt. | |
 | | 4. Het systeem controleert of de gegevens valide zijn [BR14]. |
 | | 5. Het systeem slaat het toetsmoment op. |
 | | 6. Het systeem telt per week van het toetsmoment de lopende toetsmomenten [BR5]. |

@@ -136,6 +136,14 @@ Het model heeft dus geen overbodige elementen.
    andere OWE's.
    De stakeholder van UC07 wil dat een verbetering aankomt bij elke OWE die het onderdeel
    hergebruikt.
+3. Enkele use case teksten volgden het model niet.
+   De samenvatting van UC05 noemde een les die niet bijdraagt aan een leeruitkomst.
+   In het model draagt een les bij aan een beoordelingscriterium (BR2).
+   De samenvatting van UC08 noemde alleen OWE's en lessen, maar UC08 telt criteria,
+   toetsmomenten en lessen.
+   Stap 3 van UC04 en UC11 noemde beschrijving van Les en soort van Toetsmoment niet.
+   Verbetering: de samenvattingen in het use case diagram en stap 3 van UC04 en UC11 volgen nu
+   het model.
 
 ## Open punten
 
