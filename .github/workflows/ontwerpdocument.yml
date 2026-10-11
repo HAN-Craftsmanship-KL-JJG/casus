@@ -1,5 +1,5 @@
 # Merges the chapters in docs/ into one PDF.
-# Every run uploads the PDF as a workflow artifact.
+# Every run uploads the PDF, unzipped, as a workflow artifact.
 # A push to main replaces the prerelease "preview" with the new PDF.
 # A pushed tag vX.Y.Z publishes the PDF as a normal release.
 name: Ontwerpdocument
@@ -20,14 +20,17 @@ permissions:
 jobs:
   pdf:
     runs-on: ubuntu-24.04
+    outputs:
+      pdf: ${{ steps.build.outputs.pdf }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Build PDF
+        id: build
         run: |
           version="$(git rev-parse --short HEAD)"
           if [ "$GITHUB_REF_TYPE" = tag ]; then version="$GITHUB_REF_NAME"; fi
-          echo "PDF=ontwerpdocument-icde-${version}.pdf" >> "$GITHUB_ENV"
+          echo "pdf=ontwerpdocument-icde-${version}.pdf" >> "$GITHUB_OUTPUT"
           date="$(git log -1 --format=%cs)"
           # Run in docs/: --file-scope resolves links between chapters by their path.
           # The chapter files sort in reading order through their two-digit prefix.
@@ -38,10 +41,11 @@ jobs:
             --metadata-file=ontwerpdocument.yaml --metadata date="${version}, ${date}" \
             --output "../ontwerpdocument-icde-${version}.pdf" [0-9][0-9]-*.md
 
-      - uses: actions/upload-artifact@v4
+      # archive: false keeps the PDF unzipped, and the file name becomes the artifact name.
+      - uses: actions/upload-artifact@v7
         with:
-          name: ontwerpdocument
-          path: ${{ env.PDF }}
+          path: ${{ steps.build.outputs.pdf }}
+          archive: false
           if-no-files-found: error
 
   release:
@@ -56,9 +60,9 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
-          name: ontwerpdocument
+          name: ${{ needs.pdf.outputs.pdf }}
 
       - name: Publish release
         if: github.ref_type == 'tag'
