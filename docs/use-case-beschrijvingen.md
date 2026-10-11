@@ -201,6 +201,9 @@ Alternate flows:
 
 Exceptional flows:
 
+- 3A2A. [De week van de kopie ligt buiten de looptijd van de eigen OWE]
+  - 3A2A1. Het systeem meldt welke week ongeldig is en neemt geen kopie op [BR11, BR14].
+  - 3A2A2. Ga naar stap 2.
 - 4A. [Het origineel is verwijderd sinds stap 2]
   - 4A1. Het systeem meldt dat het onderdeel niet meer bestaat.
   - 4A2. Ga naar stap 2.

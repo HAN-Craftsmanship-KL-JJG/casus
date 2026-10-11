@@ -46,6 +46,6 @@ note over onderdeel, owe
   De kopie heeft geen criteria:
   die horen bij de andere OWE [BR11, BR14].
   Ligt de week buiten de looptijd, dan gooit
-  controleerWeek een OngeldigeInvoerException.
+  controleerWeek een OngeldigeInvoerException (3A2A).
 end note
 @enduml
