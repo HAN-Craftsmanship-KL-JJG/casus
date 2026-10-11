@@ -39,8 +39,8 @@ Het doel van elke use case:
 - UC04 Beheren lesplanning: lessen vastleggen en per les aangeven aan welke beoordelingscriteria
   die bijdraagt.
 - UC05 Controleren consistentie OWE: het systeem meldt inconsistenties.
-  Voorbeelden: een beoordelingsdimensie zonder onderwijs, of een les die niet bijdraagt aan een
-  leeruitkomst.
+  Voorbeelden: een beoordelingscriterium zonder les, of een les die niet bijdraagt aan een
+  beoordelingscriterium.
 - UC06 Genereren document: het systeem maakt uit de gegevens van een OWE een document met een
   gekozen sjabloon.
   De gebruiker kiest alle gegevens of een selectie, en kiest PDF of Word.
@@ -48,9 +48,9 @@ Het doel van elke use case:
   beoordelingsformulier.
 - UC07 Hergebruiken gedeeld onderdeel: een ontwikkelaar neemt een gedeeld onderdeel op in de eigen
   OWE.
-- UC08 Opvragen dekkingsoverzicht: het systeem toont per leeruitkomst van een opleiding in welke
-  OWE's en lessen die aan bod komt.
-- UC09 Delen OWE-onderdeel: een onderdeel van een OWE beschikbaar maken voor andere profielen
+- UC08 Opvragen dekkingsoverzicht: het systeem toont per leeruitkomst van een opleiding hoeveel
+  criteria, toetsmomenten en lessen eraan bijdragen.
+- UC09 Delen OWE-onderdeel: een onderdeel van een OWE beschikbaar maken voor andere OWE's
   binnen HBO-ICT.
   Delen met andere opleidingen is niet nodig.
 - UC10 Beheren documentsjabloon: sjablonen voor documenten vastleggen, los van de inhoud.

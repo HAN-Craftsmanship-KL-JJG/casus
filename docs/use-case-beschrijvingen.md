@@ -46,7 +46,9 @@ Regels voor gedeelde onderdelen:
 Validatieregels:
 
 - BR8: Een OWE heeft een unieke code, een naam en een looptijd van minstens één onderwijsweek.
+  Ze hoort bij één opleiding en heeft minstens één EVL, elk met een naam en studiepunten.
 - BR9: Een leeruitkomst heeft een omschrijving en een nummer dat uniek is binnen de OWE.
+  Ze hoort bij één EVL van de OWE.
 - BR10: Een beoordelingscriterium hoort bij één beoordelingsdimensie van dezelfde OWE.
 - BR11: Een les heeft een naam en een onderwijsweek binnen de looptijd van de OWE.
   Ze draagt alleen bij aan beoordelingscriteria van dezelfde OWE, eigen of hergebruikt.
@@ -169,8 +171,8 @@ Exceptional flows:
 - Stakeholders and interests:
   - Onderwijsontwikkelaar: wil een bestaand onderdeel gebruiken in plaats van het opnieuw te
     schrijven.
-  - Opleidingscoördinator: wil dat verbeteringen aan een gedeeld onderdeel bij alle profielen
-    aankomen.
+  - Opleidingscoördinator: wil dat verbeteringen aan een gedeeld onderdeel aankomen bij
+    elke OWE die het hergebruikt.
 - Cross references: BR6, BR7, BR13, UC09 maakt een onderdeel gedeeld.
 - Brief description: De ontwikkelaar neemt een gedeeld onderdeel op in de eigen OWE, als
   verwijzing of als kopie.
@@ -208,7 +210,7 @@ De stap "Systeem controleert of gegevens valide zijn" gebruikt deze regels:
 
 | Use case | Item | Validatieregels |
 | --- | --- | --- |
-| UC01 Beheren OWE | OWE | BR8, BR13 bij verwijderen |
+| UC01 Beheren OWE | OWE met EVL's | BR8, BR13 bij verwijderen |
 | UC02 Beheren leeruitkomsten | Leeruitkomst | BR9, BR13 bij verwijderen |
 | UC03 Beheren beoordelingscriteria | Beoordelingscriterium | BR10, BR13 bij verwijderen |
 | UC04 Beheren lesplanning | Les | BR11, daarna controle BR2 |
@@ -236,7 +238,7 @@ De rest van de OWE blijft bewerkbaar.
 | --- | --- |
 | 1. De ontwikkelaar geeft aan een les te willen toevoegen aan een OWE. | |
 | | 2. Het systeem toont de invoervelden en de criteria van de OWE. |
-| 3. De ontwikkelaar vult naam en onderwijsweek in, kiest de criteria en bevestigt. | |
+| 3. De ontwikkelaar vult naam, onderwijsweek en beschrijving in, kiest criteria en bevestigt. | |
 | | 4. Het systeem controleert of de gegevens valide zijn [BR11]. |
 | | 5. Het systeem slaat de les op. |
 | | 6. Het systeem controleert of de les bijdraagt aan een criterium [BR2]. |
@@ -260,7 +262,7 @@ De rest van de OWE blijft bewerkbaar.
 | --- | --- |
 | 1. De ontwikkelaar geeft aan een toetsmoment te willen toevoegen aan een OWE. | |
 | | 2. Het systeem toont de invoervelden en de criteria van de OWE. |
-| 3. De ontwikkelaar vult naam, startweek en deadlineweek in, kiest de criteria en bevestigt. | |
+| 3. De ontwikkelaar vult naam, soort, start- en deadlineweek in, kiest criteria en bevestigt. | |
 | | 4. Het systeem controleert of de gegevens valide zijn [BR14]. |
 | | 5. Het systeem slaat het toetsmoment op. |
 | | 6. Het systeem telt per week van het toetsmoment de lopende toetsmomenten [BR5]. |
@@ -274,7 +276,7 @@ De rest van de OWE blijft bewerkbaar.
 ## UC09 Delen OWE-onderdeel (brief format)
 
 De opleidingscoördinator kiest een onderdeel van een OWE, zoals een leeruitkomst of een rubric.
-Het systeem maakt het onderdeel zichtbaar voor andere profielen binnen HBO-ICT.
+Het systeem maakt het onderdeel zichtbaar voor de andere OWE's binnen HBO-ICT.
 Een ontwikkelaar kan het daarna hergebruiken met UC07.
 
 ## Open punten
