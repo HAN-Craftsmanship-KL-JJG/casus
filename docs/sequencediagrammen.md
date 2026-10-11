@@ -22,7 +22,8 @@ De SD's gebruiken getters en constructors (`create`) die het klassendiagram wegl
 
 ## System sequence diagrams
 
-UC04 en UC11 hebben geen SSD, omdat ze één systeemoperatie hebben.
+UC04 en UC11 hebben geen SSD, omdat ze het CRUD-sjabloon volgen.
+Stap 2 haalt de criteria op met `geefCriteria`, stap 3 tot en met 6 is de toevoegoperatie.
 
 ![SSD UC05 Controleren consistentie OWE](diagrams/ssd-uc05-controleren-consistentie.svg)
 
@@ -36,6 +37,7 @@ UC04 en UC11 hebben geen SSD, omdat ze één systeemoperatie hebben.
 
 | Use case | Systeemoperatie | Handler | SD |
 | --- | --- | --- | --- |
+| UC04, UC11 | geefCriteria | BeheerPlanningHandler | Geen |
 | UC04 | toevoegenLes | BeheerPlanningHandler | toevoegenLes |
 | UC05 | controleer | ControleerConsistentieHandler | controleer, BR1, BR5 |
 | UC06 | geefSjablonen | GenereerDocumentHandler | Geen |
@@ -46,7 +48,9 @@ UC04 en UC11 hebben geen SSD, omdat ze één systeemoperatie hebben.
 | UC08 | geefDekking | OpvragenDekkingHandler | geefDekking, OWE.bepaalDekking |
 | UC11 | toevoegenToetsmoment | BeheerPlanningHandler | toevoegenToetsmoment |
 
-`geefSjablonen` en `geefGedeeldeOnderdelen` halen alleen gegevens op uit een repository.
+De operaties zonder SD halen alleen gegevens op.
+`geefCriteria` geeft `owe.geefCriteria()`: de eigen en hergebruikte criteria (BR11, BR14).
+`geefGedeeldeOnderdelen` laat de onderdelen weg waarvoor `owe.bevat` true geeft.
 
 ## Sequence diagrams
 

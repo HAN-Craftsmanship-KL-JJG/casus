@@ -47,6 +47,7 @@ dimensieNaam : String, code : String) : void
     - owes : OWERepository
     - lesRegel : Consistentieregel
     - toetsdrukRegel : Consistentieregel
+    + geefCriteria(oweCode : String) : List<Beoordelingscriterium>
     + toevoegenLes(oweCode : String, naam : String,\n    \
 onderwijsweek : int, beschrijving : String,\n    \
 criteriumCodes : List<String>) : List<Overtreding>
@@ -76,7 +77,6 @@ bestandstype : Bestandstype) : byte[]
   }
   class OpvragenDekkingHandler {
     - opleidingen : OpleidingRepository
-    - owes : OWERepository
     + geefDekking(opleidingNaam : String) : List<Dekking>
   }
   class DeelOnderdeelHandler {
@@ -144,7 +144,6 @@ GenereerDocumentHandler -[hidden]-> OWERepository
 GenereerDocumentHandler -[hidden]-> DocumentsjabloonRepository
 HergebruikOnderdeelHandler -[hidden]-> OWERepository
 OpvragenDekkingHandler -[hidden]-> OpleidingRepository
-OpvragenDekkingHandler -[hidden]-> OWERepository
 DeelOnderdeelHandler -[hidden]-> OWERepository
 BeheerDocumentsjabloonHandler -[hidden]-> DocumentsjabloonRepository
 VergrendelVeldHandler -[hidden]-> VergrendelingRepository

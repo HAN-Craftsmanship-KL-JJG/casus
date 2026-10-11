@@ -37,4 +37,8 @@ else
   handler --> ontwikkelaar : overtredingen
 end
 deactivate handler
+note over handler, owes
+  overtredingen: de gevonden
+  overtredingen van alle regels samen.
+end note
 @enduml

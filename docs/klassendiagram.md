@@ -244,7 +244,7 @@ hun eigen manier uitwerken (Polymorphism).
 - Leeruitkomst en Beoordelingsdimensie zijn niet Kopieerbaar.
   Een gekopieerde leeruitkomst heeft een EVL en een nieuw nummer nodig (BR9).
   Een gekopieerd criterium verliest zijn leeruitkomsten, terwijl het er minstens één toetst.
-- Een abstracte kopieer op OWEOnderdeel zou bij twee van de vier subklassen een fout geven.
+- Een abstracte kopieerNaar op OWEOnderdeel zou bij twee van de vier subklassen een fout geven.
   Dat schendt het Liskov Substitution Principle.
 - HergebruikOnderdeelHandler.opnemenKopie controleert dat het onderdeel Kopieerbaar is.
 - Les.kopieerNaar roept owe.toevoegenLes aan, Toetsmoment.kopieerNaar owe.toevoegenToetsmoment.
