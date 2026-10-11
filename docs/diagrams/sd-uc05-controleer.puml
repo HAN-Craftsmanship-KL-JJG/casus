@@ -1,0 +1,40 @@
+@startuml sd-uc05-controleer
+' Sequence diagram van systeemoperatie controleer (UC05, stap 1 tot en met 3).
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Onderwijsontwikkelaar" as ontwikkelaar
+participant ":ControleerConsistentie\nHandler" as handler
+participant "owes :\nOWERepository" as owes
+participant "owe : OWE" as owe
+participant "regels[i] :\nConsistentieregel" as regel
+
+ontwikkelaar -> handler : overtredingen = controleer(oweCode)
+activate handler
+handler -> owes : owe = zoek(oweCode)
+activate owes
+deactivate owes
+handler -> owe : leeruitkomsten = geefLeeruitkomsten()
+activate owe
+deactivate owe
+alt leeruitkomsten is leeg
+  handler --> ontwikkelaar : OngeldigeInvoerException (2A)
+else
+  loop voor elke regel in regels
+    handler -> regel : gevonden = controleer(owe)
+    activate regel
+    note right
+      Polymorfe message.
+      Elke regel werkt het uit
+      op haar eigen manier, zie
+      de SD's van BR1 en BR5.
+    end note
+    deactivate regel
+  end
+  handler --> ontwikkelaar : overtredingen
+end
+deactivate handler
+@enduml

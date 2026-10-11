@@ -1,0 +1,28 @@
+@startuml ssd-uc06-genereren-document
+' System sequence diagram van UC06 Genereren document.
+' Toelichting: docs/sequencediagrammen.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+hide footbox
+
+actor ":Onderwijsontwikkelaar" as ontwikkelaar
+participant ":ICDE" as icde
+
+ontwikkelaar -> icde : geefFormaten()
+activate icde
+icde --> ontwikkelaar : formaten
+deactivate icde
+note over ontwikkelaar, icde
+  De ontwikkelaar kiest een formaat.
+  Is er precies één formaat, dan kiest de gebruikersinterface dat (2A).
+end note
+ontwikkelaar -> icde : genereer(oweCode, formaatNaam)
+activate icde
+alt OWE mist gegevens
+  icde --> ontwikkelaar : melding met ontbrekende gegevens (4A)
+else OWE heeft alle gegevens
+  icde --> ontwikkelaar : document
+end
+deactivate icde
+@enduml
