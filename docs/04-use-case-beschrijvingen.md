@@ -1,25 +1,21 @@
 # Use case beschrijvingen
 
-Dit hoofdstuk werkt de belangrijkste use cases uit het
-[use case diagram](03-use-cases.md#use-case-diagram) uit.
-Het legt ook de bedrijfsregels BR1 tot en met BR14 vast, waar de rest van het document naar
-verwijst.
+Dit hoofdstuk werkt de use cases met logica uit, en legt de bedrijfsregels BR1 tot en met BR14 vast.
 
 ## Aanpak
 
-We volgen het fully dressed Use Case template van de cursus, met de sectienamen in het Engels.
+De use cases volgen het fully dressed template, met de sectienamen in het Engels.
 Het main success scenario heeft twee kolommen, met doorlopende stapnummers.
 Een extensie heet naar de stap waar ze begint (3A), met de conditie tussen rechte haken.
 Zonder "Ga naar stap N" of "Einde use case" gaat het main success scenario verder.
 
-De cursus legt de nadruk op use cases met logica, niet op CRUD.
-Daarom werken we UC05, UC06, UC07 en UC08 fully dressed uit.
-Van de CRUD use cases werken we alleen het toevoegen uit bij UC04 en UC11.
-Daar koppelt het systeem de planning aan de beoordelingscriteria en controleert het een regel.
+UC05, UC06, UC07 en UC08 zijn fully dressed uitgewerkt.
+Van de CRUD use cases staat alleen het toevoegen bij UC04 en UC11 uitgewerkt, omdat het systeem daar
+een consistentieregel controleert.
 
 ## Bedrijfsregels
 
-De consistentieregels controleren de verbanden tussen de onderdelen van een OWE:
+De consistentieregels controleren de verbanden tussen de onderdelen van een OWE.
 
 ![Verbanden die de consistentieregels controleren](diagrams/bedrijfsregels.svg)
 
@@ -32,8 +28,7 @@ Consistentieregels:
 - BR5: In geen enkele onderwijsweek lopen meer dan 3 toetsmomenten van de OWE tegelijk.
   Een toetsmoment loopt van zijn startweek tot en met zijn deadlineweek.
 
-BR3 en BR4 samen controleren of lessen en toetsen 100% op elkaar aansluiten, zoals de
-opdrachtgever vraagt.
+BR3 en BR4 samen controleren of lessen en toetsen 100% op elkaar aansluiten.
 
 Regels voor gedeelde onderdelen:
 
@@ -207,8 +202,7 @@ Exceptional flows:
 
 ## CRUD use cases
 
-Elke «CRUD» use case bestaat uit toevoegen, bekijken, wijzigen en verwijderen, volgens het
-CRUD-sjabloon van de cursus.
+Elke «CRUD» use case bestaat uit toevoegen, bekijken, wijzigen en verwijderen.
 De stap "Systeem controleert of gegevens valide zijn" gebruikt deze regels:
 
 | Use case | Item | Validatieregels |
@@ -221,12 +215,10 @@ De stap "Systeem controleert of gegevens valide zijn" gebruikt deze regels:
 | UC11 Beheren toetsplanning | Toetsmoment | BR14, daarna controle BR5, BR13 bij verwijderen |
 
 Bij UC04 en UC11 controleert het systeem na het opslaan een consistentieregel.
-Daarom werken we het toevoegen hieronder uit.
-Wijzigen doet dezelfde controle.
+Wijzigen doet dezelfde controle als toevoegen.
 
-Niet-functionele eis voor alle wijzig-acties: meerdere ontwikkelaars wijzigen tegelijk dezelfde
-OWE.
-Een invoerveld is geblokkeerd voor anderen zolang een ontwikkelaar het wijzigt.
+Niet-functionele eis voor alle wijzig-acties: een invoerveld is geblokkeerd voor anderen zolang
+een ontwikkelaar het wijzigt.
 De rest van de OWE blijft bewerkbaar.
 
 ### UC04 Toevoegen les

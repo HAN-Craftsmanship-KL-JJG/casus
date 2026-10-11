@@ -1,8 +1,6 @@
 # Use cases
 
-De actoren en de scope uit het vorige hoofdstuk leiden tot de use cases van ICDE.
-Dit hoofdstuk toont het use case diagram en licht de keuzes toe.
-Het volgende hoofdstuk werkt de belangrijkste use cases uit.
+Dit hoofdstuk leidt de use cases af uit de actoren en de scope, en licht de keuzes toe.
 
 ## Use case diagram
 
@@ -10,7 +8,7 @@ Het volgende hoofdstuk werkt de belangrijkste use cases uit.
 
 ## Overzicht use cases
 
-We vonden de use cases per primary actor, vanuit de doelen van die actor.
+We vonden de use cases vanuit de doelen van elke primary actor.
 Elke use case is een elementair bedrijfsproces: één persoon voert het uit op één plaats en één
 moment, en de gegevens zijn daarna consistent.
 
@@ -30,51 +28,35 @@ moment, en de gegevens zijn daarna consistent.
 
 Het doel van elke use case:
 
-- UC01 Beheren OWE: een onderwijseenheid aanmaken, bekijken, wijzigen en verwijderen.
-- UC02 Beheren leeruitkomsten: de leeruitkomsten van een OWE vastleggen, per EVL.
-- UC03 Beheren beoordelingscriteria: beoordelingsdimensies, criteria en niveaus (de rubric) van
-  een OWE vastleggen.
-- UC04 Beheren lesplanning: lessen vastleggen en per les aangeven aan welke beoordelingscriteria
-  die bijdraagt.
-- UC05 Controleren consistentie OWE: het systeem meldt inconsistenties.
-  Voorbeelden: een beoordelingscriterium zonder les, of een les die niet bijdraagt aan een
-  beoordelingscriterium.
-- UC06 Genereren document: het systeem maakt uit de gegevens van een OWE een document met een
-  gekozen sjabloon.
-  De gebruiker kiest alle gegevens of een selectie, en kiest PDF of Word.
-  Soorten documenten zijn de OWE-beschrijving, de EVL-beschrijving, de toetsplanning en het
-  beoordelingsformulier.
-- UC07 Hergebruiken gedeeld onderdeel: een ontwikkelaar neemt een gedeeld onderdeel op in de eigen
-  OWE.
-- UC08 Opvragen dekkingsoverzicht: het systeem toont per leeruitkomst van een opleiding hoeveel
-  criteria, toetsmomenten en lessen eraan bijdragen.
-- UC09 Delen OWE-onderdeel: een onderdeel van een OWE beschikbaar maken voor andere OWE's
-  binnen HBO-ICT.
-  Delen met andere opleidingen is niet nodig.
-- UC10 Beheren documentsjabloon: sjablonen voor documenten vastleggen, los van de inhoud.
+- UC01: een OWE aanmaken, bekijken, wijzigen en verwijderen.
+- UC02: de leeruitkomsten van een OWE vastleggen, per EVL.
+- UC03: de rubric van een OWE vastleggen: dimensies, criteria en niveaus.
+- UC04: lessen vastleggen, met de beoordelingscriteria waaraan elke les bijdraagt.
+- UC05: het systeem meldt inconsistenties, zoals een criterium zonder les.
+- UC06: het systeem maakt met een sjabloon een document uit de gegevens van een OWE.
+  De gebruiker kiest alle gegevens of een selectie, en PDF of Word.
+- UC07: een ontwikkelaar neemt een gedeeld onderdeel op in de eigen OWE.
+- UC08: het systeem toont per leeruitkomst van een opleiding hoeveel criteria, toetsmomenten en
+  lessen eraan bijdragen.
+- UC09: een onderdeel van een OWE beschikbaar maken voor andere OWE's binnen HBO-ICT.
+- UC10: sjablonen vastleggen, los van de inhoud.
   Een sjabloon bepaalt welke onderdelen een document toont, in welke volgorde en met welke opmaak.
-  [Systeemgrenzen](02-systeemgrenzen.md#systeemgrenzen) noemt dit documentformaten.
-  Het bestandstype (PDF of Word) kiest de gebruiker in UC06.
-- UC11 Beheren toetsplanning: toetsmomenten vastleggen, met een startweek, een deadlineweek en de
-  beoordelingscriteria die ze beoordelen.
-  Het systeem waarschuwt als er meer dan 3 toetsen in een week lopen.
+- UC11: toetsmomenten vastleggen, met startweek, deadlineweek en de criteria die ze beoordelen.
+  Het systeem waarschuwt bij meer dan 3 toetsen in een week.
 
 ## Eis: maximaal 65% CRUD
 
 De casus eist minimaal 10 use cases, waarvan maximaal 65% CRUD.
-Het diagram heeft 11 use cases.
-Daarvan zijn er 6 CRUD: UC01, UC02, UC03, UC04, UC10 en UC11.
+Van de 11 use cases zijn er 6 CRUD: UC01, UC02, UC03, UC04, UC10 en UC11.
 Dat is 55%.
 
 ## Keuzes
 
 ### Stereotype «CRUD»
 
-Voor het beheren van een item tekenen we één use case met «CRUD», zoals de cursus voorschrijft
-(CRUD Use Cases).
-Het stereotype is een verkorte weergave van toevoegen, bekijken, wijzigen en verwijderen.
-Het blijft één use case, ook bij de telling van 65% CRUD.
-De vier acties volgen het CRUD-sjabloon van de cursus.
+Het beheren van een item is één use case met «CRUD»: toevoegen, bekijken, wijzigen en
+verwijderen.
+Het telt als één use case bij de 65% CRUD.
 Zie [CRUD use cases](04-use-case-beschrijvingen.md#crud-use-cases).
 
 ### Geen «include» of «extend»
@@ -83,43 +65,33 @@ Die geven in dit diagram geen meerwaarde.
 
 ### Geen use case Inloggen
 
-Inloggen levert zelf geen waarde voor de gebruiker, en is dus geen elementair bedrijfsproces.
+Inloggen levert de gebruiker zelf geen waarde, en is dus geen elementair bedrijfsproces.
 Een ingelogde gebruiker is een preconditie van elke use case.
 ICDE regelt het inloggen voorlopig zelf.
-Een koppeling met de HAN-inlogdienst (SURFconext) kan later, en staat niet in het diagram.
+Een koppeling met SURFconext kan later.
 
-### Geen use case voor samenwerken zonder versieconflicten
+### Geen use case voor samenwerken
 
-Dit is een eigenschap van alle wijzig-use cases, geen apart doel van een actor.
-We leggen het vast als niet-functionele requirement.
-De opdrachtgever bedoelt: een invoerveld is geblokkeerd zolang iemand het wijzigt, en de rest
-van de OWE blijft bewerkbaar.
+Samenwerken zonder versieconflicten is een eigenschap van elke wijzig-use case, geen doel van een
+actor.
+Het is een niet-functionele requirement: een invoerveld is geblokkeerd zolang iemand het wijzigt,
+en de rest van de OWE blijft bewerkbaar.
 
 ### Prioriteit
 
-Hoog zijn de use cases die de kern van de casus vormen: gegevens vastleggen, controleren en
-documenten genereren.
-Middel zijn delen, hergebruiken en het beheer van sjablonen.
-UC05 Controleren consistentie OWE heeft de hoogste prioriteit, omdat de opdrachtgever
-gegevensvalidatie van een OWE voorop zet.
-
-### Een klein diagram
-
-De casus eist minimaal 10 use cases.
-We nemen er 11 op, zodat de analyse en het ontwerp gericht blijven.
+Hoog is de kern van de casus: gegevens vastleggen, controleren en documenten genereren.
+Middel zijn delen, hergebruiken en sjabloonbeheer.
+UC05 heeft de hoogste prioriteit, omdat de opdrachtgever gegevensvalidatie voorop zet.
 
 ## Buiten het diagram
 
-Deze kandidaat-use cases vallen buiten het prototype.
-Ze staan niet in het diagram.
+Deze kandidaat-use cases vallen buiten het prototype:
 
-- Vastleggen tussentijdse beoordeling en Bekijken groeioverzicht, voor Iterative Grading.
-  Actor: docent.
+- Vastleggen tussentijdse beoordeling en Bekijken groeioverzicht, voor de docent.
   ICDE legt geen beoordelingen vast.
-- Publiceren OWE-beschrijving in Brightspace.
-- Doorzetten eindbeoordeling naar Osiris.
-  Het prototype heeft geen koppeling met Brightspace of Osiris.
+- Publiceren OWE-beschrijving in Brightspace en Doorzetten eindbeoordeling naar Osiris.
+  Het prototype heeft geen koppelingen.
 
-Daarom staan de docent, Brightspace en Osiris uit
-[Actoren](02-systeemgrenzen.md#actoren) niet in het diagram.
-De student is geen gebruiker van ICDE, en heeft dus geen use case.
+Daarom staan de docent, Brightspace en Osiris uit [Actoren](02-systeemgrenzen.md#actoren) niet in
+het diagram.
+De student gebruikt ICDE niet.
