@@ -49,13 +49,13 @@ Validatieregels:
 - BR9: Een leeruitkomst heeft een omschrijving en een nummer dat uniek is binnen de OWE.
 - BR10: Een beoordelingscriterium hoort bij één beoordelingsdimensie van dezelfde OWE.
 - BR11: Een les heeft een naam en een onderwijsweek binnen de looptijd van de OWE.
-  Ze draagt alleen bij aan beoordelingscriteria van dezelfde OWE.
+  Ze draagt alleen bij aan beoordelingscriteria van dezelfde OWE, eigen of hergebruikt.
 - BR12: Een documentsjabloon heeft een unieke naam en is voor één soort document.
 - BR13: Een onderdeel dat een andere OWE hergebruikt, kan niet worden verwijderd.
 - BR14: Een toetsmoment heeft een naam, en een startweek en deadlineweek binnen de looptijd van
   de OWE.
   De startweek ligt niet na de deadlineweek.
-  Het beoordeelt alleen beoordelingscriteria van dezelfde OWE.
+  Het beoordeelt alleen beoordelingscriteria van dezelfde OWE, eigen of hergebruikt.
 
 ## UC05 Controleren consistentie OWE
 
