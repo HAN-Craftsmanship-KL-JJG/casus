@@ -68,6 +68,7 @@ Dit veranderde:
 | Bestandstype | Geen attribuut | Enumeratie Bestandstype, een parameter van UC06 |
 | OWE-onderdeel | Alleen gedeeld | Ook een id (UUID), uniek over alle OWE's heen |
 | Nieuwe klassen | Geen | Handlers, repositories, regels, Overtreding, Dekking, Vergrendeling |
+| Kopieerbaar | Geen | Interface voor de onderdelen die UC07 kan kopiëren |
 
 Met het id wijzen UC07 en UC09 een onderdeel aan.
 
@@ -169,7 +170,7 @@ Keuze: OWE heeft geefLeeruitkomsten, geefCriteria, geefLessen en geefToetsmoment
 Expert).
 Ze geven eigen en hergebruikte onderdelen samen.
 De rest van het systeem ziet het verschil niet (information hiding).
-Nadeel: OWE heeft 19 operaties, zie de open punten.
+Nadeel: OWE heeft 20 operaties, zie de open punten.
 
 ### Een klasse per consistentieregel
 
@@ -223,6 +224,7 @@ Welke template-engine het bestand maakt, is een technologiekeuze voor blok 2.
 Probleem: UC07 neemt een gedeeld onderdeel op in een OWE.
 Een verwijzing toont altijd de actuele versie (BR6).
 Een kopie hangt niet meer af van het origineel (flow 3A).
+Een kopie kan alleen van een les of toetsmoment.
 
 Lijst (stap 2): HergebruikOnderdeelHandler.geefGedeeldeOnderdelen haalt alle gedeelde onderdelen
 op.
@@ -239,15 +241,20 @@ Kopie (flow 3A):
 
 In flow 3A neemt het systeem de kopie zelf op, zonder invoer van de ontwikkelaar.
 
-Keuze: OWEOnderdeel heeft een abstracte operatie kopieer, met een uitwerking per subklasse
-(Polymorphism).
+Keuze: een interface Kopieerbaar met de operatie kopieer, die Les en Toetsmoment elk op hun
+eigen manier uitwerken (Polymorphism).
 
-- Elke subklasse kent haar eigen gegevens.
-  Een dimensie kopieert haar criteria en niveaus mee.
+- Leeruitkomst en Beoordelingsdimensie zijn niet Kopieerbaar.
+  Een gekopieerde leeruitkomst heeft een EVL en een nieuw nummer nodig (BR9).
+  Een gekopieerd criterium verliest zijn leeruitkomsten, terwijl het er minstens één toetst.
+- Een abstracte kopieer op OWEOnderdeel zou bij twee van de vier subklassen een fout geven.
+  Dat schendt het Liskov Substitution Principle.
+- HergebruikOnderdeelHandler.opnemenKopie controleert dat het onderdeel Kopieerbaar is.
 - OWE.kopieer vraagt de kopie aan het onderdeel en neemt haar op in de eigen lijsten.
 - OWE controleert daarbij BR11 en BR14 met controleerWeek, net als bij toevoegen.
-- De kopie houdt geen koppeling met criteria of leeruitkomsten van de andere OWE.
-  De ontwikkelaar koppelt haar opnieuw.
+- De kopie heeft geen koppelingen met criteria, want die horen bij de andere OWE.
+  Les en Toetsmoment mogen 0 criteria hebben, en UC05 meldt dat (BR2, BR4).
+  De ontwikkelaar koppelt de kopie daarna aan eigen criteria.
 
 Origineel verwijderd (flow 4A): OWERepository.zoekGedeeldOnderdeel vindt het niet, en de handler
 meldt dat.
@@ -261,7 +268,7 @@ Keuze: de klasse die het onderdeel bevat.
 | Klasse | Maakt |
 | --- | --- |
 | Opleiding | OWE, met de eerste EVL |
-| OWE | EVL, Beoordelingsdimensie, Les en Toetsmoment |
+| OWE | EVL, Beoordelingsdimensie met het eerste criterium, Les en Toetsmoment |
 | EVL | Leeruitkomst |
 | Beoordelingsdimensie | Beoordelingscriterium |
 
@@ -269,6 +276,11 @@ Gevolgen:
 
 - Opleiding.maakOWE krijgt de gegevens van de eerste EVL mee, want BR8 eist minstens één EVL.
   Zo bestaat er geen OWE zonder EVL.
+- OWE.toevoegenDimensie krijgt de gegevens van het eerste criterium mee, want een dimensie
+  bestaat uit minstens één criterium (BR10).
+- Verwijderen weigert het laatste exemplaar.
+  OWE.verwijderEVL weigert de laatste EVL (BR8) en een EVL met leeruitkomsten (BR9).
+  Beoordelingsdimensie.verwijderCriterium weigert het laatste criterium (BR10).
 - OWE krijgt bij een les of toetsmoment de criteriumcodes, niet de criteria zelf.
   OWE zoekt ze op in de eigen en hergebruikte dimensies (zoekCriteria).
   Een code van een andere OWE vindt OWE niet, en dat geeft een fout.
@@ -291,12 +303,15 @@ Bij een versienummer is het werk van de tweede ontwikkelaar verloren.
 
 Keuze: een Vergrendeling per veld.
 
-- Begint een ontwikkelaar een veld te wijzigen, dan vraagt de gebruikersinterface
+- Gaat een ontwikkelaar een veld in, dan vraagt de gebruikersinterface
   VergrendelVeldHandler.vergrendel aan.
 - Heeft een ander het veld al, dan geeft vergrendel false, en blokkeert de gebruikersinterface
   het veld.
-- Na het opslaan of annuleren volgt ontgrendel.
+- Invoer gaat real-time naar de backend, dus er is geen aparte stap opslaan.
+  Verlaat de ontwikkelaar het veld, dan volgt ontgrendel.
 - onderdeelId is leeg voor een veld van de OWE zelf.
+- De handler haalt de ingelogde gebruiker uit de sessie, niet uit een parameter.
+  Zo kan een client geen veld van een ander ontgrendelen.
 
 VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebruikt.
 
@@ -306,13 +321,13 @@ VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebru
 
 | Use case | Handler | Klassen en operaties |
 | --- | --- | --- |
-| UC01 | BeheerOWEHandler | Opleiding.maakOWE, OWE.toevoegenEVL |
+| UC01 | BeheerOWEHandler | Opleiding.maakOWE, OWE.toevoegenEVL, OWE.verwijderEVL |
 | UC02 | BeheerOWEHandler | OWE.toevoegenLeeruitkomst, EVL.toevoegenLeeruitkomst |
 | UC03 | BeheerRubricHandler | OWE.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium |
 | UC04 | BeheerPlanningHandler | OWE.toevoegenLes, LesDraagtBijRegel |
 | UC05 | ControleerConsistentieHandler | Consistentieregel met vijf regels, Overtreding |
 | UC06 | GenereerDocumentHandler | Documentsjabloon.zoekOntbrekendeGegevens, genereer |
-| UC07 | HergebruikOnderdeelHandler | OWE.bevat, OWE.hergebruik, OWE.kopieer, OWEOnderdeel.kopieer |
+| UC07 | HergebruikOnderdeelHandler | OWE.bevat, OWE.hergebruik, OWE.kopieer, Kopieerbaar |
 | UC08 | OpvragenDekkingHandler | Opleiding.bepaalDekking, OWE.bepaalDekking, Dekking |
 | UC09 | DeelOnderdeelHandler | OWEOnderdeel.deel |
 | UC10 | BeheerDocumentsjabloonHandler | Documentsjabloon |
@@ -327,6 +342,7 @@ Verwijderen gaat zo:
   Eén operatie is genoeg, omdat het allemaal een OWEOnderdeel is.
 - Een criterium is geen OWEOnderdeel: BeheerRubricHandler.verwijderCriterium en
   Beoordelingsdimensie.verwijderCriterium.
+- Een EVL is geen OWEOnderdeel: BeheerOWEHandler.verwijderEVL en OWE.verwijderEVL.
 - Een OWE: BeheerOWEHandler.verwijderOWE en OWERepository.verwijder.
 
 ### Per bedrijfsregel
@@ -340,9 +356,9 @@ Verwijderen gaat zo:
 | BR5 | ToetsdrukRegel, met Toetsmoment.omvat |
 | BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie |
 | BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het |
-| BR8 | Opleiding.maakOWE met de eerste EVL, en OWERepository.zoek voor een unieke code |
+| BR8 | Opleiding.maakOWE met de eerste EVL, OWE.verwijderEVL, OWERepository.zoek voor de code |
 | BR9 | EVL.toevoegenLeeruitkomst, met OWE voor een uniek nummer |
-| BR10 | Beoordelingsdimensie.toevoegenCriterium |
+| BR10 | OWE.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium en verwijderCriterium |
 | BR11 | OWE.toevoegenLes, met controleerWeek en zoekCriteria |
 | BR12 | BeheerDocumentsjabloonHandler, met DocumentsjabloonRepository.zoek |
 | BR13 | verwijderOnderdeel, verwijderCriterium, verwijderOWE, met OWERepository.wordtHergebruikt |
@@ -368,7 +384,7 @@ Verwijderen gaat zo:
 ## Open punten
 
 - De sequence diagrams in #7 controleren de operaties en de dependencies in dit ontwerp.
-- OWE heeft 19 operaties.
+- OWE heeft 20 operaties.
   Blijkt in #7 dat OWE te veel doet, dan splitsen we de zoek- en geef-operaties af naar een eigen
   klasse.
 - ICDE geeft domeinobjecten terug aan de gebruikersinterface, zoals List<OWEOnderdeel> in UC07.

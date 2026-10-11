@@ -23,7 +23,11 @@ class OWE {
   + toevoegenEVL(naam : String, studiepunten : int) : EVL
   + toevoegenLeeruitkomst(evlNaam : String, nummer : int,\n    \
 omschrijving : String) : Leeruitkomst
-  + toevoegenDimensie(naam : String) : Beoordelingsdimensie
+  + toevoegenDimensie(naam : String,\n    \
+criteriumCode : String, criteriumNaam : String,\n    \
+weging : int, minimumscore : int, uitleg : String,\n    \
+niveaus : Map<Integer, String>,\n    \
+leeruitkomsten : List<Leeruitkomst>) : Beoordelingsdimensie
   + toevoegenLes(naam : String, onderwijsweek : int,\n    \
 beschrijving : String,\n    \
 criteriumCodes : List<String>) : Les
@@ -32,8 +36,9 @@ soort : SoortToetsmoment, startweek : int,\n    \
 deadlineweek : int,\n    \
 criteriumCodes : List<String>) : Toetsmoment
   + hergebruik(onderdeel : OWEOnderdeel) : void
-  + kopieer(onderdeel : OWEOnderdeel) : void
+  + kopieer(onderdeel : Kopieerbaar) : void
   + verwijder(onderdeel : OWEOnderdeel) : void
+  + verwijderEVL(naam : String) : void
   + bevat(onderdeel : OWEOnderdeel) : boolean
   + zoekOnderdeel(id : UUID) : OWEOnderdeel
   + zoekDimensie(naam : String) : Beoordelingsdimensie
@@ -58,7 +63,6 @@ abstract class OWEOnderdeel {
   - id : UUID
   - gedeeld : boolean
   + deel() : void
-  + {abstract} kopieer() : OWEOnderdeel
 }
 
 class Leeruitkomst {
@@ -93,6 +97,7 @@ class Les {
   - naam : String
   - onderwijsweek : int
   - beschrijving : String
+  + kopieer() : OWEOnderdeel
   + heeftCriteria() : boolean
   + dekt(criterium : Beoordelingscriterium) : boolean
 }
@@ -102,6 +107,7 @@ class Toetsmoment {
   - soort : SoortToetsmoment
   - startweek : int
   - deadlineweek : int
+  + kopieer() : OWEOnderdeel
   + beoordeelt(criterium : Beoordelingscriterium) : boolean
   + omvat(week : int) : boolean
 }
@@ -115,6 +121,10 @@ class Documentsjabloon {
 onderdelen : List<String>) : List<String>
   + genereer(owe : OWE, onderdelen : List<String>,\n    \
 bestandstype : Bestandstype) : byte[]
+}
+
+interface Kopieerbaar <<interface>> {
+  + kopieer() : OWEOnderdeel
 }
 
 enum SoortToetsmoment <<enumeration>> {
@@ -151,6 +161,8 @@ OWEOnderdeel <|-- Leeruitkomst
 OWEOnderdeel <|-- Beoordelingsdimensie
 OWEOnderdeel <|-- Les
 OWEOnderdeel <|-- Toetsmoment
+Kopieerbaar <|.. Les
+Kopieerbaar <|.. Toetsmoment
 
 Documentsjabloon ..> OWE
 @enduml

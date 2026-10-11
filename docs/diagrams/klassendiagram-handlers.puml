@@ -25,11 +25,16 @@ evlNaam : String, nummer : int,\n    \
 omschrijving : String) : void
     + verwijderOnderdeel(oweCode : String,\n    \
 onderdeelId : UUID) : void
+    + verwijderEVL(oweCode : String, evlNaam : String) : void
     + verwijderOWE(oweCode : String) : void
   }
   class BeheerRubricHandler {
     - owes : OWERepository
-    + toevoegenDimensie(oweCode : String, naam : String) : void
+    + toevoegenDimensie(oweCode : String, naam : String,\n    \
+criteriumCode : String, criteriumNaam : String,\n    \
+weging : int, minimumscore : int, uitleg : String,\n    \
+niveaus : Map<Integer, String>,\n    \
+leeruitkomstNummers : List<Integer>) : void
     + toevoegenCriterium(oweCode : String,\n    \
 dimensieNaam : String, code : String, naam : String,\n    \
 weging : int, minimumscore : int, uitleg : String,\n    \
@@ -70,7 +75,6 @@ bestandstype : Bestandstype) : byte[]
     - opleidingen : OpleidingRepository
     - owes : OWERepository
     + geefDekking(opleidingNaam : String) : List<Dekking>
-    + geefDekkingVanOWE(oweCode : String) : List<Dekking>
   }
   class DeelOnderdeelHandler {
     - owes : OWERepository
@@ -84,9 +88,9 @@ onderdelen : List<String>, opmaak : String) : void
   class VergrendelVeldHandler {
     - vergrendelingen : VergrendelingRepository
     + vergrendel(oweCode : String, onderdeelId : UUID,\n    \
-veld : String, gebruiker : String) : boolean
+veld : String) : boolean
     + ontgrendel(oweCode : String, onderdeelId : UUID,\n    \
-veld : String, gebruiker : String) : void
+veld : String) : void
   }
 }
 
