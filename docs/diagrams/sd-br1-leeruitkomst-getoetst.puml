@@ -1,6 +1,6 @@
 @startuml sd-br1-leeruitkomst-getoetst
 ' Sequence diagram van LeeruitkomstGetoetstRegel.controleer (BR1).
-' Toelichting: docs/sequencediagrammen.md
+' Toelichting: docs/08-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

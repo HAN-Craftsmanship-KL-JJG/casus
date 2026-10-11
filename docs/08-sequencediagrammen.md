@@ -1,9 +1,7 @@
-# Sequence diagrams ICDE
+# Sequence diagrams
 
-Dit document toont hoe de objecten van ICDE samenwerken in de kern-use-cases.
-Het bouwt voort op de [use case beschrijvingen](use-case-beschrijvingen.md) en het
-[klassendiagram](klassendiagram.md).
-Bronnen: Larman hoofdstuk 4 (System Sequence Diagrams) en 8 (UML Interaction Diagrams).
+Het klassendiagram toont de klassen, maar niet hoe ze samenwerken.
+Dit hoofdstuk toont dat voor de kern van de use cases, en controleert zo ook het klassendiagram.
 
 ## Aanpak
 
@@ -48,17 +46,16 @@ Stap 2 haalt de criteria op met `geefCriteria`, stap 3 tot en met 6 is de toevoe
 | UC08 | geefDekking | OpvragenDekkingHandler | geefDekking, OWE.bepaalDekking |
 | UC11 | toevoegenToetsmoment | BeheerPlanningHandler | toevoegenToetsmoment |
 
-De operaties zonder SD halen alleen gegevens op.
 `geefCriteria` geeft `owe.geefCriteria()`: de eigen en hergebruikte criteria (BR11, BR14).
 `geefGedeeldeOnderdelen` laat de onderdelen weg waarvoor `owe.bevat` true geeft.
 
-## Sequence diagrams
+## Diagrammen per use case
 
 ### UC04 Toevoegen les
 
 OWE maakt de les en controleert de week en de criteria (BR11, 4A).
 Daarna controleert LesDraagtBijRegel BR2.
-De handler geeft alleen de overtredingen van de nieuwe les terug (6A, keuze 2).
+De handler geeft alleen de overtredingen van de nieuwe les terug (6A, S2).
 
 ![SD toevoegenLes](diagrams/sd-uc04-toevoegenles.svg)
 
@@ -98,7 +95,7 @@ OWE bewaart een verwijzing, geen kopie (BR6).
 
 ![SD opnemenOnderdeel](diagrams/sd-uc07-opnemenonderdeel.svg)
 
-Een kopie (3A) loopt via de toevoegoperatie van de OWE (keuze 3).
+Een kopie (3A) loopt via de toevoegoperatie van de OWE (S3).
 
 ![SD opnemenKopie](diagrams/sd-uc07-opnemenkopie.svg)
 
@@ -125,7 +122,7 @@ Dit volgt het patroon van UC04, met BR14 en ToetsdrukRegel (BR5).
 
 ## Keuzes
 
-### Keuze 1: controle bij de gegevens
+### S1 Controle bij de gegevens
 
 Probleem: waar staan de controles voor exceptional flows, zoals 4A in UC04?
 
@@ -136,7 +133,7 @@ Keuze: het object met de gegevens controleert ze (Information Expert).
 OWE controleert de week en de criteria, Toetsmoment de volgorde van start- en deadlineweek.
 De handler controleert alleen of er iets te doen is, zoals 2A in UC05 en UC08.
 
-### Keuze 2: Overtreding kent haar onderdelen
+### S2 Overtreding kent haar onderdelen
 
 Probleem: UC04 en UC11 melden alleen overtredingen van het nieuwe onderdeel (6A).
 Een regel controleert de hele OWE.
@@ -152,22 +149,22 @@ Keuze: Overtreding kent haar onderdelen en beantwoordt `betreft(onderdeel)`.
 De handler filtert daarmee, en elke regel blijft op één plaats.
 Een criterium is geen OWEOnderdeel, dus Overtreding kent voor BR3 en BR4 ook `0..1 criterium`.
 
-### Keuze 3: kopie via toevoegen
+### S3 Kopie via toevoegen
 
 Probleem: een kopie (UC07, 3A) moet in de lijst van haar soort, en OWE controleert de week
 (BR11, BR14).
 
 Alternatief: OWE of de handler vraagt de kopie en test de soort.
-Een test op de soort vervangt Polymorphism door een switch.
+Dan vervangt een switch op de soort het Polymorphism.
 
 Keuze: `Kopieerbaar.kopieerNaar(owe)`.
 Een Les roept `owe.toevoegenLes` aan, een Toetsmoment `owe.toevoegenToetsmoment`, zonder
 criteria.
 Zo controleert OWE de week zoals bij toevoegen.
 
-### Keuze 4: OWE blijft één klasse
+### S4 OWE blijft één klasse
 
-Probleem: OWE heeft 19 operaties (keuze 4 in het klassendiagram).
+Probleem: OWE heeft 19 operaties (K4).
 
 Alternatief: de zoek- en geef-operaties naar een eigen klasse.
 Die klasse moet dan alle lijsten van OWE kennen.

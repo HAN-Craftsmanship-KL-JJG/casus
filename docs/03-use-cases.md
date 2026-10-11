@@ -1,16 +1,14 @@
-# Use cases ICDE
+# Use cases
 
-Dit document toont het use case diagram van ICDE en licht de keuzes toe.
-Het bouwt voort op de actoren en de scope in [systeemgrenzen.md](systeemgrenzen.md).
-De uitwerking staat in [use-case-beschrijvingen.md](use-case-beschrijvingen.md).
+De actoren en de scope uit het vorige hoofdstuk leiden tot de use cases van ICDE.
+Dit hoofdstuk toont het use case diagram en licht de keuzes toe.
+Het volgende hoofdstuk werkt de belangrijkste use cases uit.
 
 ## Use case diagram
 
 ![Use case diagram van ICDE](diagrams/use-case-diagram.svg)
 
-De bron is [diagrams/use-case-diagram.puml](diagrams/use-case-diagram.puml).
-
-## Use cases
+## Overzicht use cases
 
 We vonden de use cases per primary actor, vanuit de doelen van die actor.
 Elke use case is een elementair bedrijfsproces: één persoon voert het uit op één plaats en één
@@ -55,7 +53,7 @@ Het doel van elke use case:
   Delen met andere opleidingen is niet nodig.
 - UC10 Beheren documentsjabloon: sjablonen voor documenten vastleggen, los van de inhoud.
   Een sjabloon bepaalt welke onderdelen een document toont, in welke volgorde en met welke opmaak.
-  [systeemgrenzen.md](systeemgrenzen.md) noemt dit documentformaten.
+  [Systeemgrenzen](02-systeemgrenzen.md#systeemgrenzen) noemt dit documentformaten.
   Het bestandstype (PDF of Word) kiest de gebruiker in UC06.
 - UC11 Beheren toetsplanning: toetsmomenten vastleggen, met een startweek, een deadlineweek en de
   beoordelingscriteria die ze beoordelen.
@@ -70,34 +68,45 @@ Dat is 55%.
 
 ## Keuzes
 
-- Stereotype «CRUD».
-  Voor het beheren van een item tekenen we één use case met «CRUD», zoals de cursus voorschrijft
-  (CRUD Use Cases).
-  Het stereotype is een verkorte weergave van toevoegen, bekijken, wijzigen en verwijderen.
-  Het blijft één use case, ook bij de telling van 65% CRUD.
-  De vier acties volgen het CRUD-sjabloon van de cursus.
-  Zie [use-case-beschrijvingen.md](use-case-beschrijvingen.md).
-- Geen «include» of «extend».
-  Die geven in dit diagram geen meerwaarde.
-- Geen use case Inloggen.
-  Inloggen levert zelf geen waarde voor de gebruiker, en is dus geen elementair bedrijfsproces.
-  Een ingelogde gebruiker is een preconditie van elke use case.
-  ICDE regelt het inloggen voorlopig zelf.
-  Een koppeling met de HAN-inlogdienst (SURFconext) kan later, en staat niet in het diagram.
-- Geen use case voor samenwerken zonder versieconflicten.
-  Dit is een eigenschap van alle wijzig-use cases, geen apart doel van een actor.
-  We leggen het vast als niet-functionele requirement.
-  De opdrachtgever bedoelt: een invoerveld is geblokkeerd zolang iemand het wijzigt, en de rest
-  van de OWE blijft bewerkbaar.
-- Prioriteit.
-  Hoog zijn de use cases die de kern van de casus vormen: gegevens vastleggen, controleren en
-  documenten genereren.
-  Middel zijn delen, hergebruiken en het beheer van sjablonen.
-  UC05 Controleren consistentie OWE heeft de hoogste prioriteit, omdat de opdrachtgever
-  gegevensvalidatie van een OWE voorop zet.
-- Een klein diagram.
-  De casus eist minimaal 10 use cases.
-  We nemen er 11 op, zodat de analyse en het ontwerp gericht blijven.
+### Stereotype «CRUD»
+
+Voor het beheren van een item tekenen we één use case met «CRUD», zoals de cursus voorschrijft
+(CRUD Use Cases).
+Het stereotype is een verkorte weergave van toevoegen, bekijken, wijzigen en verwijderen.
+Het blijft één use case, ook bij de telling van 65% CRUD.
+De vier acties volgen het CRUD-sjabloon van de cursus.
+Zie [CRUD use cases](04-use-case-beschrijvingen.md#crud-use-cases).
+
+### Geen «include» of «extend»
+
+Die geven in dit diagram geen meerwaarde.
+
+### Geen use case Inloggen
+
+Inloggen levert zelf geen waarde voor de gebruiker, en is dus geen elementair bedrijfsproces.
+Een ingelogde gebruiker is een preconditie van elke use case.
+ICDE regelt het inloggen voorlopig zelf.
+Een koppeling met de HAN-inlogdienst (SURFconext) kan later, en staat niet in het diagram.
+
+### Geen use case voor samenwerken zonder versieconflicten
+
+Dit is een eigenschap van alle wijzig-use cases, geen apart doel van een actor.
+We leggen het vast als niet-functionele requirement.
+De opdrachtgever bedoelt: een invoerveld is geblokkeerd zolang iemand het wijzigt, en de rest
+van de OWE blijft bewerkbaar.
+
+### Prioriteit
+
+Hoog zijn de use cases die de kern van de casus vormen: gegevens vastleggen, controleren en
+documenten genereren.
+Middel zijn delen, hergebruiken en het beheer van sjablonen.
+UC05 Controleren consistentie OWE heeft de hoogste prioriteit, omdat de opdrachtgever
+gegevensvalidatie van een OWE voorop zet.
+
+### Een klein diagram
+
+De casus eist minimaal 10 use cases.
+We nemen er 11 op, zodat de analyse en het ontwerp gericht blijven.
 
 ## Buiten het diagram
 
@@ -112,5 +121,5 @@ Ze staan niet in het diagram.
   Het prototype heeft geen koppeling met Brightspace of Osiris.
 
 Daarom staan de docent, Brightspace en Osiris uit
-[systeemgrenzen.md](systeemgrenzen.md#actoren) niet in het diagram.
+[Actoren](02-systeemgrenzen.md#actoren) niet in het diagram.
 De student is geen gebruiker van ICDE, en heeft dus geen use case.

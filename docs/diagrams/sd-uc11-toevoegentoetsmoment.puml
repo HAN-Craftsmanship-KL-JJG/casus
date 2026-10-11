@@ -1,6 +1,6 @@
 @startuml sd-uc11-toevoegentoetsmoment
 ' Sequence diagram van systeemoperatie toevoegenToetsmoment (UC11, Toevoegen toetsmoment,
-' stap 3 tot en met 6). Toelichting: docs/sequencediagrammen.md
+' stap 3 tot en met 6). Toelichting: docs/08-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

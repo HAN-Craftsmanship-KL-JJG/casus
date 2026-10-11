@@ -1,7 +1,6 @@
-# Systeemgrenzen ICDE
+# Systeemgrenzen
 
-Dit document bepaalt de grenzen van het ICDE (Integrated Course Design Environment) project.
-Bronnen: de ICDE-casus en de Modulebeschrijving van de toets Casus.
+Dit hoofdstuk bepaalt wat ICDE wel en niet doet, wie het gebruikt en wat in het prototype komt.
 
 ## ICDE als black box
 
@@ -47,28 +46,7 @@ Primary actors staan links, supporting actors rechts.
 Een stippellijn is een koppeling voor later, buiten het prototype.
 Bij een label met een schuine streep staat eerst wat de actor levert, daarna wat ICDE teruggeeft.
 
-```mermaid
-flowchart LR
-  ontwikkelaar["Onderwijsontwikkelaar"]
-  coordinator["Opleidingscoördinator"]
-  docent["Docent"]
-  beheerder["Functioneel beheerder"]
-
-  icde(["ICDE"])
-
-  Brightspace["Brightspace"]
-  Osiris["Osiris"]
-  inlogdienst["HAN-inlogdienst"]
-
-  ontwikkelaar <-- "OWE-gegevens / documenten, inconsistentiemeldingen" --> icde
-  coordinator <-- "deelverzoeken / dekkingsoverzichten" --> icde
-  docent <-- "tussentijdse beoordelingen / rubrics, groeioverzicht" --> icde
-  beheerder -- "documentformaten" --> icde
-
-  icde -. "OWE-beschrijvingen" .-> Brightspace
-  icde -. "eindbeoordelingen met onderbouwing" .-> Osiris
-  icde -. "identiteit controleren" .-> inlogdienst
-```
+![Contextdiagram van ICDE](diagrams/contextdiagram.svg)
 
 ## Actoren
 
@@ -153,7 +131,7 @@ De Modulebeschrijving van de toets Casus voegt bij de ICDE-casus brondocumenten 
 ## Open vragen voor de opdrachtgever
 
 1. Wie zijn daadwerkelijke gebruikers en wat zijn hun rollen binnen de applicatie?
--> Dit wordt gedekt door de actoren benoemnd in dit document
+-> Dit wordt gedekt door de actoren benoemnd in dit hoofdstuk
 2. Legt de docent beoordelingen vast in ICDE, of levert ICDE alleen de rubrics aan?
 -> Er worden geen beoordelingen vastgelegd in ICDE
 3. Regelt ICDE het inloggen zelf, of gebruikt het de HAN-inlogdienst?

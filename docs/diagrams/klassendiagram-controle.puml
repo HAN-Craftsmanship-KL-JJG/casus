@@ -1,6 +1,6 @@
 @startuml klassendiagram-controle
 ' Design class diagram van ICDE: consistentieregels en dekking (UC05, UC08).
-' Toelichting: docs/klassendiagram.md
+' Toelichting: docs/07-klassendiagram.md
 ' OWE, Leeruitkomst, Beoordelingscriterium, Les en Toetsmoment staan volledig in
 ' klassendiagram-domein.puml.
 skinparam style strictuml

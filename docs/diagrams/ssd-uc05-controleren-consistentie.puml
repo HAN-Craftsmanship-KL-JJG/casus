@@ -1,6 +1,6 @@
 @startuml ssd-uc05-controleren-consistentie
 ' System sequence diagram van UC05 Controleren consistentie OWE.
-' Toelichting: docs/sequencediagrammen.md
+' Toelichting: docs/08-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

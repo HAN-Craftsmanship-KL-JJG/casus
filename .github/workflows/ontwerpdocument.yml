@@ -1,0 +1,80 @@
+# Merges the chapters in docs/ into one PDF.
+# Every run uploads the PDF, unzipped, as a workflow artifact.
+# A push to main replaces the prerelease "preview" with the new PDF.
+# A pushed tag vX.Y.Z publishes the PDF as a normal release.
+name: Ontwerpdocument
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - ".github/workflows/ontwerpdocument.yml"
+  push:
+    branches: [main]
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pdf:
+    runs-on: ubuntu-latest
+    outputs:
+      pdf: ${{ steps.build.outputs.pdf }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build PDF
+        id: build
+        run: |
+          version="$(git rev-parse --short HEAD)"
+          if [ "$GITHUB_REF_TYPE" = tag ]; then version="$GITHUB_REF_NAME"; fi
+          echo "pdf=ontwerpdocument-icde-${version}.pdf" >> "$GITHUB_OUTPUT"
+          date="$(git log -1 --format=%cs)"
+          # Run in docs/: --file-scope resolves links between chapters by their path.
+          # The chapter files sort in reading order through their two-digit prefix.
+          cd docs
+          docker run --rm --user "$(id -u):$(id -g)" -v "$GITHUB_WORKSPACE:/data" -w /data/docs \
+            docker.io/pandoc/typst:3.8 \
+            --from gfm --file-scope --wrap=none --pdf-engine=typst --toc --toc-depth=2 \
+            --metadata-file=ontwerpdocument.yaml --metadata date="${version}, ${date}" \
+            --output "../ontwerpdocument-icde-${version}.pdf" [0-9][0-9]-*.md
+
+      # archive: false keeps the PDF unzipped, and the file name becomes the artifact name.
+      - uses: actions/upload-artifact@v7
+        with:
+          path: ${{ steps.build.outputs.pdf }}
+          archive: false
+          if-no-files-found: error
+
+  release:
+    if: github.event_name == 'push'
+    needs: pdf
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: release-${{ github.ref }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.pdf.outputs.pdf }}
+
+      - name: Publish release
+        if: github.ref_type == 'tag'
+        run: |
+          gh release create "$GITHUB_REF_NAME" ./*.pdf \
+            --title "Ontwerpdocument ICDE $GITHUB_REF_NAME" --generate-notes
+
+      - name: Publish preview
+        if: github.ref_type == 'branch'
+        run: |
+          # Keep one preview: remove the previous one and its tag first.
+          gh release delete preview --cleanup-tag --yes || true
+          gh release create preview ./*.pdf --prerelease --target "$GITHUB_SHA" \
+            --title "Ontwerpdocument ICDE preview" \
+            --notes "Preview van ${GITHUB_SHA::7} op main. Nog geen versie."
