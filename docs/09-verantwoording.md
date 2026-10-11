@@ -1,13 +1,11 @@
 # Verantwoording
 
-De vorige hoofdstukken tonen het ontwerp.
 Dit hoofdstuk zet de ontwerpkeuzes op een rij, koppelt de eisen uit de casus aan het ontwerp, en
 controleert of het ontwerp consistent is met de requirements.
 
 ## Ontwerpkeuzes
 
-Elke keuze beschrijft het probleem, de alternatieven en de reden.
-Deze tabel geeft het overzicht van de keuzes in het ontwerp.
+De tabel geeft het overzicht van de keuzes in het ontwerp.
 De keuzes in het domeinmodel (D1 tot en met D5) staan in het hoofdstuk
 [Domeinmodel](05-domeinmodel.md#keuzes).
 
@@ -32,10 +30,9 @@ De verbeteringen uit de [consistentiecontrole](#inconsistenties) hebben ook alte
 
 ## Eisen uit de casus
 
-De [traceerbaarheid](07-klassendiagram.md#traceerbaarheid) in het klassendiagram koppelt elke use
-case en elke bedrijfsregel aan het ontwerp.
-Deze tabel doet dat voor de eisen uit de casus, de Modulebeschrijving en de wensen van de
-opdrachtgever.
+De [traceerbaarheid](07-klassendiagram.md#traceerbaarheid) koppelt de use cases en
+bedrijfsregels aan het ontwerp.
+Deze tabel doet dat voor de eisen uit de casus en de wensen van de opdrachtgever.
 
 | Eis | Ontwerp | Status |
 | --- | --- | --- |
@@ -61,10 +58,10 @@ Een latere koppeling roept dezelfde systeemoperaties aan als de gebruikersinterf
 
 ## Consistentie met de requirements
 
-We controleren het ontwerp in twee richtingen, zoals bij de
+De controle gaat in twee richtingen, zoals bij de
 [validatie van het domeinmodel](05-domeinmodel.md#validatie).
-Van requirement naar ontwerp: elke use case, bedrijfsregel en eis heeft een klasse en een operatie.
-Van ontwerp naar requirement: elke klasse en operatie dient een use case, regel of eis.
+Elke use case, bedrijfsregel en eis heeft een klasse en een operatie.
+Elke klasse en operatie dient een use case, regel of eis.
 
 ### Wat klopt
 
@@ -73,18 +70,15 @@ Van ontwerp naar requirement: elke klasse en operatie dient een use case, regel 
   Acht regels staan ook in een sequence diagram.
 - Elke systeemoperatie uit de SSD's is een operatie van een handler, met dezelfde naam en
   parameters.
-- Elk sequence diagram gebruikt alleen operaties en associaties uit het klassendiagram.
-  Getters en constructors zijn de uitzondering, zie de aanpak in de sequence diagrams.
-- Elke klasse komt voor in een use case, bedrijfsregel of eis.
-  Handlers en repositories dienen de systeemoperaties.
+- Elk sequence diagram gebruikt alleen operaties en associaties uit het klassendiagram, met
+  getters en constructors als uitzondering.
+- Handlers en repositories dienen de systeemoperaties.
   Overtreding en Dekking dienen UC05 en UC08, Vergrendeling dient het samenwerken.
 - Elke exceptional flow van de uitgewerkte use cases geeft een OngeldigeInvoerException.
 
 ### Inconsistenties
 
-Elke inconsistentie noemt het probleem, een alternatief en de verbetering.
-C2 hebben we in deze versie verwerkt.
-C1 volgt in blok 2.
+C2 is in deze versie verwerkt, C1 volgt in blok 2.
 
 #### C1 Het ontwerp kent geen gebruiker of rol
 
@@ -97,9 +91,8 @@ Alleen VergrendelVeldHandler haalt de gebruiker uit de sessie (K9).
 Alternatief: elke systeemoperatie krijgt de gebruiker als parameter.
 Dan kan een client zich voordoen als een andere gebruiker.
 
-Verbetering: de remote facade regelt het inloggen en controleert de rol per handler.
-Omdat use cases van verschillende actoren geen handler delen (K1), is dat één controle per
-handler.
+Verbetering: de remote facade regelt het inloggen en controleert de rol.
+Use cases van verschillende actoren delen geen handler (K1), dus dat is één controle per handler.
 
 #### C2 Een kopie kan buiten de looptijd vallen
 

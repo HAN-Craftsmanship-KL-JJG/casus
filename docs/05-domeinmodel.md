@@ -1,12 +1,7 @@
 # Domeinmodel
 
-De use cases en bedrijfsregels noemen de begrippen waar ICDE mee werkt.
-Dit hoofdstuk legt die begrippen en hun verbanden vast in een domeinmodel, en controleert het model
+Dit hoofdstuk legt de begrippen uit de use cases en hun verbanden vast, en controleert het model
 tegen de use cases.
-
-## Aanpak
-
-We vonden de concepten met Noun Phrase Identification (NPI).
 
 ## Diagram
 
@@ -14,9 +9,9 @@ We vonden de concepten met Noun Phrase Identification (NPI).
 
 ## Kandidaat-concepten
 
-We onderstreepten de zelfstandige naamwoorden in de casus, de Modulebeschrijving en de
-use case beschrijvingen.
-Daarna schiftten we ze: dubbele namen, synoniemen, rollen en dingen buiten het systeem vielen af.
+De kandidaten komen uit Noun Phrase Identification: de zelfstandige naamwoorden in de casus, de
+Modulebeschrijving en de use case beschrijvingen.
+Synoniemen, rollen en dingen buiten het systeem vallen af.
 
 | Zelfstandig naamwoord | Besluit | Reden |
 | --- | --- | --- |
@@ -81,8 +76,7 @@ Toelichting bij enkele attributen:
 ## Associaties
 
 Een multipliciteit staat bij het concept waarvan je het aantal telt.
-We stelden per associatie de vraag: met hoeveel B's heeft een A te maken,
-gedurende het hele bestaan van A?
+De vraag per associatie: met hoeveel B's heeft een A te maken, gedurende het hele bestaan van A?
 
 | Associatie | Multipliciteit | Onderbouwing |
 | --- | --- | --- |
@@ -99,22 +93,17 @@ gedurende het hele bestaan van A?
 | Toetsmoment beoordeelt Beoordelingscriterium | 0..* : 0..* | BR4. |
 | OWE hergebruikt OWE-onderdeel | 0..* : 0..* | UC07, BR6, BR7, BR13. |
 
-Voorbeeld van lezen: Beoordelingscriterium toetst Leeruitkomst, 0..* : 1..*.
-Een criterium toetst minstens één leeruitkomst.
-Een leeruitkomst wordt door nul of meer criteria getoetst.
+Lees 0..* : 1..* bij toetst zo: een criterium toetst minstens één leeruitkomst, en een
+leeruitkomst wordt door nul of meer criteria getoetst.
 
-Documentsjabloon heeft geen associatie.
-Een sjabloon geldt voor alle OWE's.
-UC06 combineert een sjabloon en een OWE pas bij het genereren.
+Documentsjabloon heeft geen associatie, want een sjabloon geldt voor alle OWE's.
+UC06 combineert sjabloon en OWE pas bij het genereren.
 
 ## Beperkingen die het diagram niet toont
 
-Een UML-multipliciteit kan niet alles zeggen.
-Deze regels gelden ook.
-De codes verwijzen naar de
-[bedrijfsregels](04-use-case-beschrijvingen.md#bedrijfsregels).
-Met "een onderdeel van de OWE" bedoelen we een eigen onderdeel, of een onderdeel dat de OWE
-hergebruikt.
+Deze regels gelden ook, maar een multipliciteit kan ze niet tonen.
+De codes verwijzen naar de [bedrijfsregels](04-use-case-beschrijvingen.md#bedrijfsregels).
+Een onderdeel van de OWE is een eigen of een hergebruikt onderdeel.
 
 - Een criterium toetst alleen leeruitkomsten van de OWE van zijn dimensie.
 - Een les en een toetsmoment koppelen alleen criteria van hun OWE (BR11, BR14).
@@ -184,9 +173,7 @@ Keuze: Les en Toetsmoment hangen aan de OWE, zonder redundante associatie.
 
 ## Validatie
 
-Deze sectie toont aan dat het domeinmodel de use cases dekt.
-
-### Dekking per use case
+De tabel toont dat het domeinmodel de gegevens van elke use case bevat.
 
 | Use case | Regels | Gegevens | In het model |
 | --- | --- | --- | --- |

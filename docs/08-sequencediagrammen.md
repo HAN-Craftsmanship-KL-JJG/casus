@@ -1,27 +1,23 @@
 # Sequence diagrams
 
-Het klassendiagram toont de klassen, maar niet hoe ze samenwerken.
-Dit hoofdstuk toont dat voor de kern van de use cases, en controleert zo ook het klassendiagram.
+Dit hoofdstuk toont hoe de klassen samenwerken, en controleert zo het klassendiagram.
 
 ## Aanpak
 
-We tekenen de use cases met logica: UC05, UC06, UC07 en UC08, en het toevoegen bij UC04 en
+De diagrammen dekken de use cases met logica: UC05 tot en met UC08, en het toevoegen bij UC04 en
 UC11.
-De andere CRUD use cases hebben geen eigen logica.
+Een system sequence diagram (SSD) per use case levert de systeemoperaties.
+Een sequence diagram (SD) per systeemoperatie toont hoe de handler het werk verdeelt.
+Een systeemoperatie die alleen gegevens ophaalt, krijgt geen SD.
 
-- Een system sequence diagram (SSD) per use case levert de systeemoperaties.
-- Een sequence diagram (SD) per systeemoperatie toont hoe de handler het werk verdeelt.
-- Een systeemoperatie die alleen gegevens ophaalt, krijgt geen SD.
-
-De SD's tonen de gebruikersinterface niet: de actor roept de handler direct aan.
-Een exception staat als stippellijn `OngeldigeInvoerException` met de flow uit de use case, zoals
+De actor roept de handler direct aan, zonder gebruikersinterface.
+Een exception is een stippellijn `OngeldigeInvoerException` met de flow uit de use case, zoals
 (2A).
-De SD's gebruiken getters en constructors (`create`) die het klassendiagram weglaat (Larman 7.6).
+De SD's gebruiken getters en constructors (`create`) die het klassendiagram weglaat.
 
 ## System sequence diagrams
 
-UC04 en UC11 hebben geen SSD, omdat ze het CRUD-sjabloon volgen.
-Stap 2 haalt de criteria op met `geefCriteria`, stap 3 tot en met 6 is de toevoegoperatie.
+UC04 en UC11 hebben geen SSD: stap 2 is `geefCriteria`, stap 3 tot en met 6 de toevoegoperatie.
 
 ![SSD UC05 Controleren consistentie OWE](diagrams/ssd-uc05-controleren-consistentie.svg)
 
@@ -66,7 +62,7 @@ De handler kent alleen de interface Consistentieregel.
 
 ![SD controleer](diagrams/sd-uc05-controleer.svg)
 
-Larman tekent een SD per uitwerking van een polymorfe message (figuur 8.21).
+Een polymorfe message krijgt een SD per uitwerking (Larman 8.21).
 BR1 en BR5 hebben elk een eigen vorm.
 
 ![SD BR1](diagrams/sd-br1-leeruitkomst-getoetst.svg)
@@ -102,9 +98,8 @@ Een kopie (3A) loopt via de toevoegoperatie van de OWE (S3).
 ### UC08 Opvragen dekkingsoverzicht
 
 Opleiding vraagt elke OWE om haar dekking.
-Een hergebruikte leeruitkomst komt in meer OWE's voor.
-Opleiding voegt die dekkingen samen met `Dekking.voegToe`, zodat elke leeruitkomst één keer in
-het overzicht staat.
+Een hergebruikte leeruitkomst komt in meer OWE's voor, dus Opleiding voegt die dekkingen samen met
+`Dekking.voegToe`.
 De gebruikersinterface markeert elke dekking waarvoor `isVolledig()` false geeft.
 
 ![SD geefDekking](diagrams/sd-uc08-geefdekking.svg)

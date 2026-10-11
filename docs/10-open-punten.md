@@ -1,7 +1,6 @@
 # Open punten en overdracht
 
-Dit ontwerp is de basis voor de gedistribueerde applicatie in blok 2.
-Dit hoofdstuk noemt wat nog open is.
+Dit hoofdstuk noemt wat nog open is voor de gedistribueerde applicatie in blok 2.
 
 ## Requirements
 
@@ -23,7 +22,7 @@ Dit hoofdstuk noemt wat nog open is.
 
 ## Overdracht naar blok 2
 
-Deze punten werken we uit in blok 2, elk in een eigen issue:
+Elk punt heeft een eigen issue:
 
 | Issue | Wat het ontwerp vastlegt | Wat nog open is |
 | --- | --- | --- |
