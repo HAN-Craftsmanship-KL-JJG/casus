@@ -4,14 +4,10 @@ Dit document toont het dynamische ontwerp van ICDE: hoe de objecten samenwerken 
 kern-use-cases uit te voeren.
 Het bouwt voort op de [use case beschrijvingen](use-case-beschrijvingen.md) en het
 [klassendiagram](klassendiagram.md).
-Bronnen: de lessen System Sequence Diagrams, Thema 4-1 Sequence Diagrams en "Van use case tot
-design" (week 2), Sequence diagrams en GRASP Controller (week 4), de richtlijnen bij Mastermind en
-Larman hoofdstuk 4 (System Sequence Diagrams) en 8 (UML Interaction Diagrams).
+Bronnen: Larman hoofdstuk 4 (System Sequence Diagrams) en 8 (UML Interaction Diagrams).
 
 ## Aanpak
 
-We volgen de werkwijze uit de cursus (Sequence diagrams, dia 8 en 9) en de richtlijnen bij
-Mastermind (dia 20).
 Per use case levert een system sequence diagram (SSD) de systeemoperaties.
 Per systeemoperatie toont een sequence diagram (SD) hoe de handler uit het klassendiagram het werk
 verdeelt (GRASP Controller).
@@ -19,7 +15,7 @@ Een systeemoperatie die alleen gegevens ophaalt, krijgt geen SD.
 
 Wat de SD's weglaten of anders tonen:
 
-- De gebruikersinterface staat niet in de SD's, zoals in "Van use case tot design".
+- De gebruikersinterface staat niet in de SD's.
   De actor stuurt de systeemoperatie direct naar de handler.
 - Een exception staat als stippellijn met de naam `OngeldigeInvoerException` en de flow uit de
   use case, zoals (2A).
@@ -40,8 +36,7 @@ klassendiagram.
 
 ## System sequence diagrams
 
-Het SSD gebruikt parameters zonder datatype, omdat het bij de analyse hoort (Van use case tot
-design, par. 7).
+Het SSD gebruikt parameters zonder datatype, omdat het bij de analyse hoort.
 UC04 en UC11 hebben geen SSD: Toevoegen les en Toevoegen toetsmoment hebben elk één
 systeemoperatie, zie de tabel hieronder.
 In de SSD's is een exception een melding met de flow uit de use case.
@@ -91,8 +86,7 @@ De handler kent alleen de interface Consistentieregel.
 
 ![SD controleer](diagrams/sd-uc05-controleer.svg)
 
-De cursus vraagt een apart SD per concrete uitwerking van een polymorfe message (Sequence
-diagrams, dia 30, en Larman figuur 8.21).
+Larman tekent een apart SD per concrete uitwerking van een polymorfe message (figuur 8.21).
 We tekenen BR1 en BR5, omdat die twee verschillende vormen hebben.
 
 BR1 LeeruitkomstGetoetstRegel zoekt per leeruitkomst een criterium dat haar toetst:
@@ -188,7 +182,7 @@ Waar staat de controle?
 | --- | --- |
 | De handler controleert alle invoer voor hij het domein aanroept | De handler kent de regels |
 
-Zo groeit de handler tot een bloated controller (GRASP Controller, dia 15).
+Zo groeit de handler tot een bloated controller (GRASP Controller).
 
 Keuze: het object dat de gegevens heeft, controleert ze.
 

@@ -5,8 +5,7 @@ Het legt ook uit waarom het ontwerp zo is.
 Het bouwt voort op het [domeinmodel](domeinmodel.md) en de
 [use case beschrijvingen](use-case-beschrijvingen.md).
 
-Bronnen: de lessen Design Class Diagrams en "Van use case tot design" (week 2), GRASP Controller
-(week 4), de richtlijnen bij Mastermind en Larman hoofdstuk 7 (UML Class Diagrams) en 17 (GRASP).
+Bronnen: Larman hoofdstuk 7 (UML Class Diagrams) en 17 (GRASP).
 
 ## Klassendiagrammen
 
@@ -38,7 +37,6 @@ Bron: [klassendiagram-handlers.puml](diagrams/klassendiagram-handlers.puml).
 
 ## Aanpak
 
-We volgen de richtlijnen voor een design class diagram uit de cursus (Mastermind, dia 23).
 Een associatie heeft geen naam.
 Multipliciteit en rolnaam staan alleen aan de doelkant (Larman 7.4).
 
@@ -105,7 +103,6 @@ Keuze: een use case controller per use case.
 De naam is de naam van de use case met het achtervoegsel Handler, zoals bij Larman.
 CRUD use cases van dezelfde actor over dezelfde gegevens delen een handler, tot ongeveer 10
 systeemoperaties.
-Die grens komt uit "Van use case tot design".
 
 - UC01 en UC02 delen BeheerOWEHandler.
 - UC04 en UC11 delen BeheerPlanningHandler.

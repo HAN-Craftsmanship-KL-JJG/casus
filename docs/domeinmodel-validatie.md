@@ -2,7 +2,7 @@
 
 Dit document toont aan dat het [domeinmodel](domeinmodel.md) de use cases uit
 [use-cases.md](use-cases.md) en [use-case-beschrijvingen.md](use-case-beschrijvingen.md) dekt.
-Dit is de stap "Valideer het model" uit het NPI-stappenplan van de cursus (Thema 3).
+Dit is de stap "Valideer het model" uit het NPI-stappenplan van de cursus.
 
 ## Dekking per use case
 
