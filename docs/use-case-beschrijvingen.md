@@ -176,6 +176,8 @@ Exceptional flows:
 - Cross references: BR6, BR7, BR13, UC09 maakt een onderdeel gedeeld.
 - Brief description: De ontwikkelaar neemt een gedeeld onderdeel op in de eigen OWE, als
   verwijzing of als kopie.
+  Een kopie kan alleen van een les of toetsmoment.
+  Een leeruitkomst of rubric blijft een verwijzing, zodat elke OWE dezelfde versie gebruikt.
 - Preconditions: Er is minstens één gedeeld onderdeel dat de OWE nog niet bevat.
 - Postconditions on success: De OWE bevat het gekozen onderdeel, als verwijzing of als kopie.
 - Postconditions on failure: De OWE is niet gewijzigd.
@@ -191,9 +193,10 @@ Main success scenario:
 
 Alternate flows:
 
-- 3A. [De ontwikkelaar wil het onderdeel aanpassen aan de eigen OWE]
+- 3A. [De ontwikkelaar wil een les of toetsmoment aanpassen aan de eigen OWE]
   - 3A1. De ontwikkelaar kiest voor een kopie.
   - 3A2. Het systeem neemt een kopie op, die niet meer afhangt van het origineel.
+    De kopie heeft geen koppelingen met criteria, want die horen bij de andere OWE [BR11, BR14].
   - 3A3. Einde use case.
 
 Exceptional flows:
@@ -213,9 +216,9 @@ De stap "Systeem controleert of gegevens valide zijn" gebruikt deze regels:
 | UC01 Beheren OWE | OWE met EVL's | BR8, BR13 bij verwijderen |
 | UC02 Beheren leeruitkomsten | Leeruitkomst | BR9, BR13 bij verwijderen |
 | UC03 Beheren beoordelingscriteria | Beoordelingscriterium | BR10, BR13 bij verwijderen |
-| UC04 Beheren lesplanning | Les | BR11, daarna controle BR2 |
+| UC04 Beheren lesplanning | Les | BR11, daarna controle BR2, BR13 bij verwijderen |
 | UC10 Beheren documentsjabloon | Documentsjabloon | BR12 |
-| UC11 Beheren toetsplanning | Toetsmoment | BR14, daarna controle BR5 |
+| UC11 Beheren toetsplanning | Toetsmoment | BR14, daarna controle BR5, BR13 bij verwijderen |
 
 Bij UC04 en UC11 controleert het systeem na het opslaan een consistentieregel.
 Daarom werken we het toevoegen hieronder uit.
@@ -252,7 +255,7 @@ De rest van de OWE blijft bewerkbaar.
 ### UC11 Toevoegen toetsmoment
 
 - Primary actor: Onderwijsontwikkelaar.
-- Cross references: BR4, BR5, BR14, UC03 levert de beoordelingscriteria.
+- Cross references: BR5, BR14, UC03 levert de beoordelingscriteria.
 - Preconditions: De OWE bestaat.
 - Postconditions on success: De OWE heeft een nieuw toetsmoment dat voldoet aan BR14.
   Overtreedt de toetsplanning BR5, dan heeft het systeem gewaarschuwd.
