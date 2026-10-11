@@ -27,7 +27,7 @@ moment, en de gegevens zijn daarna consistent.
 | UC07 | Hergebruiken gedeeld onderdeel | Onderwijsontwikkelaar | nee | middel |
 | UC08 | Opvragen dekkingsoverzicht | Opleidingscoördinator | nee | hoog |
 | UC09 | Delen OWE-onderdeel | Opleidingscoördinator | nee | middel |
-| UC10 | Beheren documentformaat | Functioneel beheerder | ja | middel |
+| UC10 | Beheren documentsjabloon | Functioneel beheerder | ja | middel |
 | UC11 | Beheren toetsplanning | Onderwijsontwikkelaar | ja | hoog |
 
 Het doel van elke use case:
@@ -41,8 +41,8 @@ Het doel van elke use case:
 - UC05 Controleren consistentie OWE: het systeem meldt inconsistenties.
   Voorbeelden: een beoordelingsdimensie zonder onderwijs, of een les die niet bijdraagt aan een
   leeruitkomst.
-- UC06 Genereren document: het systeem maakt uit de gegevens van een OWE een document in een
-  gekozen formaat.
+- UC06 Genereren document: het systeem maakt uit de gegevens van een OWE een document met een
+  gekozen sjabloon.
   De gebruiker kiest alle gegevens of een selectie, en kiest PDF of Word.
   Soorten documenten zijn de OWE-beschrijving, de EVL-beschrijving, de toetsplanning en het
   beoordelingsformulier.
@@ -53,7 +53,10 @@ Het doel van elke use case:
 - UC09 Delen OWE-onderdeel: een onderdeel van een OWE beschikbaar maken voor andere profielen
   binnen HBO-ICT.
   Delen met andere opleidingen is niet nodig.
-- UC10 Beheren documentformaat: sjablonen voor documenten vastleggen, los van de inhoud.
+- UC10 Beheren documentsjabloon: sjablonen voor documenten vastleggen, los van de inhoud.
+  Een sjabloon bepaalt welke onderdelen een document toont, in welke volgorde en met welke opmaak.
+  [systeemgrenzen.md](systeemgrenzen.md) noemt dit documentformaten.
+  Het bestandstype (PDF of Word) kiest de gebruiker in UC06.
 - UC11 Beheren toetsplanning: toetsmomenten vastleggen, met een startweek, een deadlineweek en de
   beoordelingscriteria die ze beoordelen.
   Het systeem waarschuwt als er meer dan 3 toetsen in een week lopen.
@@ -88,7 +91,7 @@ Dat is 55%.
 - Prioriteit.
   Hoog zijn de use cases die de kern van de casus vormen: gegevens vastleggen, controleren en
   documenten genereren.
-  Middel zijn delen, hergebruiken en het beheer van formaten.
+  Middel zijn delen, hergebruiken en het beheer van sjablonen.
   UC05 Controleren consistentie OWE heeft de hoogste prioriteit, omdat de opdrachtgever
   gegevensvalidatie van een OWE voorop zet.
 - Een klein diagram.

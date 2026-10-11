@@ -19,7 +19,7 @@ rectangle ICDE {
   usecase "Hergebruiken gedeeld onderdeel" as UC07
   usecase "Opvragen dekkingsoverzicht" as UC08
   usecase "Delen OWE-onderdeel" as UC09
-  usecase "Beheren documentformaat" as UC10 <<CRUD>>
+  usecase "Beheren documentsjabloon" as UC10 <<CRUD>>
   usecase "Beheren toetsplanning" as UC11 <<CRUD>>
 }
 
