@@ -3,7 +3,8 @@
 Dit document beschrijft de analyse en het ontwerp van ICDE (Integrated Course Design Environment).
 ICDE bewaart de gegevens van een onderwijseenheid, controleert ze op consistentie en genereert er
 documenten uit.
-Het is bedoeld voor wie ICDE in blok 2 bouwt, en voor reviewers en docenten.
+Het is de basis voor de realisatie van het prototype in blok 2, en is bedoeld voor reviewers en
+docenten.
 
 ## Opbouw
 
