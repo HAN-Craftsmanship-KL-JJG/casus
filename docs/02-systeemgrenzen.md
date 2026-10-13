@@ -89,5 +89,6 @@ Het prototype heeft met geen van hen een koppeling.
 
 Een offstage stakeholder gebruikt ICDE niet zelf, maar heeft wel belang bij het resultaat.
 
-- Docent: beoordeelt studenten met de rubrics uit ICDE, maar legt de beoordelingen elders vast.
+- Docent: beoordeelt studenten met het beoordelingsformulier dat ICDE genereert, maar legt de
+  beoordelingen elders vast.
 - Student: wil transparant zien hoe de eigen beoordeling tot stand komt.
