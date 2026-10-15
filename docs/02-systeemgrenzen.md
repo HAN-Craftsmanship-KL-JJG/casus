@@ -2,32 +2,42 @@
 
 Dit hoofdstuk bepaalt wat ICDE wel en niet doet, wie het gebruikt en wat in het prototype komt.
 
-## ICDE als black box
+## Wat ICDE doet
 
 ICDE ondersteunt het administratieve deel van het ontwikkelen van onderwijs.
-Het systeem doet het volgende:
+Het prototype doet het volgende:
 
 - Het bewaart de gegevens van een onderwijseenheid (OWE) als data, los van de vorm.
-  Dit zijn leeruitkomsten, beoordelingsdimensies, beoordelingscriteria (rubrics), de
-  toetsplanning en de lesplanning.
-- Het genereert documenten uit die data, zoals OWE-beschrijvingen, EVL-beschrijvingen,
-  toetsplanningen en beoordelingsformulieren.
-  De formaten zijn aanpasbaar zonder de inhoud te wijzigen.
-- Het detecteert inconsistenties.
-  Voorbeelden: een beoordelingscriterium zonder bijbehorend onderwijs, een les die niet
-  bijdraagt aan een toets, of een week met meer dan 3 toetsen.
-- Het laat meerdere ontwikkelaars aan dezelfde OWE werken zonder versieconflicten.
-- Het maakt onderdelen deelbaar tussen opleidingen en profielen.
-- Het levert gegevens voor Iterative Grading.
+  Dit zijn leeruitkomsten, beoordelingscriteria (rubrics), de toetsplanning en de lesplanning.
+  Er is nog geen standaardformaat: de gegevens staan nu in het OER en in ISAS.
+- Het controleert de gegevens van een OWE op consistentie.
+  Dit heeft de hoogste prioriteit.
+  Voorbeelden: een beoordelingscriterium zonder les, of een les die niet bijdraagt aan een toets.
+  ICDE controleert of de lessen 100% aansluiten bij de toetsen.
+- Het waarschuwt als er meer dan 3 toetsen of opdrachten tegelijk in één week lopen.
+- Het genereert documenten uit de gegevens, zoals de OWE-beschrijving, de EVL-beschrijving, de
+  toetsplanning (als tabel en per week) en het beoordelingsformulier.
+  De gebruiker kiest alle gegevens of een selectie, en PDF of Word.
+  Een sjabloon bepaalt de vorm, en is aan te passen zonder de inhoud te wijzigen.
+- Het laat meerdere ontwikkelaars tegelijk aan dezelfde OWE werken.
+  Invoer gaat real-time naar de backend.
+  Een invoerveld is geblokkeerd zolang iemand het wijzigt, de rest van de OWE blijft bewerkbaar.
+- Het maakt onderdelen van een OWE deelbaar met andere OWE's binnen HBO-ICT.
+- Het regelt het inloggen zelf.
+  Alle gebruikers zien dezelfde gegevens.
 
-ICDE doet het volgende niet:
+Later, buiten het prototype:
 
-- Het is geen leeromgeving.
-  Studenten volgen hun onderwijs in Brightspace.
-- Het is geen cijferadministratie.
-  Eindbeoordelingen staan in Osiris.
-- Het beoordeelt de inhoud van onderwijs niet.
-  Het signaleert inconsistenties, en de ontwikkelaar beslist wat er verandert.
+- Een koppeling met SURFconext voor het inloggen.
+- Een koppeling met Brightspace en Osiris.
+
+Buiten ICDE:
+
+- De leeromgeving: studenten volgen hun onderwijs in Brightspace.
+- De cijferadministratie: eindbeoordelingen staan in Osiris.
+- Beoordelen: ICDE legt geen beoordelingen vast, dus ook geen gegevens voor Iterative Grading.
+- De inhoud van onderwijs: ICDE signaleert inconsistenties, en de ontwikkelaar beslist wat er
+  verandert.
 
 ### Begrippen
 
@@ -36,7 +46,6 @@ ICDE doet het volgende niet:
   OOSE-DT heeft bijvoorbeeld de EVL's Software Analysis & Design en Distributed Application
   Development.
 - Een EVL groepeert leeruitkomsten en de toetsen die ze beoordelen.
-  De EVL-beschrijving is een van de documenten die ICDE genereert.
 - Een toetsmoment is een toets of opdracht in de toetsplanning.
   Het loopt van een startweek tot en met een deadlineweek, en beoordeelt beoordelingscriteria.
 
@@ -53,6 +62,7 @@ Bij een label met een schuine streep staat eerst wat de actor levert, daarna wat
 ### Primary actors
 
 Een primary actor gebruikt ICDE om een eigen doel te halen.
+Onderwijsontwikkelaar en opleidingscoördinator zijn aparte rollen.
 
 - Onderwijsontwikkelaar
   - Doel: een OWE consistent ontwerpen en vastleggen.
@@ -61,12 +71,7 @@ Een primary actor gebruikt ICDE om een eigen doel te halen.
 - Opleidingscoördinator
   - Doel: bewaken dat de opleiding alle leeruitkomsten dekt, en onderdelen hergebruiken.
   - Vraagt overzichten op van de dekking van leeruitkomsten.
-  - Deelt OWE-onderdelen met andere opleidingen of profielen.
-- Docent
-  - Doel: studenten iteratief beoordelen volgens de rubrics.
-  - Legt tussentijdse beoordelingen per criterium vast.
-  - Ontvangt per student een overzicht van de groei.
-  - Of dit in ICDE gebeurt, is een open vraag.
+  - Deelt OWE-onderdelen met andere OWE's binnen HBO-ICT.
 - Functioneel beheerder
   - Doel: documentformaten aanpassen aan de wensen van een opleiding.
   - Beheert sjablonen voor OWE-beschrijvingen en beoordelingsformulieren.
@@ -74,85 +79,16 @@ Een primary actor gebruikt ICDE om een eigen doel te halen.
 ### Supporting actors
 
 Een supporting actor levert een dienst aan ICDE of ontvangt gegevens van ICDE.
+Het prototype heeft met geen van hen een koppeling.
 
-- Brightspace
-  - Ontvangt gegenereerde OWE-beschrijvingen en publiceert ze.
-  - Koppeling voor later.
-- Osiris
-  - Ontvangt eindbeoordelingen volgens de rubrics, met onderbouwing.
-  - Koppeling voor later.
-- HAN-inlogdienst
-  - Controleert de identiteit van gebruikers.
-  - Of ICDE deze dienst gebruikt, is een open vraag.
+- Brightspace: ontvangt later gegenereerde OWE-beschrijvingen en publiceert ze.
+- Osiris: de cijferadministratie, waarmee ICDE later koppelt.
+- HAN-inlogdienst (SURFconext): controleert later de identiteit van gebruikers.
 
 ### Offstage stakeholders
 
 Een offstage stakeholder gebruikt ICDE niet zelf, maar heeft wel belang bij het resultaat.
 
-- Student
-  - Wil transparant zien hoe de eigen beoordeling tot stand komt en hoe die groeit.
-  - Of de student ICDE direct gebruikt, is een open vraag.
-
-## Scope
-
-In scope voor het prototype:
-
-- Gegevens van een OWE vastleggen en wijzigen.
-- Documenten genereren uit die gegevens, met een aanpasbaar formaat.
-- Een toetsplanning vastleggen, met een waarschuwing bij meer dan 3 toetsen in een week.
-- Inconsistenties detecteren en melden.
-  Dit omvat de controle of lessen en toetsen op elkaar aansluiten.
-- Samenwerken aan dezelfde OWE zonder versieconflicten.
-- Onderdelen delen tussen opleidingen en profielen, en hergebruiken in een andere OWE.
-
-Binnen de systeemgrens, maar later:
-
-- Gegevens voor Iterative Grading.
-- De koppelingen met Brightspace en Osiris.
-  De casus noemt deze koppelingen voor de lange termijn.
-
-Buiten de systeemgrens:
-
-- De leeromgeving zelf (Brightspace).
-- De cijferadministratie zelf (Osiris).
-- Het beheer van HAN-accounts.
-
-## Aanvullende wensen van de opdrachtgever
-
-De Modulebeschrijving van de toets Casus voegt bij de ICDE-casus brondocumenten en wensen toe:
-
-- ICDE genereert de EVL-beschrijving.
-- ICDE genereert de toetsplanning, als tabel en als overzicht per week.
-- ICDE waarschuwt als er meer dan 3 toetsen of opdrachten tegelijk in één week lopen.
-- ICDE controleert of de lessen 100% aansluiten bij de toetsen.
-  Elke toets wordt beoordeeld op beoordelingscriteria, en die criteria hangen ook aan lessen.
-  ICDE controleert of er voor elke toets lessen zijn, en andersom.
-
-## Open vragen voor de opdrachtgever
-
-1. Wie zijn daadwerkelijke gebruikers en wat zijn hun rollen binnen de applicatie?
--> Dit wordt gedekt door de actoren benoemnd in dit hoofdstuk
-2. Legt de docent beoordelingen vast in ICDE, of levert ICDE alleen de rubrics aan?
--> Er worden geen beoordelingen vastgelegd in ICDE
-3. Regelt ICDE het inloggen zelf, of gebruikt het de HAN-inlogdienst?
--> Voor nu ICDE zelf met mogelijke koppeling naar HAN-inlogdienst Surfcontext
-4. Moet het prototype een koppeling met Brightspace of Osiris laten zien?
--> Geen koppeling met Osiris of Brightspace
-5. Zijn onderwijsontwikkelaar en opleidingscoördinator aparte rollen, of vaak dezelfde persoon?
--> Aparte rollen
-6. Is er de wens om bepaalde informatie af te schermen voor verschillende rollen en/of gebruikers?
--> Nee voor op dit moment niet
-7. Wat is de definitie van collaboratief werken voor deze applicatie?
--> Tegelijk een bestand kunnen aanpassen. Wanneer iemand in een invoerveld zit dan is deze geblokkeerd voor een andere gebruiker. Elders in het bestand moet wel gewerkt kunnen blijven worden
-8. Is er een bron onderwijseenheid gegevens (OWE)? Zo nee kan er een standaard format aangeleverd worden?
--> Nog geen standaard formaat. Alle informatie is te vinden in het OER en op ISAS. 
-9. Hoe moet het delen tussen opleidingen werken? 
--> Er hoeft enkel rekening gehouden te worden met HBO-ICT.
-10. Welke documenten moet ICDE minimaal genereren? 
--> Er moet een selectie gemaakt kunnen worden in de informatie die gegenereert wordt. Of alles, of in delen. 
-11. In welk format de te genereren documentatie zijn? 
--> PDF, Word
-12. Moet het systeem gegevensinvoer wijzigen als het incompleet is? 
--> Gegevensinvoer is real-time richting de backend. 
-13. Welke prioiteiten heeft de functionaliteiten binnen ICDE?
--> Gegevensvalidatie van OWE.
+- Docent: beoordeelt studenten met het beoordelingsformulier dat ICDE genereert, maar legt de
+  beoordelingen elders vast.
+- Student: wil transparant zien hoe de eigen beoordeling tot stand komt.

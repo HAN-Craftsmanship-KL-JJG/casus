@@ -8,7 +8,6 @@ uit.
 
 ## Component diagram
 
-De casus eist dat presentatielaag, domeinlaag en datalaag elk op een eigen server draaien.
 Het component diagram toont de lagen en de interfaces ertussen.
 
 ![Component diagram van ICDE](diagrams/componentdiagram.svg)
