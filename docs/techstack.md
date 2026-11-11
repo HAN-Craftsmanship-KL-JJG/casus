@@ -8,7 +8,7 @@ Het prototype moet op macOS en Windows hetzelfde werken.
 | Tool | Functie | Reden |
 | --- | --- | --- |
 | C++ | Programmeertaal | Het team kent deze taal |
-| C++23 | Versie van C++ | Nieuwste standaard die Clang goed ondersteunt. Drogon werkt ermee |
+| C++20 | Versie van C++ | Laatste standaard die zowel Clang als Drogon beide ondersteunen |
 | Clang | Compiler | De enige compiler die op macOS en Windows hetzelfde werkt. MSVC bouwt niet voor macOS |
 | CMake | Buildsysteem | Industriestandaard. Drogon en vcpkg zijn erop gebouwd |
 | vcpkg | Package manager voor C++ | Meeste GitHub-sterren. Heeft packages voor alle libraries in dit overzicht en werkt direct met CMake |
