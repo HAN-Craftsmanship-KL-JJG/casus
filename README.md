@@ -1,8 +1,5 @@
 # ICDE: Integrated Course Design Environment
 
-[![Ontwerpdocument](https://github.com/HAN-Craftsmanship-KL-JJG/casus/actions/workflows/ontwerpdocument.yml/badge.svg)](https://github.com/HAN-Craftsmanship-KL-JJG/casus/actions/workflows/ontwerpdocument.yml)
-[![Preview PDF](https://img.shields.io/github/v/release/HAN-Craftsmanship-KL-JJG/casus?include_prereleases&label=ontwerpdocument)](https://github.com/HAN-Craftsmanship-KL-JJG/casus/releases/tag/preview)
-
 Onderwijs ontwerpen gebeurt nu in losse Word- en Excel-bestanden.
 Leeruitkomsten, rubrics, toetsplanning en lesplanning lopen daardoor uit de pas, en niemand ziet
 het op tijd.
@@ -22,8 +19,6 @@ De oorspronkelijke opdracht staat in [OPDRACHT.md](OPDRACHT.md).
 - Laat meerdere ontwikkelaars tegelijk aan dezelfde OWE werken.
 - Maakt onderdelen deelbaar tussen OWE's.
 
-![Use case diagram van ICDE](docs/diagrams/use-case-diagram.svg)
-
 ## Ontwerpdocument
 
 Lees de laatste versie als PDF bij de
@@ -41,28 +36,6 @@ Elke merge naar `main` bouwt die PDF opnieuw uit de hoofdstukken in `docs/`.
 | [Klassendiagram](docs/07-klassendiagram.md) | Statisch ontwerp |
 | [Sequence diagrams](docs/08-sequencediagrammen.md) | Dynamisch ontwerp |
 | [Verantwoording](docs/09-verantwoording.md) | Eisen en consistentie |
-
-## Planning
-
-| Blok | Onderdeel | Resultaat | Status |
-| --- | --- | --- | --- |
-| 1 | SAD: Software Analysis & Design | Requirements en ontwerp in `docs/` | Bijna klaar |
-| 2 | DAD: Distributed Application Development | Prototype op basis van het ontwerp | Volgt |
-
-## Repository
-
-```text
-.
-├── AGENTS.md        Afspraken voor AI-assistenten
-├── OPDRACHT.md      Oorspronkelijke casusopdracht
-├── docs/            Hoofdstukken van het ontwerpdocument
-│   └── diagrams/    PlantUML-bronnen en gerenderde SVG's
-└── .github/         Workflow die de PDF bouwt
-```
-
-Diagrammen staan in PlantUML.
-Commit na elke wijziging aan een `.puml`-bestand ook de gerenderde SVG, want GitHub rendert geen
-PlantUML.
 
 ## Werkafspraken
 
