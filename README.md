@@ -1,78 +1,68 @@
-# OOSE-DT — Casusopdracht
+# ICDE: Integrated Course Design Environment
 
-Dit is de opdrachtrepository voor de module **OOSE Deeltijd** (Object-Oriented Software Engineering), studiejaar 2026/2027. Je werkt in teamverband aan een casus die over beide blokken loopt: **SAD** (Software Analysis & Design, blok 1) en **DAD** (Distributed Application Development, blok 2). Deze repository fork of clone je (binnen de GitHub-organisatie [aim-oose-dt](https://github.com/aim-oose-dt)) om met de casus te starten.
+[![Ontwerpdocument](https://github.com/HAN-Craftsmanship-KL-JJG/casus/actions/workflows/ontwerpdocument.yml/badge.svg)](https://github.com/HAN-Craftsmanship-KL-JJG/casus/actions/workflows/ontwerpdocument.yml)
+[![Preview PDF](https://img.shields.io/github/v/release/HAN-Craftsmanship-KL-JJG/casus?include_prereleases&label=ontwerpdocument)](https://github.com/HAN-Craftsmanship-KL-JJG/casus/releases/tag/preview)
 
-> De casus bestaat uit beroepsproductdelen B_Casus1 (SAD) en B_Casus2 (DAD).
+Onderwijs ontwerpen gebeurt nu in losse Word- en Excel-bestanden.
+Leeruitkomsten, rubrics, toetsplanning en lesplanning lopen daardoor uit de pas, en niemand ziet
+het op tijd.
+ICDE bewaart die gegevens als data, controleert ze op consistentie en genereert er documenten
+uit.
 
-## De opdracht
+Dit is de casus van ons team voor de HAN-module OOSE Deeltijd 2026/2027.
+De oorspronkelijke opdracht staat in [OPDRACHT.md](OPDRACHT.md).
 
-Je kiest als team tussen twee opties:
+## Wat ICDE doet
 
-1. De standaard **ICDE-casus** (Integrated Course Design Environment).
-2. Een **eigen casus** die voldoet aan de generieke eisen.
+- Bewaart de gegevens van een onderwijseenheid (OWE) los van de vorm.
+- Controleert of elke les bijdraagt aan een toets, en of elk beoordelingscriterium onderwijs
+  heeft.
+- Waarschuwt bij te veel toetsen in één week.
+- Genereert de OWE-beschrijving, de toetsplanning en het beoordelingsformulier als PDF of Word.
+- Laat meerdere ontwikkelaars tegelijk aan dezelfde OWE werken.
+- Maakt onderdelen deelbaar tussen OWE's.
 
-> Oorspronkelijke opdracht in Brightspace: https://leren.han.nl/d2l/home/110865
-> - ICDE-casus: https://leren.han.nl/d2l/le/lessons/110865/topics/895841
-> - Eigen casus (eisen): https://leren.han.nl/d2l/le/lessons/110865/topics/895844
+![Use case diagram van ICDE](docs/diagrams/use-case-diagram.svg)
 
-## Optie 1: Standaardcasus ICDE
+## Ontwerpdocument
 
-**Auteurs/opdrachtgevers:** Christian Köppe en Rody Middelkoop.
+Lees de laatste versie als PDF bij de
+[preview-release](https://github.com/HAN-Craftsmanship-KL-JJG/casus/releases/tag/preview).
+Elke merge naar `main` bouwt die PDF opnieuw uit de hoofdstukken in `docs/`.
 
-### Inleiding
+| Hoofdstuk | Inhoud |
+| --- | --- |
+| [Inleiding](docs/01-inleiding.md) | Doel en opbouw |
+| [Systeemgrenzen](docs/02-systeemgrenzen.md) | Actoren, scope en wensen van de opdrachtgever |
+| [Use cases](docs/03-use-cases.md) | Use case diagram |
+| [Use case beschrijvingen](docs/04-use-case-beschrijvingen.md) | Uitgewerkte use cases, bedrijfsregels |
+| [Domeinmodel](docs/05-domeinmodel.md) | Concepten en hun samenhang |
+| [Architectuur](docs/06-architectuur.md) | Lagen, componenten en servers |
+| [Klassendiagram](docs/07-klassendiagram.md) | Statisch ontwerp |
+| [Sequence diagrams](docs/08-sequencediagrammen.md) | Dynamisch ontwerp |
+| [Verantwoording](docs/09-verantwoording.md) | Eisen en consistentie |
 
-De auteurs hebben het OOSE-deeltijdsemester ontwikkeld met behulp van Educational Patterns en Assessment-Driven Course Design. Ze zijn begonnen bij de leeruitkomsten en hebben van daaruit de beoordelingsdimensies en -criteria (rubrics) bepaald, gevolgd door een planning van toetsmomenten. Daaruit is een lesplanning met bijbehorende didactiek afgeleid, waarbij Hybrid Pedagogy en Constructive Alignment zijn toegepast en beoordelingscriteria expliciet aan lesinhoud zijn gekoppeld.
+## Planning
 
-Tijdens dit strikte proces liepen ze tegen een aantal problemen aan:
+| Blok | Onderdeel | Resultaat | Status |
+| --- | --- | --- | --- |
+| 1 | SAD: Software Analysis & Design | Requirements en ontwerp in `docs/` | Bijna klaar |
+| 2 | DAD: Distributed Application Development | Prototype op basis van het ontwerp | Volgt |
 
-- Er waren meerdere, onderling inconsistente formaten voor OWE-beschrijvingen in gebruik.
-- Er was geen duidelijk format voor beoordelingscriteria of voor de lesplanning.
-- Er was geen eenvoudig overzicht om te controleren of alle leeruitkomsten voldoende werden afgedekt.
+## Repository
 
-De handmatige consistentiecontroles bleken foutgevoelig. Hybride aspecten zoals Iterative Grading dreigen bovendien een foutgevoelige administratie met veel overhead op te leveren.
+```text
+.
+├── AGENTS.md        Afspraken voor AI-assistenten
+├── OPDRACHT.md      Oorspronkelijke casusopdracht
+├── docs/            Hoofdstukken van het ontwerpdocument
+│   └── diagrams/    PlantUML-bronnen en gerenderde SVG's
+└── .github/         Workflow die de PDF bouwt
+```
 
-### Opdrachtbeschrijving
-
-In plaats van talloze losse Word- en Excel-bestanden bouw je een systeem dat de administratieve delen van het cursusontwikkelproces ondersteunt: het bewaart de data en genereert daaruit de benodigde documenten. Het systeem ondersteunt of bevat de volgende features:
-
-- collaboratief werken zonder versiebeheerproblemen;
-- scheiding van inhoud en vorm, waarbij formaten worden gegenereerd en eenvoudig aanpasbaar zijn;
-- geautomatiseerde detectie van inconsistenties, bijvoorbeeld onvoldoende onderwijs per beoordelingsdimensie, of lessen die niet bijdragen aan de leerdoelen;
-- data die direct bruikbaar is voor nieuwe aanpakken zoals Iterative Grading, waarbij transparantie en de groei van de student centraal staan;
-- vereenvoudigd delen van onderwijsonderdelen tussen opleidingen en profielen;
-- flexibiliteit in formaten, algemene ontwerpaanpak en uitbreidbaarheid, zodat het HAN-breed inzetbaar is;
-- koppeling op termijn met andere systemen, zoals Brightspace (genereren en plaatsen van OWE-beschrijvingen) of Osiris (eindbeoordelingen volgens rubrics overnemen, inclusief onderbouwing).
-
-### De opdracht (deliverables)
-
-Maak een analyse en leg deze vast in een requirements-specificatie. Ontwerp het systeem volgens die specificatie en realiseer een prototype dat aantoont dat de belangrijkste requirements gerealiseerd (kunnen) worden. Toon van alle onderdelen aan dat ze van voldoende kwaliteit zijn. De beoordelingscriteria staan op onderwijsonline.
-
-> Je mag op elk moment tijdens de uitvoering onderdelen laten beoordelen, mits je (1) duidelijk aangeeft op welke criteria je welk niveau denkt te halen (zie rubrics), en (2) onderbouwt waarom, met een link naar die onderbouwing. Zonder onderbouwing geen beoordeling.
-
-## Optie 2: Eigen casus
-
-Je mag ook een eigen casus ontwerpen. Deze moet voldoen aan de volgende eisen:
-
-- Domeinmodel met minimaal 10 concepten.
-- Use case diagram met minimaal 10 use cases, waarvan maximaal 65% CRUD.
-- Een op zichzelf staand (onderdeel van een) systeem — dus geen features toevoegen aan of bugs oplossen van een bestaand systeem.
-- Het systeem is distribueerbaar over meerdere machines/nodes (geen monoliet): presentatielaag, domeinlaag en datalaag draaien op verschillende servers. Een mobiele app of JavaScript front-end via RESTful services op een backend met een aparte database voldoet al.
-- De technologiekeuze is nog niet volledig bepaald, met voldoende keuzevrijheid om deze gemotiveerd te onderbouwen.
-- De casus kan tussentijds aangevuld worden met functionele en niet-functionele eisen vanuit de opdrachtgever (docent).
-
-### Tips voor een eigen casus
-
-- Beschrijf de meerwaarde voor jezelf of je werkgever: waarom moet dit gebouwd worden en welk probleem lost het op?
-- Beschrijf features, user stories of use cases. Focus op features met logica, rekenwerk of complexiteit (veel samenwerking tussen objecten), niet op pure CRUD of UI. Een app die alleen leest en schrijft naar een database legt de focus te veel op UI en opslag — beide vallen buiten de OOSE-leerstof.
-- Een eenvoudige database (~10 tabellen) en een sobere UI (witte schermen, grijze knoppen) houden de focus op functionaliteit.
-- Neem een voorschot op prioriteiten: een goede casus is te groot voor de beschikbare tijd, zodat je keuzes maakt en in delen oplevert.
-- Noem ook niet-functionele eisen: externe systemen en APIs, schaalbaarheid, flexibiliteit (vervangbare libraries), en het gewenste platform of de gewenste taal.
-- Neem een voorlopig lijstje concepten op als quickstart voor het domeinmodel, inclusief hun samenhang: meer samenhang betekent meer kans dat het samenwerkende klassen worden.
-- Overleg met de docenten over de technologie. Java is de OOSE-huisstijl, maar C#, TypeScript of Python mag ook, mits je de OOSE-ontwerpprincipes en patterns kunt toepassen.
-
-## Werkwijze
-
-Maak een issue-board in GitHub (Issues + Milestones). De milestones en issues zijn te importeren uit `Milestones-Issues-OOSE-DT.csv` (in deze map). Koppel je teamleden aan de issues. Onderbouw de kwaliteit per criterium.
+Diagrammen staan in PlantUML.
+Commit na elke wijziging aan een `.puml`-bestand ook de gerenderde SVG, want GitHub rendert geen
+PlantUML.
 
 ## Werkafspraken
 
@@ -99,13 +89,8 @@ We werken volgens [git flow](https://nvie.com/posts/a-successful-git-branching-m
 - `hotfix/<onderwerp>` start vanaf `main` voor een dringende correctie.
   De branch gaat naar `main` en naar `develop`.
 
-## Bijlagen
+### Issues en pull requests
 
-- `sad/casus-opdracht.md` — EVL-beschrijving en leeruitkomsten
-- `sad/toetsing/beoordelingscriteria casus.xlsx` — beoordelingscriteria
-- `sad/assets/OOSE DT Casus ICDE.docx` — volledige ICDE-casusbeschrijving
-- `meta/Milestones-Issues-OOSE-DT.csv` — importeerbare milestones/issues
-
----
-
-> De ICDE casus versie 0.1 (05-07-2017) is van Christian Köppe en Rody Middelkoop.
+- Elk issue krijgt een label: `documentation`, `enhancement` of `question`.
+- Een pull request noemt het issue in de beschrijving met `Fixes #123`.
+- Titels van issues en pull requests zijn in het Nederlands, commitberichten in het Engels.
