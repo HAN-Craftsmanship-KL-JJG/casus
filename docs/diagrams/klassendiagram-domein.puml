@@ -19,42 +19,45 @@ class OWE {
   - code : String
   - naam : String
   - studiepunten : int
-  - aantalWeken : int
-  + hergebruik(onderdeel : OWEOnderdeel) : void
-  + verwijder(onderdeel : OWEOnderdeel) : void
-  + bevat(onderdeel : OWEOnderdeel) : boolean
-  + bepaalDekking() : List<Dekking>
-  - zoekCriteria(codes : List<String>) : List<Beoordelingscriterium>
-  - controleerWeek(week : int) : void
-}
-
-class OWEService{
-  + zoekOnderdeel(id : UUID) : OWEOnderdeel
-  + zoekDimensie(naam : String) : Beoordelingsdimensie
-  + zoekLeeruitkomsten(nummers : List<Integer>) : List<Leeruitkomst>
-  + geefLeeruitkomsten() : List<Leeruitkomst>
-  + geefCriteria() : List<Beoordelingscriterium>
-  + geefLessen() : List<Les>
-  + geefToetsmomenten() : List<Toetsmoment>
-}
-
-class EVLService{
-  + verwijderEVL(naam : String) : void
   + toevoegenEVL(naam : String, studiepunten : int) : EVL
+  + verwijderEVL(naam : String) : void
   + toevoegenLeeruitkomst(evlNaam : String, nummer : int,\n    \
 omschrijving : String) : Leeruitkomst
+  + hergebruik(leeruitkomst : Leeruitkomst) : void
+  + verwijder(onderdeel : OWEOnderdeel) : void
+  + bevat(onderdeel : OWEOnderdeel) : boolean
+  + zoekOnderdeel(id : UUID) : OWEOnderdeel
+  + zoekLeeruitkomsten(nummers : List<Integer>) : List<Leeruitkomst>
+  + geefLeeruitkomsten() : List<Leeruitkomst>
+  + bepaalDekking() : List<Dekking>
+}
+
+class Rubric {
   + toevoegenDimensie(naam : String,\n    \
 criteriumCode : String, criteriumNaam : String,\n    \
 weging : int, minimumscore : int, uitleg : String,\n    \
 niveaus : Map<Integer, String>,\n    \
 leeruitkomsten : List<Leeruitkomst>) : Beoordelingsdimensie
+  + hergebruik(dimensie : Beoordelingsdimensie) : void
+  + zoekDimensie(naam : String) : Beoordelingsdimensie
+  + zoekCriteria(codes : List<String>) : List<Beoordelingscriterium>
+  + geefCriteria() : List<Beoordelingscriterium>
+}
+
+class Planning {
+  - aantalWeken : int
   + toevoegenLes(naam : String, onderwijsweek : int,\n    \
 beschrijving : String,\n    \
-criteriumCodes : List<String>) : Les
+criteria : List<Beoordelingscriterium>) : Les
   + toevoegenToetsmoment(naam : String,\n    \
 soort : SoortToetsmoment, startweek : int,\n    \
 deadlineweek : int,\n    \
-criteriumCodes : List<String>) : Toetsmoment
+criteria : List<Beoordelingscriterium>) : Toetsmoment
+  + hergebruik(les : Les) : void
+  + hergebruik(toetsmoment : Toetsmoment) : void
+  + geefLessen() : List<Les>
+  + geefToetsmomenten() : List<Toetsmoment>
+  - controleerWeek(week : int) : void
 }
 
 class EVL {
@@ -68,15 +71,18 @@ abstract class OWEOnderdeel {
   - id : UUID
   - gedeeld : boolean
   + deel() : void
+  + {abstract} hergebruikIn(owe : OWE) : void
 }
 
 class Leeruitkomst {
   - nummer : int
   - omschrijving : String
+  + hergebruikIn(owe : OWE) : void
 }
 
 class Beoordelingsdimensie {
   - naam : String
+  + hergebruikIn(owe : OWE) : void
   + toevoegenCriterium(code : String, naam : String,\n    \
 weging : int, minimumscore : int, uitleg : String,\n    \
 niveaus : Map<Integer, String>,\n    \
@@ -102,7 +108,8 @@ class Les {
   - naam : String
   - onderwijsweek : int
   - beschrijving : String
-  + kopieerNaar(owe : OWE) : OWEOnderdeel
+  + kopieerNaar(planning : Planning) : OWEOnderdeel
+  + hergebruikIn(owe : OWE) : void
   + heeftCriteria() : boolean
   + dekt(criterium : Beoordelingscriterium) : boolean
 }
@@ -112,7 +119,8 @@ class Toetsmoment {
   - soort : SoortToetsmoment
   - startweek : int
   - deadlineweek : int
-  + kopieerNaar(owe : OWE) : OWEOnderdeel
+  + kopieerNaar(planning : Planning) : OWEOnderdeel
+  + hergebruikIn(owe : OWE) : void
   + beoordeelt(criterium : Beoordelingscriterium) : boolean
   + omvat(week : int) : boolean
 }
@@ -129,7 +137,7 @@ bestandstype : Bestandstype) : byte[]
 }
 
 interface Kopieerbaar <<interface>> {
-  + kopieerNaar(owe : OWE) : OWEOnderdeel
+  + kopieerNaar(planning : Planning) : OWEOnderdeel
 }
 
 enum SoortToetsmoment <<enumeration>> {
@@ -149,18 +157,24 @@ enum Bestandstype <<enumeration>> {
   WORD
 }
 
+' Langere lijnen geven de rolnamen van hergebruik ruimte.
 Opleiding --> "0..* owes" OWE
 OWE --> "1..* evls" EVL
+OWE --> "1 rubric" Rubric
+OWE --> "1 planning" Planning
+OWE --> "0..* hergebruikt" Leeruitkomst
 EVL --> "0..* leeruitkomsten" Leeruitkomst
-OWE --> "0..* dimensies" Beoordelingsdimensie
+Rubric --> "0..* dimensies" Beoordelingsdimensie
+Rubric ---> "0..* hergebruikt" Beoordelingsdimensie
 Beoordelingsdimensie --> "1..* criteria" Beoordelingscriterium
 Beoordelingscriterium --> "1..* niveaus" Niveau
 Beoordelingscriterium --> "1..* leeruitkomsten" Leeruitkomst
-OWE --> "0..* lessen" Les
-OWE --> "0..* toetsmomenten" Toetsmoment
+Planning --> "0..* lessen" Les
+Planning --> "0..* toetsmomenten" Toetsmoment
+Planning ---> "0..* hergebruikteLessen" Les
+Planning ---> "0..* hergebruikteToetsmomenten" Toetsmoment
 Les --> "0..* criteria" Beoordelingscriterium
 Toetsmoment --> "0..* criteria" Beoordelingscriterium
-OWE --> "0..* hergebruikt" OWEOnderdeel
 
 OWEOnderdeel <|-- Leeruitkomst
 OWEOnderdeel <|-- Beoordelingsdimensie

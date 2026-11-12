@@ -8,17 +8,21 @@ hide footbox
 
 participant ":ToetsdrukRegel" as regel
 participant "owe : OWE" as owe
+participant "planning :\nPlanning" as planning
 participant "toetsmomenten[j] :\nToetsmoment" as toetsmoment
 participant "o : Overtreding" as overtreding
 
 [-> regel : overtredingen = controleer(owe)
 activate regel
-regel -> owe : weken = geefAantalWeken()
+regel -> owe : planning = geefPlanning()
 activate owe
 deactivate owe
-regel -> owe : toetsmomenten = geefToetsmomenten()
-activate owe
-deactivate owe
+regel -> planning : weken = geefAantalWeken()
+activate planning
+deactivate planning
+regel -> planning : toetsmomenten = geefToetsmomenten()
+activate planning
+deactivate planning
 loop week = 1 tot en met weken
   loop voor elk toetsmoment
     regel -> toetsmoment : loopt = omvat(week)
