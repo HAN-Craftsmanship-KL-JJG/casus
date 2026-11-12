@@ -19,7 +19,7 @@ Deze tabel doet dat voor de eisen uit de casus en de wensen van de opdrachtgever
 | Inconsistenties detecteren | Consistentieregel en vijf regels (K4) | Ontworpen |
 | Lessen sluiten aan op toetsen | CriteriumHeeftLesRegel, CriteriumBeoordeeldRegel | Ontworpen |
 | Meer dan 3 toetsen in een week | ToetsdrukRegel (BR5), ook in UC11 | Ontworpen |
-| Onderdelen delen binnen HBO-ICT | OWEOnderdeel.deel, OWE.hergebruik (K6) | Ontworpen |
+| Onderdelen delen binnen HBO-ICT | OWEOnderdeel.deel, OWEOnderdeel.hergebruikIn (K6) | Ontworpen |
 | Overzicht van de dekking | Opleiding.bepaalDekking, Dekking.voegToe | Ontworpen |
 | Uitbreidbaar | Nieuwe regel is een nieuwe klasse, nieuw sjabloon is data | Ontworpen |
 | Inloggen door ICDE zelf | Geen, zie C1 | Open, blok 2 |

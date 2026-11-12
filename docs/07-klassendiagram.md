@@ -32,11 +32,13 @@ Het ontwerp staat in drie diagrammen, zodat elk diagram leesbaar blijft.
 De elf concepten zijn elf klassen met dezelfde naam, zonder streepje: OWEOnderdeel.
 Net als het domeinmodel gebruikt het klassendiagram geen compositie.
 OWEOnderdeel krijgt een id (UUID), waarmee UC07 en UC09 een onderdeel aanwijzen.
+Rubric en Planning zijn ontwerpklassen zonder concept in het domeinmodel (K9).
+Het attribuut aantalWeken van OWE staat in Planning, omdat alleen de planning de looptijd gebruikt.
 
 Elke associatie is navigeerbaar in één richting, van eigenaar naar onderdeel en van les of
 toetsmoment naar criterium, zonder cyclus (Low Coupling).
-Een vraag in de andere richting gaat naar een klasse met overzicht, zoals OWE voor de lessen bij
-een criterium en OWERepository.wordtHergebruikt voor BR13.
+Een vraag in de andere richting gaat naar een klasse met overzicht, zoals Planning voor de lessen
+bij een criterium en OWERepository.wordtHergebruikt voor BR13.
 
 ## Keuzes
 
@@ -81,7 +83,7 @@ De interface hoort bij het domein, de implementatie bij de datalaag.
 Zo hangt het domein niet af van de database (Dependency Inversion Principle).
 Het data source pattern volgt in blok 2.
 
-### K3 OWE geeft alle gegevens van een OWE
+### K3 De delen van OWE geven alle gegevens
 
 Probleem: de consistentieregels, de dekking en de documenten hebben alle leeruitkomsten,
 criteria, lessen en toetsmomenten van een OWE nodig.
@@ -90,12 +92,10 @@ Daar horen ook de hergebruikte onderdelen bij.
 Alternatief: elke regel zoekt zelf in EVL's, dimensies en hergebruik.
 Dan kent elke regel de structuur van OWE.
 
-Keuze: OWE heeft geefLeeruitkomsten, geefCriteria, geefLessen en geefToetsmomenten (Information
-Expert).
+Keuze: de klasse met de lijst geeft de gegevens (Information Expert).
+OWE heeft geefLeeruitkomsten, Rubric geefCriteria, en Planning geefLessen en geefToetsmomenten.
 Ze geven eigen en hergebruikte onderdelen samen, zodat de rest van het systeem het verschil niet
 ziet (information hiding).
-OWE heeft daardoor 19 operaties, maar de sequence diagrams tonen dat elke operatie kort is en alleen
-de eigen lijsten gebruikt, dus de cohesie blijft hoog.
 
 ### K4 Een klasse per consistentieregel
 
@@ -167,11 +167,14 @@ hun eigen manier uitwerken (Polymorphism).
 
 - Stap 2: HergebruikOnderdeelHandler.geefGedeeldeOnderdelen haalt de gedeelde onderdelen op die
   de OWE nog niet bevat (OWE.bevat).
-- Stap 4: OWE.hergebruik voegt het originele object toe aan de lijst hergebruikt, dus de OWE ziet
-  elke wijziging meteen.
+- Stap 4: de polymorfe operatie OWEOnderdeel.hergebruikIn(owe) voegt het originele object toe aan
+  de lijst hergebruikt van zijn soort, dus de OWE ziet elke wijziging meteen.
+  Een leeruitkomst gaat naar OWE, een dimensie naar Rubric, een les of toetsmoment naar Planning.
+  Zo test de handler de soort niet (Polymorphism).
 - Flow 3A: HergebruikOnderdeelHandler.opnemenKopie controleert dat het onderdeel Kopieerbaar is.
-  Les.kopieerNaar roept owe.toevoegenLes aan, Toetsmoment.kopieerNaar owe.toevoegenToetsmoment.
-  Zo controleert OWE BR11 en BR14 net als bij toevoegen, zonder de soort te testen
+  Les.kopieerNaar roept planning.toevoegenLes aan, Toetsmoment.kopieerNaar
+  planning.toevoegenToetsmoment.
+  Zo controleert Planning BR11 en BR14 net als bij toevoegen, zonder de soort te testen
   ([S3](08-sequencediagrammen.md#s3-kopie-via-toevoegen)).
 - De kopie heeft geen criteria, want die horen bij de andere OWE.
   UC05 meldt dat (BR2, BR4), en de ontwikkelaar koppelt daarna eigen criteria.
@@ -191,7 +194,9 @@ Keuze: de klasse die het onderdeel bevat.
 | Klasse | Maakt |
 | --- | --- |
 | Opleiding | OWE, met de eerste EVL |
-| OWE | EVL, Beoordelingsdimensie met het eerste criterium, Les en Toetsmoment |
+| OWE | EVL, Rubric en Planning |
+| Rubric | Beoordelingsdimensie met het eerste criterium |
+| Planning | Les en Toetsmoment |
 | EVL | Leeruitkomst |
 | Beoordelingsdimensie | Beoordelingscriterium |
 
@@ -199,17 +204,17 @@ Gevolgen:
 
 - Opleiding.maakOWE krijgt de gegevens van de eerste EVL mee, want BR8 eist minstens één EVL.
   Zo bestaat er geen OWE zonder EVL.
-- OWE.toevoegenDimensie krijgt de gegevens van het eerste criterium mee, want een dimensie
+- Rubric.toevoegenDimensie krijgt de gegevens van het eerste criterium mee, want een dimensie
   bestaat uit minstens één criterium (BR10).
 - Verwijderen weigert het laatste exemplaar.
   OWE.verwijderEVL weigert de laatste EVL (BR8) en een EVL met leeruitkomsten (BR9).
   Beoordelingsdimensie.verwijderCriterium weigert het laatste criterium (BR10).
-- OWE krijgt bij een les of toetsmoment de criteriumcodes, niet de criteria zelf.
-  OWE zoekt ze op in de eigen en hergebruikte dimensies (zoekCriteria).
-  Een code van een andere OWE vindt OWE niet, en dat geeft een fout.
+- De handler krijgt bij een les of toetsmoment de criteriumcodes, niet de criteria zelf.
+  Rubric.zoekCriteria zoekt ze op in de eigen en hergebruikte dimensies van de OWE.
+  Een code van een andere OWE vindt Rubric niet, en dat geeft een fout.
   Zo dwingt het ontwerp BR11 en BR14 af.
-- De private operatie controleerWeek controleert onderwijsweek, startweek en deadlineweek
-  (BR11, BR14).
+- De private operatie Planning.controleerWeek controleert onderwijsweek, startweek en
+  deadlineweek (BR11, BR14).
 
 ### K8 Een vergrendeling per invoerveld
 
@@ -237,6 +242,37 @@ Keuze: een Vergrendeling per veld.
 
 VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebruikt.
 
+### K9 OWE splitsen in Rubric en Planning
+
+Probleem: OWE had 19 operaties.
+EVL's, rubric, lesplanning, toetsplanning, hergebruik en dekking stonden in één klasse.
+Elke wijziging in een van die taken raakt OWE (lage cohesie).
+
+Alternatieven:
+
+- Alles in OWE laten.
+  Dat volgt Information Expert, maar OWE wordt een god class.
+- Gegevens en gedrag scheiden: OWE houdt de lijsten, een serviceklasse maakt en controleert de
+  onderdelen.
+  Dan bewaakt OWE zijn eigen gegevens niet meer (anemic domain model), en kent de service de
+  lijsten van OWE.
+
+Keuze: OWE splitsen naar taak, met het gedrag bij de gegevens.
+
+- Rubric beheert de beoordelingsdimensies en zoekt criteria op (BR10).
+- Planning beheert de lessen en toetsmomenten en controleert de weken (BR11, BR14).
+- OWE houdt de EVL's en leeruitkomsten (BR8, BR9), verwijderen, zoeken op id en de dekking.
+  Voor verwijder, bevat en zoekOnderdeel doorzoekt OWE ook de lijsten van Rubric en Planning.
+- OWE maakt Rubric en Planning en heeft er precies één van (Creator).
+
+Rubric en Planning zijn Pure Fabrication: het domeinmodel kent ze niet.
+De namen komen wel uit de casus: de rubric van een OWE en de toetsplanning.
+OWE heeft nu 10 operaties, Rubric 5 en Planning 7.
+
+Gevolg: het domeinmodel heeft één associatie hergebruikt naar OWEOnderdeel.
+Het ontwerp splitst die in een lijst per soort, bij het deel dat die soort beheert.
+OWEOnderdeel.hergebruikIn kiest de lijst, zodat geen klasse de soort test (K6).
+
 ## Traceerbaarheid
 
 ### Per use case
@@ -245,15 +281,15 @@ VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebru
 | --- | --- | --- |
 | UC01 | BeheerOWEHandler | Opleiding.maakOWE, OWE.toevoegenEVL, OWE.verwijderEVL |
 | UC02 | BeheerOWEHandler | OWE.toevoegenLeeruitkomst, EVL.toevoegenLeeruitkomst |
-| UC03 | BeheerRubricHandler | OWE.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium |
-| UC04 | BeheerPlanningHandler | OWE.toevoegenLes, LesDraagtBijRegel |
+| UC03 | BeheerRubricHandler | Rubric.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium |
+| UC04 | BeheerPlanningHandler | Rubric.zoekCriteria, Planning.toevoegenLes, LesDraagtBijRegel |
 | UC05 | ControleerConsistentieHandler | Consistentieregel met vijf regels, Overtreding |
 | UC06 | GenereerDocumentHandler | Documentsjabloon.zoekOntbrekendeGegevens, genereer |
-| UC07 | HergebruikOnderdeelHandler | OWE.bevat, OWE.hergebruik, Kopieerbaar.kopieerNaar |
+| UC07 | HergebruikOnderdeelHandler | OWE.bevat, OWEOnderdeel.hergebruikIn, kopieerNaar |
 | UC08 | OpvragenDekkingHandler | Opleiding.bepaalDekking, OWE.bepaalDekking, Dekking.voegToe |
 | UC09 | DeelOnderdeelHandler | OWEOnderdeel.deel |
 | UC10 | BeheerDocumentsjabloonHandler | Documentsjabloon |
-| UC11 | BeheerPlanningHandler | OWE.toevoegenToetsmoment, ToetsdrukRegel |
+| UC11 | BeheerPlanningHandler | Planning.toevoegenToetsmoment, ToetsdrukRegel |
 
 De namen van de use cases staan in het [overzicht use cases](03-use-cases.md#overzicht-use-cases).
 
@@ -280,15 +316,15 @@ De regels zonder SD horen bij CRUD use cases, zie de
 | BR3 | CriteriumHeeftLesRegel, met Les.dekt | controleer |
 | BR4 | CriteriumBeoordeeldRegel, met Toetsmoment.beoordeelt | controleer |
 | BR5 | ToetsdrukRegel, met Toetsmoment.omvat | BR5, toevoegenToetsmoment |
-| BR6 | OWE.hergebruik bewaart een verwijzing, geen kopie | opnemenOnderdeel |
+| BR6 | OWEOnderdeel.hergebruikIn bewaart een verwijzing, geen kopie | opnemenOnderdeel |
 | BR7 | Alleen de OWE die het onderdeel in de eigen lijsten heeft, wijzigt het | - |
 | BR8 | Opleiding.maakOWE met de eerste EVL, OWE.verwijderEVL, OWERepository.zoek | - |
 | BR9 | EVL.toevoegenLeeruitkomst, met OWE voor een uniek nummer | - |
-| BR10 | OWE.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium, verwijderCriterium | - |
-| BR11 | OWE.toevoegenLes, met controleerWeek en zoekCriteria | toevoegenLes, opnemenKopie |
+| BR10 | Rubric.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium, verwijderCriterium | - |
+| BR11 | Planning.toevoegenLes, controleerWeek, Rubric.zoekCriteria | toevoegenLes, opnemenKopie |
 | BR12 | BeheerDocumentsjabloonHandler, met DocumentsjabloonRepository.zoek | - |
 | BR13 | verwijderOnderdeel, verwijderCriterium, verwijderOWE, OWERepository.wordtHergebruikt | - |
-| BR14 | OWE.toevoegenToetsmoment, met controleerWeek en zoekCriteria | toevoegenToetsmoment |
+| BR14 | Planning.toevoegenToetsmoment, controleerWeek, Rubric.zoekCriteria | toevoegenToetsmoment |
 
 ## Wat niet in de diagrammen staat
 

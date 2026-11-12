@@ -10,6 +10,8 @@ actor ":Onderwijsontwikkelaar" as ontwikkelaar
 participant ":BeheerPlanning\nHandler" as handler
 participant "owes :\nOWERepository" as owes
 participant "owe : OWE" as owe
+participant "rubric : Rubric" as rubric
+participant "planning :\nPlanning" as planning
 participant "les : Les" as les
 participant "lesRegel :\nConsistentieregel" as regel
 participant "alle[i] :\nOvertreding" as overtreding
@@ -20,13 +22,21 @@ activate handler
 handler -> owes : owe = zoek(oweCode)
 activate owes
 deactivate owes
-handler -> owe : les = toevoegenLes(naam, onderwijsweek,\nbeschrijving, criteriumCodes)
+handler -> owe : rubric = geefRubric()
 activate owe
-owe -> owe : controleerWeek(onderwijsweek)
-owe -> owe : criteria = zoekCriteria(criteriumCodes)
-create les
-owe -> les : create(naam, onderwijsweek,\nbeschrijving, criteria)
 deactivate owe
+handler -> owe : planning = geefPlanning()
+activate owe
+deactivate owe
+handler -> rubric : criteria = zoekCriteria(criteriumCodes)
+activate rubric
+deactivate rubric
+handler -> planning : les = toevoegenLes(naam, onderwijsweek,\nbeschrijving, criteria)
+activate planning
+planning -> planning : controleerWeek(onderwijsweek)
+create les
+planning -> les : create(naam, onderwijsweek,\nbeschrijving, criteria)
+deactivate planning
 handler -> owes : bewaar(owe)
 activate owes
 deactivate owes
@@ -40,7 +50,7 @@ loop voor elke overtreding in alle
 end
 handler --> ontwikkelaar : overtredingen
 deactivate handler
-note over owe, les
+note over rubric, les
   4A: controleerWeek, zoekCriteria en create
   gooien een OngeldigeInvoerException bij
   ongeldige gegevens [BR11].
