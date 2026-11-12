@@ -74,6 +74,31 @@ Je mag ook een eigen casus ontwerpen. Deze moet voldoen aan de volgende eisen:
 
 Maak een issue-board in GitHub (Issues + Milestones). De milestones en issues zijn te importeren uit `Milestones-Issues-OOSE-DT.csv` (in deze map). Koppel je teamleden aan de issues. Onderbouw de kwaliteit per criterium.
 
+## Werkafspraken
+
+### Commitberichten
+
+We schrijven commitberichten volgens [Conventional Commits](https://www.conventionalcommits.org/).
+Het formaat is `type(scope): onderwerp`, bijvoorbeeld `docs(domeinmodel): voeg Toetsmoment toe`.
+Toegestane types: `feat`, `fix`, `docs`, `refactor`, `test`, `perf`, `build`, `ci`, `chore`,
+`style`, `revert`.
+Koppel een issue in de footer met `Fixes #123` of `Refs #123`.
+
+### Branches
+
+We werken volgens [git flow](https://nvie.com/posts/a-successful-git-branching-model/).
+
+![Git flow: feature, release en hotfix rond main en develop](.github/git-flow.svg)
+
+- `main` bevat alleen opgeleverde versies.
+  Elke merge naar `main` krijgt een versietag.
+- `develop` verzamelt het werk voor de volgende oplevering.
+- `feature/<onderwerp>` start vanaf `develop` en gaat via een pull request terug naar `develop`.
+- `release/<versie>` start vanaf `develop` voor een oplevering.
+  Na de laatste correcties gaat de branch naar `main` en terug naar `develop`.
+- `hotfix/<onderwerp>` start vanaf `main` voor een dringende correctie.
+  De branch gaat naar `main` en naar `develop`.
+
 ## Bijlagen
 
 - `sad/casus-opdracht.md` — EVL-beschrijving en leeruitkomsten
