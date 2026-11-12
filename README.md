@@ -7,7 +7,6 @@ ICDE bewaart die gegevens als data, controleert ze op consistentie en genereert 
 uit.
 
 Dit is de casus van ons team voor de HAN-module OOSE Deeltijd 2026/2027.
-De oorspronkelijke opdracht staat in [OPDRACHT.md](OPDRACHT.md).
 
 ## Wat ICDE doet
 
