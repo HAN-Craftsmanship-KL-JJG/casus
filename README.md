@@ -35,7 +35,7 @@ Elke merge naar `main` bouwt die PDF opnieuw uit de hoofdstukken in `docs/`.
 | [Inleiding](docs/01-inleiding.md) | Doel en opbouw |
 | [Systeemgrenzen](docs/02-systeemgrenzen.md) | Actoren, scope en wensen van de opdrachtgever |
 | [Use cases](docs/03-use-cases.md) | Use case diagram |
-| [Use case beschrijvingen](docs/04-use-case-beschrijvingen.md) | Uitgewerkte use cases, bedrijfsregels |
+| [Use case beschrijvingen](docs/04-use-case-beschrijvingen.md) | Uitwerking, bedrijfsregels |
 | [Domeinmodel](docs/05-domeinmodel.md) | Concepten en hun samenhang |
 | [Architectuur](docs/06-architectuur.md) | Lagen, componenten en servers |
 | [Klassendiagram](docs/07-klassendiagram.md) | Statisch ontwerp |
