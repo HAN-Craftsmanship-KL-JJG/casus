@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" width="760" height="340"
+  font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <title>Git flow: branches en merges</title>
+  <rect width="760" height="340" fill="#ffffff"/>
+
+  <!-- Lanes -->
+  <g font-weight="bold">
+    <text x="12" y="54" fill="#000000">main</text>
+    <text x="12" y="114" fill="#000000">hotfix/*</text>
+    <text x="12" y="174" fill="#000000">release/*</text>
+    <text x="12" y="234" fill="#000000">develop</text>
+    <text x="12" y="294" fill="#000000">feature/*</text>
+  </g>
+  <line x1="110" y1="50" x2="740" y2="50" stroke="#000000" stroke-width="4"/>
+  <line x1="160" y1="230" x2="740" y2="230" stroke="#000000" stroke-width="4"/>
+
+  <!-- Branch and merge paths -->
+  <g fill="none" stroke-width="3">
+    <path d="M140 50 C150 50 150 230 160 230" stroke="#000000"/>
+    <path d="M190 230 C200 230 200 290 215 290 L285 290 C320 290 320 230 340 230"
+      stroke="#000000"/>
+    <path d="M330 50 C350 50 345 110 365 110 L385 110 C410 110 410 50 430 50" stroke="#000000"/>
+    <path d="M385 110 C420 110 420 230 450 230" stroke="#000000"/>
+    <path d="M500 230 C520 230 515 170 535 170 L590 170 C615 170 615 50 640 50"
+      stroke="#000000"/>
+    <path d="M590 170 C620 170 625 230 650 230" stroke="#000000"/>
+  </g>
+
+  <!-- Commits -->
+  <g stroke="#ffffff" stroke-width="2">
+    <circle cx="140" cy="50" r="8" fill="#000000"/>
+    <circle cx="430" cy="50" r="8" fill="#000000"/>
+    <circle cx="640" cy="50" r="8" fill="#000000"/>
+    <circle cx="380" cy="110" r="8" fill="#000000"/>
+    <circle cx="550" cy="170" r="8" fill="#000000"/>
+    <circle cx="590" cy="170" r="8" fill="#000000"/>
+    <circle cx="160" cy="230" r="8" fill="#000000"/>
+    <circle cx="250" cy="230" r="8" fill="#000000"/>
+    <circle cx="340" cy="230" r="8" fill="#000000"/>
+    <circle cx="450" cy="230" r="8" fill="#000000"/>
+    <circle cx="500" cy="230" r="8" fill="#000000"/>
+    <circle cx="650" cy="230" r="8" fill="#000000"/>
+    <circle cx="230" cy="290" r="8" fill="#000000"/>
+    <circle cx="280" cy="290" r="8" fill="#000000"/>
+  </g>
+
+  <!-- Version tags -->
+  <g font-size="12" fill="#000000" text-anchor="middle">
+    <text x="140" y="30">v1.0.0</text>
+    <text x="430" y="30">v1.0.1</text>
+    <text x="640" y="30">v1.1.0</text>
+  </g>
+
+  <!-- Legend -->
+  <text x="110" y="328" font-size="12" fill="#000000">
+    feature en release starten vanaf develop, hotfix start vanaf main.
+    Elke merge naar main krijgt een versietag.
+  </text>
+</svg>
