@@ -30,7 +30,6 @@ class OWE {
 
 class OWEService{
   + zoekOnderdeel(id : UUID) : OWEOnderdeel
-  + zoekDimensie(naam : String) : Beoordelingsdimensie
   + zoekLeeruitkomsten(nummers : List<Integer>) : List<Leeruitkomst>
   + geefLeeruitkomsten() : List<Leeruitkomst>
   + geefCriteria() : List<Beoordelingscriterium>
@@ -48,6 +47,7 @@ criteriumCode : String, criteriumNaam : String,\n    \
 weging : int, minimumscore : int, uitleg : String,\n    \
 niveaus : Map<Integer, String>,\n    \
 leeruitkomsten : List<Leeruitkomst>) : Beoordelingsdimensie
+  + zoekDimensie(naam : String) : Beoordelingsdimensie
   + toevoegenLes(naam : String, onderwijsweek : int,\n    \
 beschrijving : String,\n    \
 criteriumCodes : List<String>) : Les
@@ -150,14 +150,17 @@ enum Bestandstype <<enumeration>> {
 }
 
 Opleiding --> "0..* owes" OWE
-OWE --> "1..* evls" EVL
+OWE --> "1..* evls" EVLService
+EVLService --> "1..* evls" EVL
 EVL --> "0..* leeruitkomsten" Leeruitkomst
-OWE --> "0..* dimensies" Beoordelingsdimensie
+EVLService --> "0..* dimensies" Beoordelingsdimensie
 Beoordelingsdimensie --> "1..* criteria" Beoordelingscriterium
 Beoordelingscriterium --> "1..* niveaus" Niveau
 Beoordelingscriterium --> "1..* leeruitkomsten" Leeruitkomst
-OWE --> "0..* lessen" Les
-OWE --> "0..* toetsmomenten" Toetsmoment
+OWE --> "0..* lessen" OWEService
+OWEService --> Les
+OWE --> "0..* toetsmomenten" OWEService
+OWEService --> Toetsmoment
 Les --> "0..* criteria" Beoordelingscriterium
 Toetsmoment --> "0..* criteria" Beoordelingscriterium
 OWE --> "0..* hergebruikt" OWEOnderdeel
