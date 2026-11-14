@@ -261,13 +261,19 @@ Keuze: OWE splitsen naar taak, met het gedrag bij de gegevens.
 
 - Rubric beheert de beoordelingsdimensies en zoekt criteria op (BR10).
 - Planning beheert de lessen en toetsmomenten en controleert de weken (BR11, BR14).
-- OWE houdt de EVL's en leeruitkomsten (BR8, BR9), verwijderen, zoeken op id en de dekking.
-  Voor verwijder, bevat en zoekOnderdeel doorzoekt OWE ook de lijsten van Rubric en Planning.
+- OWE houdt de EVL's en leeruitkomsten (BR8, BR9) en de dekking.
+- Rubric en Planning hebben elk een eigen verwijder, bevat en zoekOnderdeel, voor de eigen en
+  hergebruikte onderdelen in hun lijsten (Information Expert).
+- OWE.verwijder, bevat en zoekOnderdeel doorzoeken de leeruitkomsten van OWE, en vragen daarna
+  Rubric en Planning.
+  OWE kent de lijsten van Rubric en Planning dus niet.
+  verwijder en bevat geven bij Rubric en Planning een boolean terug.
+  Zo weet OWE of het onderdeel gevonden is, zonder de soort te testen.
 - OWE maakt Rubric en Planning en heeft er precies één van (Creator).
 
 Rubric en Planning zijn Pure Fabrication: het domeinmodel kent ze niet.
 De namen komen wel uit de casus: de rubric van een OWE en de toetsplanning.
-OWE heeft nu 10 operaties, Rubric 5 en Planning 7.
+OWE heeft nu 10 operaties, Rubric 8 en Planning 10.
 
 Gevolg: het domeinmodel heeft één associatie hergebruikt naar OWEOnderdeel.
 Het ontwerp splitst die in een lijst per soort, bij het deel dat die soort beheert.
@@ -298,6 +304,7 @@ Verwijderen gaat zo:
 - Een leeruitkomst, dimensie, les of toetsmoment: BeheerOWEHandler.verwijderOnderdeel en
   OWE.verwijder.
   Eén operatie is genoeg, omdat het allemaal een OWEOnderdeel is.
+  OWE geeft de vraag door aan Rubric en Planning (K9).
 - Een criterium is geen OWEOnderdeel: BeheerRubricHandler.verwijderCriterium en
   Beoordelingsdimensie.verwijderCriterium.
 - Een EVL is geen OWEOnderdeel: BeheerOWEHandler.verwijderEVL en OWE.verwijderEVL.

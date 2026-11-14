@@ -39,6 +39,9 @@ weging : int, minimumscore : int, uitleg : String,\n    \
 niveaus : Map<Integer, String>,\n    \
 leeruitkomsten : List<Leeruitkomst>) : Beoordelingsdimensie
   + hergebruik(dimensie : Beoordelingsdimensie) : void
+  + verwijder(onderdeel : OWEOnderdeel) : boolean
+  + bevat(onderdeel : OWEOnderdeel) : boolean
+  + zoekOnderdeel(id : UUID) : OWEOnderdeel
   + zoekDimensie(naam : String) : Beoordelingsdimensie
   + zoekCriteria(codes : List<String>) : List<Beoordelingscriterium>
   + geefCriteria() : List<Beoordelingscriterium>
@@ -55,6 +58,9 @@ deadlineweek : int,\n    \
 criteria : List<Beoordelingscriterium>) : Toetsmoment
   + hergebruik(les : Les) : void
   + hergebruik(toetsmoment : Toetsmoment) : void
+  + verwijder(onderdeel : OWEOnderdeel) : boolean
+  + bevat(onderdeel : OWEOnderdeel) : boolean
+  + zoekOnderdeel(id : UUID) : OWEOnderdeel
   + geefLessen() : List<Les>
   + geefToetsmomenten() : List<Toetsmoment>
   - controleerWeek(week : int) : void
