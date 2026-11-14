@@ -31,8 +31,9 @@ Het prototype moet op macOS en Windows hetzelfde werken.
 
 Pandoc en Typst draaien samen op een eigen documentserver, zie
 [Architectuur](06-architectuur.md#a2-waar-wordt-het-bestand-gemaakt).
-De documentserver heeft een kleine HTTP-service nodig die de programma's start.
-De taal van die service is nog niet gekozen.
+Op de documentserver draait een kleine HTTP-service die de programma's start.
+Die service is in C++ met Drogon geschreven, net als de applicatieserver.
+Zo heeft de backend één taal, één framework en één set van linter en formatter.
 
 ## Database
 
