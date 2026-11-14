@@ -1,0 +1,33 @@
+@startuml klassendiagram-onderdeel
+' Design class diagram van ICDE: OWEOnderdeel en hergebruik. Toelichting: docs/07-klassendiagram.md
+' Getters en setters staan er niet in, zoals bij Larman (7.6).
+' Een klasse zonder attributen en operaties staat volledig in een ander klassendiagram.
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+hide empty members
+
+abstract class OWEOnderdeel {
+  - id : UUID
+  - gedeeld : boolean
+  + deel() : void
+  + {abstract} hergebruikIn(owe : OWE) : void
+}
+
+interface Kopieerbaar <<interface>> {
+  + kopieerNaar(planning : Planning) : OWEOnderdeel
+}
+
+class Leeruitkomst
+class Beoordelingsdimensie
+class Les
+class Toetsmoment
+
+OWEOnderdeel <|-- Leeruitkomst
+OWEOnderdeel <|-- Beoordelingsdimensie
+OWEOnderdeel <|-- Les
+OWEOnderdeel <|-- Toetsmoment
+Kopieerbaar <|.. Les
+Kopieerbaar <|.. Toetsmoment
+@enduml

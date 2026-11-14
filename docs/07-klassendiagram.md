@@ -13,11 +13,31 @@ ontwerp.
 
 ## Klassendiagrammen
 
-Het ontwerp staat in drie diagrammen, zodat elk diagram leesbaar blijft.
+Het ontwerp staat in zes diagrammen, zodat elk diagram leesbaar blijft.
+Elke klasse staat in één diagram volledig, met attributen en operaties.
+In een ander diagram staat ze alleen met haar naam.
+Elke parameter van een operatie staat op een eigen regel.
 
-### Domeinklassen
+### OWE en documentsjabloon
 
-![Domeinklassen van ICDE](diagrams/klassendiagram-domein.svg)
+OWE heeft de EVL's en leeruitkomsten, en één Rubric en één Planning (K9).
+
+![OWE en documentsjabloon van ICDE](diagrams/klassendiagram-owe.svg)
+
+### Rubric
+
+![Rubric van ICDE](diagrams/klassendiagram-rubric.svg)
+
+### Planning
+
+![Planning van ICDE](diagrams/klassendiagram-planning.svg)
+
+### OWEOnderdeel en hergebruik
+
+Leeruitkomst, Beoordelingsdimensie, Les en Toetsmoment zijn een OWEOnderdeel.
+Alleen Les en Toetsmoment zijn Kopieerbaar (K6).
+
+![OWEOnderdeel en hergebruik van ICDE](diagrams/klassendiagram-onderdeel.svg)
 
 ### Consistentieregels en dekking
 

@@ -2,7 +2,7 @@
 ' Design class diagram van ICDE: consistentieregels en dekking (UC05, UC08).
 ' Toelichting: docs/07-klassendiagram.md
 ' OWE, Leeruitkomst, Beoordelingscriterium, Les en Toetsmoment staan volledig in
-' klassendiagram-domein.puml.
+' de klassendiagrammen owe, rubric en planning.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

@@ -1,0 +1,66 @@
+@startuml klassendiagram-planning
+' Design class diagram van ICDE: de planning. Toelichting: docs/07-klassendiagram.md
+' Getters en setters staan er niet in, zoals bij Larman (7.6).
+' Een klasse zonder attributen en operaties staat volledig in een ander klassendiagram.
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+hide empty members
+
+class Planning {
+  - aantalWeken : int
+  + toevoegenLes(naam : String,\n    \
+onderwijsweek : int,\n    \
+beschrijving : String,\n    \
+criteria : List<Beoordelingscriterium>) : Les
+  + toevoegenToetsmoment(naam : String,\n    \
+soort : SoortToetsmoment,\n    \
+startweek : int,\n    \
+deadlineweek : int,\n    \
+criteria : List<Beoordelingscriterium>) : Toetsmoment
+  + hergebruik(les : Les) : void
+  + hergebruik(toetsmoment : Toetsmoment) : void
+  + verwijder(onderdeel : OWEOnderdeel) : boolean
+  + bevat(onderdeel : OWEOnderdeel) : boolean
+  + zoekOnderdeel(id : UUID) : OWEOnderdeel
+  + geefLessen() : List<Les>
+  + geefToetsmomenten() : List<Toetsmoment>
+  - controleerWeek(week : int) : void
+}
+
+class Les {
+  - naam : String
+  - onderwijsweek : int
+  - beschrijving : String
+  + kopieerNaar(planning : Planning) : OWEOnderdeel
+  + hergebruikIn(owe : OWE) : void
+  + heeftCriteria() : boolean
+  + dekt(criterium : Beoordelingscriterium) : boolean
+}
+
+class Toetsmoment {
+  - naam : String
+  - soort : SoortToetsmoment
+  - startweek : int
+  - deadlineweek : int
+  + kopieerNaar(planning : Planning) : OWEOnderdeel
+  + hergebruikIn(owe : OWE) : void
+  + beoordeelt(criterium : Beoordelingscriterium) : boolean
+  + omvat(week : int) : boolean
+}
+
+enum SoortToetsmoment <<enumeration>> {
+  TOETS
+  OPDRACHT
+}
+
+class Beoordelingscriterium
+
+Planning --> "0..* lessen" Les
+Planning --> "0..* toetsmomenten" Toetsmoment
+Planning ---> "0..* hergebruikteLessen" Les
+Planning ---> "0..* hergebruikteToetsmomenten" Toetsmoment
+Les --> "0..* criteria" Beoordelingscriterium
+Toetsmoment --> "0..* criteria" Beoordelingscriterium
+@enduml
