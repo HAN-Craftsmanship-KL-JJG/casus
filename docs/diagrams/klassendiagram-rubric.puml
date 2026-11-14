@@ -2,13 +2,14 @@
 ' Design class diagram van ICDE: de rubric. Toelichting: docs/07-klassendiagram.md
 ' Getters en setters staan er niet in, zoals bij Larman (7.6).
 ' Een klasse zonder attributen en operaties staat volledig in een ander klassendiagram.
+' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
 skinparam classAttributeIconSize 0
 hide empty members
 
-class Rubric {
+class Rubric #E2F0D9 {
   + toevoegenDimensie(naam : String,\n    \
 criteriumCode : String,\n    \
 criteriumNaam : String,\n    \
@@ -26,7 +27,7 @@ leeruitkomsten : List<Leeruitkomst>) : Beoordelingsdimensie
   + geefCriteria() : List<Beoordelingscriterium>
 }
 
-class Beoordelingsdimensie {
+class Beoordelingsdimensie #E2F0D9 {
   - naam : String
   + hergebruikIn(owe : OWE) : void
   + toevoegenCriterium(code : String,\n    \
@@ -39,7 +40,7 @@ leeruitkomsten : List<Leeruitkomst>) : Beoordelingscriterium
   + verwijderCriterium(code : String) : void
 }
 
-class Beoordelingscriterium {
+class Beoordelingscriterium #E2F0D9 {
   - code : String
   - naam : String
   - weging : int
@@ -48,12 +49,12 @@ class Beoordelingscriterium {
   + toetst(leeruitkomst : Leeruitkomst) : boolean
 }
 
-class Niveau {
+class Niveau #E2F0D9 {
   - score : int
   - beschrijving : String
 }
 
-class Leeruitkomst
+class Leeruitkomst #DDEBF7
 
 Rubric --> "0..* dimensies" Beoordelingsdimensie
 Rubric ---> "0..* hergebruikt" Beoordelingsdimensie
