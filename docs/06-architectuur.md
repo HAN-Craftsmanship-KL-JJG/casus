@@ -18,7 +18,6 @@ Het component diagram toont de lagen en de interfaces ertussen.
 | Applicatie | De handlers, package `applicatie` | Applicatieserver |
 | Domein | Domeinklassen, regels, repository-interfaces, package `domein` | Applicatieserver |
 | Datalaag | De implementatie van de repositories | Applicatieserver |
-| Documentkoppeling | De implementatie van Documentomzetter | Applicatieserver |
 | Database | De gegevens | Databaseserver |
 | Documentmaker | Maakt van inhoud en opmaak een PDF- of Word-bestand | Documentserver |
 
@@ -28,9 +27,8 @@ Het component diagram toont de lagen en de interfaces ertussen.
   DocumentsjabloonRepository en VergrendelingRepository.
   Ze horen bij het domein, en de datalaag implementeert ze (K2).
   De datalaag hangt dus af van het domein, niet andersom.
-- Documentomzetter is een interface van het domein, en de documentkoppeling implementeert haar
-  (A2, K5).
-  De documentkoppeling roept de documentmaker aan over het netwerk.
+- Documentomzetter is een interface van het domein, en de documentmaker biedt haar aan (A2, K5).
+  De applicatie roept de documentmaker aan over het netwerk.
 
 ## Keuzes
 
@@ -73,8 +71,8 @@ Keuze: een eigen documentserver, achter de interface Documentomzetter.
   De documentserver rekent: hij krijgt inhoud en opmaak, en geeft een bestand terug.
 - De documentserver bewaart niets en kan niet bij de database.
   Een fout in een sjabloon raakt dus geen gegevens.
-- De interface hoort bij het domein, de implementatie bij de documentkoppeling, net als bij de
-  repositories (Dependency Inversion Principle).
+- De interface hoort bij het domein, de implementatie niet, net als bij de repositories
+  (Dependency Inversion Principle).
 - De documentserver is vervangbaar zonder het domein te wijzigen (Low Coupling).
 
 Gevolg: het maken van een bestand is een aanroep over het netwerk.

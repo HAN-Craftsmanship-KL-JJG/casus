@@ -179,7 +179,7 @@ De interface Documentomzetter maakt van de inhoud een bestand.
 - GenereerDocumentHandler geeft de inhoud, de opmaak van het sjabloon en het bestandstype aan
   zetOm.
 - zetOm geeft de inhoud van een PDF- of Word-bestand terug, daarom byte[].
-- Documentomzetter hoort bij het domein, de implementatie bij de documentkoppeling.
+- Documentomzetter hoort bij het domein, de implementatie niet.
   Zo hangt het domein niet af van de documentserver (Dependency Inversion Principle), net als bij
   de repositories (K2).
 - Documentsjabloon kent OWE alleen als parameter: een dependency, geen associatie.
