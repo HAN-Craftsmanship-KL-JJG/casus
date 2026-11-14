@@ -2,13 +2,14 @@
 ' Design class diagram van ICDE: de planning. Toelichting: docs/07-klassendiagram.md
 ' Getters en setters staan er niet in, zoals bij Larman (7.6).
 ' Een klasse zonder attributen en operaties staat volledig in een ander klassendiagram.
+' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
 skinparam classAttributeIconSize 0
 hide empty members
 
-class Planning {
+class Planning #FFF2CC {
   - aantalWeken : int
   + toevoegenLes(naam : String,\n    \
 onderwijsweek : int,\n    \
@@ -29,7 +30,7 @@ criteria : List<Beoordelingscriterium>) : Toetsmoment
   - controleerWeek(week : int) : void
 }
 
-class Les {
+class Les #FFF2CC {
   - naam : String
   - onderwijsweek : int
   - beschrijving : String
@@ -39,7 +40,7 @@ class Les {
   + dekt(criterium : Beoordelingscriterium) : boolean
 }
 
-class Toetsmoment {
+class Toetsmoment #FFF2CC {
   - naam : String
   - soort : SoortToetsmoment
   - startweek : int
@@ -50,12 +51,12 @@ class Toetsmoment {
   + omvat(week : int) : boolean
 }
 
-enum SoortToetsmoment <<enumeration>> {
+enum SoortToetsmoment <<enumeration>> #FFF2CC {
   TOETS
   OPDRACHT
 }
 
-class Beoordelingscriterium
+class Beoordelingscriterium #E2F0D9
 
 Planning --> "0..* lessen" Les
 Planning --> "0..* toetsmomenten" Toetsmoment

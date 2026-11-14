@@ -2,13 +2,14 @@
 ' Design class diagram van ICDE: OWE en documentsjabloon. Toelichting: docs/07-klassendiagram.md
 ' Getters en setters staan er niet in, zoals bij Larman (7.6).
 ' Een klasse zonder attributen en operaties staat volledig in een ander klassendiagram.
+' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
 skinparam classAttributeIconSize 0
 hide empty members
 
-class Opleiding {
+class Opleiding #DDEBF7 {
   - naam : String
   + maakOWE(code : String,\n    \
 naam : String,\n    \
@@ -19,7 +20,7 @@ evlStudiepunten : int) : OWE
   + bepaalDekking() : List<Dekking>
 }
 
-class OWE {
+class OWE #DDEBF7 {
   - code : String
   - naam : String
   - studiepunten : int
@@ -38,20 +39,20 @@ omschrijving : String) : Leeruitkomst
   + bepaalDekking() : List<Dekking>
 }
 
-class EVL {
+class EVL #DDEBF7 {
   - naam : String
   - studiepunten : int
   + toevoegenLeeruitkomst(nummer : int,\n    \
 omschrijving : String) : Leeruitkomst
 }
 
-class Leeruitkomst {
+class Leeruitkomst #DDEBF7 {
   - nummer : int
   - omschrijving : String
   + hergebruikIn(owe : OWE) : void
 }
 
-class Documentsjabloon {
+class Documentsjabloon #DDEBF7 {
   - naam : String
   - soortDocument : SoortDocument
   - onderdelen : List<String>
@@ -62,20 +63,20 @@ onderdelen : List<String>) : List<String>
 onderdelen : List<String>) : String
 }
 
-enum SoortDocument <<enumeration>> {
+enum SoortDocument <<enumeration>> #DDEBF7 {
   OWE_BESCHRIJVING
   EVL_BESCHRIJVING
   TOETSPLANNING
   BEOORDELINGSFORMULIER
 }
 
-enum Bestandstype <<enumeration>> {
+enum Bestandstype <<enumeration>> #DDEBF7 {
   PDF
   WORD
 }
 
-class Rubric
-class Planning
+class Rubric #E2F0D9
+class Planning #FFF2CC
 
 Opleiding --> "0..* owes" OWE
 OWE --> "1..* evls" EVL

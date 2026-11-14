@@ -3,6 +3,7 @@
 ' Toelichting: docs/07-klassendiagram.md
 ' De domeinklassen staan volledig in de klassendiagrammen owe, rubric, planning en onderdeel.
 ' Verwijzingen naar repositories en regels staan als attribuut, niet als lijn (Larman 7.4).
+' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
@@ -161,7 +162,7 @@ veld : String) : Vergrendeling
     - gebruiker : String
     - sinds : Instant
   }
-  interface Consistentieregel <<interface>> {
+  interface Consistentieregel <<interface>> #E4DFEC {
     + controleer(owe : OWE) : List<Overtreding>
   }
 }

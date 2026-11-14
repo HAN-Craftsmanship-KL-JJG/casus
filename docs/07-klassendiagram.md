@@ -18,6 +18,18 @@ Elke klasse staat in één diagram volledig, met attributen en operaties.
 In een ander diagram staat ze alleen met haar naam.
 Elke parameter van een operatie staat op een eigen regel.
 
+De kleur van een klasse toont in welk diagram ze volledig staat.
+Een klasse heeft in elk diagram dezelfde kleur.
+
+| Kleur | Diagram waarin de klasse volledig staat |
+| --- | --- |
+| Blauw | OWE en documentsjabloon |
+| Groen | Rubric |
+| Geel | Planning |
+| Oranje | OWEOnderdeel en hergebruik |
+| Paars | Consistentieregels en dekking |
+| Grijs | Handlers en repositories |
+
 ### OWE en documentsjabloon
 
 OWE heeft de EVL's en leeruitkomsten, en één Rubric en één Planning (K9).
