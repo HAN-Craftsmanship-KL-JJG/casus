@@ -1,0 +1,89 @@
+@startuml klassendiagram-owe
+' Design class diagram van ICDE: OWE en documentsjabloon. Toelichting: docs/07-klassendiagram.md
+' Getters en setters staan er niet in, zoals bij Larman (7.6).
+' Een klasse zonder attributen en operaties staat volledig in een ander klassendiagram.
+' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+hide empty members
+
+class Opleiding #DDEBF7 {
+  - naam : String
+  + maakOWE(code : String,\n    \
+naam : String,\n    \
+studiepunten : int,\n    \
+aantalWeken : int,\n    \
+evlNaam : String,\n    \
+evlStudiepunten : int) : OWE
+  + bepaalDekking() : List<Dekking>
+}
+
+class OWE #DDEBF7 {
+  - code : String
+  - naam : String
+  - studiepunten : int
+  + toevoegenEVL(naam : String,\n    \
+studiepunten : int) : EVL
+  + verwijderEVL(naam : String) : void
+  + toevoegenLeeruitkomst(evlNaam : String,\n    \
+nummer : int,\n    \
+omschrijving : String) : Leeruitkomst
+  + hergebruik(leeruitkomst : Leeruitkomst) : void
+  + verwijder(onderdeel : OWEOnderdeel) : void
+  + bevat(onderdeel : OWEOnderdeel) : boolean
+  + zoekOnderdeel(id : UUID) : OWEOnderdeel
+  + zoekLeeruitkomsten(nummers : List<Integer>) : List<Leeruitkomst>
+  + geefLeeruitkomsten() : List<Leeruitkomst>
+  + bepaalDekking() : List<Dekking>
+}
+
+class EVL #DDEBF7 {
+  - naam : String
+  - studiepunten : int
+  + toevoegenLeeruitkomst(nummer : int,\n    \
+omschrijving : String) : Leeruitkomst
+}
+
+class Leeruitkomst #DDEBF7 {
+  - nummer : int
+  - omschrijving : String
+  + hergebruikIn(owe : OWE) : void
+}
+
+class Documentsjabloon #DDEBF7 {
+  - naam : String
+  - soortDocument : SoortDocument
+  - onderdelen : List<String>
+  - opmaak : String
+  + zoekOntbrekendeGegevens(owe : OWE,\n    \
+onderdelen : List<String>) : List<String>
+  + genereer(owe : OWE,\n    \
+onderdelen : List<String>,\n    \
+bestandstype : Bestandstype) : byte[]
+}
+
+enum SoortDocument <<enumeration>> #DDEBF7 {
+  OWE_BESCHRIJVING
+  EVL_BESCHRIJVING
+  TOETSPLANNING
+  BEOORDELINGSFORMULIER
+}
+
+enum Bestandstype <<enumeration>> #DDEBF7 {
+  PDF
+  WORD
+}
+
+class Rubric #E2F0D9
+class Planning #FFF2CC
+
+Opleiding --> "0..* owes" OWE
+OWE --> "1..* evls" EVL
+OWE --> "1 rubric" Rubric
+OWE --> "1 planning" Planning
+OWE --> "0..* hergebruikt" Leeruitkomst
+EVL --> "0..* leeruitkomsten" Leeruitkomst
+Documentsjabloon ..> OWE
+@enduml

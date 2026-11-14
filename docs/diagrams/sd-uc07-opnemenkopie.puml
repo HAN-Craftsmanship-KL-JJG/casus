@@ -9,8 +9,9 @@ hide footbox
 actor ":Onderwijsontwikkelaar" as ontwikkelaar
 participant ":HergebruikOnderdeel\nHandler" as handler
 participant "owes :\nOWERepository" as owes
-participant "onderdeel :\nKopieerbaar" as onderdeel
 participant "owe : OWE" as owe
+participant "onderdeel :\nKopieerbaar" as onderdeel
+participant "planning :\nPlanning" as planning
 
 ontwikkelaar -> handler : opnemenKopie(oweCode, onderdeelId)
 activate handler
@@ -25,24 +26,27 @@ alt onderdeel is null
 else onderdeel is geen Kopieerbaar
   handler --> ontwikkelaar : OngeldigeInvoerException
 else
-  handler -> onderdeel : kopie = kopieerNaar(owe)
+  handler -> owe : planning = geefPlanning()
+  activate owe
+  deactivate owe
+  handler -> onderdeel : kopie = kopieerNaar(planning)
   activate onderdeel
   note right of onderdeel
     Polymorfe message.
     Hier een Les. Een Toetsmoment
     roept toevoegenToetsmoment aan.
   end note
-  onderdeel -> owe : kopie = toevoegenLes(naam,\nonderwijsweek, beschrijving, [])
-  activate owe
-  owe -> owe : controleerWeek(onderwijsweek)
-  deactivate owe
+  onderdeel -> planning : kopie = toevoegenLes(naam,\nonderwijsweek, beschrijving, [])
+  activate planning
+  planning -> planning : controleerWeek(onderwijsweek)
+  deactivate planning
   deactivate onderdeel
   handler -> owes : bewaar(owe)
   activate owes
   deactivate owes
 end
 deactivate handler
-note over onderdeel, owe
+note over onderdeel, planning
   De kopie heeft geen criteria:
   die horen bij de andere OWE [BR11, BR14].
   Ligt de week buiten de looptijd, dan gooit
