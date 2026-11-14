@@ -1,5 +1,5 @@
 @startuml klassendiagram-handlers
-' Design class diagram van ICDE: use case controllers en repositories.
+' Design class diagram van ICDE: use case controllers, repositories en Documentomzetter.
 ' Toelichting: docs/07-klassendiagram.md
 ' De domeinklassen staan volledig in de klassendiagrammen owe, rubric, planning en onderdeel.
 ' Verwijzingen naar repositories en regels staan als attribuut, niet als lijn (Larman 7.4).
@@ -84,6 +84,7 @@ criteriumCodes : List<String>) : List<Overtreding>
   class GenereerDocumentHandler {
     - owes : OWERepository
     - sjablonen : DocumentsjabloonRepository
+    - omzetter : Documentomzetter
     + geefSjablonen() : List<Documentsjabloon>
     + genereer(oweCode : String,\n    \
 sjabloonNaam : String,\n    \
@@ -142,6 +143,11 @@ package domein {
     + zoekAlle() : List<Documentsjabloon>
     + bewaar(sjabloon : Documentsjabloon) : void
   }
+  interface Documentomzetter <<interface>> {
+    + zetOm(inhoud : String,\n    \
+opmaak : String,\n    \
+bestandstype : Bestandstype) : byte[]
+  }
   interface VergrendelingRepository <<interface>> {
     + zoek(oweCode : String,\n    \
 onderdeelId : UUID,\n    \
@@ -171,6 +177,7 @@ ControleerConsistentieHandler -[hidden]-> Consistentieregel
 BeheerPlanningHandler -[hidden]-> Consistentieregel
 GenereerDocumentHandler -[hidden]-> OWERepository
 GenereerDocumentHandler -[hidden]-> DocumentsjabloonRepository
+GenereerDocumentHandler -[hidden]-> Documentomzetter
 HergebruikOnderdeelHandler -[hidden]-> OWERepository
 OpvragenDekkingHandler -[hidden]-> OpleidingRepository
 DeelOnderdeelHandler -[hidden]-> OWERepository

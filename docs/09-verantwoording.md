@@ -12,8 +12,8 @@ Deze tabel doet dat voor de eisen uit de casus en de wensen van de opdrachtgever
 | Eis | Ontwerp | Status |
 | --- | --- | --- |
 | Samenwerken zonder versieconflicten | Vergrendeling (K8) | Ontworpen |
-| Scheiding van inhoud en vorm | Documentsjabloon (K5), UC10 | Ontworpen |
-| Document als PDF of Word, geheel of deels | Bestandstype, onderdelen (UC06) | Ontworpen |
+| Scheiding van inhoud en vorm | Documentsjabloon, Documentomzetter (K5), UC10 | Ontworpen |
+| Document als PDF of Word, geheel of deels | Bestandstype, onderdelen (UC06), A2 | Ontworpen |
 | EVL-beschrijving en toetsplanning | SoortDocument, zie onder | Ontworpen |
 | Gegevensvalidatie van een OWE | Validatie in de domeinklassen (S1), UC05 | Ontworpen |
 | Inconsistenties detecteren | Consistentieregel en vijf regels (K4) | Ontworpen |

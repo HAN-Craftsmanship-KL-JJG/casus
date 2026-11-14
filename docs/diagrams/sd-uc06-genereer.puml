@@ -12,6 +12,7 @@ participant "owes :\nOWERepository" as owes
 participant "sjablonen :\nDocumentsjabloon\nRepository" as sjablonen
 participant "sjabloon :\nDocumentsjabloon" as sjabloon
 participant "owe : OWE" as owe
+participant "omzetter :\nDocumentomzetter" as omzetter
 
 ontwikkelaar -> handler : document = genereer(oweCode,\nsjabloonNaam, onderdelen,\nbestandstype)
 activate handler
@@ -30,12 +31,18 @@ deactivate sjabloon
 alt ontbrekend is niet leeg
   handler --> ontwikkelaar : OngeldigeInvoerException\n(ontbrekend) (4A)
 else
-  handler -> sjabloon : document = genereer(owe,\nonderdelen, bestandstype)
+  handler -> sjabloon : inhoud = maakInhoud(owe,\nonderdelen)
   activate sjabloon
   sjabloon -> owe : geef-operaties en getters
   activate owe
   deactivate owe
   deactivate sjabloon
+  handler -> sjabloon : opmaak = getOpmaak()
+  activate sjabloon
+  deactivate sjabloon
+  handler -> omzetter : document = zetOm(inhoud,\nopmaak, bestandstype)
+  activate omzetter
+  deactivate omzetter
   handler --> ontwikkelaar : document
 end
 deactivate handler
@@ -44,7 +51,7 @@ note over sjabloon, owe
   alle onderdelen van het sjabloon (3A).
   Het sjabloon leest alleen de gegevens
   van die onderdelen.
-  Hoe het de opmaak toepast, bepaalt
-  de template-engine (blok 2).
+  De documentserver past de opmaak
+  toe, achter Documentomzetter (A2).
 end note
 @enduml
