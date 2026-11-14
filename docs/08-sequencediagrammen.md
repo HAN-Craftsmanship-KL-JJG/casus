@@ -64,7 +64,8 @@ BR2, BR3 en BR4 hebben de vorm van BR1, met een andere lus en vraag:
 
 ### UC06 Genereren document
 
-Documentsjabloon controleert eerst of de OWE de gegevens heeft (4A) en maakt dan het document.
+Documentsjabloon controleert eerst of de OWE de gegevens heeft (4A) en maakt dan de inhoud.
+Documentomzetter maakt van de inhoud en de opmaak het bestand (K5).
 
 ![SD genereer](diagrams/sd-uc06-genereer.svg)
 

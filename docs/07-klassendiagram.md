@@ -140,10 +140,12 @@ Keuze: een interface Consistentieregel, met een klasse per regel.
 
 Deze opzet lijkt op het Strategy pattern.
 
-### K5 Documentsjabloon maakt het document
+### K5 Documentsjabloon maakt de inhoud van het document
 
 Probleem: ICDE scheidt inhoud en vorm (UC06).
 De functioneel beheerder wil sjablonen aanpassen zonder programmeur (UC10).
+Het bestand zelf maakt de documentserver
+([A2](06-architectuur.md#a2-waar-wordt-het-bestand-gemaakt)).
 
 Alternatieven:
 
@@ -151,17 +153,26 @@ Alternatieven:
   OWE kent dan de opmaak, en dat is niet zijn taak (High Cohesion).
 - Een generatorklasse per soort document.
   Een nieuwe soort document vraagt dan een programmeur.
+- Documentsjabloon maakt ook het bestand.
+  Dan roept een domeinklasse de documentserver aan, en is ze niet te testen zonder die server.
 
-Keuze: Documentsjabloon maakt het document, want het kent zijn onderdelen en opmaak
-(Information Expert).
+Keuze: Documentsjabloon maakt de inhoud, want het kent zijn onderdelen (Information Expert).
+De interface Documentomzetter maakt van de inhoud een bestand.
 
-- zoekOntbrekendeGegevens voert stap 4 uit, genereer stap 5.
-- Beide krijgen de onderdelen die de ontwikkelaar in stap 3 koos.
+- zoekOntbrekendeGegevens voert stap 4 uit.
+  maakInhoud en Documentomzetter.zetOm voeren samen stap 5 uit.
+- zoekOntbrekendeGegevens en maakInhoud krijgen de onderdelen die de ontwikkelaar in stap 3 koos.
   Een lege lijst betekent alle onderdelen van het sjabloon (flow 3A).
-- genereer geeft de inhoud van een PDF- of Word-bestand terug, daarom byte[].
+- maakInhoud geeft de inhoud als tekst terug, zonder opmaak.
+- GenereerDocumentHandler geeft de inhoud, de opmaak van het sjabloon en het bestandstype aan
+  zetOm.
+- zetOm geeft de inhoud van een PDF- of Word-bestand terug, daarom byte[].
+- Documentomzetter hoort bij het domein, de implementatie bij de documentkoppeling.
+  Zo hangt het domein niet af van de documentserver (Dependency Inversion Principle), net als bij
+  de repositories (K2).
 - Documentsjabloon kent OWE alleen als parameter: een dependency, geen associatie.
 
-Welke template-engine het bestand maakt, is een technologiekeuze voor blok 2.
+Welke programma's de documentserver gebruikt, is een technologiekeuze voor blok 2.
 
 ### K6 Hergebruik: verwijzing of kopie
 
@@ -310,7 +321,7 @@ OWEOnderdeel.hergebruikIn kiest de lijst, zodat geen klasse de soort test (K6).
 | UC03 | BeheerRubricHandler | Rubric.toevoegenDimensie, Beoordelingsdimensie.toevoegenCriterium |
 | UC04 | BeheerPlanningHandler | Rubric.zoekCriteria, Planning.toevoegenLes, LesDraagtBijRegel |
 | UC05 | ControleerConsistentieHandler | Consistentieregel met vijf regels, Overtreding |
-| UC06 | GenereerDocumentHandler | Documentsjabloon.zoekOntbrekendeGegevens, genereer |
+| UC06 | GenereerDocumentHandler | Documentsjabloon.maakInhoud, Documentomzetter.zetOm |
 | UC07 | HergebruikOnderdeelHandler | OWE.bevat, OWEOnderdeel.hergebruikIn, kopieerNaar |
 | UC08 | OpvragenDekkingHandler | Opleiding.bepaalDekking, OWE.bepaalDekking, Dekking.voegToe |
 | UC09 | DeelOnderdeelHandler | OWEOnderdeel.deel |
@@ -360,4 +371,5 @@ De regels zonder SD horen bij CRUD use cases, zie de
 - Wijzigen en bekijken bij de CRUD use cases, met dezelfde parameters als toevoegen.
 - Foutmeldingen: een validatieregel of exceptional flow gooit een OngeldigeInvoerException,
   zoals flow 2A van UC05 en flow 4A van UC04, UC06, UC07 en UC11.
-- De gebruikersinterface en de implementatie van de repositories, die bij blok 2 horen.
+- De gebruikersinterface en de implementatie van de repositories en van Documentomzetter, die bij
+  blok 2 horen.

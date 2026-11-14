@@ -58,9 +58,8 @@ class Documentsjabloon {
   - opmaak : String
   + zoekOntbrekendeGegevens(owe : OWE,\n    \
 onderdelen : List<String>) : List<String>
-  + genereer(owe : OWE,\n    \
-onderdelen : List<String>,\n    \
-bestandstype : Bestandstype) : byte[]
+  + maakInhoud(owe : OWE,\n    \
+onderdelen : List<String>) : String
 }
 
 enum SoortDocument <<enumeration>> {

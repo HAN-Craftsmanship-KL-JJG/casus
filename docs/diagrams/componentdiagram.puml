@@ -1,6 +1,7 @@
 @startuml componentdiagram
 ' Component diagram van ICDE: de lagen en hun interfaces. Toelichting: docs/06-architectuur.md
-' De interfaces van Repositories horen bij het domein, de datalaag implementeert ze.
+' De interfaces Repositories en Documentomzetter horen bij het domein.
+' De datalaag en de documentkoppeling implementeren ze.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
@@ -10,10 +11,13 @@ component Gebruikersinterface
 component Applicatie
 component Domein
 component Datalaag
+component Documentkoppeling
+component Documentmaker
 database Database
 
 interface Systeemoperaties
 interface Repositories
+interface Documentomzetter
 
 Gebruikersinterface -down-( Systeemoperaties
 Systeemoperaties -down- Applicatie
@@ -22,4 +26,8 @@ Applicatie -down-( Repositories
 Repositories -down- Datalaag
 Datalaag .up.> Domein
 Datalaag -down-> Database
+Applicatie -down-( Documentomzetter
+Documentomzetter -down- Documentkoppeling
+Documentkoppeling .up.> Domein
+Documentkoppeling -down-> Documentmaker
 @enduml

@@ -27,6 +27,12 @@ Het prototype moet op macOS en Windows hetzelfde werken.
 | --- | --- | --- |
 | Pandoc | Word-documenten maken uit een sjabloon | Het enige alternatief dat goede Word-bestanden maakt uit een sjabloon. Sjablonen zijn tijdens het draaien aan te passen (UC10). Het ontwerpdocument gebruikt Pandoc al |
 | Typst | PDF-documenten maken uit een sjabloon | Meeste GitHub-sterren, snel en één programma. Het ontwerpdocument gebruikt Typst al |
+| `pandoc/typst` | Containerimage van de documentserver, met Pandoc en Typst | Officieel image met beide programma's. Het ontwerpdocument gebruikt het al |
+
+Pandoc en Typst draaien samen op een eigen documentserver, zie
+[Architectuur](06-architectuur.md#a2-waar-wordt-het-bestand-gemaakt).
+De documentserver heeft een kleine HTTP-service nodig die de programma's start.
+De taal van die service is nog niet gekozen.
 
 ## Database
 
@@ -75,7 +81,7 @@ Het prototype moet op macOS en Windows hetzelfde werken.
 
 | Tool | Functie | Reden |
 | --- | --- | --- |
-| Docker Compose | Start webserver, applicatieserver en database als losse containers | Volgt de drie servers uit [Architectuur](06-architectuur.md#architectuur), en werkt hetzelfde op macOS en Windows |
+| Docker Compose | Start webserver, applicatieserver, documentserver en database als losse containers | Volgt de servers uit [Architectuur](06-architectuur.md#architectuur), en werkt hetzelfde op macOS en Windows |
 | GitHub Actions | Bouwt en test elke wijziging op Linux, macOS en Windows | De repository staat op GitHub, en de runners dekken alle drie de platforms |
 
 ## Optioneel
