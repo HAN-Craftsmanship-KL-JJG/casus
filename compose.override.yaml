@@ -1,4 +1,4 @@
-# Laptop only: open the web server on http://localhost:8080.
+# Laptop only.
 services:
   web:
     ports:

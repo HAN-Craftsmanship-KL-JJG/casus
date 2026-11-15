@@ -1,6 +1,5 @@
 @startuml uitrol-deployment
 ' Deployment diagram van het prototype: waar elk onderdeel draait. Toelichting: docs/uitrol.md
-' Vereenvoudigd: de melding van GitHub loopt ook via de proxy, en certificaten staan in de tekst.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

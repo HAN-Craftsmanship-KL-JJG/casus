@@ -77,7 +77,7 @@ Het prototype moet op macOS en Windows hetzelfde werken.
 | --- | --- | --- |
 | Docker Compose | Start webserver, applicatieserver en database als losse containers | Volgt de drie servers uit [Architectuur](06-architectuur.md#architectuur), en werkt hetzelfde op macOS en Windows |
 | GitHub Actions | Bouwt en test elke wijziging op Linux, macOS en Windows | De repository staat op GitHub, en de runners dekken alle drie de platforms |
-| doco-cd | Rolt de containers uit op de server: volgt deze repository en voert elke wijziging van de Compose-bestanden uit | Eenvoudigste: één container, en de server heeft er geen open poort voor nodig |
+| doco-cd | Rolt de containers uit op de server: volgt deze repository en voert elke wijziging van de Compose-bestanden uit | Eenvoudigste: één container |
 
 ## Optioneel
 

@@ -1,6 +1,5 @@
 @startuml uitrol-sequence
 ' Sequence diagram van een uitrol: van een push tot de nieuwe versie. Toelichting: docs/uitrol.md
-' Vereenvoudigd: de workflow, de proxy en de controle per uur staan in de tekst.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica

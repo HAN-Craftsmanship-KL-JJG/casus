@@ -1,5 +1,4 @@
-# Plain HTTP on an internal port. On the server the proxy in infra/edge/ adds
-# HTTPS, on a laptop there is none.
+# Plain HTTP. On the server the proxy in infra/edge/ adds HTTPS.
 {
 	auto_https off
 	admin off

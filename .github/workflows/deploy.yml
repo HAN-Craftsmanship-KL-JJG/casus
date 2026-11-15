@@ -1,11 +1,9 @@
 name: Deploy
 
-# Tells doco-cd on the server that the stack changed. doco-cd then pulls the
-# repository and runs the new version. See infra/README.md.
+# Tells doco-cd on the server that the stack changed. See docs/uitrol.md.
 on:
   push:
-    # build/uitrol-icde is here to test the webhook before the merge.
-    # Remove it when the pull request merges.
+    # Remove build/uitrol-icde when its pull request merges.
     branches: [main, develop, build/uitrol-icde]
     paths:
       - .doco-cd.yml
@@ -24,14 +22,12 @@ concurrency:
 jobs:
   notify:
     runs-on: ubuntu-latest
-    # develop goes to development (dev.icde.nl), every other allowed branch to
-    # production (icde.nl). The secret lives in the environment, which only
-    # allowed branches may use.
+    # The environment holds the secret and limits which branches may use it.
     environment: ${{ github.ref_name == 'develop' && 'development' || 'production' }}
     steps:
       - name: Send signed push event to doco-cd
         env:
-          # The path suffix `dev` makes doco-cd read .doco-cd.dev.yml.
+          # `/dev` selects .doco-cd.dev.yml.
           WEBHOOK_URL: >-
             https://deploy.icde.nl/v1/webhook${{ github.ref_name == 'develop' && '/dev' || '' }}
           WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}

@@ -20,7 +20,7 @@ Each program that runs as its own container gets a directory `apps/<name>/` with
 Dockerfile, such as `apps/web/`.
 `compose.yaml` in the root starts them all, so `docker compose up` works from the root.
 Files that only the server needs go in `infra/`.
-Read `infra/README.md` before you change a Compose file, because the server deploys them.
+The server deploys the Compose files: read `infra/README.md` before you change one.
 
 ## Agent compatibility
 

@@ -1,11 +1,7 @@
-# Deployment settings for doco-cd: production, https://icde.nl, branch main.
-# See infra/README.md. Keep .doco-cd.dev.yml the same except for the name.
+# doco-cd settings for production (branch main).
 name: icde
 compose_files:
   - compose.yaml
   - infra/compose.server.yaml
-# Scoped to this project: removes only its own containers that are no longer
-# in the Compose files.
 remove_orphans: true
-# Off, so a deployment never deletes images from the server.
 prune_images: false

@@ -1,5 +1,4 @@
-# Server only, for both environments. The proxy in infra/edge/ reaches the web
-# server over the network `edge`, so this stack publishes no ports.
+# Server only: lets the proxy in infra/edge/ reach the web server.
 services:
   web:
     deploy:
@@ -11,7 +10,7 @@ services:
       default:
       edge:
         aliases:
-          # `icde-web` for production, `icde-dev-web` for development.
+          # icde-web or icde-dev-web.
           - ${COMPOSE_PROJECT_NAME}-web
 
 networks:

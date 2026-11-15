@@ -1,18 +1,14 @@
-# The fixed part of the server: the proxy and doco-cd. This is its own Compose
-# project. Start it by hand on the server with `docker compose up -d`, and
-# again after a change to this directory. doco-cd does not deploy it.
+# The proxy and doco-cd. Started by hand on the server, see infra/README.md.
 name: edge
 
 services:
-  # The only container with open ports. Gets the certificates and passes
-  # each domain name on to the right container.
   proxy:
     image: caddy:2.11.9-alpine
     restart: unless-stopped
     cap_drop:
       - ALL
     cap_add:
-      # Needed to listen on ports below 1024.
+      # For ports 80 and 443.
       - NET_BIND_SERVICE
     security_opt:
       - no-new-privileges:true
@@ -32,8 +28,6 @@ services:
     networks:
       - edge
 
-  # Deploys the ICDE stacks that .doco-cd.yml and .doco-cd.dev.yml in the
-  # repository root name, and leaves all other containers alone.
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.134.0
     restart: unless-stopped
@@ -48,13 +42,9 @@ services:
           memory: 256m
     environment:
       TZ: Europe/Amsterdam
-      # The workflow .github/workflows/deploy.yml calls the webhook after a
-      # push, so a change deploys within seconds. The value comes from the
-      # file `.env` next to this file on the server.
       WEBHOOK_SECRET: ${WEBHOOK_SECRET:?Set WEBHOOK_SECRET in .env}
-      # Safety net for a lost webhook call: ask GitHub once per hour.
-      # The repository is public, so this needs no token.
-      # `target: dev` makes doco-cd read .doco-cd.dev.yml.
+      # Hourly check, in case a webhook call is lost.
+      # `target: dev` selects .doco-cd.dev.yml.
       POLL_CONFIG: |
         - source: git
           url: https://github.com/HAN-Craftsmanship-KL-JJG/casus.git
@@ -66,8 +56,6 @@ services:
           target: dev
           interval: 3600
     volumes:
-      # Full control over Docker on the server: whoever can change the
-      # Compose files on a watched branch controls the server.
       - /var/run/docker.sock:/var/run/docker.sock
       - doco-cd-data:/data
     networks:
@@ -79,7 +67,7 @@ services:
       retries: 3
 
 networks:
-  # The ICDE stacks join this network, so the proxy can reach them.
+  # The ICDE stacks join this network.
   edge:
     name: edge
 
