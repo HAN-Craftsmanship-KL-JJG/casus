@@ -1,0 +1,45 @@
+# doco-cd, the program that deploys the ICDE stack on the server.
+# This is its own Compose project. Start it once by hand on the server:
+# `docker compose up -d`. doco-cd does not deploy or update itself.
+# It deploys only the project that .doco-cd.yml in the repository root names, and leaves
+# all other containers on the server alone.
+name: doco-cd
+
+services:
+  app:
+    container_name: doco-cd
+    image: ghcr.io/kimdre/doco-cd:0.134.0
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: journald
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512m
+    environment:
+      TZ: Europe/Amsterdam
+      # doco-cd asks GitHub for new commits, so the server needs no open port
+      # for it. The repository is public, so it needs no token.
+      POLL_CONFIG: |
+        - source: git
+          url: https://github.com/HAN-Craftsmanship-KL-JJG/casus.git
+          reference: main
+          interval: 180
+    volumes:
+      # Full control over Docker on the server: whoever can change the
+      # Compose files on the watched branch controls the server.
+      - /var/run/docker.sock:/var/run/docker.sock
+      - data:/data
+    healthcheck:
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  data:

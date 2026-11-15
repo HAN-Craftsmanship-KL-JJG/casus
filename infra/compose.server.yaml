@@ -1,0 +1,29 @@
+# Server only. Traefik already runs on the server, owns ports 80 and 443, and
+# gets the certificate. It reaches the web server over the network `proxy-net`,
+# so this stack publishes no ports.
+services:
+  web:
+    container_name: icde-web
+    logging:
+      driver: journald
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 256m
+    networks:
+      - default
+      - proxy-net
+    labels:
+      # Traefik only routes containers that opt in.
+      - traefik.enable=true
+      - traefik.docker.network=proxy-net
+      - traefik.http.routers.icde.rule=Host(`icde.nl`)
+      - traefik.http.routers.icde.entrypoints=websecure
+      - traefik.http.routers.icde.tls.certresolver=myresolver
+      - traefik.http.routers.icde.middlewares=crowdsec-bouncer@file
+      - traefik.http.services.icde.loadbalancer.server.port=8080
+
+networks:
+  proxy-net:
+    external: true

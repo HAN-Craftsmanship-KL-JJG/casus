@@ -1,0 +1,22 @@
+# ICDE stack, the part that is the same on a laptop and on the server.
+# `docker compose up` also loads compose.override.yaml (laptop).
+# The server loads infra/compose.server.yaml instead, see .doco-cd.yml.
+name: icde
+
+services:
+  # Web server. Serves the frontend. Later it also passes /api on to the
+  # application server.
+  web:
+    image: caddy:2.11.9-alpine
+    restart: unless-stopped
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./apps/web/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./apps/web/public:/srv:ro
+    tmpfs:
+      - /data
+      - /config

@@ -1,0 +1,11 @@
+# TLS ends before Caddy (Traefik on the server, none on a laptop), so Caddy
+# serves plain HTTP on an internal port.
+{
+	auto_https off
+	admin off
+}
+
+:8080 {
+	root * /srv
+	file_server
+}

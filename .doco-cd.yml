@@ -1,0 +1,10 @@
+# Deployment settings for doco-cd on the server. See infra/README.md.
+name: icde
+compose_files:
+  - compose.yaml
+  - infra/compose.server.yaml
+# Scoped to project `icde`: removes only containers of this project that are
+# no longer in the Compose files.
+remove_orphans: true
+# Off, so a deployment never deletes images from the server.
+prune_images: false
