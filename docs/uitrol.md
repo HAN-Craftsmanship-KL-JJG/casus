@@ -19,6 +19,8 @@ Niemand hoeft daarvoor in te loggen op de server.
 
 ![Deployment diagram van het prototype](diagrams/uitrol-deployment.svg)
 
+Het diagram is vereenvoudigd: de melding van GitHub loopt ook via de proxy.
+
 | Onderdeel | Waar | Taak |
 | --- | --- | --- |
 | Repository `casus` | GitHub | Bevat de code en de Compose-bestanden |
@@ -51,6 +53,8 @@ De proxy stuurt elke naam door naar één container:
 ## Van push tot nieuwe versie
 
 ![Sequence diagram van een uitrol](diagrams/uitrol-sequence.svg)
+
+Het diagram toont de hoofdlijn, de stappen hieronder geven het detail.
 
 1. Een ontwikkelaar merget een pull request, en GitHub zet de commit op `main` of `develop`.
 2. Wijzigt de commit een bestand van de stack, dan start de workflow `Deploy`.

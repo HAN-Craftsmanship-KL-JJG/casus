@@ -1,33 +1,17 @@
 @startuml uitrol-sequence
 ' Sequence diagram van een uitrol: van een push tot de nieuwe versie. Toelichting: docs/uitrol.md
-' De branch bepaalt de omgeving: main is productie, develop is ontwikkeling.
+' Vereenvoudigd: de workflow, de proxy en de controle per uur staan in de tekst.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
 
 actor Ontwikkelaar as dev
 participant GitHub as github
-participant "Workflow Deploy" as workflow
-participant Proxy as proxy
 participant "doco-cd" as dococd
-participant Docker as docker
+participant Omgeving as env
 
-dev -> github : push naar main\nof develop
-github -> workflow : start bij een wijziging\nvan de stack
-workflow -> proxy : POST /v1/webhook\nmet handtekening
-proxy -> dococd : POST /v1/webhook
-dococd -> dococd : controleer handtekening
-dococd --> proxy : melding aangenomen
-proxy --> workflow : melding aangenomen
+dev -> github : push naar main of develop
+github -> dococd : melding met handtekening
 dococd -> github : haal de commit op
-dococd -> docker : start de stack\nvan de omgeving
-docker --> dococd : containers vervangen
-
-loop elk uur, per branch
-  dococd -> github : is er een nieuwe commit?
-  opt ja
-    dococd -> github : haal de commit op
-    dococd -> docker : start de nieuwe versie
-  end
-end
+dococd -> env : start de nieuwe versie
 @enduml
