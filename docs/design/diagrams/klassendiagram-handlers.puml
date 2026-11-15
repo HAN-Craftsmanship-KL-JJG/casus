@@ -1,6 +1,6 @@
 @startuml klassendiagram-handlers
 ' Design class diagram van ICDE: use case controllers, repositories en Documentomzetter.
-' Toelichting: docs/07-klassendiagram.md
+' Toelichting: docs/design/07-klassendiagram.md
 ' De domeinklassen staan volledig in de klassendiagrammen owe, rubric, planning en onderdeel.
 ' Verwijzingen naar repositories en regels staan als attribuut, niet als lijn (Larman 7.4).
 ' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.

@@ -1,5 +1,5 @@
 @startuml klassendiagram-onderdeel
-' Design class diagram van ICDE: OWEOnderdeel en hergebruik. Toelichting: docs/07-klassendiagram.md
+' Design class diagram van ICDE: OWEOnderdeel en hergebruik. Toelichting: docs/design/07-klassendiagram.md
 ' Getters en setters staan er niet in, zoals bij Larman (7.6).
 ' Een klasse zonder attributen en operaties staat volledig in een ander klassendiagram.
 ' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.

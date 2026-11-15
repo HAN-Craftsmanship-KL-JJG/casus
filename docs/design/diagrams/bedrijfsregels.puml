@@ -1,6 +1,6 @@
 @startuml bedrijfsregels
 ' De verbanden die de consistentieregels BR1 tot en met BR5 controleren.
-' Toelichting: docs/04-use-case-beschrijvingen.md
+' Toelichting: docs/design/04-use-case-beschrijvingen.md
 left to right direction
 skinparam shadowing false
 skinparam defaultFontName Helvetica

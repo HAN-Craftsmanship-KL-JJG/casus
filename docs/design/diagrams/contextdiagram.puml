@@ -1,5 +1,5 @@
 @startuml contextdiagram
-' Contextdiagram van ICDE. Toelichting: docs/02-systeemgrenzen.md
+' Contextdiagram van ICDE. Toelichting: docs/design/02-systeemgrenzen.md
 ' Een stippellijn is een koppeling voor later, buiten het prototype.
 left to right direction
 skinparam shadowing false

@@ -1,6 +1,6 @@
 @startuml klassendiagram-controle
 ' Design class diagram van ICDE: consistentieregels en dekking (UC05, UC08).
-' Toelichting: docs/07-klassendiagram.md
+' Toelichting: docs/design/07-klassendiagram.md
 ' OWE, Leeruitkomst, Beoordelingscriterium, Les en Toetsmoment staan volledig in
 ' de klassendiagrammen owe, rubric en planning.
 ' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.

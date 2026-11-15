@@ -26,4 +26,4 @@ Elke ontwerpkeuze heeft een code: D voor het domeinmodel, A voor de architectuur
 klassendiagram en S voor de sequence diagrams.
 Elke keuze noemt het probleem, de alternatieven met hun nadeel, en de keuze.
 
-De bron van elk diagram staat in PlantUML in `docs/diagrams/`, met dezelfde naam als de afbeelding.
+De bron van elk diagram staat in PlantUML in `docs/design/diagrams/`, met dezelfde naam als de afbeelding.

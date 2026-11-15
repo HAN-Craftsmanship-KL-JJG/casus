@@ -1,5 +1,5 @@
 @startuml componentdiagram
-' Component diagram van ICDE: de lagen en hun interfaces. Toelichting: docs/06-architectuur.md
+' Component diagram van ICDE: de lagen en hun interfaces. Toelichting: docs/design/06-architectuur.md
 ' De interfaces Repositories en Documentomzetter horen bij het domein.
 ' De datalaag en de documentmaker bieden ze aan.
 ' Het diagram loopt van links naar rechts, zodat de lijnen naast de namen van de interfaces lopen.

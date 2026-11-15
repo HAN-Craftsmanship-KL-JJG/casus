@@ -1,6 +1,6 @@
-@startuml sd-uc11-toevoegentoetsmoment
-' Sequence diagram van systeemoperatie toevoegenToetsmoment (UC11, Toevoegen toetsmoment,
-' stap 3 tot en met 6). Toelichting: docs/08-sequencediagrammen.md
+@startuml sd-uc04-toevoegenles
+' Sequence diagram van systeemoperatie toevoegenLes (UC04, Toevoegen les, stap 3 tot en met 6).
+' Toelichting: docs/design/08-sequencediagrammen.md
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
@@ -12,12 +12,12 @@ participant "owes :\nOWERepository" as owes
 participant "owe : OWE" as owe
 participant "rubric : Rubric" as rubric
 participant "planning :\nPlanning" as planning
-participant "t : Toetsmoment" as toetsmoment
-participant "toetsdrukRegel :\nConsistentieregel" as regel
+participant "les : Les" as les
+participant "lesRegel :\nConsistentieregel" as regel
 participant "alle[i] :\nOvertreding" as overtreding
 
-ontwikkelaar -> handler : overtredingen =\ntoevoegenToetsmoment(oweCode, naam,\n\
-soort, startweek, deadlineweek,\ncriteriumCodes)
+ontwikkelaar -> handler : overtredingen =\ntoevoegenLes(oweCode, naam,\n\
+onderwijsweek, beschrijving,\ncriteriumCodes)
 activate handler
 handler -> owes : owe = zoek(oweCode)
 activate owes
@@ -31,37 +31,35 @@ deactivate owe
 handler -> rubric : criteria = zoekCriteria(criteriumCodes)
 activate rubric
 deactivate rubric
-handler -> planning : t = toevoegenToetsmoment(naam, soort,\nstartweek, deadlineweek, criteria)
+handler -> planning : les = toevoegenLes(naam, onderwijsweek,\nbeschrijving, criteria)
 activate planning
-planning -> planning : controleerWeek(startweek)
-planning -> planning : controleerWeek(deadlineweek)
-create toetsmoment
-planning -> toetsmoment : create(naam, soort, startweek,\ndeadlineweek, criteria)
+planning -> planning : controleerWeek(onderwijsweek)
+create les
+planning -> les : create(naam, onderwijsweek,\nbeschrijving, criteria)
 deactivate planning
 handler -> owes : bewaar(owe)
 activate owes
 deactivate owes
 handler -> regel : alle = controleer(owe)
 activate regel
-ref over regel : SD BR5 ToetsdrukRegel
 deactivate regel
 loop voor elke overtreding in alle
-  handler -> overtreding : betreft(t)
+  handler -> overtreding : betreft(les)
   activate overtreding
   deactivate overtreding
 end
 handler --> ontwikkelaar : overtredingen
 deactivate handler
-note over rubric, toetsmoment
+note over rubric, les
   4A: controleerWeek, zoekCriteria en create
   gooien een OngeldigeInvoerException bij
-  ongeldige gegevens [BR14].
-  create controleert dat startweek niet
-  na deadlineweek ligt.
+  ongeldige gegevens [BR11].
+  Dan bewaart de handler niets.
 end note
 note over regel, overtreding
-  overtredingen: de weken met te veel
-  toetsmomenten waarin t loopt.
-  Niet leeg betekent 6A: waarschuwing.
+  overtredingen: de overtredingen
+  die les betreffen.
+  Niet leeg betekent 6A: les opgeslagen,
+  maar BR2 overtreden.
 end note
 @enduml
