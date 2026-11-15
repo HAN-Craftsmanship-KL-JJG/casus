@@ -1,5 +1,9 @@
 # Laptop only.
 services:
+  # Build the image here instead of pulling it.
+  api:
+    build: ./apps/api
+    pull_policy: build
   web:
     ports:
       - "127.0.0.1:8080:8080"

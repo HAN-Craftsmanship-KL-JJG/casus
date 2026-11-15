@@ -5,3 +5,5 @@ compose_files:
   - infra/compose.server.yaml
 remove_orphans: true
 prune_images: false
+# The image tag `main` moves with every build, so pull it on each deployment.
+force_image_pull: true

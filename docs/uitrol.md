@@ -31,9 +31,11 @@ De proxy regelt de certificaten en stuurt elke naam door:
 ![Sequence diagram van een uitrol](diagrams/uitrol-sequence.svg)
 
 1. Een ontwikkelaar merget een pull request naar `main` of `develop`.
-2. De workflow `Deploy` stuurt een melding met een handtekening naar doco-cd.
-3. doco-cd controleert de handtekening en haalt de commit op.
-4. doco-cd start de stack van de omgeving.
+2. De workflow `Deploy` bouwt de images en draait daarbij de unittests.
+   De images komen in de registry van GitHub, met de branch als tag.
+3. De workflow stuurt een melding met een handtekening naar doco-cd.
+4. doco-cd controleert de handtekening en haalt de commit op.
+5. doco-cd haalt de images op en start de stack van de omgeving.
    Docker vervangt alleen de gewijzigde containers.
 
 De workflow start alleen als de commit de stack wijzigt:
@@ -50,6 +52,7 @@ Een tweede bestand voegt toe wat verschilt.
 | --- | --- | --- |
 | Tweede bestand | `compose.override.yaml` | `infra/compose.server.yaml` |
 | Adres | `http://localhost:8080` | `https://icde.nl` of `https://dev.icde.nl` |
+| Images | Bouwt ze zelf | Haalt ze op uit de registry |
 | Wie start het | De ontwikkelaar | doco-cd |
 
 ## Veiligheid

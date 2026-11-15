@@ -16,3 +16,15 @@ services:
     tmpfs:
       - /data
       - /config
+
+  api:
+    # GitHub Actions builds this image. ICDE_TAG is the branch: main or develop.
+    image: ghcr.io/han-craftsmanship-kl-jjg/icde-api:${ICDE_TAG:-main}
+    restart: unless-stopped
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp

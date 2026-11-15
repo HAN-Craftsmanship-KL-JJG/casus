@@ -3,25 +3,22 @@
 Files that only the server needs.
 `docs/uitrol.md` explains the deployment, with diagrams.
 
-## Run on a laptop
-
-Run this in the repository root, then open <http://localhost:8080>:
-
-```sh
-docker compose up -d
-```
+The root `README.md` explains how to start the prototype on a laptop.
 
 ## Files
 
 | File | Purpose |
 | --- | --- |
 | `../compose.yaml` | The stack, the same on a laptop and on the server |
-| `../compose.override.yaml` | Laptop only: opens port 8080 |
+| `../compose.override.yaml` | Laptop only: opens port 8080 and builds the images |
 | `compose.server.yaml` | Server only: connects the web server to the proxy |
 | `../.doco-cd.yml` | doco-cd settings for production |
 | `../.doco-cd.dev.yml` | doco-cd settings for development |
 | `edge/` | The fixed part of the server: the proxy and doco-cd |
-| `../.github/workflows/deploy.yml` | Tells doco-cd about a push |
+| `../.github/workflows/deploy.yml` | Builds the images and tells doco-cd about a push |
+
+The server never builds an image.
+The workflow pushes each image to `ghcr.io` with the branch as tag, and the server pulls it.
 
 Do not keep data in a relative bind mount such as `./data`.
 doco-cd runs every commit from a fresh copy of the repository, so that data is lost.

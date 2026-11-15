@@ -13,6 +13,13 @@ services:
           # icde-web or icde-dev-web.
           - ${COMPOSE_PROJECT_NAME}-web
 
+  api:
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+
 networks:
   edge:
     external: true
