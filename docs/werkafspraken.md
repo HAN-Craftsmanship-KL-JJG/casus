@@ -1,6 +1,6 @@
 # Working agreements
 
-How the team handles commits, branches, issues and pull requests.
+How the team handles commits, branches, issues, pull requests and updates.
 
 ## Commit messages
 
@@ -29,3 +29,19 @@ We use [git flow](https://nvie.com/posts/a-successful-git-branching-model/).
 - Every issue gets a label: `documentation`, `enhancement` or `question`.
 - A pull request names its issue with `Fixes #123`.
 - Titles of issues and pull requests are in Dutch, commit messages in English.
+
+## Dependency updates
+
+Dependabot opens a pull request to `develop` each week when new versions exist.
+Its settings are in `.github/dependabot.yml`.
+
+| Kind | Where |
+| --- | --- |
+| GitHub Actions | `.github/workflows/` |
+| Base images | The Dockerfiles in `api/`, `documentserver/` and `web/` |
+| Container images | The Compose files in the root and in `infra/` |
+| npm packages | `web/` |
+| vcpkg packages | `builtin-baseline` in the two `vcpkg.json` files |
+
+Review these pull requests like any other: the build must pass.
+For a vcpkg pull request, set the vcpkg tag in the two Dockerfiles to the same version by hand.

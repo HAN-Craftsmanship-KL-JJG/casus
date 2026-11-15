@@ -81,6 +81,7 @@ The design document is built with the same three tools.
 | Docker Compose | Runs each server as its own container | Same on macOS, Windows and the server |
 | GitHub Actions | Builds and tests every change | The repository is on GitHub |
 | doco-cd | Deploys the Compose files to the server | One container |
+| Dependabot | Weekly pull request for new versions | Built into GitHub, one file |
 | Beszel | Monitoring of the server and its containers | Small, with its own login |
 | Pocket ID | Accounts and passkeys for Beszel | Has a screen to manage users |
 
