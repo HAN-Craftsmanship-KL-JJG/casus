@@ -18,7 +18,8 @@ Compose loads `compose.yaml` and `compose.override.yaml`.
 
 ## Server
 
-The prototype runs at <https://icde.nl>.
+The prototype runs at <https://icde.nl>, on a server with Debian and Docker.
+Caddy gets the certificates itself, so the server runs no other web server or proxy.
 doco-cd on the server deploys this repository.
 After a push to `main`, the workflow `.github/workflows/deploy.yml` calls the webhook of doco-cd,
 and doco-cd runs the new version within seconds.
@@ -34,9 +35,14 @@ would then deploy a branch that nobody reviewed.
 | `../.doco-cd.yml` | Tells doco-cd which Compose files to run. doco-cd only reads it in the root |
 | `../compose.yaml` | The stack, the same on a laptop and on the server |
 | `../compose.override.yaml` | Laptop only: opens port 8080 |
-| `compose.server.yaml` | Server only: connects the web server to Traefik |
+| `compose.server.yaml` | Server only: opens ports 80 and 443 and sets the domain name |
+| `caddy/deploy.caddy` | Server only: passes the webhook path on to doco-cd |
 | `doco-cd/compose.yaml` | doco-cd itself. Started once by hand on the server |
 | `../.github/workflows/deploy.yml` | Calls the webhook of doco-cd after a push |
+
+Start doco-cd before the first deployment: it creates the network `edge` that the web server joins.
+Put `WEBHOOK_SECRET=<value>` in a file `.env` next to `doco-cd/compose.yaml` on the server, and
+store the same value as the secret `WEBHOOK_SECRET` in the GitHub environment `production`.
 
 Paths in `compose.server.yaml` are relative to the repository root, because Compose resolves
 them against the first file it loads.

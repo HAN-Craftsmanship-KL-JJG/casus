@@ -14,9 +14,16 @@ services:
       - ALL
     security_opt:
       - no-new-privileges:true
+    environment:
+      # Address Caddy listens on. A bare port means plain HTTP.
+      SITE_ADDRESS: ${SITE_ADDRESS:-:8080}
     volumes:
       - ./apps/web/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./apps/web/public:/srv:ro
+      # Certificates on the server. Empty on a laptop.
+      - caddy-data:/data
     tmpfs:
-      - /data
       - /config
+
+volumes:
+  caddy-data:

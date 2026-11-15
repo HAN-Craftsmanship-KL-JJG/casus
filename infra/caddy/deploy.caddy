@@ -1,0 +1,9 @@
+# Webhook of doco-cd. Only this path is reachable from the internet.
+deploy.icde.nl {
+	handle /v1/webhook* {
+		reverse_proxy doco-cd:80
+	}
+	handle {
+		respond 404
+	}
+}
