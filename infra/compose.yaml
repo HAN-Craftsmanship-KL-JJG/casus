@@ -1,5 +1,5 @@
 # The proxy and doco-cd. Started by hand on the server, see infra/README.md.
-name: edge
+name: infra
 
 services:
   proxy:
@@ -26,7 +26,7 @@ services:
           cpus: "0.5"
           memory: 256m
     networks:
-      - edge
+      - proxy
 
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.134.0
@@ -59,7 +59,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco-cd-data:/data
     networks:
-      - edge
+      - proxy
     healthcheck:
       start_period: 15s
       interval: 30s
@@ -68,8 +68,8 @@ services:
 
 networks:
   # The ICDE stacks join this network.
-  edge:
-    name: edge
+  proxy:
+    name: proxy
 
 volumes:
   caddy-data:

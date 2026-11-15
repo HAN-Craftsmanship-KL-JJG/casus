@@ -1,6 +1,6 @@
 # ICDE on the server, for both environments. doco-cd starts it, see infra/README.md.
 # GitHub Actions builds the two icde images. ICDE_TAG is the branch: main or develop.
-# Differences with compose.yaml: images instead of builds, the network `edge` instead of a
+# Differences with compose.yaml: images instead of builds, the network `proxy` instead of a
 # port, and resource limits.
 
 services:
@@ -24,7 +24,7 @@ services:
           memory: 256m
     networks:
       default:
-      edge:
+      proxy:
         aliases:
           # icde-web or icde-dev-web. The proxy in infra/ uses this name.
           - ${COMPOSE_PROJECT_NAME}-web
@@ -71,7 +71,7 @@ services:
           memory: 512m
 
 networks:
-  edge:
+  proxy:
     external: true
 
 volumes:

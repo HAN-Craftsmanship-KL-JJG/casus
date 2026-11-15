@@ -38,12 +38,12 @@ Use a named volume.
 The server needs Docker Engine with the Compose plugin, and the DNS records from
 `docs/uitrol.md`.
 
-1. Copy `compose.yaml` and `Caddyfile` from this directory to `/srv/edge/` on the server.
-2. Create `/srv/edge/.env` with one line, `WEBHOOK_SECRET=<value>`, readable only by root.
+1. Copy `compose.yaml` and `Caddyfile` from this directory to `/srv/infra/` on the server.
+2. Create `/srv/infra/.env` with one line, `WEBHOOK_SECRET=<value>`, readable only by root.
    Generate the value with `openssl rand -hex 32`.
 3. Store the same value as the secret `WEBHOOK_SECRET` in the GitHub environments `production`
    and `development`.
-4. Run `docker compose up -d` in `/srv/edge/`.
+4. Run `docker compose up -d` in `/srv/infra/`.
 
 doco-cd then deploys both environments.
 Repeat steps 1 and 4 after a change in one of those two files.
