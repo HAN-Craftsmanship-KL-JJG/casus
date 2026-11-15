@@ -3,8 +3,8 @@ FROM debian:13-slim AS build
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        autoconf automake ca-certificates clang cmake curl git libtool make ninja-build \
-        perl pkg-config tar unzip zip \
+        autoconf automake bison ca-certificates clang cmake curl flex git libtool make \
+        ninja-build perl pkg-config python3 python3-venv tar unzip zip \
     && rm -rf /var/lib/apt/lists/*
 
 # VCPKG_FORCE_SYSTEM_BINARIES is needed on ARM, such as a Mac with Apple silicon.

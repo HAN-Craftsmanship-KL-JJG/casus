@@ -1,0 +1,23 @@
+@startuml prototype-containers
+' Deployment diagram van de containers van het prototype. Toelichting: README.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+left to right direction
+
+node "Apparaat van de gebruiker" as client {
+  artifact Browser
+}
+
+node "Server of laptop" as host {
+  artifact "Proxy\nCaddy, alleen op de server" as proxy
+  artifact "Webserver\nCaddy met de React-frontend" as web
+  artifact "Applicatieserver\nDrogon, C++" as api
+  database "Database\nPostgreSQL" as db
+}
+
+Browser --> proxy : HTTPS
+proxy --> web
+web --> api : /api
+api --> db : SQL
+@enduml

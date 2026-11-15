@@ -1,24 +1,23 @@
 # The ICDE stack. See infra/README.md.
+# GitHub Actions builds the two icde images. ICDE_TAG is the branch: main or develop.
 name: icde
 
 services:
   web:
-    image: caddy:2.11.9-alpine
+    image: ghcr.io/han-craftsmanship-kl-jjg/icde-web:${ICDE_TAG:-main}
     restart: unless-stopped
     read_only: true
     cap_drop:
       - ALL
     security_opt:
       - no-new-privileges:true
-    volumes:
-      - ./apps/web/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./apps/web/public:/srv:ro
     tmpfs:
       - /data
       - /config
+    depends_on:
+      - api
 
   api:
-    # GitHub Actions builds this image. ICDE_TAG is the branch: main or develop.
     image: ghcr.io/han-craftsmanship-kl-jjg/icde-api:${ICDE_TAG:-main}
     restart: unless-stopped
     read_only: true
@@ -28,3 +27,25 @@ services:
       - no-new-privileges:true
     tmpfs:
       - /tmp
+    environment:
+      DB_HOST: db
+      DB_NAME: icde
+      DB_USER: icde
+      DB_PASSWORD: ${DB_PASSWORD:-icde}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17.12-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: icde
+      POSTGRES_USER: icde
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-icde}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      # Creates the tables in an empty database.
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+
+volumes:
+  db-data:

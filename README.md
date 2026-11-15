@@ -18,7 +18,21 @@ Dit is de casus van ons team voor de HAN-module OOSE Deeltijd 2026/2027.
 - Laat meerdere ontwikkelaars tegelijk aan dezelfde OWE werken.
 - Maakt onderdelen deelbaar tussen OWE's.
 
-## Prototype starten
+## Prototype
+
+![Containers van het prototype](docs/diagrams/prototype-containers.svg)
+
+| Onderdeel | Map | Techniek |
+| --- | --- | --- |
+| Webserver met de frontend | `apps/web/` | Caddy, React, TypeScript |
+| Applicatieserver | `apps/api/` | C++, Drogon |
+| Database | `db/` | PostgreSQL |
+
+Het prototype draait op <https://icde.nl>, en het werk voor de volgende oplevering op
+<https://dev.icde.nl>.
+[Uitrol](docs/uitrol.md) beschrijft hoe een wijziging daar komt.
+
+### Starten op een laptop
 
 Installeer Docker Desktop.
 Draai dit commando in de hoofdmap en open daarna <http://localhost:8080>:
@@ -28,6 +42,7 @@ docker compose up -d --build
 ```
 
 De eerste keer duurt het bouwen enkele minuten.
+De pagina toont een bericht uit de database, dus alle onderdelen werken samen.
 `infra/README.md` beschrijft de bestanden en de server.
 
 ## Ontwerpdocument

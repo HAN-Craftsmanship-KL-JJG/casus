@@ -11,6 +11,7 @@ The root `README.md` explains how to start the prototype on a laptop.
 | --- | --- |
 | `../compose.yaml` | The stack, the same on a laptop and on the server |
 | `../compose.override.yaml` | Laptop only: opens port 8080 and builds the images |
+| `../db/schema.sql` | The tables. PostgreSQL runs it once, in an empty database |
 | `compose.server.yaml` | Server only: connects the web server to the proxy |
 | `../.doco-cd.yml` | doco-cd settings for production |
 | `../.doco-cd.dev.yml` | doco-cd settings for development |
@@ -19,6 +20,13 @@ The root `README.md` explains how to start the prototype on a laptop.
 
 The server never builds an image.
 The workflow pushes each image to `ghcr.io` with the branch as tag, and the server pulls it.
+
+After a change in `db/schema.sql`, delete the database so PostgreSQL runs the file again:
+`docker compose down --volumes` on a laptop.
+On the server, remove the volumes `icde_db-data` and `icde-dev_db-data` by hand.
+
+The database password is `DB_PASSWORD`, with a default that is only fit for a laptop.
+The database has no open port, only the application server reaches it.
 
 Do not keep data in a relative bind mount such as `./data`.
 doco-cd runs every commit from a fresh copy of the repository, so that data is lost.

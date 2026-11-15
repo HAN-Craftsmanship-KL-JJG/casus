@@ -19,8 +19,8 @@ Op de server draaien drie Compose-projecten.
 | Project | Inhoud | Wie start het |
 | --- | --- | --- |
 | `edge` | De proxy (Caddy) en doco-cd | Een beheerder, met de hand |
-| `icde` | Productie | doco-cd |
-| `icde-dev` | Ontwikkeling | doco-cd |
+| `icde` | Productie: webserver, applicatieserver en database | doco-cd |
+| `icde-dev` | Ontwikkeling: dezelfde drie, met een eigen database | doco-cd |
 
 Alleen de proxy is bereikbaar vanaf het internet.
 De proxy regelt de certificaten en stuurt elke naam door:
@@ -39,7 +39,7 @@ De proxy regelt de certificaten en stuurt elke naam door:
    Docker vervangt alleen de gewijzigde containers.
 
 De workflow start alleen als de commit de stack wijzigt:
-`compose.yaml`, `.doco-cd.yml`, `.doco-cd.dev.yml`, `apps/` of `infra/`.
+`compose.yaml`, `.doco-cd.yml`, `.doco-cd.dev.yml`, `apps/`, `db/` of `infra/`.
 Gaat een melding verloren, dan vindt doco-cd de commit zelf: het kijkt elk uur op GitHub.
 Het project `edge` rolt niet vanzelf uit, een beheerder doet dat met de hand.
 

@@ -10,6 +10,8 @@
 	}
 	handle {
 		root * /srv
+		# Unknown paths get the React app, which does its own routing.
+		try_files {path} /index.html
 		file_server
 	}
 }

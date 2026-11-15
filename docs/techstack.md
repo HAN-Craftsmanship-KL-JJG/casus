@@ -33,7 +33,6 @@ Het prototype moet op macOS en Windows hetzelfde werken.
 | Tool | Functie | Reden |
 | --- | --- | --- |
 | PostgreSQL | Databaseserver | Industriestandaard. Drogon ondersteunt PostgreSQL het best |
-| dbmate | Migraties: wijzigingen van het databaseschema in volgorde uitvoeren | Eenvoudigste: gewone SQL-bestanden en één programma, zonder Java |
 
 ## API
 

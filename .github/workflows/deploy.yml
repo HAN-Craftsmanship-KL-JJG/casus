@@ -10,6 +10,7 @@ on:
       - .doco-cd.dev.yml
       - compose.yaml
       - apps/**
+      - db/**
       - infra/**
   workflow_dispatch:
 
@@ -25,8 +26,11 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+      matrix:
+        app: [api, web]
     env:
-      IMAGE: ghcr.io/han-craftsmanship-kl-jjg/icde-api
+      IMAGE: ghcr.io/han-craftsmanship-kl-jjg/icde-${{ matrix.app }}
       # The tag is the environment's branch: develop, or main for the rest.
       TAG: ${{ github.ref_name == 'develop' && 'develop' || 'main' }}
     steps:
@@ -37,15 +41,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      # The Dockerfile also runs the unit tests, so a failing test stops the deployment.
+      # The Dockerfile of api also runs the unit tests, so a failing test stops the deployment.
       - uses: docker/build-push-action@v6
         with:
-          context: apps/api
+          context: apps/${{ matrix.app }}
           push: true
           tags: ${{ env.IMAGE }}:${{ env.TAG }}
           labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=${{ matrix.app }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.app }}
 
   notify:
     needs: build
