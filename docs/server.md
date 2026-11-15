@@ -48,6 +48,10 @@ Three things to know:
 
 A restart or a Docker update takes the sites down for about a minute.
 
+The proxy passes each name to one container, as set in `infra/Caddyfile`:
+
+![Which name the proxy passes to which container](diagrams/proxy-routing.svg)
+
 ## Secrets
 
 `/srv/infra/.env` holds five values.
@@ -73,6 +77,10 @@ Keep a copy of `POCKET_ID_ENCRYPTION_KEY`: without it the data of Pocket ID is u
 
 Only Beszel uses the login of Pocket ID.
 The ICDE sites do not.
+
+A login to Beszel goes through Pocket ID and back:
+
+![Sequence diagram of the login to Beszel](diagrams/login-sequence.svg)
 
 The container `setup` runs `infra/setup.sh` at every start of `infra`.
 The script does what neither program can read from a file:
