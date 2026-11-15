@@ -1,10 +1,10 @@
-# The ICDE stack. See infra/README.md.
-# GitHub Actions builds the two icde images. ICDE_TAG is the branch: main or develop.
+# ICDE on a laptop: builds the images here. Start with `docker compose up -d --build`.
+# The server uses compose.server.yaml. Keep the two files the same in every other way.
 name: icde
 
 services:
   web:
-    image: ghcr.io/han-craftsmanship-kl-jjg/icde-web:${ICDE_TAG:-main}
+    build: ./web
     restart: unless-stopped
     read_only: true
     cap_drop:
@@ -14,11 +14,13 @@ services:
     tmpfs:
       - /data
       - /config
+    ports:
+      - "127.0.0.1:8080:8080"
     depends_on:
       - api
 
   api:
-    image: ghcr.io/han-craftsmanship-kl-jjg/icde-api:${ICDE_TAG:-main}
+    build: ./api
     restart: unless-stopped
     read_only: true
     cap_drop:
@@ -31,7 +33,7 @@ services:
       DB_HOST: db
       DB_NAME: icde
       DB_USER: icde
-      DB_PASSWORD: ${DB_PASSWORD:-icde}
+      DB_PASSWORD: icde
     depends_on:
       - db
 
@@ -41,7 +43,7 @@ services:
     environment:
       POSTGRES_DB: icde
       POSTGRES_USER: icde
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-icde}
+      POSTGRES_PASSWORD: icde
     volumes:
       - db-data:/var/lib/postgresql/data
       # Creates the tables in an empty database.

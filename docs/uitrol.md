@@ -39,18 +39,17 @@ De proxy regelt de certificaten en stuurt elke naam door:
    Docker vervangt alleen de gewijzigde containers.
 
 De workflow start alleen als de commit de stack wijzigt:
-`compose.yaml`, `.doco-cd.yml`, `.doco-cd.dev.yml`, `apps/`, `db/` of `infra/`.
+`compose.server.yaml`, `.doco-cd.yml`, `.doco-cd.dev.yml`, `api/`, `web/`, `db/` of `infra/`.
 Gaat een melding verloren, dan vindt doco-cd de commit zelf: het kijkt elk uur op GitHub.
 Het project `edge` rolt niet vanzelf uit, een beheerder doet dat met de hand.
 
 ## Laptop en server
 
-`compose.yaml` start het prototype op beide plekken.
-Een tweede bestand voegt toe wat verschilt.
+Elke plek heeft één eigen Compose-bestand met dezelfde drie containers.
 
 | | Laptop | Server |
 | --- | --- | --- |
-| Tweede bestand | `compose.override.yaml` | `infra/compose.server.yaml` |
+| Bestand | `compose.yaml` | `compose.server.yaml` |
 | Adres | `http://localhost:8080` | `https://icde.nl` of `https://dev.icde.nl` |
 | Images | Bouwt ze zelf | Haalt ze op uit de registry |
 | Wie start het | De ontwikkelaar | doco-cd |

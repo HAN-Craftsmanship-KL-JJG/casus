@@ -1,8 +1,7 @@
 # doco-cd settings for production (branch main).
 name: icde
 compose_files:
-  - compose.yaml
-  - infra/compose.server.yaml
+  - compose.server.yaml
 remove_orphans: true
 prune_images: false
 # The image tag `main` moves with every build, so pull it on each deployment.

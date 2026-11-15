@@ -8,8 +8,9 @@ on:
     paths:
       - .doco-cd.yml
       - .doco-cd.dev.yml
-      - compose.yaml
-      - apps/**
+      - compose.server.yaml
+      - api/**
+      - web/**
       - db/**
       - infra/**
   workflow_dispatch:
@@ -44,7 +45,7 @@ jobs:
       # The Dockerfile of api also runs the unit tests, so a failing test stops the deployment.
       - uses: docker/build-push-action@v6
         with:
-          context: apps/${{ matrix.app }}
+          context: ${{ matrix.app }}
           push: true
           tags: ${{ env.IMAGE }}:${{ env.TAG }}
           labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}

@@ -1,0 +1,78 @@
+# ICDE on the server, for both environments. doco-cd starts it, see infra/README.md.
+# GitHub Actions builds the two icde images. ICDE_TAG is the branch: main or develop.
+# Differences with compose.yaml: images instead of builds, the network `edge` instead of a
+# port, and resource limits.
+
+services:
+  web:
+    image: ghcr.io/han-craftsmanship-kl-jjg/icde-web:${ICDE_TAG:-main}
+    restart: unless-stopped
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /data
+      - /config
+    depends_on:
+      - api
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+    networks:
+      default:
+      edge:
+        aliases:
+          # icde-web or icde-dev-web. The proxy in infra/edge/ uses this name.
+          - ${COMPOSE_PROJECT_NAME}-web
+
+  api:
+    image: ghcr.io/han-craftsmanship-kl-jjg/icde-api:${ICDE_TAG:-main}
+    restart: unless-stopped
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp
+    environment:
+      DB_HOST: db
+      DB_NAME: icde
+      DB_USER: icde
+      DB_PASSWORD: icde
+    depends_on:
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+
+  db:
+    image: postgres:17.12-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: icde
+      POSTGRES_USER: icde
+      # Only the application server can reach the database.
+      # Move the password to a secret before the database holds real data.
+      POSTGRES_PASSWORD: icde
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512m
+
+networks:
+  edge:
+    external: true
+
+volumes:
+  db-data:

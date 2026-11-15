@@ -24,8 +24,8 @@ Dit is de casus van ons team voor de HAN-module OOSE Deeltijd 2026/2027.
 
 | Onderdeel | Map | Techniek |
 | --- | --- | --- |
-| Webserver met de frontend | `apps/web/` | Caddy, React, TypeScript |
-| Applicatieserver | `apps/api/` | C++, Drogon |
+| Webserver met de frontend | `web/` | Caddy, React, TypeScript |
+| Applicatieserver | `api/` | C++, Drogon |
 | Database | `db/` | PostgreSQL |
 
 Het prototype draait op <https://icde.nl>, en het werk voor de volgende oplevering op

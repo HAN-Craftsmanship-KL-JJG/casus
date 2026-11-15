@@ -16,11 +16,11 @@ deliverable.
 
 ## Repository layout
 
-Each program that runs as its own container gets a directory `apps/<name>/` with its own
-Dockerfile, such as `apps/web/`.
-`compose.yaml` in the root starts them all, so `docker compose up` works from the root.
-Files that only the server needs go in `infra/`.
-The server deploys the Compose files: read `infra/README.md` before you change one.
+Each program that runs as its own container gets a directory in the root with its own
+Dockerfile, such as `api/` and `web/`.
+`compose.yaml` starts them on a laptop, `compose.server.yaml` on the server.
+A change in one of the two files usually belongs in the other too.
+The server deploys `compose.server.yaml`: read `infra/README.md` before you change it.
 
 ## Agent compatibility
 
