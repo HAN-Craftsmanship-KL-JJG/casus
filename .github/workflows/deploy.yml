@@ -3,8 +3,8 @@ name: Deploy
 # Builds the images, then tells doco-cd on the server to deploy. See docs/uitrol.md.
 on:
   push:
-    # Remove build/uitrol-icde when its pull request merges.
-    branches: [main, develop, build/uitrol-icde]
+    # Remove feature/example-api when its pull request merges.
+    branches: [main, develop, feature/example-api]
     paths:
       - .doco-cd.yml
       - .doco-cd.dev.yml
@@ -47,7 +47,10 @@ jobs:
         with:
           context: ${{ matrix.app }}
           push: true
-          tags: ${{ env.IMAGE }}:${{ env.TAG }}
+          # The second tag lets the test branch fill both environments. Remove it with the branch.
+          tags: |
+            ${{ env.IMAGE }}:${{ env.TAG }}
+            ${{ github.ref_name == 'feature/example-api' && format('{0}:develop', env.IMAGE) || '' }}
           labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
           cache-from: type=gha,scope=${{ matrix.app }}
           cache-to: type=gha,mode=max,scope=${{ matrix.app }}
