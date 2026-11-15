@@ -12,8 +12,9 @@ The server that runs ICDE, and the files that belong to it.
 | `db/schema.sql` | The tables |
 | `.doco-cd.prd.yml` | doco-cd settings for `main`: production and `infra` |
 | `.doco-cd.dev.yml` | doco-cd settings for `develop`: development |
-| `infra/compose.yaml` | Proxy and doco-cd |
+| `infra/compose.yaml` | Proxy, doco-cd, Beszel and Pocket ID |
 | `infra/Caddyfile` | Which name the proxy passes to which container |
+| `infra/setup.sh` | Connects Beszel to Pocket ID |
 | `.github/workflows/deploy.yml` | Builds the images and tells doco-cd |
 
 Three things to know:
@@ -48,13 +49,48 @@ A restart or a Docker update takes the sites down for about a minute.
 
 ## Secrets
 
-`/srv/infra/.env` holds one value.
-Make it with `openssl rand -hex 32`.
+`/srv/infra/.env` holds five values.
+Make each one with `openssl rand -hex 32`.
 doco-cd reads the file when it deploys `infra`.
 
 | Name | Purpose |
 | --- | --- |
 | `WEBHOOK_SECRET` | Signs the message from GitHub to doco-cd |
+| `POCKET_ID_ENCRYPTION_KEY` | Encrypts the data of Pocket ID |
+| `POCKET_ID_API_KEY` | Lets `setup.sh` call Pocket ID |
+| `BESZEL_OIDC_SECRET` | Beszel proves who it is to Pocket ID |
+| `BESZEL_ADMIN_PASSWORD` | The admin account of Beszel, `admin@icde.nl` |
+
+Keep a copy of `POCKET_ID_ENCRYPTION_KEY`: without it the data of Pocket ID is unreadable.
+
+## Monitoring and login
+
+| Address | Program | Purpose |
+| --- | --- | --- |
+| <https://monitor.icde.nl> | Beszel | Processor, memory, disk and network, per container |
+| <https://auth.icde.nl> | Pocket ID | Accounts, with login by passkey |
+
+Only Beszel uses the login of Pocket ID.
+The ICDE sites do not.
+
+The container `setup` runs `infra/setup.sh` at every start of `infra`.
+The script does what neither program can read from a file:
+
+- registers Beszel as a client in Pocket ID
+- marks every email address in Pocket ID as verified, because Beszel refuses an unverified one
+- sets Pocket ID as the login of Beszel
+- gives the Beszel agent the key of Beszel
+- adds the server as a system in Beszel
+
+It skips what is already in place.
+`docker logs infra-setup-1` shows what it did.
+
+Accounts are made by hand, in Pocket ID:
+
+- An admin adds the user and ticks `Email verified`.
+- A user without a passkey gets a one-time login code from the admin.
+- The user logs in to Beszel with the button `Pocket ID`.
+  Beszel makes the account at the first login.
 
 ## Set up a new server
 
@@ -65,10 +101,13 @@ After that, doco-cd keeps the application and `infra` up to date.
 2. Apply the settings from the table under [The server](#the-server).
 3. Point the DNS records from [Deployment](deployment.md#dns) to the server.
 4. Copy the directory `infra/` to `/srv/infra/` on the server.
-5. Make `/srv/infra/.env` with the value, readable by root only.
+5. Make `/srv/infra/.env` with the five values, readable by root only.
 6. Run `docker compose up -d` in `/srv/infra/`.
-7. Store the value of `WEBHOOK_SECRET` as a secret in the GitHub environments `production` and
+7. Open <https://auth.icde.nl/setup> at once and make the admin account of Pocket ID.
+   The first visitor of that address becomes admin.
+8. Run `docker compose up -d` again, so `setup.sh` verifies the email address.
+9. Store the value of `WEBHOOK_SECRET` as a secret in the GitHub environments `production` and
    `development`.
 
-For another domain, replace `icde.nl` in `infra/Caddyfile`, `infra/compose.yaml` and
-`.github/workflows/deploy.yml`.
+For another domain, replace `icde.nl` in `infra/Caddyfile`, `infra/compose.yaml`,
+`infra/setup.sh` and `.github/workflows/deploy.yml`.
