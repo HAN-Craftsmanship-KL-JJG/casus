@@ -46,7 +46,7 @@ Draai hetzelfde commando opnieuw na een wijziging in de code.
 | -------------------------------------- | ------------------------------------------- |
 | [Ontwerpdocument](docs/design/)        | Requirements en ontwerp, ook als [PDF][pdf] |
 | [Techstack](docs/techstack.md)         | De gekozen tools, met de reden              |
-| [Deployment](docs/deployment.md)       | Hoe een wijziging op de server komt         |
+| [Deployment](docs/deployment.md)       | Wat GitHub zelf doet en hoe het uitrolt     |
 | [Werkafspraken](docs/werkafspraken.md) | Commits, branches, issues en pull requests  |
 | [Server](docs/server.md)               | De server en wat erop is ingesteld          |
 
