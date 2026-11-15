@@ -17,6 +17,11 @@ ICDE bestaat uit vier containers.
 | Documentserver            | `documentserver/` | C++, Drogon, Pandoc, Typst |
 | Database                  | `db/`             | PostgreSQL                 |
 
+Een verzoek loopt van links naar rechts door de containers.
+Het voorbeelddocument raakt ze alle vier:
+
+![Een verzoek door de vier containers](docs/diagrams/request-sequence.svg)
+
 ## Start development
 
 Installeer Docker Desktop, draai dit commando en open <http://localhost:8080>:
