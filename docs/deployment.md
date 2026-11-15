@@ -101,6 +101,8 @@ Three more rules:
 3. On the server, `docker compose -p infra logs doco-cd` shows what doco-cd did.
 4. `docker ps` shows each container with its health: `healthy`, `starting` or `unhealthy`.
 
+<https://monitor.icde.nl> shows the load of each container.
+
 ### Undo a deployment
 
 Revert the commit with a pull request to the same branch.
