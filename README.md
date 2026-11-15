@@ -18,6 +18,18 @@ Dit is de casus van ons team voor de HAN-module OOSE Deeltijd 2026/2027.
 - Laat meerdere ontwikkelaars tegelijk aan dezelfde OWE werken.
 - Maakt onderdelen deelbaar tussen OWE's.
 
+## Prototype starten
+
+Installeer Docker Desktop.
+Draai dit commando in de hoofdmap en open daarna <http://localhost:8080>:
+
+```sh
+docker compose up -d --build
+```
+
+De eerste keer duurt het bouwen enkele minuten.
+`infra/README.md` beschrijft de bestanden en de server.
+
 ## Ontwerpdocument
 
 Lees de laatste versie als PDF bij de
