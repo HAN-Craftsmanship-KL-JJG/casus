@@ -1,0 +1,36 @@
+@startuml uitrol-deployment
+' Deployment diagram van het prototype: waar elk onderdeel draait. Toelichting: docs/uitrol.md
+' doco-cd publiceert zelf geen poort: Caddy geeft alleen het pad van de webhook door.
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+node "Apparaat van de gebruiker" as client {
+  artifact Browser
+}
+
+node GitHub as github {
+  artifact "Repository casus" as repo
+  node "GitHub Actions" as actions {
+    artifact "Workflow Deploy" as workflow
+  }
+}
+
+node "Server (Debian, Docker)" as server {
+  node "Compose-project icde" as icde {
+    artifact "icde-web (Caddy)" as caddy
+  }
+  node "Compose-project doco-cd" as cd {
+    artifact "doco-cd" as dococd
+  }
+}
+
+node "Let's Encrypt" as le
+
+Browser --> caddy : HTTPS, poort 443\nicde.nl
+workflow --> caddy : HTTPS, poort 443\ndeploy.icde.nl/v1/webhook
+caddy --> dococd : HTTP, poort 80\nnetwerk edge
+dococd --> repo : HTTPS\nhaalt de bestanden op
+dococd ..> icde : start en vervangt\nde containers
+caddy --> le : vraagt certificaten aan
+@enduml

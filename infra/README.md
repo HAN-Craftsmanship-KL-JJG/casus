@@ -1,6 +1,7 @@
 # Infrastructure
 
 Files that only the server needs.
+`docs/uitrol.md` explains the deployment, with diagrams.
 The stack itself is `compose.yaml` in the repository root.
 It now holds only the web server with a placeholder page.
 The application server, document server and database join when they exist.

@@ -1,0 +1,33 @@
+@startuml uitrol-sequence
+' Sequence diagram van een uitrol: van een push tot de nieuwe versie. Toelichting: docs/uitrol.md
+' De controle per uur vangt een melding op die verloren is gegaan.
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+actor Ontwikkelaar as dev
+participant GitHub as github
+participant "Workflow Deploy" as workflow
+participant Caddy as caddy
+participant "doco-cd" as dococd
+participant Docker as docker
+
+dev -> github : push naar main
+github -> workflow : start bij een wijziging\nvan de stack
+workflow -> caddy : POST /v1/webhook\nmet handtekening
+caddy -> dococd : POST /v1/webhook
+dococd -> dococd : controleer handtekening
+dococd --> caddy : melding aangenomen
+caddy --> workflow : melding aangenomen
+dococd -> github : haal de commit op
+dococd -> docker : start compose.yaml met\ninfra/compose.server.yaml
+docker --> dococd : containers vervangen
+
+loop elk uur
+  dococd -> github : is er een nieuwe commit?
+  opt ja
+    dococd -> github : haal de commit op
+    dococd -> docker : start de nieuwe versie
+  end
+end
+@enduml

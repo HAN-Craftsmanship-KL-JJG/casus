@@ -80,6 +80,7 @@ Het prototype moet op macOS en Windows hetzelfde werken.
 | doco-cd | Rolt de containers uit op de server: volgt deze repository en voert elke wijziging van de Compose-bestanden uit | Eenvoudigste: één container, en de server heeft er geen open poort voor nodig |
 
 Het prototype draait op `icde.nl`, op een gehuurde server met Debian.
+[Uitrol](uitrol.md#uitrol) beschrijft hoe een wijziging op de server komt.
 Het Compose-bestand `compose.yaml` staat in de root van de repository.
 Bestanden die alleen voor de server gelden, staan in de map `infra/`.
 
