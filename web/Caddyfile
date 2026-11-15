@@ -1,4 +1,4 @@
-# Plain HTTP. On the server the proxy in infra/edge/ adds HTTPS.
+# Plain HTTP. On the server the proxy in infra/ adds HTTPS.
 {
 	auto_https off
 	admin off

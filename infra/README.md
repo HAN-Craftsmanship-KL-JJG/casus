@@ -14,7 +14,8 @@ The root `README.md` explains how to start the prototype on a laptop.
 | `../db/schema.sql` | The tables. PostgreSQL runs it once, in an empty database |
 | `../.doco-cd.yml` | doco-cd settings for production |
 | `../.doco-cd.dev.yml` | doco-cd settings for development |
-| `edge/` | The fixed part of the server: the proxy and doco-cd |
+| `compose.yaml` | The fixed part of the server: the proxy and doco-cd |
+| `Caddyfile` | Which domain name the proxy passes on to which container |
 | `../.github/workflows/deploy.yml` | Builds the images and tells doco-cd about a push |
 
 The server never builds an image.
@@ -37,7 +38,7 @@ Use a named volume.
 The server needs Docker Engine with the Compose plugin, and the DNS records from
 `docs/uitrol.md`.
 
-1. Copy the files in `edge/` to `/srv/edge/` on the server.
+1. Copy `compose.yaml` and `Caddyfile` from this directory to `/srv/edge/` on the server.
 2. Create `/srv/edge/.env` with one line, `WEBHOOK_SECRET=<value>`, readable only by root.
    Generate the value with `openssl rand -hex 32`.
 3. Store the same value as the secret `WEBHOOK_SECRET` in the GitHub environments `production`
@@ -45,4 +46,4 @@ The server needs Docker Engine with the Compose plugin, and the DNS records from
 4. Run `docker compose up -d` in `/srv/edge/`.
 
 doco-cd then deploys both environments.
-Repeat steps 1 and 4 after a change in `edge/`.
+Repeat steps 1 and 4 after a change in one of those two files.

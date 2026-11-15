@@ -26,7 +26,7 @@ services:
       default:
       edge:
         aliases:
-          # icde-web or icde-dev-web. The proxy in infra/edge/ uses this name.
+          # icde-web or icde-dev-web. The proxy in infra/ uses this name.
           - ${COMPOSE_PROJECT_NAME}-web
 
   api:
