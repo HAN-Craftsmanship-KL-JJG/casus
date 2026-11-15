@@ -1,0 +1,17 @@
+# Plain HTTP. On the server the proxy in infra/ adds HTTPS.
+{
+	auto_https off
+	admin off
+}
+
+:8080 {
+	handle /api/* {
+		reverse_proxy api:8080
+	}
+	handle {
+		root * /srv
+		# Unknown paths get the React app, which does its own routing.
+		try_files {path} /index.html
+		file_server
+	}
+}

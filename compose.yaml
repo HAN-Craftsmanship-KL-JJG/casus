@@ -1,0 +1,85 @@
+# ICDE on a laptop. Start: `docker compose up -d --build`.
+# compose.server.yaml is the same stack for the server.
+name: icde
+
+services:
+  web:
+    build: ./web
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/"]
+      interval: 30s
+      timeout: 5s
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /data
+      - /config
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - api
+
+  api:
+    build: ./api
+    restart: unless-stopped
+    # Checks that the port answers. The image has no HTTP client.
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 30s
+      timeout: 5s
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp
+    environment:
+      DB_HOST: db
+      DB_NAME: icde
+      DB_USER: icde
+      DB_PASSWORD: icde
+      DOCUMENTSERVER_URL: http://documentserver:8080
+    depends_on:
+      - db
+      - documentserver
+
+  # Makes PDF and Word files for the application server.
+  documentserver:
+    build: ./documentserver
+    restart: unless-stopped
+    # Checks that the port answers.
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "8080"]
+      interval: 30s
+      timeout: 5s
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp
+
+  db:
+    image: postgres:17.12-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "--username", "icde", "--dbname", "icde"]
+      interval: 30s
+      timeout: 5s
+    environment:
+      POSTGRES_DB: icde
+      POSTGRES_USER: icde
+      POSTGRES_PASSWORD: icde
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      # Creates the tables in an empty database.
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+
+volumes:
+  db-data:

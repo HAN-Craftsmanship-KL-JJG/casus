@@ -14,6 +14,14 @@ Extra items make models harder to read and do not raise the grade.
 Cut items that no core use case needs, turn them into attributes, and explain the cuts in the
 deliverable.
 
+## Repository layout
+
+Each program that runs as its own container gets a directory in the root with its own
+Dockerfile, such as `api/` and `web/`.
+The two C++ programs, `api/` and `documentserver/`, share one build setup: keep their
+`Dockerfile`, `CMakePresets.json` and vcpkg baseline in step.
+`compose.yaml` starts them on a laptop.
+
 ## Agent compatibility
 
 These instructions must work in both Claude Code and OpenAI Codex.

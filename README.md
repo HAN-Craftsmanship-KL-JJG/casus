@@ -6,6 +6,28 @@ en genereert er documenten uit.
 
 Dit is de casus van ons team voor de HAN-module OOSE Deeltijd 2026/2027.
 
+## Architectuur
+
+ICDE bestaat uit vier containers.
+
+| Onderdeel                 | Map               | Techniek                   |
+| ------------------------- | ----------------- | -------------------------- |
+| Webserver met de frontend | `web/`            | Caddy, React, TypeScript   |
+| Applicatieserver          | `api/`            | C++, Drogon                |
+| Documentserver            | `documentserver/` | C++, Drogon, Pandoc, Typst |
+| Database                  | `db/`             | PostgreSQL                 |
+
+## Start development
+
+Installeer Docker Desktop, draai dit commando en open <http://localhost:8080>:
+
+```sh
+docker compose up -d --build
+```
+
+De eerste keer duurt het bouwen enkele minuten.
+Draai hetzelfde commando opnieuw na een wijziging in de code.
+
 ## Documentatie
 
 | Document                               | Inhoud                                      |
