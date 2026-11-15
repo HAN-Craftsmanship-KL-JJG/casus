@@ -1,0 +1,22 @@
+@startuml ci-ontwerpdocument
+' Activity diagram of the workflow Ontwerpdocument. Explanation: docs/deployment.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+start
+:Pull request that changes docs/design,
+push to main, or tag vX.Y.Z;
+:Merge the chapters into one PDF
+with Pandoc and Typst;
+:Upload the PDF as a workflow artifact;
+if (What started the run?) then (pull request)
+  stop
+elseif (push to main)
+  :Replace the prerelease preview;
+  stop
+else (tag vX.Y.Z)
+  :Publish the release vX.Y.Z;
+  stop
+endif
+@enduml
