@@ -1,0 +1,8 @@
+# Deployment settings for doco-cd: development, https://dev.icde.nl, branch
+# develop. See infra/README.md. Keep .doco-cd.yml the same except for the name.
+name: icde-dev
+compose_files:
+  - compose.yaml
+  - infra/compose.server.yaml
+remove_orphans: true
+prune_images: false

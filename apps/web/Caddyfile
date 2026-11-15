@@ -1,13 +1,11 @@
+# Plain HTTP on an internal port. On the server the proxy in infra/edge/ adds
+# HTTPS, on a laptop there is none.
 {
+	auto_https off
 	admin off
 }
 
-# On a laptop SITE_ADDRESS is `:8080`, so Caddy serves plain HTTP.
-# On the server it is the domain name, so Caddy gets a certificate itself.
-{$SITE_ADDRESS} {
+:8080 {
 	root * /srv
 	file_server
 }
-
-# Extra sites that only the server has. The directory is empty on a laptop.
-import /etc/caddy/conf.d/*.caddy

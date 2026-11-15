@@ -1,27 +1,18 @@
-# Server only. Caddy takes ports 80 and 443 and gets the certificates.
+# Server only, for both environments. The proxy in infra/edge/ reaches the web
+# server over the network `edge`, so this stack publishes no ports.
 services:
   web:
-    container_name: icde-web
-    environment:
-      SITE_ADDRESS: icde.nl
-    cap_add:
-      # Needed to listen on ports below 1024.
-      - NET_BIND_SERVICE
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    volumes:
-      - ./infra/caddy/deploy.caddy:/etc/caddy/conf.d/deploy.caddy:ro
     deploy:
       resources:
         limits:
           cpus: "0.5"
           memory: 256m
     networks:
-      - default
-      # Shared with doco-cd, so Caddy can pass the webhook on to it.
-      - edge
+      default:
+      edge:
+        aliases:
+          # `icde-web` for production, `icde-dev-web` for development.
+          - ${COMPOSE_PROJECT_NAME}-web
 
 networks:
   edge:

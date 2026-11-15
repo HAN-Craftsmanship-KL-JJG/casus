@@ -6,9 +6,10 @@ on:
   push:
     # build/uitrol-icde is here to test the webhook before the merge.
     # Remove it when the pull request merges.
-    branches: [main, build/uitrol-icde]
+    branches: [main, develop, build/uitrol-icde]
     paths:
       - .doco-cd.yml
+      - .doco-cd.dev.yml
       - compose.yaml
       - apps/**
       - infra/**
@@ -23,12 +24,16 @@ concurrency:
 jobs:
   notify:
     runs-on: ubuntu-latest
-    # The secret lives in this environment, which only allowed branches may use.
-    environment: production
+    # develop goes to development (dev.icde.nl), every other allowed branch to
+    # production (icde.nl). The secret lives in the environment, which only
+    # allowed branches may use.
+    environment: ${{ github.ref_name == 'develop' && 'development' || 'production' }}
     steps:
       - name: Send signed push event to doco-cd
         env:
-          WEBHOOK_URL: https://deploy.icde.nl/v1/webhook
+          # The path suffix `dev` makes doco-cd read .doco-cd.dev.yml.
+          WEBHOOK_URL: >-
+            https://deploy.icde.nl/v1/webhook${{ github.ref_name == 'develop' && '/dev' || '' }}
           WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
         run: |
           payload=$(jq -n \

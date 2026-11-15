@@ -1,3 +1,13 @@
+# Production, branch main.
+icde.nl {
+	reverse_proxy icde-web:8080
+}
+
+# Development, branch develop.
+dev.icde.nl {
+	reverse_proxy icde-dev-web:8080
+}
+
 # Webhook of doco-cd. Only this path is reachable from the internet.
 deploy.icde.nl {
 	handle /v1/webhook* {
