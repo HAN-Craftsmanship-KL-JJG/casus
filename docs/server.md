@@ -38,7 +38,7 @@ Three things to know:
 | Setting | Value | File on the server |
 | --- | --- | --- |
 | SSH | Keys only, no passwords | `/etc/ssh/sshd_config.d/00-keys-only.conf` |
-| fail2ban | Blocks an address for an hour after five failed SSH logins | `/etc/fail2ban/jail.d/icde.conf` |
+| fail2ban | One hour block after five failed SSH logins | `/etc/fail2ban/jail.d/icde.conf` |
 | Docker | Engine and Compose from Docker's repository | `/etc/apt/sources.list.d/` |
 | Container logs | At most 3 files of 10 MB per container | `/etc/docker/daemon.json` |
 | IPv6 | On for containers | `/etc/docker/daemon.json` |
