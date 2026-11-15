@@ -1,0 +1,18 @@
+# Production, on two names.
+icde.nl, prd.icde.nl {
+	reverse_proxy icde-prd-web:8080
+}
+
+dev.icde.nl {
+	reverse_proxy icde-dev-web:8080
+}
+
+# doco-cd: only the webhook path is public.
+deploy.icde.nl {
+	handle /v1/webhook* {
+		reverse_proxy doco-cd:80
+	}
+	handle {
+		respond 404
+	}
+}

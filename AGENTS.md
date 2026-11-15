@@ -20,7 +20,9 @@ Each program that runs as its own container gets a directory in the root with it
 Dockerfile, such as `api/` and `web/`.
 The two C++ programs, `api/` and `documentserver/`, share one build setup: keep their
 `Dockerfile`, `CMakePresets.json` and vcpkg baseline in step.
-`compose.yaml` starts them on a laptop.
+`compose.yaml` starts them on a laptop, `compose.server.yaml` on the server.
+A change in one of the two files usually belongs in the other too.
+The server deploys `compose.server.yaml`: read `docs/server.md` before you change it.
 
 ## Agent compatibility
 

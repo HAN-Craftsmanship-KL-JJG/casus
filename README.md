@@ -8,7 +8,9 @@ Dit is de casus van ons team voor de HAN-module OOSE Deeltijd 2026/2027.
 
 ## Architectuur
 
-ICDE bestaat uit vier containers.
+ICDE bestaat uit vier containers, die op één server in twee omgevingen draaien.
+
+![De containers van ICDE en de server eromheen](docs/diagrams/overzicht.svg)
 
 | Onderdeel                 | Map               | Techniek                   |
 | ------------------------- | ----------------- | -------------------------- |
@@ -16,6 +18,16 @@ ICDE bestaat uit vier containers.
 | Applicatieserver          | `api/`            | C++, Drogon                |
 | Documentserver            | `documentserver/` | C++, Drogon, Pandoc, Typst |
 | Database                  | `db/`             | PostgreSQL                 |
+
+## Hosting
+
+ICDE draait op <https://icde.nl>.
+Een merge naar een van deze branches komt vanzelf op de server.
+
+| Omgeving           | Adres                                        | Branch    |
+| ------------------ | -------------------------------------------- | --------- |
+| Productie (prd)    | <https://icde.nl>, ook <https://prd.icde.nl> | `main`    |
+| Ontwikkeling (dev) | <https://dev.icde.nl>                        | `develop` |
 
 ## Start development
 
@@ -34,6 +46,8 @@ Draai hetzelfde commando opnieuw na een wijziging in de code.
 | -------------------------------------- | ------------------------------------------- |
 | [Ontwerpdocument](docs/design/)        | Requirements en ontwerp, ook als [PDF][pdf] |
 | [Techstack](docs/techstack.md)         | De gekozen tools, met de reden              |
+| [Deployment](docs/deployment.md)       | Hoe een wijziging op de server komt         |
 | [Werkafspraken](docs/werkafspraken.md) | Commits, branches, issues en pull requests  |
+| [Server](docs/server.md)               | De server en wat erop is ingesteld          |
 
 [pdf]: https://github.com/HAN-Craftsmanship-KL-JJG/casus/releases/tag/preview
