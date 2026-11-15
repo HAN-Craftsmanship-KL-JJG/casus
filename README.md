@@ -19,6 +19,11 @@ ICDE bestaat uit vier containers, die op één server in twee omgevingen draaien
 | Documentserver            | `documentserver/` | C++, Drogon, Pandoc, Typst |
 | Database                  | `db/`             | PostgreSQL                 |
 
+Een verzoek loopt van links naar rechts door de containers.
+Het voorbeelddocument raakt ze alle vier:
+
+![Een verzoek door de vier containers](docs/diagrams/request-sequence.svg)
+
 ## Hosting
 
 ICDE draait op <https://icde.nl>.
