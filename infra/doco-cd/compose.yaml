@@ -23,23 +23,43 @@ services:
           memory: 512m
     environment:
       TZ: Europe/Amsterdam
-      # doco-cd asks GitHub for new commits, so the server needs no open port
-      # for it. The repository is public, so it needs no token.
+      # The workflow .github/workflows/deploy.yml calls the webhook after a
+      # push, so a change deploys within seconds. The value comes from the
+      # file `.env` next to this file on the server.
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:?Set WEBHOOK_SECRET in .env}
+      # Safety net for a lost webhook call: ask GitHub once per hour.
+      # The repository is public, so this needs no token.
       POLL_CONFIG: |
         - source: git
           url: https://github.com/HAN-Craftsmanship-KL-JJG/casus.git
           reference: main
-          interval: 180
+          interval: 3600
     volumes:
       # Full control over Docker on the server: whoever can change the
       # Compose files on the watched branch controls the server.
       - /var/run/docker.sock:/var/run/docker.sock
       - data:/data
+    networks:
+      - default
+      - proxy-net
+    labels:
+      # Traefik passes on only the webhook path, nothing else of doco-cd.
+      - traefik.enable=true
+      - traefik.docker.network=proxy-net
+      - traefik.http.routers.doco-cd.rule=Host(`deploy.icde.nl`) && PathPrefix(`/v1/webhook`)
+      - traefik.http.routers.doco-cd.entrypoints=websecure
+      - traefik.http.routers.doco-cd.tls.certresolver=myresolver
+      - traefik.http.routers.doco-cd.middlewares=crowdsec-bouncer@file
+      - traefik.http.services.doco-cd.loadbalancer.server.port=80
     healthcheck:
       start_period: 15s
       interval: 30s
       timeout: 5s
       retries: 3
+
+networks:
+  proxy-net:
+    external: true
 
 volumes:
   data:

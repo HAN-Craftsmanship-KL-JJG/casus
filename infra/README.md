@@ -19,8 +19,15 @@ Compose loads `compose.yaml` and `compose.override.yaml`.
 ## Server
 
 The prototype runs at <https://icde.nl>.
-doco-cd on the server watches this repository.
-When a commit on the watched branch changes the stack, doco-cd runs the new version.
+doco-cd on the server deploys this repository.
+After a push to `main`, the workflow `.github/workflows/deploy.yml` calls the webhook of doco-cd,
+and doco-cd runs the new version within seconds.
+doco-cd also asks GitHub once per hour, in case a webhook call gets lost.
+
+The workflow signs the call with the secret `WEBHOOK_SECRET`.
+The secret is in the GitHub environment `production`, which only the branch `main` may use.
+GitHub's own webhook setting is not used: it also calls for pushes to other branches, and doco-cd
+would then deploy a branch that nobody reviewed.
 
 | File | Purpose |
 | --- | --- |
@@ -29,6 +36,7 @@ When a commit on the watched branch changes the stack, doco-cd runs the new vers
 | `../compose.override.yaml` | Laptop only: opens port 8080 |
 | `compose.server.yaml` | Server only: connects the web server to Traefik |
 | `doco-cd/compose.yaml` | doco-cd itself. Started once by hand on the server |
+| `../.github/workflows/deploy.yml` | Calls the webhook of doco-cd after a push |
 
 Paths in `compose.server.yaml` are relative to the repository root, because Compose resolves
 them against the first file it loads.
