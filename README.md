@@ -34,6 +34,16 @@ Een merge naar een van deze branches komt vanzelf op de server.
 | Productie (prd)    | <https://icde.nl>, ook <https://prd.icde.nl> | `main`    |
 | Ontwikkeling (dev) | <https://dev.icde.nl>                        | `develop` |
 
+Naast ICDE zelf gebruikt de hosting deze programma's:
+
+| Programma      | Functie                                                                      |
+| -------------- | ---------------------------------------------------------------------------- |
+| Caddy          | Proxy: regelt HTTPS en stuurt elke naam naar de juiste container             |
+| GitHub Actions | Bouwt de images en draait de unittests                                       |
+| doco-cd        | Rolt een nieuwe versie uit na een merge                                      |
+| Beszel         | Monitoring van de server en de containers, op <https://monitor.icde.nl>      |
+| Pocket ID      | Accounts en inloggen met een passkey, voor Beszel, op <https://auth.icde.nl> |
+
 ## Start development
 
 Installeer Docker Desktop, draai dit commando en open <http://localhost:8080>:
