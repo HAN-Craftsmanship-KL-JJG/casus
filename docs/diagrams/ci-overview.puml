@@ -9,9 +9,11 @@ rectangle "Pull request" as pr
 rectangle "Push to develop" as develop
 rectangle "Push to main" as main
 rectangle "Tag vX.Y.Z" as tag
+rectangle "Each week" as week
 
 rectangle "Workflow Ontwerpdocument" as doc
 rectangle "Workflow Deploy" as deploy
+rectangle "Dependabot" as bot
 
 rectangle "PDF as workflow artifact" as artifact
 rectangle "Release with the PDF" as release
@@ -23,9 +25,11 @@ main --> doc
 tag --> doc
 develop --> deploy
 main --> deploy
+week --> bot
 
 doc --> artifact
 doc --> release : main or tag
 deploy --> dev : develop
 deploy --> prd : main
+bot --> pr : opens
 @enduml

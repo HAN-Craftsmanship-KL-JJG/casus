@@ -32,8 +32,9 @@ It gets the certificates and passes each name to the right container.
 | --- | --- | --- |
 | Workflow `Deploy` | Push to `main` or `develop` | New version on the server |
 | Workflow `Ontwerpdocument` | Pull request, push to `main`, tag | The design document as PDF |
+| Dependabot | Each week | Pull request with new versions |
 
-The workflows are in `.github/workflows/`.
+The workflows are in `.github/workflows/`, the settings of Dependabot in `.github/dependabot.yml`.
 The tab `Actions` on GitHub shows every run, with the log of each step.
 Both workflows have a button `Run workflow` there, to start a run by hand.
 
@@ -125,6 +126,12 @@ It uses the image `pandoc/typst`.
 
 Only one `preview` exists: each push to `main` replaces it.
 The PDF shows the tag as its version, or the short commit hash when there is no tag.
+
+## Dependency updates
+
+Dependabot is a service of GitHub, not a workflow.
+[Working agreements](werkafspraken.md#dependency-updates) describes what it updates and how to
+review its pull requests.
 
 ## Laptop and server
 
