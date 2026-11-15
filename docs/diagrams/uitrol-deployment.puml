@@ -1,6 +1,6 @@
 @startuml uitrol-deployment
 ' Deployment diagram van het prototype: waar elk onderdeel draait. Toelichting: docs/uitrol.md
-' doco-cd publiceert zelf geen poort: Caddy geeft alleen het pad van de webhook door.
+' Alleen de proxy heeft open poorten. Productie en ontwikkeling zijn elk een eigen Compose-project.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
@@ -17,20 +17,27 @@ node GitHub as github {
 }
 
 node "Server (Debian, Docker)" as server {
-  node "Compose-project icde" as icde {
-    artifact "icde-web (Caddy)" as caddy
-  }
-  node "Compose-project doco-cd" as cd {
+  node "Compose-project edge" as edge {
+    artifact "proxy (Caddy)" as proxy
     artifact "doco-cd" as dococd
+  }
+  node "Compose-project icde\nproductie, branch main" as icde {
+    artifact "web (Caddy)" as web
+  }
+  node "Compose-project icde-dev\nontwikkeling, branch develop" as icdedev {
+    artifact "web (Caddy)" as webdev
   }
 }
 
 node "Let's Encrypt" as le
 
-Browser --> caddy : HTTPS, poort 443\nicde.nl
-workflow --> caddy : HTTPS, poort 443\ndeploy.icde.nl/v1/webhook
-caddy --> dococd : HTTP, poort 80\nnetwerk edge
+Browser --> proxy : HTTPS, poort 443\nicde.nl en dev.icde.nl
+workflow --> proxy : HTTPS, poort 443\ndeploy.icde.nl/v1/webhook
+proxy --> web : icde.nl
+proxy --> webdev : dev.icde.nl
+proxy --> dococd : deploy.icde.nl
 dococd --> repo : HTTPS\nhaalt de bestanden op
 dococd ..> icde : start en vervangt\nde containers
-caddy --> le : vraagt certificaten aan
+dococd ..> icdedev : start en vervangt\nde containers
+proxy --> le : vraagt certificaten aan
 @enduml

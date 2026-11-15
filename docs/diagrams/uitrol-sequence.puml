@@ -1,6 +1,6 @@
 @startuml uitrol-sequence
 ' Sequence diagram van een uitrol: van een push tot de nieuwe versie. Toelichting: docs/uitrol.md
-' De controle per uur vangt een melding op die verloren is gegaan.
+' De branch bepaalt de omgeving: main is productie, develop is ontwikkeling.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
@@ -8,22 +8,22 @@ skinparam defaultFontName Helvetica
 actor Ontwikkelaar as dev
 participant GitHub as github
 participant "Workflow Deploy" as workflow
-participant Caddy as caddy
+participant Proxy as proxy
 participant "doco-cd" as dococd
 participant Docker as docker
 
-dev -> github : push naar main
+dev -> github : push naar main\nof develop
 github -> workflow : start bij een wijziging\nvan de stack
-workflow -> caddy : POST /v1/webhook\nmet handtekening
-caddy -> dococd : POST /v1/webhook
+workflow -> proxy : POST /v1/webhook\nmet handtekening
+proxy -> dococd : POST /v1/webhook
 dococd -> dococd : controleer handtekening
-dococd --> caddy : melding aangenomen
-caddy --> workflow : melding aangenomen
+dococd --> proxy : melding aangenomen
+proxy --> workflow : melding aangenomen
 dococd -> github : haal de commit op
-dococd -> docker : start compose.yaml met\ninfra/compose.server.yaml
+dococd -> docker : start de stack\nvan de omgeving
 docker --> dococd : containers vervangen
 
-loop elk uur
+loop elk uur, per branch
   dococd -> github : is er een nieuwe commit?
   opt ja
     dococd -> github : haal de commit op
