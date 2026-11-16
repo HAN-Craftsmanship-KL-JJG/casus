@@ -1,0 +1,34 @@
+@startuml overzicht
+' Deployment diagram van ICDE: de containers en de server eromheen. Toelichting: README.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+left to right direction
+
+node "Apparaat van de gebruiker" as client {
+  artifact Browser
+}
+
+node GitHub as github {
+  artifact "Repository casus" as repo
+}
+
+node Server as server {
+  artifact "Proxy\nCaddy" as proxy
+  artifact "doco-cd" as dococd
+  node "Omgeving: prd en dev" as env {
+    artifact "Webserver\nCaddy met React" as web
+    artifact "Applicatieserver\nDrogon, C++" as api
+    artifact "Documentserver\nDrogon met Pandoc en Typst" as documents
+    database "Database\nPostgreSQL" as db
+  }
+}
+
+Browser --> proxy : HTTPS
+proxy --> web
+web --> api : /api
+api --> db : SQL
+api --> documents : inhoud
+repo --> dococd : meldt een push
+dococd ..> env : rolt uit
+@enduml

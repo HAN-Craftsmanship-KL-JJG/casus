@@ -1,87 +1,97 @@
-# Techstack
+# Tech stack
 
-De tools voor het prototype van ICDE.
-Het prototype moet op macOS en Windows hetzelfde werken.
+The tools for the ICDE prototype, with the reason for each.
+The prototype must work the same on macOS and Windows.
 
 ## Toolchain
 
-| Tool | Functie | Reden |
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| C++ | Programmeertaal | Het team kent deze taal |
-| C++20 | Versie van C++ | Laatste standaard die zowel Clang als Drogon beide ondersteunen |
-| Clang | Compiler | De enige compiler die op macOS en Windows hetzelfde werkt. MSVC bouwt niet voor macOS |
-| CMake | Buildsysteem | Industriestandaard. Drogon en vcpkg zijn erop gebouwd |
-| vcpkg | Package manager voor C++ | Meeste GitHub-sterren. Heeft packages voor alle libraries in dit overzicht en werkt direct met CMake |
+| C++20 | Language | The team knows C++, and Clang and Drogon both support C++20 |
+| Clang | Compiler | Works the same on macOS and Windows |
+| CMake | Build system | Industry standard, used by Drogon and vcpkg |
+| vcpkg | Package manager | Has every library in this list and works with CMake |
 
-## Applicatieserver
+## Application server
 
-| Tool | Functie | Reden |
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| Drogon | Webframework: routing, sessies, databaseclient, coroutines | Dekt de meeste behoeften in één library, dus het minste eigen code |
-| jsoncpp | JSON lezen en schrijven | Zit al in Drogon, dus geen extra afhankelijkheid |
-| libsodium | Wachtwoorden hashen met Argon2id | Eenvoudigste veilige API: één aanroep om te hashen, één om te controleren |
+| Drogon | Web framework: routing, sessions, database client | One library, so the least own code |
+| jsoncpp | JSON | Part of Drogon |
+| libsodium | Password hashing with Argon2id | Simplest safe API |
 
-## Documenten
+## Documents
 
-| Tool | Functie | Reden |
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| Pandoc | Word-documenten maken uit een sjabloon | Het enige alternatief dat goede Word-bestanden maakt uit een sjabloon. Sjablonen zijn tijdens het draaien aan te passen (UC10). Het ontwerpdocument gebruikt Pandoc al |
-| Typst | PDF-documenten maken uit een sjabloon | Meeste GitHub-sterren, snel en één programma. Het ontwerpdocument gebruikt Typst al |
+| Pandoc | Word files from a template | Templates can change while running (UC10) |
+| Typst | PDF files from a template | Fast, and one program |
+| `pandoc/typst` | Image of the document server | Official image with both programs |
+
+Pandoc and Typst run on their own document server, see
+[Architectuur](design/06-architectuur.md#a2-waar-wordt-het-bestand-gemaakt).
+A small C++ service with Drogon starts them, so the backend has one language and one framework.
+The design document is built with the same three tools.
 
 ## Database
 
-| Tool | Functie | Reden |
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| PostgreSQL | Databaseserver | Industriestandaard. Drogon ondersteunt PostgreSQL het best |
-| dbmate | Migraties: wijzigingen van het databaseschema in volgorde uitvoeren | Eenvoudigste: gewone SQL-bestanden en één programma, zonder Java |
+| PostgreSQL | Database server | Industry standard, and Drogon supports it best |
 
 ## API
 
-| Tool | Functie | Reden |
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| OpenAPI 3.1 | Contract van de REST API | Industriestandaard |
-| Swagger UI | Documentatie van de API, met aanroepen vanuit de browser | Industriestandaard. "Try it out" helpt bij het testen tijdens het bouwen |
-| openapi-generator | TypeScript-client voor de frontend genereren uit het contract | Meeste GitHub-sterren. Frontend en backend blijven gelijk aan het contract |
+| OpenAPI 3.1 | Contract of the REST API | Industry standard |
+| Swagger UI | API documentation with calls from the browser | Helps testing while building |
+| openapi-generator | TypeScript client from the contract | Keeps frontend and backend in step |
 
-## Frontend en webserver
+## Frontend and web server
 
-| Tool | Functie | Reden |
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| React met TypeScript | Gebruikersinterface | Meeste GitHub-sterren, en eenvoudig te leren |
-| Vite | Bouwt de frontend | Standaard voor React |
-| Caddy | Webserver: serveert de frontend en stuurt `/api` door naar Drogon | Eenvoudigste configuratie. Traefik kan geen bestanden serveren |
+| React with TypeScript | User interface | Widely used and easy to learn |
+| Vite | Builds the frontend | Standard for React |
+| Caddy | Serves the frontend and passes `/api` to Drogon | Simplest configuration |
 
 ## Tests
 
-| Tool | Functie | Reden |
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| GoogleTest | Unittests | Industriestandaard |
-| GoogleMock | Mocks, zoals nep-repositories in tests | Hoort bij GoogleTest |
-| llvm-cov | Testdekking meten | Zit in Clang, dus geen extra tool |
+| GoogleTest | Unit tests | Industry standard |
+| GoogleMock | Mocks, such as fake repositories | Part of GoogleTest |
+| llvm-cov | Test coverage | Part of Clang |
 
-## Codekwaliteit
+## Code quality
 
-| Tool | Functie | Reden |
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| clang-tidy | Linter voor C++ | Zit in Clang. Controleert ook de C++ Core Guidelines |
-| clang-format | Formatter voor C++ | Zit in Clang |
-| ESLint | Linter voor TypeScript | Industriestandaard |
-| Prettier | Formatter voor TypeScript | Industriestandaard |
-| lizard | Grenzen aan complexiteit, lengte en aantal parameters van functies | Werkt voor C++ en TypeScript, dus één tool voor beide |
-| GitHub CodeQL | Statische analyse, of GitHub Code Quality als dat C++ ondersteunt | Ingebouwd in GitHub en gratis voor een publieke repository |
-| Dependabot | Meldt en vernieuwt verouderde afhankelijkheden | Ingebouwd in GitHub en gratis |
+| clang-tidy | Linter for C++ | Part of Clang, checks the C++ Core Guidelines |
+| clang-format | Formatter for C++ | Part of Clang |
+| ESLint | Linter for TypeScript | Industry standard |
+| Prettier | Formatter for TypeScript | Industry standard |
+| lizard | Limits on function complexity, length and parameters | One tool for C++ and TypeScript |
+| GitHub CodeQL | Static analysis | Built into GitHub, free for a public repository |
 
-## Uitrol
+## Deployment
 
-| Tool | Functie | Reden |
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| Docker Compose | Start webserver, applicatieserver en database als losse containers | Volgt de drie servers uit [Architectuur](06-architectuur.md#architectuur), en werkt hetzelfde op macOS en Windows |
-| GitHub Actions | Bouwt en test elke wijziging op Linux, macOS en Windows | De repository staat op GitHub, en de runners dekken alle drie de platforms |
+| Docker Compose | Runs each server as its own container | Same on macOS, Windows and the server |
+| GitHub Actions | Builds and tests every change | The repository is on GitHub |
+| doco-cd | Deploys the Compose files to the server | One container |
+| Dependabot | Weekly pull request for new versions | Built into GitHub, one file |
+| Beszel | Monitoring of the server and its containers | Small, with its own login |
+| Pocket ID | Accounts and passkeys for Beszel | Has a screen to manage users |
 
-## Optioneel
+The servers follow [Architectuur](design/06-architectuur.md#architectuur).
 
-| Tool | Functie | Reden |
+## Optional
+
+Login for ICDE itself through Pocket ID, in place of own login with libsodium.
+
+| Tool | Purpose | Reason |
 | --- | --- | --- |
-| Pocket ID | Inloggen met passkeys via OpenID Connect, in plaats van eigen inloggen met libsodium | Geen wachtwoorden, en gebruikers en groepen zijn via een API aan te maken. Werkt offline |
-| jwt-cpp | Controleert in Drogon het token van Pocket ID | Alleen nodig met Pocket ID |
-| `react-oidc-context` | Inloggen via Pocket ID in de frontend | Alleen nodig met Pocket ID |
+| jwt-cpp | Checks the Pocket ID token in Drogon | Only needed with Pocket ID |
+| `react-oidc-context` | Login through Pocket ID in the frontend | Only needed with Pocket ID |

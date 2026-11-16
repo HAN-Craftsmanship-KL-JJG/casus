@@ -1,0 +1,89 @@
+name: Deploy
+
+# Builds the images, then tells doco-cd on the server to deploy. See docs/deployment.md.
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - .doco-cd.prd.yml
+      - .doco-cd.dev.yml
+      - compose.server.yaml
+      - api/**
+      - documentserver/**
+      - web/**
+      - db/**
+      - infra/**
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        app: [api, documentserver, web]
+    env:
+      IMAGE: ghcr.io/han-craftsmanship-kl-jjg/icde-${{ matrix.app }}
+      # develop, or main for every other branch.
+      TAG: ${{ github.ref_name == 'develop' && 'develop' || 'main' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # The C++ builds run the unit tests, so a failing test stops here.
+      - uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.app }}
+          push: true
+          tags: ${{ env.IMAGE }}:${{ env.TAG }}
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          cache-from: type=gha,scope=${{ matrix.app }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.app }}
+
+  notify:
+    needs: build
+    runs-on: ubuntu-latest
+    # The environment holds the secret.
+    environment: ${{ github.ref_name == 'develop' && 'development' || 'production' }}
+    steps:
+      - name: Send signed push event to doco-cd
+        env:
+          # The last part selects the file: .doco-cd.prd.yml or .doco-cd.dev.yml.
+          WEBHOOK_URL: >-
+            https://deploy.icde.nl/v1/webhook/${{ github.ref_name == 'develop' && 'dev' || 'prd' }}
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+        run: |
+          payload=$(jq -n \
+            --arg ref "$GITHUB_REF" \
+            --arg sha "$GITHUB_SHA" \
+            --arg clone_url "https://github.com/${GITHUB_REPOSITORY}.git" \
+            --arg name "${GITHUB_REPOSITORY##*/}" \
+            --arg full_name "$GITHUB_REPOSITORY" \
+            --arg actor "$GITHUB_ACTOR" \
+            '{
+              ref: $ref,
+              before: $sha,
+              after: $sha,
+              repository: {name: $name, full_name: $full_name, clone_url: $clone_url},
+              pusher: {name: $actor, email: "noreply@github.com"}
+            }')
+          signature=$(printf '%s' "$payload" \
+            | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" | sed 's/^.* //')
+          curl --fail-with-body --silent --show-error --max-time 30 \
+            -X POST "$WEBHOOK_URL" \
+            -H "X-GitHub-Event: push" \
+            -H "Content-Type: application/json" \
+            -H "X-Hub-Signature-256: sha256=$signature" \
+            -d "$payload"

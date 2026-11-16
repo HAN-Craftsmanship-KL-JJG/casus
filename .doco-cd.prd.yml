@@ -1,0 +1,20 @@
+# doco-cd settings for the branch main. First stack: production.
+name: icde-prd
+compose_files:
+  - compose.server.yaml
+remove_orphans: true
+# Removes unused images, so the disk does not fill up.
+prune_images: true
+# The tag moves with every build.
+force_image_pull: true
+environment:
+  ICDE_TAG: main
+---
+# Second stack: the fixed part of the server, doco-cd included.
+name: infra
+working_dir: infra
+# The secrets stay on the server.
+env_files:
+  - /srv/infra/.env
+remove_orphans: true
+prune_images: true

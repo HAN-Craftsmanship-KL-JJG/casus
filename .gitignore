@@ -1,0 +1,8 @@
+# Build output
+build/
+dist/
+node_modules/
+
+# Local settings and secrets
+.env
+.DS_Store

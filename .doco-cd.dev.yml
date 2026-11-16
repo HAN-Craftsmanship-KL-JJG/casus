@@ -1,0 +1,9 @@
+# doco-cd settings for development (branch develop).
+name: icde-dev
+compose_files:
+  - compose.server.yaml
+remove_orphans: true
+prune_images: true
+force_image_pull: true
+environment:
+  ICDE_TAG: develop
