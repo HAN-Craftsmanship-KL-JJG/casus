@@ -9,7 +9,7 @@ TEST(StatusTest, ReportsNameAndVersion) {
     const Json::Value status = icde::makeStatus(std::nullopt);
 
     EXPECT_EQ(status["name"].asString(), "icde-api");
-    EXPECT_EQ(status["version"].asString(), "0.1.0");
+    EXPECT_EQ(status["version"].asString(), "0.0.1");
 }
 
 TEST(StatusTest, ReportsTheMessageFromTheDatabase) {
