@@ -14,6 +14,16 @@ Extra items make models harder to read and do not raise the grade.
 Cut items that no core use case needs, turn them into attributes, and explain the cuts in the
 deliverable.
 
+## Repository layout
+
+Each program that runs as its own container gets a directory in the root with its own
+Dockerfile, such as `api/` and `web/`.
+The two C++ programs, `api/` and `documentserver/`, share one build setup: keep their
+`Dockerfile`, `CMakePresets.json` and vcpkg baseline in step.
+`compose.yaml` starts them on a laptop, `compose.server.yaml` on the server.
+A change in one of the two files usually belongs in the other too.
+The server deploys `compose.server.yaml`: read `docs/server.md` before you change it.
+
 ## Agent compatibility
 
 These instructions must work in both Claude Code and OpenAI Codex.
@@ -26,8 +36,8 @@ When a feature exists in only one agent, keep the instruction readable without i
 ## Writing
 
 Write in plain English.
-Exception: casus deliverables in `docs/` are in Dutch, because the client and the rubric are
-Dutch.
+Exception: the design document in `docs/design/` is in Dutch, because the client and the
+rubric are Dutch.
 Readers are students who are not native English speakers.
 Use short sentences, common words, and the active voice.
 Start every sentence on a new line in all documentation, including `AGENTS.md`, README files,
@@ -70,19 +80,20 @@ In source, only unbreakable tokens (URLs, hashes) may exceed the limit.
 
 ## Design document
 
-Each `docs/NN-*.md` file is one chapter of the design document.
+Each `docs/design/NN-*.md` file is one chapter of the design document.
 The workflow `.github/workflows/ontwerpdocument.yml` merges them into one PDF in filename order,
 so a new chapter needs the two-digit prefix that puts it in reading order.
-Renumber the files after it, and the `Toelichting` comments in `docs/diagrams/*.puml`.
+Renumber the files after it, and the `Toelichting` comments in `docs/design/diagrams/*.puml`.
 Write each chapter as part of one document: say "dit hoofdstuk", not "dit document".
 Link to another chapter with a heading anchor, such as
 `[Domeinmodel](05-domeinmodel.md#domeinmodel)`.
-A link without an anchor, or a link to a file outside `docs/`, breaks in the PDF.
+A link without an anchor, or a link to a file outside `docs/design/`, breaks in the PDF.
 
 ## Diagrams
 
-Draw all diagrams in PlantUML in `docs/diagrams/`, because the rubric grades standard UML
-notation and the PDF build cannot render Mermaid.
+Draw all diagrams in PlantUML, because the rubric grades standard UML notation and the PDF
+build cannot render Mermaid.
+Diagrams of the design document go in `docs/design/diagrams/`, all others in `docs/diagrams/`.
 GitHub does not render PlantUML: after you change a `.puml` file, render it to SVG and commit
 the SVG with it.
 

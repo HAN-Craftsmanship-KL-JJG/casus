@@ -1,0 +1,35 @@
+# Production, on two names.
+icde.nl, prd.icde.nl {
+	reverse_proxy icde-prd-web:8080
+}
+
+dev.icde.nl {
+	reverse_proxy icde-dev-web:8080
+}
+
+# Beszel, with the limits from its documentation.
+monitor.icde.nl {
+	request_body {
+		max_size 10MB
+	}
+	reverse_proxy beszel:8090 {
+		transport http {
+			read_timeout 360s
+		}
+	}
+}
+
+# Pocket ID.
+auth.icde.nl {
+	reverse_proxy pocket-id:1411
+}
+
+# doco-cd: only the webhook path is public.
+deploy.icde.nl {
+	handle /v1/webhook* {
+		reverse_proxy doco-cd:80
+	}
+	handle {
+		respond 404
+	}
+}

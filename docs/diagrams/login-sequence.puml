@@ -1,0 +1,24 @@
+@startuml login-sequence
+' Sequence diagram of the login to Beszel through Pocket ID. Explanation: docs/server.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+actor User as user
+participant Browser as browser
+participant "Beszel\nmonitor.icde.nl" as beszel
+participant "Pocket ID\nauth.icde.nl" as pocket
+
+user -> browser : click the button Pocket ID
+browser -> beszel : start login
+beszel --> browser : redirect to Pocket ID
+browser -> pocket : /authorize
+user -> pocket : passkey
+pocket --> browser : redirect back, with a code
+browser -> beszel : /api/oauth2-redirect, with the code
+beszel -> pocket : swap the code for a token
+pocket --> beszel : token
+beszel -> pocket : ask who the user is
+pocket --> beszel : name and verified email
+beszel --> browser : logged in
+@enduml

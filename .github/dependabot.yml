@@ -1,0 +1,50 @@
+# One pull request per kind each week, see docs/werkafspraken.md.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # Base images in the Dockerfiles.
+  - package-ecosystem: docker
+    directories: [/api, /documentserver, /web]
+    target-branch: develop
+    schedule:
+      interval: weekly
+    groups:
+      dockerfiles:
+        patterns: ["*"]
+
+  # Images in the Compose files.
+  - package-ecosystem: docker-compose
+    directories: [/, /infra]
+    target-branch: develop
+    schedule:
+      interval: weekly
+    groups:
+      compose:
+        patterns: ["*"]
+
+  - package-ecosystem: npm
+    directory: /web
+    target-branch: develop
+    schedule:
+      interval: weekly
+    groups:
+      npm:
+        patterns: ["*"]
+
+  # Also set the vcpkg tag in the two Dockerfiles by hand.
+  - package-ecosystem: vcpkg
+    directories: [/api, /documentserver]
+    target-branch: develop
+    schedule:
+      interval: weekly
+    groups:
+      vcpkg:
+        patterns: ["*"]

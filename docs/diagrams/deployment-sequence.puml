@@ -1,0 +1,16 @@
+@startuml deployment-sequence
+' Sequence diagram van een deployment: van een push tot de nieuwe versie. Toelichting: docs/deployment.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+actor Ontwikkelaar as dev
+participant GitHub as github
+participant "doco-cd" as dococd
+participant Omgeving as env
+
+dev -> github : push naar main of develop
+github -> dococd : melding met handtekening
+dococd -> github : haal de commit op
+dococd -> env : start de nieuwe versie
+@enduml

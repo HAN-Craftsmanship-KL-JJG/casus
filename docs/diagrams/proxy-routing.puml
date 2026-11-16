@@ -1,0 +1,30 @@
+@startuml proxy-routing
+' Deployment diagram of the proxy: which name goes to which container. Explanation: docs/server.md
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+left to right direction
+
+actor Internet as net
+node Server {
+  artifact "Proxy\nCaddy" as proxy
+  node "icde-prd" as prd {
+    artifact "Web server" as prdweb
+  }
+  node "icde-dev" as dev {
+    artifact "Web server" as devweb
+  }
+  node "infra" as infra {
+    artifact Beszel as beszel
+    artifact "Pocket ID" as pocket
+    artifact "doco-cd" as dococd
+  }
+}
+
+net --> proxy : HTTPS, ports 80 and 443
+proxy --> prdweb : icde.nl, prd.icde.nl
+proxy --> devweb : dev.icde.nl
+proxy --> beszel : monitor.icde.nl
+proxy --> pocket : auth.icde.nl
+proxy --> dococd : deploy.icde.nl, webhook only
+@enduml

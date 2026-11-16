@@ -1,0 +1,221 @@
+# The fixed part of the server. doco-cd keeps it up to date, see docs/server.md.
+name: infra
+
+services:
+  proxy:
+    image: caddy:2.11.9-alpine
+    restart: unless-stopped
+    # The admin API of Caddy, which only listens inside the container.
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:2019/config/"]
+      interval: 30s
+      timeout: 5s
+    cap_drop:
+      - ALL
+    cap_add:
+      # For ports 80 and 443.
+      - NET_BIND_SERVICE
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+    networks:
+      - proxy
+
+  doco-cd:
+    image: ghcr.io/kimdre/doco-cd:0.134.0
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+    environment:
+      TZ: Europe/Amsterdam
+      # Lets doco-cd replace its own container.
+      SELF_UPDATE_ENABLED: "true"
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:?Set WEBHOOK_SECRET in .env}
+      # Checks GitHub each hour, in case a webhook is lost.
+      # The target selects the file: .doco-cd.prd.yml or .doco-cd.dev.yml.
+      POLL_CONFIG: |
+        - source: git
+          url: https://github.com/HAN-Craftsmanship-KL-JJG/casus.git
+          reference: main
+          target: prd
+          interval: 3600
+        - source: git
+          url: https://github.com/HAN-Craftsmanship-KL-JJG/casus.git
+          reference: develop
+          target: dev
+          interval: 3600
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - doco-cd-data:/data
+      # The secrets, for when doco-cd deploys this file.
+      - /srv/infra/.env:/srv/infra/.env:ro
+    networks:
+      - proxy
+    healthcheck:
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Monitoring, on monitor.icde.nl.
+  beszel:
+    image: henrygd/beszel:0.21.2
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/beszel", "health", "--url", "http://localhost:8090"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+    environment:
+      APP_URL: https://monitor.icde.nl
+      # The admin account. Users log in through Pocket ID.
+      # `setup` logs in with the same address.
+      USER_EMAIL: admin@icde.nl
+      USER_PASSWORD: ${BESZEL_ADMIN_PASSWORD:?Set BESZEL_ADMIN_PASSWORD in .env}
+      # A first login through Pocket ID makes an account that sees the server.
+      USER_CREATION: "true"
+      SHARE_ALL_SYSTEMS: "true"
+    volumes:
+      - beszel-data:/beszel_data
+      - beszel-socket:/beszel_socket
+    networks:
+      - proxy
+
+  # Measures the server. Beszel reads it through a socket file.
+  beszel-agent:
+    image: henrygd/beszel-agent:0.21.2
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/agent", "health"]
+      interval: 30s
+      timeout: 5s
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128m
+    # Needed to measure the network of the server.
+    network_mode: host
+    environment:
+      LISTEN: /beszel_socket/beszel.sock
+      # Written by `setup`.
+      KEY_FILE: /key/hub.pub
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - beszel-agent-data:/var/lib/beszel-agent
+      - beszel-socket:/beszel_socket
+      - beszel-key:/key:ro
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+
+  # Accounts and passkeys, on auth.icde.nl.
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v2.19.2
+    restart: unless-stopped
+    # The image brings its own health check.
+    cap_drop:
+      - ALL
+    cap_add:
+      # The image starts as root and then drops to a normal user.
+      - CHOWN
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+    environment:
+      APP_URL: https://auth.icde.nl
+      TRUST_PROXY: "true"
+      # Settings come from this file, not from the admin screen.
+      UI_CONFIG_DISABLED: "true"
+      # Beszel refuses an email address that is not verified.
+      EMAILS_VERIFIED: "true"
+      ENCRYPTION_KEY: ${POCKET_ID_ENCRYPTION_KEY:?Set POCKET_ID_ENCRYPTION_KEY in .env}
+      # Lets `setup` call Pocket ID without a login.
+      STATIC_API_KEY: ${POCKET_ID_API_KEY:?Set POCKET_ID_API_KEY in .env}
+    volumes:
+      - pocket-id-data:/app/data
+    networks:
+      - proxy
+
+  # Connects Beszel to Pocket ID at every start, see setup.sh.
+  setup:
+    image: curlimages/curl:8.11.1
+    restart: "no"
+    # No health check: the container stops when the script is done.
+    # Root, to write the key file.
+    user: "0"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    entrypoint: ["sh", "/setup.sh"]
+    environment:
+      POCKET_ID_API_KEY: ${POCKET_ID_API_KEY:?Set POCKET_ID_API_KEY in .env}
+      # The same address as USER_EMAIL of beszel.
+      BESZEL_ADMIN_EMAIL: admin@icde.nl
+      BESZEL_ADMIN_PASSWORD: ${BESZEL_ADMIN_PASSWORD:?Set BESZEL_ADMIN_PASSWORD in .env}
+      BESZEL_OIDC_SECRET: ${BESZEL_OIDC_SECRET:?Set BESZEL_OIDC_SECRET in .env}
+    volumes:
+      - ./setup.sh:/setup.sh:ro
+      - beszel-key:/key
+    depends_on:
+      - beszel
+      - pocket-id
+    networks:
+      - proxy
+
+networks:
+  # The ICDE stacks join this network.
+  proxy:
+    name: proxy
+
+volumes:
+  caddy-data:
+  caddy-config:
+  doco-cd-data:
+  beszel-data:
+  beszel-socket:
+  beszel-agent-data:
+  beszel-key:
+  pocket-id-data:

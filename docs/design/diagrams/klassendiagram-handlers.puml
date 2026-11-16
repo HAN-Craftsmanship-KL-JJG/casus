@@ -1,0 +1,187 @@
+@startuml klassendiagram-handlers
+' Design class diagram van ICDE: use case controllers, repositories en Documentomzetter.
+' Toelichting: docs/design/07-klassendiagram.md
+' De domeinklassen staan volledig in de klassendiagrammen owe, rubric, planning en onderdeel.
+' Verwijzingen naar repositories en regels staan als attribuut, niet als lijn (Larman 7.4).
+' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.
+skinparam style strictuml
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+hide empty members
+left to right direction
+
+package applicatie {
+  class BeheerOWEHandler {
+    - opleidingen : OpleidingRepository
+    - owes : OWERepository
+    + maakOWE(opleidingNaam : String,\n    \
+code : String,\n    \
+naam : String,\n    \
+studiepunten : int,\n    \
+aantalWeken : int,\n    \
+evlNaam : String,\n    \
+evlStudiepunten : int) : void
+    + toevoegenEVL(oweCode : String,\n    \
+naam : String,\n    \
+studiepunten : int) : void
+    + toevoegenLeeruitkomst(oweCode : String,\n    \
+evlNaam : String,\n    \
+nummer : int,\n    \
+omschrijving : String) : void
+    + verwijderOnderdeel(oweCode : String,\n    \
+onderdeelId : UUID) : void
+    + verwijderEVL(oweCode : String,\n    \
+evlNaam : String) : void
+    + verwijderOWE(oweCode : String) : void
+  }
+  class BeheerRubricHandler {
+    - owes : OWERepository
+    + toevoegenDimensie(oweCode : String,\n    \
+naam : String,\n    \
+criteriumCode : String,\n    \
+criteriumNaam : String,\n    \
+weging : int,\n    \
+minimumscore : int,\n    \
+uitleg : String,\n    \
+niveaus : Map<Integer, String>,\n    \
+leeruitkomstNummers : List<Integer>) : void
+    + toevoegenCriterium(oweCode : String,\n    \
+dimensieNaam : String,\n    \
+code : String,\n    \
+naam : String,\n    \
+weging : int,\n    \
+minimumscore : int,\n    \
+uitleg : String,\n    \
+niveaus : Map<Integer, String>,\n    \
+leeruitkomstNummers : List<Integer>) : void
+    + verwijderCriterium(oweCode : String,\n    \
+dimensieNaam : String,\n    \
+code : String) : void
+  }
+  class BeheerPlanningHandler {
+    - owes : OWERepository
+    - lesRegel : Consistentieregel
+    - toetsdrukRegel : Consistentieregel
+    + geefCriteria(oweCode : String) : List<Beoordelingscriterium>
+    + toevoegenLes(oweCode : String,\n    \
+naam : String,\n    \
+onderwijsweek : int,\n    \
+beschrijving : String,\n    \
+criteriumCodes : List<String>) : List<Overtreding>
+    + toevoegenToetsmoment(oweCode : String,\n    \
+naam : String,\n    \
+soort : SoortToetsmoment,\n    \
+startweek : int,\n    \
+deadlineweek : int,\n    \
+criteriumCodes : List<String>) : List<Overtreding>
+  }
+  class ControleerConsistentieHandler {
+    - owes : OWERepository
+    - regels : List<Consistentieregel>
+    + controleer(oweCode : String) : List<Overtreding>
+  }
+  class GenereerDocumentHandler {
+    - owes : OWERepository
+    - sjablonen : DocumentsjabloonRepository
+    - omzetter : Documentomzetter
+    + geefSjablonen() : List<Documentsjabloon>
+    + genereer(oweCode : String,\n    \
+sjabloonNaam : String,\n    \
+onderdelen : List<String>,\n    \
+bestandstype : Bestandstype) : byte[]
+  }
+  class HergebruikOnderdeelHandler {
+    - owes : OWERepository
+    + geefGedeeldeOnderdelen(oweCode : String) : List<OWEOnderdeel>
+    + opnemenOnderdeel(oweCode : String,\n    \
+onderdeelId : UUID) : void
+    + opnemenKopie(oweCode : String,\n    \
+onderdeelId : UUID) : void
+  }
+  class OpvragenDekkingHandler {
+    - opleidingen : OpleidingRepository
+    + geefDekking(opleidingNaam : String) : List<Dekking>
+  }
+  class DeelOnderdeelHandler {
+    - owes : OWERepository
+    + deel(oweCode : String,\n    \
+onderdeelId : UUID) : void
+  }
+  class BeheerDocumentsjabloonHandler {
+    - sjablonen : DocumentsjabloonRepository
+    + toevoegenSjabloon(naam : String,\n    \
+soort : SoortDocument,\n    \
+onderdelen : List<String>,\n    \
+opmaak : String) : void
+  }
+  class VergrendelVeldHandler {
+    - vergrendelingen : VergrendelingRepository
+    + vergrendel(oweCode : String,\n    \
+onderdeelId : UUID,\n    \
+veld : String) : boolean
+    + ontgrendel(oweCode : String,\n    \
+onderdeelId : UUID,\n    \
+veld : String) : void
+  }
+}
+
+package domein {
+  interface OWERepository <<interface>> {
+    + zoek(code : String) : OWE
+    + zoekGedeeldeOnderdelen() : List<OWEOnderdeel>
+    + zoekGedeeldOnderdeel(onderdeelId : UUID) : OWEOnderdeel
+    + wordtHergebruikt(onderdeelId : UUID) : boolean
+    + bewaar(owe : OWE) : void
+    + verwijder(owe : OWE) : void
+  }
+  interface OpleidingRepository <<interface>> {
+    + zoek(naam : String) : Opleiding
+  }
+  interface DocumentsjabloonRepository <<interface>> {
+    + zoek(naam : String) : Documentsjabloon
+    + zoekAlle() : List<Documentsjabloon>
+    + bewaar(sjabloon : Documentsjabloon) : void
+  }
+  interface Documentomzetter <<interface>> {
+    + zetOm(inhoud : String,\n    \
+opmaak : String,\n    \
+bestandstype : Bestandstype) : byte[]
+  }
+  interface VergrendelingRepository <<interface>> {
+    + zoek(oweCode : String,\n    \
+onderdeelId : UUID,\n    \
+veld : String) : Vergrendeling
+    + bewaar(vergrendeling : Vergrendeling) : void
+    + verwijder(vergrendeling : Vergrendeling) : void
+  }
+  class Vergrendeling {
+    - oweCode : String
+    - onderdeelId : UUID
+    - veld : String
+    - gebruiker : String
+    - sinds : Instant
+  }
+  interface Consistentieregel <<interface>> #E4DFEC {
+    + controleer(owe : OWE) : List<Overtreding>
+  }
+}
+
+' Onzichtbare lijnen zetten elke handler naast zijn repositories.
+BeheerOWEHandler -[hidden]-> OpleidingRepository
+BeheerOWEHandler -[hidden]-> OWERepository
+BeheerRubricHandler -[hidden]-> OWERepository
+BeheerPlanningHandler -[hidden]-> OWERepository
+ControleerConsistentieHandler -[hidden]-> OWERepository
+ControleerConsistentieHandler -[hidden]-> Consistentieregel
+BeheerPlanningHandler -[hidden]-> Consistentieregel
+GenereerDocumentHandler -[hidden]-> OWERepository
+GenereerDocumentHandler -[hidden]-> DocumentsjabloonRepository
+GenereerDocumentHandler -[hidden]-> Documentomzetter
+HergebruikOnderdeelHandler -[hidden]-> OWERepository
+OpvragenDekkingHandler -[hidden]-> OpleidingRepository
+DeelOnderdeelHandler -[hidden]-> OWERepository
+BeheerDocumentsjabloonHandler -[hidden]-> DocumentsjabloonRepository
+VergrendelVeldHandler -[hidden]-> VergrendelingRepository
+VergrendelingRepository ..> Vergrendeling
+@enduml
