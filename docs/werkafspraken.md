@@ -24,6 +24,22 @@ We use [git flow](https://nvie.com/posts/a-successful-git-branching-model/).
 | `release/<version>` | `develop` | `main` and `develop` | Last fixes before a release |
 | `hotfix/<topic>` | `main` | `main` and `develop` | An urgent fix |
 
+Pull requests to `main` and `develop` need one approval and merge with a merge commit.
+Git flow needs the merge commits, so `main` and `develop` keep a shared history.
+
+## Releases
+
+Versions follow [Semantic Versioning](https://semver.org/).
+
+1. Start `release/<version>` from `develop`.
+2. Set the version in `api/CMakeLists.txt`, `api/vcpkg.json`, `api/tests/status_test.cpp`,
+   `documentserver/CMakeLists.txt`, `documentserver/vcpkg.json` and `web/package.json`.
+   Run `npm install` in `web/` to update `web/package-lock.json`.
+3. Open a pull request to `main` and one to `develop`.
+4. After the merge to `main`, tag the merge commit: `git tag v<version>` and
+   `git push origin v<version>`.
+   The tag publishes a GitHub release with the PDF of the design document.
+
 ## Issues and pull requests
 
 - Every issue gets a label: `documentation`, `enhancement` or `question`.
