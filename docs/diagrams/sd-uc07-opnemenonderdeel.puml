@@ -10,6 +10,8 @@ actor ":Onderwijsontwikkelaar" as ontwikkelaar
 participant ":HergebruikOnderdeel\nHandler" as handler
 participant "owes :\nOWERepository" as owes
 participant "owe : OWE" as owe
+participant "onderdeel :\nOWEOnderdeel" as onderdeel
+participant "planning :\nPlanning" as planning
 
 ontwikkelaar -> handler : opnemenOnderdeel(oweCode, onderdeelId)
 activate handler
@@ -22,17 +24,29 @@ deactivate owes
 alt onderdeel is null
   handler --> ontwikkelaar : OngeldigeInvoerException (4A)
 else
-  handler -> owe : hergebruik(onderdeel)
+  handler -> onderdeel : hergebruikIn(owe)
+  activate onderdeel
+  note right of onderdeel
+    Polymorfe message.
+    Hier een Les. Een Toetsmoment gaat ook
+    naar Planning, een Beoordelingsdimensie
+    naar Rubric, een Leeruitkomst naar OWE.
+  end note
+  onderdeel -> owe : planning = geefPlanning()
   activate owe
-  owe -> owe : hergebruikt.add(onderdeel)
   deactivate owe
+  onderdeel -> planning : hergebruik(onderdeel)
+  activate planning
+  planning -> planning : hergebruikteLessen.add(onderdeel)
+  deactivate planning
+  deactivate onderdeel
   handler -> owes : bewaar(owe)
   activate owes
   deactivate owes
 end
 deactivate handler
-note over owe
-  owe bewaart een verwijzing,
+note over planning
+  planning bewaart een verwijzing,
   geen kopie [BR6].
 end note
 @enduml

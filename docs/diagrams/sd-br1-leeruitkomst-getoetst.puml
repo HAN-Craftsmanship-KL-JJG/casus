@@ -8,6 +8,7 @@ hide footbox
 
 participant ":LeeruitkomstGetoetst\nRegel" as regel
 participant "owe : OWE" as owe
+participant "rubric : Rubric" as rubric
 participant "criteria[j] :\nBeoordelingscriterium" as criterium
 participant "o : Overtreding" as overtreding
 
@@ -16,9 +17,12 @@ activate regel
 regel -> owe : leeruitkomsten = geefLeeruitkomsten()
 activate owe
 deactivate owe
-regel -> owe : criteria = geefCriteria()
+regel -> owe : rubric = geefRubric()
 activate owe
 deactivate owe
+regel -> rubric : criteria = geefCriteria()
+activate rubric
+deactivate rubric
 loop voor elke l in leeruitkomsten
   loop voor elk criterium, tot getoetst
     regel -> criterium : getoetst = toetst(l)

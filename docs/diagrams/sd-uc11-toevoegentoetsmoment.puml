@@ -10,6 +10,8 @@ actor ":Onderwijsontwikkelaar" as ontwikkelaar
 participant ":BeheerPlanning\nHandler" as handler
 participant "owes :\nOWERepository" as owes
 participant "owe : OWE" as owe
+participant "rubric : Rubric" as rubric
+participant "planning :\nPlanning" as planning
 participant "t : Toetsmoment" as toetsmoment
 participant "toetsdrukRegel :\nConsistentieregel" as regel
 participant "alle[i] :\nOvertreding" as overtreding
@@ -20,14 +22,22 @@ activate handler
 handler -> owes : owe = zoek(oweCode)
 activate owes
 deactivate owes
-handler -> owe : t = toevoegenToetsmoment(naam, soort,\nstartweek, deadlineweek,\ncriteriumCodes)
+handler -> owe : rubric = geefRubric()
 activate owe
-owe -> owe : controleerWeek(startweek)
-owe -> owe : controleerWeek(deadlineweek)
-owe -> owe : criteria = zoekCriteria(criteriumCodes)
-create toetsmoment
-owe -> toetsmoment : create(naam, soort, startweek,\ndeadlineweek, criteria)
 deactivate owe
+handler -> owe : planning = geefPlanning()
+activate owe
+deactivate owe
+handler -> rubric : criteria = zoekCriteria(criteriumCodes)
+activate rubric
+deactivate rubric
+handler -> planning : t = toevoegenToetsmoment(naam, soort,\nstartweek, deadlineweek, criteria)
+activate planning
+planning -> planning : controleerWeek(startweek)
+planning -> planning : controleerWeek(deadlineweek)
+create toetsmoment
+planning -> toetsmoment : create(naam, soort, startweek,\ndeadlineweek, criteria)
+deactivate planning
 handler -> owes : bewaar(owe)
 activate owes
 deactivate owes
@@ -42,7 +52,7 @@ loop voor elke overtreding in alle
 end
 handler --> ontwikkelaar : overtredingen
 deactivate handler
-note over owe, toetsmoment
+note over rubric, toetsmoment
   4A: controleerWeek, zoekCriteria en create
   gooien een OngeldigeInvoerException bij
   ongeldige gegevens [BR14].

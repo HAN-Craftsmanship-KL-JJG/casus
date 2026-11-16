@@ -7,6 +7,8 @@ skinparam defaultFontName Helvetica
 hide footbox
 
 participant "owe : OWE" as owe
+participant "rubric : Rubric" as rubric
+participant "planning :\nPlanning" as planning
 participant "criteria[j] :\nBeoordelingscriterium" as criterium
 participant "toetsmomenten[k] :\nToetsmoment" as toetsmoment
 participant "lessen[m] : Les" as les
@@ -15,9 +17,15 @@ participant "d : Dekking" as dekking
 [-> owe : dekking = bepaalDekking()
 activate owe
 owe -> owe : leeruitkomsten = geefLeeruitkomsten()
-owe -> owe : criteria = geefCriteria()
-owe -> owe : toetsmomenten = geefToetsmomenten()
-owe -> owe : lessen = geefLessen()
+owe -> rubric : criteria = geefCriteria()
+activate rubric
+deactivate rubric
+owe -> planning : toetsmomenten = geefToetsmomenten()
+activate planning
+deactivate planning
+owe -> planning : lessen = geefLessen()
+activate planning
+deactivate planning
 loop voor elke l in leeruitkomsten
   loop voor elk criterium
     owe -> criterium : getoetst = toetst(l)

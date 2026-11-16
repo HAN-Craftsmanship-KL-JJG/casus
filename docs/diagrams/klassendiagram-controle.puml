@@ -2,7 +2,8 @@
 ' Design class diagram van ICDE: consistentieregels en dekking (UC05, UC08).
 ' Toelichting: docs/07-klassendiagram.md
 ' OWE, Leeruitkomst, Beoordelingscriterium, Les en Toetsmoment staan volledig in
-' klassendiagram-domein.puml.
+' de klassendiagrammen owe, rubric en planning.
+' De kleur van een klasse is de kleur van het diagram waarin ze volledig staat.
 skinparam style strictuml
 skinparam shadowing false
 skinparam defaultFontName Helvetica
@@ -11,45 +12,45 @@ hide empty members
 left to right direction
 skinparam nodesep 45
 
-interface Consistentieregel <<interface>> {
+interface Consistentieregel <<interface>> #E4DFEC {
   + controleer(owe : OWE) : List<Overtreding>
 }
 
-class LeeruitkomstGetoetstRegel {
+class LeeruitkomstGetoetstRegel #E4DFEC {
   + controleer(owe : OWE) : List<Overtreding>
 }
-class LesDraagtBijRegel {
+class LesDraagtBijRegel #E4DFEC {
   + controleer(owe : OWE) : List<Overtreding>
 }
-class CriteriumHeeftLesRegel {
+class CriteriumHeeftLesRegel #E4DFEC {
   + controleer(owe : OWE) : List<Overtreding>
 }
-class CriteriumBeoordeeldRegel {
+class CriteriumBeoordeeldRegel #E4DFEC {
   + controleer(owe : OWE) : List<Overtreding>
 }
-class ToetsdrukRegel {
+class ToetsdrukRegel #E4DFEC {
   - maximum : int = 3
   + controleer(owe : OWE) : List<Overtreding>
 }
 
-class Overtreding {
+class Overtreding #E4DFEC {
   - regel : String
   - melding : String
   + betreft(onderdeel : OWEOnderdeel) : boolean
 }
 
-class Dekking {
+class Dekking #E4DFEC {
   + isVolledig() : boolean
   + voegToe(andere : Dekking) : void
 }
 
-class OWE
-class Opleiding
-class Leeruitkomst
-class Beoordelingscriterium
-class Les
-class Toetsmoment
-abstract class OWEOnderdeel
+class OWE #DDEBF7
+class Opleiding #DDEBF7
+class Leeruitkomst #DDEBF7
+class Beoordelingscriterium #E2F0D9
+class Les #FFF2CC
+class Toetsmoment #FFF2CC
+abstract class OWEOnderdeel #FCE4D6
 
 Consistentieregel <|.. LeeruitkomstGetoetstRegel
 Consistentieregel <|.. LesDraagtBijRegel

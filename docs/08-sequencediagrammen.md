@@ -27,14 +27,14 @@ UC04 en UC11 hebben geen SSD: stap 2 is `geefCriteria`, stap 3 tot en met 6 de t
 
 ![SSD UC08 Opvragen dekkingsoverzicht](diagrams/ssd-uc08-opvragen-dekking.svg)
 
-`geefCriteria` geeft `owe.geefCriteria()`: de eigen en hergebruikte criteria (BR11, BR14).
+`geefCriteria` geeft `rubric.geefCriteria()`: de eigen en hergebruikte criteria (BR11, BR14).
 `geefGedeeldeOnderdelen` laat de onderdelen weg waarvoor `owe.bevat` true geeft.
 
 ## Diagrammen per use case
 
 ### UC04 Toevoegen les
 
-OWE maakt de les en controleert de week en de criteria (BR11, 4A).
+Rubric zoekt de criteria op, en Planning maakt de les en controleert de week (BR11, 4A).
 Daarna controleert LesDraagtBijRegel BR2.
 De handler geeft alleen de overtredingen van de nieuwe les terug (6A, S2).
 
@@ -58,9 +58,9 @@ BR2, BR3 en BR4 hebben de vorm van BR1, met een andere lus en vraag:
 
 | Regel | Lus over | Vraag per element |
 | --- | --- | --- |
-| BR2 LesDraagtBijRegel | `owe.geefLessen()` | `les.heeftCriteria()` |
-| BR3 CriteriumHeeftLesRegel | `owe.geefCriteria()` | `les.dekt(c)`, voor elke les |
-| BR4 CriteriumBeoordeeldRegel | `owe.geefCriteria()` | `t.beoordeelt(c)`, voor elk toetsmoment |
+| BR2 LesDraagtBijRegel | `planning.geefLessen()` | `les.heeftCriteria()` |
+| BR3 CriteriumHeeftLesRegel | `rubric.geefCriteria()` | `les.dekt(c)`, voor elke les |
+| BR4 CriteriumBeoordeeldRegel | `rubric.geefCriteria()` | `t.beoordeelt(c)`, voor elk toetsmoment |
 
 ### UC06 Genereren document
 
@@ -72,11 +72,12 @@ Documentsjabloon controleert eerst of de OWE de gegevens heeft (4A) en maakt dan
 
 OWERepository vindt alleen gedeelde onderdelen.
 Is het origineel verwijderd, dan volgt 4A.
-OWE bewaart een verwijzing, geen kopie (BR6).
+Het onderdeel kiest zelf de lijst waarin het komt (`hergebruikIn`), en daar staat een verwijzing,
+geen kopie (BR6).
 
 ![SD opnemenOnderdeel](diagrams/sd-uc07-opnemenonderdeel.svg)
 
-Een kopie (3A) loopt via de toevoegoperatie van de OWE (S3).
+Een kopie (3A) loopt via de toevoegoperatie van Planning (S3).
 
 ![SD opnemenKopie](diagrams/sd-uc07-opnemenkopie.svg)
 
@@ -89,8 +90,8 @@ De gebruikersinterface markeert elke dekking waarvoor `isVolledig()` false geeft
 
 ![SD geefDekking](diagrams/sd-uc08-geefdekking.svg)
 
-OWE kent alle leeruitkomsten, criteria, toetsmomenten en lessen, dus OWE bepaalt de dekking en
-maakt de Dekking-objecten (Information Expert, Creator).
+OWE kent via Rubric en Planning alle leeruitkomsten, criteria, toetsmomenten en lessen.
+Daarom bepaalt OWE de dekking en maakt de Dekking-objecten (Information Expert, Creator).
 
 ![SD OWE.bepaalDekking](diagrams/sd-owe-bepaaldekking.svg)
 
@@ -110,7 +111,8 @@ Alternatief: de handler controleert alle invoer.
 Dan kent de handler de regels van het domein en wordt hij een bloated controller.
 
 Keuze: het object met de gegevens controleert ze (Information Expert).
-OWE controleert de week en de criteria, Toetsmoment de volgorde van start- en deadlineweek.
+Planning controleert de week, Rubric de criteria, Toetsmoment de volgorde van start- en
+deadlineweek.
 De handler controleert alleen of er iets te doen is, zoals 2A in UC05 en UC08.
 
 ### S2 Overtreding kent haar onderdelen
@@ -131,13 +133,13 @@ Een criterium is geen OWEOnderdeel, dus Overtreding kent voor BR3 en BR4 ook `0.
 
 ### S3 Kopie via toevoegen
 
-Probleem: een kopie (UC07, 3A) moet in de lijst van haar soort, en OWE controleert de week
+Probleem: een kopie (UC07, 3A) moet in de lijst van haar soort, en Planning controleert de week
 (BR11, BR14).
 
-Alternatief: OWE of de handler vraagt de kopie en test de soort.
+Alternatief: Planning of de handler vraagt de kopie en test de soort.
 Dan vervangt een switch op de soort het Polymorphism.
 
-Keuze: `Kopieerbaar.kopieerNaar(owe)`.
-Een Les roept `owe.toevoegenLes` aan, een Toetsmoment `owe.toevoegenToetsmoment`, zonder
+Keuze: `Kopieerbaar.kopieerNaar(planning)`.
+Een Les roept `planning.toevoegenLes` aan, een Toetsmoment `planning.toevoegenToetsmoment`, zonder
 criteria.
-Zo controleert OWE de week zoals bij toevoegen.
+Zo controleert Planning de week zoals bij toevoegen.
