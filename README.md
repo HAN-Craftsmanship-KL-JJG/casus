@@ -43,6 +43,7 @@ Naast ICDE zelf gebruikt de hosting deze programma's:
 | doco-cd        | Rolt een nieuwe versie uit na een merge                                      |
 | Beszel         | Monitoring van de server en de containers, op <https://monitor.icde.nl>      |
 | Pocket ID      | Accounts en inloggen met een passkey, voor Beszel, op <https://auth.icde.nl> |
+| Dependabot     | Opent elke week een pull request met nieuwe versies                          |
 
 ## Start development
 
