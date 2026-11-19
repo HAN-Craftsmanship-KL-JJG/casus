@@ -19,10 +19,9 @@ ICDE bestaat uit vier containers, die op één server in twee omgevingen draaien
 | Documentserver            | `documentserver/` | C++, Drogon, Pandoc, Typst |
 | Database                  | `db/`             | PostgreSQL                 |
 
-Een verzoek loopt van links naar rechts door de containers.
-Het voorbeelddocument raakt ze alle vier:
-
-![Een verzoek door de vier containers](docs/diagrams/request-sequence.svg)
+De applicatieserver bestaat uit lagen.
+[docs/layers.md](docs/layers.md) legt uit welke laag welke laag mag gebruiken, en hoe de build
+dat controleert.
 
 ## Hosting
 

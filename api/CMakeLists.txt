@@ -13,6 +13,7 @@ find_package(GTest CONFIG REQUIRED)
 # One library per layer of the chapter Architectuur.
 # target_link_libraries sets which layer may use which, so a wrong #include fails the build.
 # Each library publishes only its own folder, so a layer cannot reach headers it does not link.
+# docs/layers.md explains the rules and how the build checks them.
 #
 # domein and applicatie must link no vcpkg package.
 # vcpkg puts the headers of all packages in one folder,
@@ -46,3 +47,26 @@ add_executable(icde_tests
 target_link_libraries(icde_tests PRIVATE rest datalaag GTest::gtest_main)
 include(GoogleTest)
 gtest_discover_tests(icde_tests)
+
+# Two checks that keep the layer rules above enforced. docs/layers.md explains them.
+#
+# 1. domein and applicatie link only what the rules allow.
+get_target_property(domein_links domein LINK_LIBRARIES)
+if(domein_links)
+    message(FATAL_ERROR "domein may link nothing, but links: ${domein_links}")
+endif()
+get_target_property(applicatie_links applicatie LINK_LIBRARIES)
+if(NOT applicatie_links STREQUAL "domein")
+    message(FATAL_ERROR "applicatie may link only domein, but links: ${applicatie_links}")
+endif()
+
+# 2. No include with ../ in it.
+# The compiler looks in the folder of the file first, so "../datalaag/X.hpp" would reach a
+# header of another layer and skip the include folders.
+file(GLOB_RECURSE own_files CONFIGURE_DEPENDS src/*.hpp src/*.cpp tests/*.hpp tests/*.cpp)
+foreach(own_file IN LISTS own_files)
+    file(STRINGS "${own_file}" relative_includes REGEX "#[ \t]*include[ \t]*[\"<][.][.]/")
+    if(relative_includes)
+        message(FATAL_ERROR "${own_file}: include a header by its name, without ../")
+    endif()
+endforeach()

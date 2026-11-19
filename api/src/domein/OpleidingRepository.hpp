@@ -11,6 +11,7 @@ namespace icde::domein {
 // So the datalaag depends on the domein, not the other way round.
 class OpleidingRepository {
 public:
+    // An interface is never copied or moved, only used through a reference.
     OpleidingRepository() = default;
     OpleidingRepository(const OpleidingRepository&) = delete;
     OpleidingRepository& operator=(const OpleidingRepository&) = delete;
