@@ -43,33 +43,9 @@ It starts the server and registers the routes.
 Later, it will also give the repositories to the handlers.
 Put no business rules in this file.
 
-## Where to put a new class
-
-1. Find the layer of the class in the table above.
-2. Put the class in the folder of that layer.
-3. Use the namespace of that layer, for example `icde::domein`.
-4. Give the class its own `.hpp` file and `.cpp` file.
-   Use the class name as the file name, for example `Opleiding.hpp` and `Opleiding.cpp`.
-   An interface has only a `.hpp` file.
-5. Put the test in `api/tests/<layer>/`.
-   Use the class name and `Test` as the file name, for example `OpleidingTest.cpp`.
-6. Add the `.cpp` files to `api/CMakeLists.txt`.
-
 ## How the build checks the rules
 
 `api/CMakeLists.txt` has all the checks.
-The build does them in this sequence:
-
-```mermaid
-flowchart TD
-    start[cmake --preset release] --> relative{An include with ../ ?}
-    relative -- yes --> stop1[Stop: CMake error]
-    relative -- no --> links{domein or applicatie links a package?}
-    links -- yes --> stop2[Stop: CMake error]
-    links -- no --> compile{A header from a layer that is not linked?}
-    compile -- yes --> stop3[Stop: file not found]
-    compile -- no --> ok[The build continues]
-```
 
 ### Each layer is a library
 
