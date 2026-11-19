@@ -107,17 +107,3 @@ Look for them when you review code.
 - `rest` links Drogon, and Drogon can send SQL to the database.
   An endpoint must not send SQL.
   Only the `datalaag` reads and writes the database.
-
-## Do the test yourself
-
-1. Go to the root folder of the repository.
-2. Build the API:
-
-   ```sh
-   docker build api
-   ```
-
-3. Add `#include <drogon/drogon.h>` to `api/src/domein/Opleiding.cpp`.
-4. Build the API again.
-   The build stops with the error `'drogon/drogon.h' file not found`.
-5. Remove the include.
