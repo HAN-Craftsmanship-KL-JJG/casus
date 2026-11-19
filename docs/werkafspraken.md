@@ -1,6 +1,23 @@
 # Working agreements
 
 How the team handles commits, branches, issues, pull requests and updates.
+## C++ code conventions
+
+1. Name each file after its class, as in the course examples: Opleiding.hpp, Opleiding.cpp, OpleidingTest.cpp.
+Rename the existing files.
+
+2. One .hpp and one .cpp file per class. An interface has only a .hpp file.
+
+3. Write std:: in full. No using namespace in a header.
+
+4. Plain [[nodiscard]] on queries. Add a reason only when ignoring the result causes a bug that the name does not show.
+
+5. An interface has only a virtual destructor, with the clang-tidy option AllowSoleDefaultDtor.
+
+6. Add a short "Where to put a new class" section to docs/layers.md.
+
+## Pull requests during fysical meetings
+When a pull request is created with a small update which everyone already saw, it is not required to request review before merging.
 
 ## Commit messages
 
