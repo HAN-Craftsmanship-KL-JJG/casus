@@ -24,6 +24,11 @@ auth.icde.nl {
 	reverse_proxy pocket-id:1411
 }
 
+# pgAdmin. It asks for a login through Pocket ID.
+db.icde.nl {
+	reverse_proxy pgadmin:8080
+}
+
 # doco-cd: only the webhook path is public.
 deploy.icde.nl {
 	handle /v1/webhook* {

@@ -1,0 +1,30 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "icde-prd",
+      "Group": "ICDE",
+      "Host": "icde-prd-db",
+      "Port": 5432,
+      "MaintenanceDB": "icde",
+      "Username": "icde",
+      "Shared": true,
+      "SharedUsername": "icde",
+      "ConnectionParameters": {
+        "sslmode": "disable"
+      }
+    },
+    "2": {
+      "Name": "icde-dev",
+      "Group": "ICDE",
+      "Host": "icde-dev-db",
+      "Port": 5432,
+      "MaintenanceDB": "icde",
+      "Username": "icde",
+      "Shared": true,
+      "SharedUsername": "icde",
+      "ConnectionParameters": {
+        "sslmode": "disable"
+      }
+    }
+  }
+}
