@@ -16,6 +16,9 @@ Rename the existing files.
 
 6. Add a short "Where to put a new class" section to docs/layers.md.
 
+## Pull requests during fysical meetings
+When a pull request is created with a small update which everyone already saw, it is not required to request review before merging.
+
 ## Commit messages
 
 Use [Conventional Commits](https://www.conventionalcommits.org/): `type(scope): subject`.
