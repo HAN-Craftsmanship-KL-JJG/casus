@@ -32,7 +32,7 @@ Git flow needs the merge commits, so `main` and `develop` keep a shared history.
 Versions follow [Semantic Versioning](https://semver.org/).
 
 1. Start `release/<version>` from `develop`.
-2. Set the version in `api/CMakeLists.txt`, `api/vcpkg.json`, `api/tests/rest/status_test.cpp`,
+2. Set the version in `api/CMakeLists.txt`, `api/vcpkg.json`, `api/tests/rest/StatusTest.cpp`,
    `documentserver/CMakeLists.txt`, `documentserver/vcpkg.json` and `web/package.json`.
    Run `npm install` in `web/` to update `web/package-lock.json`.
 3. Open a pull request to `main` and one to `develop`.

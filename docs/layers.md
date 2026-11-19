@@ -1,50 +1,89 @@
 # Layers of the API
 
-The API in `api/` follows the layers of the chapter Architectuur in the design document.
-Each layer may use only the layers below it.
-The domein then knows nothing about the database or HTTP.
-You can test it without a database, and change the database without touching the domein.
+The API in `api/` has four layers.
+The chapter Architectuur in the design document gives these layers.
+A layer can use only the layers below it.
+
+Example: the domein does not know about the database.
+Because of this, you can test the domein without a database.
+You can also change the database and keep the domein as it is.
 
 The build checks these rules.
-A wrong dependency between layers stops the build, so nobody breaks the rules by accident.
-This file explains how.
+If code breaks a rule, the build stops with an error.
 
 ## The layers
 
-| Layer | Folder | Contains | May use |
+| Layer | Folder | Contents | Can use |
 | --- | --- | --- | --- |
-| `domein` | `api/src/domein/` | Domain classes, business rules, repository interfaces | nothing |
-| `applicatie` | `api/src/applicatie/` | The handlers, one per use case | `domein` |
-| `datalaag` | `api/src/datalaag/` | The repositories that talk to PostgreSQL | `domein`, Drogon |
-| `rest` | `api/src/rest/` | The REST endpoints | `applicatie`, Drogon, JsonCpp |
+| `domein` | `api/src/domein/` | Domain classes, business rules, repository interfaces | Nothing |
+| `applicatie` | `api/src/applicatie/` | Handlers, one for each use case | `domein` |
+| `datalaag` | `api/src/datalaag/` | Repositories for PostgreSQL | `domein`, Drogon |
+| `rest` | `api/src/rest/` | REST endpoints | `applicatie`, Drogon, JsonCpp |
 
-The repository interfaces belong to the `domein`, and the `datalaag` implements them.
-So the `datalaag` depends on the `domein`, not the other way round
-(Dependency Inversion Principle).
+An arrow in this graph means "uses":
 
-`api/src/main.cpp` is the only file that knows both `rest` and `datalaag`.
-It creates the repositories and hands them to the handlers.
-It contains no logic.
+```mermaid
+flowchart TD
+    main[main.cpp] --> rest
+    main --> datalaag
+    rest --> applicatie
+    applicatie --> domein
+    datalaag --> domein
+    rest --> drogon[(Drogon)]
+    datalaag --> drogon
+```
 
-The namespaces follow the folders, such as `icde::domein`.
-The tests follow them too, in `api/tests/<layer>/`.
+The domein has the repository interfaces.
+The datalaag has the classes that implement these interfaces.
+Thus the arrow goes from the datalaag to the domein, not from the domein to the datalaag.
+This is the Dependency Inversion Principle.
+
+`api/src/main.cpp` is the only file that knows `rest` and `datalaag`.
+It starts the server and registers the routes.
+Later, it will also give the repositories to the handlers.
+Put no business rules in this file.
+
+## Where to put a new class
+
+1. Find the layer of the class in the table above.
+2. Put the class in the folder of that layer.
+3. Use the namespace of that layer, for example `icde::domein`.
+4. Give the class its own `.hpp` file and `.cpp` file.
+   Use the class name as the file name, for example `Opleiding.hpp` and `Opleiding.cpp`.
+   An interface has only a `.hpp` file.
+5. Put the test in `api/tests/<layer>/`.
+   Use the class name and `Test` as the file name, for example `OpleidingTest.cpp`.
+6. Add the `.cpp` files to `api/CMakeLists.txt`.
 
 ## How the build checks the rules
 
-`api/CMakeLists.txt` does all of this.
+`api/CMakeLists.txt` has all the checks.
+The build does them in this sequence:
 
-### One library per layer
+```mermaid
+flowchart TD
+    start[cmake --preset release] --> relative{An include with ../ ?}
+    relative -- yes --> stop1[Stop: CMake error]
+    relative -- no --> links{domein or applicatie links a package?}
+    links -- yes --> stop2[Stop: CMake error]
+    links -- no --> compile{A header from a layer that is not linked?}
+    compile -- yes --> stop3[Stop: file not found]
+    compile -- no --> ok[The build continues]
+```
 
-Each layer is its own CMake library.
-`target_link_libraries` lists the layers and packages it may use, and nothing else.
+### Each layer is a library
 
-### Each layer sees only the headers it may use
+Each layer is a library in CMake.
+`target_link_libraries` gives the layers and packages that a library can use.
 
-Each library publishes only its own folder as include folder, such as `src/domein` for `domein`.
-A library sees its own folder and the folders of the libraries it links.
-`applicatie` links `domein`, so it sees `src/applicatie` and `src/domein`, and not `src/datalaag`.
+### A layer sees only the headers that it can use
 
-A wrong include then fails to compile:
+Each library shows only its own folder to the compiler.
+A library also sees the folders of the libraries that it links.
+Example: `applicatie` links `domein`.
+`applicatie` therefore sees `src/applicatie` and `src/domein`, but not `src/datalaag`.
+
+If you include a header from `datalaag` in `applicatie`, the compiler does not find it:
 
 ```text
 src/applicatie/OpleidingHandler.cpp:2:10: fatal error: 'MockOpleidingRepository.hpp' file not found
@@ -52,10 +91,10 @@ src/applicatie/OpleidingHandler.cpp:2:10: fatal error: 'MockOpleidingRepository.
 
 ### No include with ../
 
-The compiler looks in the folder of the current file first.
-`#include "../datalaag/MockOpleidingRepository.hpp"` would reach another layer and skip the
-include folders.
-CMake reads every file in `src/` and `tests/` and stops on any include with `../`:
+For an include in quotes, the compiler looks first in the folder of the current file.
+Thus `#include "../datalaag/MockOpleidingRepository.hpp"` finds the header of a different layer.
+To stop this, CMake reads all files in `src/` and `tests/`.
+If a file has an include with `../`, CMake stops:
 
 ```text
 CMake Error at CMakeLists.txt:70 (message):
@@ -66,15 +105,16 @@ CMake Error at CMakeLists.txt:70 (message):
 ### domein and applicatie link no packages
 
 vcpkg puts the headers of all packages in one folder.
-As soon as `domein` links one package, the Drogon headers in that folder are reachable too.
-CMake therefore stops when `domein` links anything, or `applicatie` links anything but `domein`.
+If `domein` links one package, it also sees the Drogon headers in that folder.
+Thus CMake stops if `domein` links a package.
+CMake also stops if `applicatie` links something other than `domein`:
 
 ```text
 CMake Error at CMakeLists.txt:60 (message):
   applicatie may link only domein, but links: domein;JsonCpp::JsonCpp
 ```
 
-Without packages, a Drogon header in the `domein` fails to compile:
+Because `domein` links no package, a Drogon header in `domein` gives an error:
 
 ```text
 src/domein/Opleiding.cpp:2:10: fatal error: 'drogon/drogon.h' file not found
@@ -82,24 +122,26 @@ src/domein/Opleiding.cpp:2:10: fatal error: 'drogon/drogon.h' file not found
 
 ## What the build does not check
 
-Code review has to catch these.
+The build cannot find these two errors.
+Look for them when you review code.
 
-- `rest` sees the headers of `domein`.
-  The handlers return domain objects, so `rest` needs them.
-  An endpoint must still go through a handler and never call a repository itself.
-- `rest` links Drogon, and Drogon contains the database client.
-  An endpoint must never run SQL itself.
-  Only the `datalaag` talks to the database.
+- `rest` sees the headers of `domein`, because the handlers return domain objects.
+  An endpoint must call a handler.
+  It must not call a repository.
+- `rest` links Drogon, and Drogon can send SQL to the database.
+  An endpoint must not send SQL.
+  Only the `datalaag` reads and writes the database.
 
-## Try it yourself
+## Do the test yourself
 
-Build the API from the root of the repository:
+1. Go to the root folder of the repository.
+2. Build the API:
 
-```sh
-docker build api
-```
+   ```sh
+   docker build api
+   ```
 
-Then break a rule and build again.
-For example, add `#include <drogon/drogon.h>` to `api/src/domein/Opleiding.cpp`.
-The build stops with one of the errors above.
-Undo the change afterwards.
+3. Add `#include <drogon/drogon.h>` to `api/src/domein/Opleiding.cpp`.
+4. Build the API again.
+   The build stops with the error `'drogon/drogon.h' file not found`.
+5. Remove the include.

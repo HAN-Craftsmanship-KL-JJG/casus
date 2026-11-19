@@ -30,7 +30,7 @@ add_library(datalaag src/datalaag/MockOpleidingRepository.cpp)
 target_include_directories(datalaag PUBLIC src/datalaag)
 target_link_libraries(datalaag PUBLIC domein PRIVATE Drogon::Drogon)
 
-add_library(rest src/rest/status.cpp)
+add_library(rest src/rest/Status.cpp)
 target_include_directories(rest PUBLIC src/rest)
 target_compile_definitions(rest PRIVATE ICDE_VERSION="${PROJECT_VERSION}")
 target_link_libraries(rest PUBLIC applicatie JsonCpp::JsonCpp PRIVATE Drogon::Drogon)
@@ -41,9 +41,9 @@ target_link_libraries(icde-api PRIVATE rest datalaag Drogon::Drogon)
 
 enable_testing()
 add_executable(icde_tests
-    tests/domein/opleiding_test.cpp
-    tests/applicatie/opleiding_handler_test.cpp
-    tests/rest/status_test.cpp)
+    tests/domein/OpleidingTest.cpp
+    tests/applicatie/OpleidingHandlerTest.cpp
+    tests/rest/StatusTest.cpp)
 target_link_libraries(icde_tests PRIVATE rest datalaag GTest::gtest_main)
 include(GoogleTest)
 gtest_discover_tests(icde_tests)
