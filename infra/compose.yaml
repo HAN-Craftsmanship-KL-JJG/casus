@@ -177,7 +177,66 @@ services:
     networks:
       - proxy
 
-  # Connects Beszel to Pocket ID at every start, see setup.sh.
+  # Database management for prd and dev, on db.icde.nl.
+  # Users log in through Pocket ID.
+  pgadmin:
+    image: dpage/pgadmin4:9.19.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/misc/ping"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512m
+    environment:
+      # Port 80 needs a capability that cap_drop removes.
+      PGADMIN_LISTEN_PORT: "8080"
+      # Postfix starts with sudo, which no-new-privileges blocks. pgAdmin sends no mail.
+      PGADMIN_DISABLE_POSTFIX: "true"
+      # The admin account owns the servers from pgadmin-servers.json.
+      # It cannot log in: only the login through Pocket ID is on.
+      PGADMIN_DEFAULT_EMAIL: admin@icde.nl
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_ADMIN_PASSWORD:?Set PGADMIN_ADMIN_PASSWORD in .env}
+      # Each PGADMIN_CONFIG_ value is a Python value.
+      # The proxy passes the original scheme and host, for the address back from Pocket ID.
+      PGADMIN_CONFIG_PROXY_X_PROTO_COUNT: "1"
+      PGADMIN_CONFIG_PROXY_X_HOST_COUNT: "1"
+      PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2']"
+      # A first login through Pocket ID makes an account.
+      PGADMIN_CONFIG_OAUTH2_AUTO_CREATE_USER: "True"
+      PGADMIN_CONFIG_OAUTH2_CONFIG: |
+        [{
+          'OAUTH2_NAME': 'pocketid',
+          'OAUTH2_DISPLAY_NAME': 'Pocket ID',
+          'OAUTH2_CLIENT_ID': 'pgadmin',
+          'OAUTH2_CLIENT_SECRET': '${PGADMIN_OIDC_SECRET:?Set PGADMIN_OIDC_SECRET in .env}',
+          'OAUTH2_TOKEN_URL': 'https://auth.icde.nl/api/oidc/token',
+          'OAUTH2_AUTHORIZATION_URL': 'https://auth.icde.nl/authorize',
+          'OAUTH2_API_BASE_URL': 'https://auth.icde.nl',
+          'OAUTH2_USERINFO_ENDPOINT': 'https://auth.icde.nl/api/oidc/userinfo',
+          'OAUTH2_SERVER_METADATA_URL': 'https://auth.icde.nl/.well-known/openid-configuration',
+          'OAUTH2_SCOPE': 'openid email profile',
+          'OAUTH2_ICON': 'fa-openid',
+          'OAUTH2_BUTTON_COLOR': '#fd4b2d'
+        }]
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ./pgadmin-servers.json:/pgadmin4/servers.json:ro
+    depends_on:
+      - pocket-id
+    networks:
+      - proxy
+      - database
+
+  # Connects Beszel and pgAdmin to Pocket ID at every start, see setup.sh.
   setup:
     image: curlimages/curl:8.11.1
     restart: "no"
@@ -196,6 +255,7 @@ services:
       BESZEL_ADMIN_EMAIL: admin@icde.nl
       BESZEL_ADMIN_PASSWORD: ${BESZEL_ADMIN_PASSWORD:?Set BESZEL_ADMIN_PASSWORD in .env}
       BESZEL_OIDC_SECRET: ${BESZEL_OIDC_SECRET:?Set BESZEL_OIDC_SECRET in .env}
+      PGADMIN_OIDC_SECRET: ${PGADMIN_OIDC_SECRET:?Set PGADMIN_OIDC_SECRET in .env}
     volumes:
       - ./setup.sh:/setup.sh:ro
       - beszel-key:/key
@@ -209,6 +269,9 @@ networks:
   # The ICDE stacks join this network.
   proxy:
     name: proxy
+  # pgAdmin reaches the databases of icde-prd and icde-dev on this network.
+  database:
+    name: database
 
 volumes:
   caddy-data:
@@ -219,3 +282,4 @@ volumes:
   beszel-agent-data:
   beszel-key:
   pocket-id-data:
+  pgadmin-data:

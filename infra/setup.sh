@@ -1,12 +1,13 @@
 #!/bin/sh
-# Connects Beszel to Pocket ID.
+# Connects Beszel and pgAdmin to Pocket ID.
 # Safe to run again: it skips what is already in place.
 set -eu
 
 POCKET_ID=http://pocket-id:1411
 BESZEL=http://beszel:8090
 PUBLIC_POCKET_ID=https://auth.icde.nl
-REDIRECT=https://monitor.icde.nl/api/oauth2-redirect
+BESZEL_REDIRECT=https://monitor.icde.nl/api/oauth2-redirect
+PGADMIN_REDIRECT=https://db.icde.nl/oauth2/authorize
 SOCKET=/beszel_socket/beszel.sock
 
 # Reads one text field from a JSON answer.
@@ -25,26 +26,32 @@ do
 	sleep 2
 done
 
-# Pocket ID: register Beszel as a client, with the secret from .env.
-status=$(json --output /dev/null --write-out '%{http_code}' \
-	--header "X-API-KEY: $POCKET_ID_API_KEY" --request POST "$POCKET_ID/api/oidc/clients" \
-	--data "{\"id\":\"beszel\",\"name\":\"Beszel\",\"callbackURLs\":[\"$REDIRECT\"]}")
-case "$status" in
-201)
-	json --fail --output /dev/null \
-		--header "X-API-KEY: $POCKET_ID_API_KEY" \
-		--request POST "$POCKET_ID/api/oidc/clients/beszel/secrets" \
-		--data "{\"secret\":\"$BESZEL_OIDC_SECRET\"}"
-	echo 'Pocket ID: client beszel made.'
-	;;
-409)
-	echo 'Pocket ID: client beszel is already there.'
-	;;
-*)
-	echo "Pocket ID: making the client failed with status $status." >&2
-	exit 1
-	;;
-esac
+# Pocket ID: register a client, with its secret from .env.
+# Arguments: id, name, callback address, secret.
+client() {
+	status=$(json --output /dev/null --write-out '%{http_code}' \
+		--header "X-API-KEY: $POCKET_ID_API_KEY" --request POST "$POCKET_ID/api/oidc/clients" \
+		--data "{\"id\":\"$1\",\"name\":\"$2\",\"callbackURLs\":[\"$3\"]}")
+	case "$status" in
+	201)
+		json --fail --output /dev/null \
+			--header "X-API-KEY: $POCKET_ID_API_KEY" \
+			--request POST "$POCKET_ID/api/oidc/clients/$1/secrets" \
+			--data "{\"secret\":\"$4\"}"
+		echo "Pocket ID: client $1 made."
+		;;
+	409)
+		echo "Pocket ID: client $1 is already there."
+		;;
+	*)
+		echo "Pocket ID: making the client $1 failed with status $status." >&2
+		exit 1
+		;;
+	esac
+}
+
+client beszel Beszel "$BESZEL_REDIRECT" "$BESZEL_OIDC_SECRET"
+client pgadmin pgAdmin "$PGADMIN_REDIRECT" "$PGADMIN_OIDC_SECRET"
 
 # Pocket ID: mark every email address as verified.
 # Beszel refuses an unverified address, and there is no mail server to verify one.

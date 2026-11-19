@@ -19,7 +19,7 @@ doco-cd deploys all three.
 | --- | --- | --- |
 | `icde-prd` | Web server, application server, document server, database | `main` |
 | `icde-dev` | The same four, with their own database | `develop` |
-| `infra` | Proxy (Caddy), doco-cd, Beszel, Pocket ID | `main` |
+| `infra` | Proxy (Caddy), doco-cd, Beszel, Pocket ID, pgAdmin | `main` |
 
 Only the proxy is open to the internet.
 It gets the certificates and passes each name to the right container.

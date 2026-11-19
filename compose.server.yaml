@@ -103,9 +103,18 @@ services:
         limits:
           cpus: "0.5"
           memory: 512m
+    networks:
+      default:
+      database:
+        aliases:
+          # pgAdmin finds the database by this name.
+          - ${COMPOSE_PROJECT_NAME}-db
 
 networks:
   proxy:
+    external: true
+  # Made by infra.
+  database:
     external: true
 
 volumes:

@@ -17,6 +17,7 @@ node Server {
   node "infra" as infra {
     artifact Beszel as beszel
     artifact "Pocket ID" as pocket
+    artifact pgAdmin as pgadmin
     artifact "doco-cd" as dococd
   }
 }
@@ -26,5 +27,6 @@ proxy --> prdweb : icde.nl, prd.icde.nl
 proxy --> devweb : dev.icde.nl
 proxy --> beszel : monitor.icde.nl
 proxy --> pocket : auth.icde.nl
+proxy --> pgadmin : db.icde.nl
 proxy --> dococd : deploy.icde.nl, webhook only
 @enduml
