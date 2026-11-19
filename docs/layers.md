@@ -62,13 +62,13 @@ Example: `applicatie` links `domein`.
 If you include a header from `datalaag` in `applicatie`, the compiler does not find it:
 
 ```text
-src/applicatie/OpleidingHandler.cpp:2:10: fatal error: 'MockOpleidingRepository.hpp' file not found
+src/applicatie/OpleidingHandler.cpp:2:10: fatal error: 'PostgresOpleidingRepository.hpp' file not found
 ```
 
 ### No include with ../
 
 For an include in quotes, the compiler looks first in the folder of the current file.
-Thus `#include "../datalaag/MockOpleidingRepository.hpp"` finds the header of a different layer.
+Thus `#include "../datalaag/PostgresOpleidingRepository.hpp"` finds the header of a different layer.
 To stop this, CMake reads all files in `src/` and `tests/`.
 If a file has an include with `../`, CMake stops:
 

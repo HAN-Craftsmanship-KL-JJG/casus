@@ -3,7 +3,7 @@
 #include <functional>
 #include <iostream>
 
-#include "MockOpleidingRepository.hpp"
+#include "PostgresOpleidingRepository.hpp"
 #include "OpleidingHandler.hpp"
 #include "status.hpp"
 
@@ -23,7 +23,7 @@ int main() {
     drogon::app().registerHandler("/api/status", &status, {drogon::Get});
 
     // Mock: one call through the layers at startup, so the log shows them work together.
-    const icde::datalaag::MockOpleidingRepository opleidingen;
+    const icde::datalaag::PostgresOpleidingRepository opleidingen;
     const icde::applicatie::OpleidingHandler handler{opleidingen};
     if (const auto opleiding = handler.geefOpleiding("HBO-ICT")) {
         std::cout << "main: found Opleiding " << opleiding->naam() << std::endl;

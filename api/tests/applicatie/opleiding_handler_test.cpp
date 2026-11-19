@@ -2,10 +2,10 @@
 
 #include <gtest/gtest.h>
 
-#include "MockOpleidingRepository.hpp"
+#include "PostgresOpleidingRepository.hpp"
 
 TEST(OpleidingHandlerTest, FindsAKnownOpleiding) {
-    const icde::datalaag::MockOpleidingRepository opleidingen;
+    const icde::datalaag::PostgresOpleidingRepository opleidingen;
     const icde::applicatie::OpleidingHandler handler{opleidingen};
 
     const auto opleiding = handler.geefOpleiding("HBO-ICT");
@@ -15,7 +15,7 @@ TEST(OpleidingHandlerTest, FindsAKnownOpleiding) {
 }
 
 TEST(OpleidingHandlerTest, FindsNoUnknownOpleiding) {
-    const icde::datalaag::MockOpleidingRepository opleidingen;
+    const icde::datalaag::PostgresOpleidingRepository opleidingen;
     const icde::applicatie::OpleidingHandler handler{opleidingen};
 
     EXPECT_FALSE(handler.geefOpleiding("Onbekend").has_value());

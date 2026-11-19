@@ -8,9 +8,9 @@
 
 namespace icde::datalaag {
 
-// Mock repository with one fixed opleiding instead of a database.
-// A repository that uses PostgreSQL replaces it.
-class MockOpleidingRepository : public domein::OpleidingRepository {
+// The OpleidingRepository that reads PostgreSQL.
+// For now it gives one fixed opleiding. #80 replaces this with a query.
+class PostgresOpleidingRepository : public domein::OpleidingRepository {
 public:
     [[nodiscard]] std::optional<domein::Opleiding> zoek(const std::string& naam) const override;
 };

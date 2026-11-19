@@ -26,7 +26,7 @@ add_library(applicatie src/applicatie/OpleidingHandler.cpp)
 target_include_directories(applicatie PUBLIC src/applicatie)
 target_link_libraries(applicatie PUBLIC domein)
 
-add_library(datalaag src/datalaag/MockOpleidingRepository.cpp)
+add_library(datalaag src/datalaag/PostgresOpleidingRepository.cpp)
 target_include_directories(datalaag PUBLIC src/datalaag)
 target_link_libraries(datalaag PUBLIC domein PRIVATE Drogon::Drogon)
 
