@@ -272,6 +272,12 @@ Alternatieven:
 - Een versienummer op de hele OWE.
   Dit weigert ook wijzigingen aan verschillende velden.
 
+PostgreSQL gebruikt Multi-Version Concurrency Control (MVCC).
+Bij het standaardisolatieniveau READ COMMITTED ziet elke leesopdracht een momentopname van de
+vastgelegde gegevens bij het begin van die opdracht.
+MVCC herkent niet automatisch dat invoer uit de gebruikersinterface op oudere gegevens berust.
+Daarom controleert de UPDATE-opdracht ook de oorspronkelijke veldwaarde.
+
 Keuze: controleer bij elke veldwijziging de oorspronkelijke waarde in PostgreSQL.
 De applicatie stuurt alleen het gewijzigde veld met de oorspronkelijke en nieuwe waarde mee.
 De datalaag voert de controle en de wijziging uit in één UPDATE-opdracht.
