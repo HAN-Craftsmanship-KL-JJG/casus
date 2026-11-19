@@ -23,8 +23,8 @@ Het component diagram toont de lagen en de interfaces ertussen.
 
 - Systeemoperaties zijn de operaties van de handlers.
   Het zijn de systeemoperaties uit de system sequence diagrams.
-- Repositories zijn de interfaces OWERepository, OpleidingRepository,
-  DocumentsjabloonRepository en VergrendelingRepository.
+- Repositories zijn de interfaces OWERepository, OpleidingRepository en
+  DocumentsjabloonRepository.
   Ze horen bij het domein, en de datalaag implementeert ze (K2).
   De datalaag hangt dus af van het domein, niet andersom.
 - Documentomzetter is een interface van het domein, en de documentmaker biedt haar aan (A2, K5).

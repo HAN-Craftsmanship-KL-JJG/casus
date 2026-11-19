@@ -109,8 +109,8 @@ Alternatieven:
 - Statische zoekoperaties, zoals OWE.zoek(code).
   Dan kent elke domeinklasse de database, en is ze moeilijk te testen.
 
-Keuze: een repository-interface per ingang: OWERepository, OpleidingRepository,
-DocumentsjabloonRepository en VergrendelingRepository.
+Keuze: een repository-interface per ingang: OWERepository, OpleidingRepository en
+DocumentsjabloonRepository.
 De interface hoort bij het domein, de implementatie bij de datalaag.
 Zo hangt het domein niet af van de database (Dependency Inversion Principle).
 Het data source pattern volgt in blok 2.
@@ -259,31 +259,34 @@ Gevolgen:
 - De private operatie Planning.controleerWeek controleert onderwijsweek, startweek en
   deadlineweek (BR11, BR14).
 
-### K8 Een vergrendeling per invoerveld
+### K8 Conflicterende veldwijzigingen weigeren
 
-Probleem: twee ontwikkelaars wijzigen tegelijk dezelfde OWE.
-De opdrachtgever wil dat een invoerveld geblokkeerd is zolang iemand het wijzigt.
-De rest van de OWE blijft bewerkbaar.
+Probleem: twee ontwikkelaars wijzigen hetzelfde veld van dezelfde OWE.
+Zonder controle kan de tweede wijziging de eerste overschrijven.
+Wijzigingen aan verschillende velden moeten wel mogelijk blijven.
 
 Alternatieven:
 
-- Een versienummer op OWE, en bewaar weigert een oude versie.
-  Het conflict blijkt pas bij opslaan, en het werk van de tweede ontwikkelaar is verloren.
-- De hele OWE vergrendelen.
-  De tweede ontwikkelaar wacht dan, ook bij een ander veld.
+- Een vergrendeling per veld.
+  Deze vraagt om vrijgave of een vervaltijd wanneer iemand de applicatie verlaat.
+- Een versienummer op de hele OWE.
+  Dit weigert ook wijzigingen aan verschillende velden.
 
-Keuze: een Vergrendeling per veld.
+Keuze: controleer bij elke veldwijziging de oorspronkelijke waarde in PostgreSQL.
+De applicatie stuurt alleen het gewijzigde veld met de oorspronkelijke en nieuwe waarde mee.
+De datalaag voert de controle en de wijziging uit in één UPDATE-opdracht.
+De WHERE-voorwaarde vergelijkt de opgeslagen waarde met de oorspronkelijke waarde via
+IS NOT DISTINCT FROM, zodat de vergelijking ook werkt bij NULL.
 
-- Gaat een ontwikkelaar een veld in, dan roept de gebruikersinterface
-  VergrendelVeldHandler.vergrendel aan.
-  Heeft een ander het veld al, dan geeft vergrendel false, en blijft het veld geblokkeerd.
-- Invoer gaat real-time naar de backend, dus er is geen stap opslaan.
-  Verlaat de ontwikkelaar het veld, dan volgt ontgrendel.
-- onderdeelId is leeg voor een veld van de OWE zelf.
-- De handler haalt de ingelogde gebruiker uit de sessie, niet uit een parameter.
-  Zo kan een client geen veld van een ander ontgrendelen.
+- Als één rij wordt bijgewerkt, is de wijziging opgeslagen.
+- Als geen rij wordt bijgewerkt, kan het veld inmiddels gewijzigd of het record verwijderd zijn.
+  De applicatie meldt dit en bewaart de eigen invoer voor vergelijking met de nieuwste gegevens.
+- Wijzigingen aan andere velden blijven mogelijk, omdat alleen het gewijzigde veld wordt bewaard.
+- De controle vergelijkt waarden en detecteert geen wijziging die daarna is teruggedraaid naar
+  de oorspronkelijke waarde.
 
-VergrendelVeldHandler is een eigen handler, omdat elke wijzig-use case hem gebruikt.
+De repository-implementatie voert deze controle uit, zonder aparte vergrendelingsklassen.
+
 
 ### K9 OWE splitsen in Rubric en Planning
 

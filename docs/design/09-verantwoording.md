@@ -11,7 +11,7 @@ Deze tabel doet dat voor de eisen uit de casus en de wensen van de opdrachtgever
 
 | Eis | Ontwerp | Status |
 | --- | --- | --- |
-| Samenwerken zonder versieconflicten | Vergrendeling (K8) | Ontworpen |
+| Samenwerken zonder versieconflicten | Veldwaardecontrole in PostgreSQL (K8) | Ontworpen |
 | Scheiding van inhoud en vorm | Documentsjabloon, Documentomzetter (K5), UC10 | Ontworpen |
 | Document als PDF of Word, geheel of deels | Bestandstype, onderdelen (UC06), A2 | Ontworpen |
 | EVL-beschrijving en toetsplanning | SoortDocument, zie onder | Ontworpen |
@@ -47,7 +47,8 @@ Elke klasse en operatie dient een use case, regel of eis.
 - Elk sequence diagram gebruikt alleen operaties en associaties uit het klassendiagram, met
   getters en constructors als uitzondering.
 - Handlers en repositories dienen de systeemoperaties.
-  Overtreding en Dekking dienen UC05 en UC08, Vergrendeling dient het samenwerken.
+  Overtreding en Dekking dienen UC05 en UC08.
+  De datalaag weigert conflicterende veldwijzigingen via PostgreSQL (K8).
 - Elke exceptional flow van de uitgewerkte use cases geeft een OngeldigeInvoerException.
 
 ### Inconsistenties
@@ -60,7 +61,6 @@ Probleem: elke use case eist een ingelogde gebruiker, en ICDE regelt het inlogge
 Onderwijsontwikkelaar en opleidingscoördinator zijn aparte rollen.
 UC08 en UC09 zijn alleen voor de opleidingscoördinator, UC10 alleen voor de functioneel beheerder.
 Het ontwerp kent geen gebruiker of rol.
-Alleen VergrendelVeldHandler haalt de gebruiker uit de sessie (K8).
 
 Alternatief: elke systeemoperatie krijgt de gebruiker als parameter.
 Dan kan een client zich voordoen als een andere gebruiker.
