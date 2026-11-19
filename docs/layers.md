@@ -40,7 +40,7 @@ This is the Dependency Inversion Principle.
 
 `api/src/main.cpp` is the only file that knows `rest` and `datalaag`.
 It starts the server and registers the routes.
-Later, it will also give the repositories to the handlers.
+It also gives the repositories to the handlers.
 Put no business rules in this file.
 
 ## How the build checks the rules

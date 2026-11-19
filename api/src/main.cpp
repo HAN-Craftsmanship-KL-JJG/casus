@@ -1,7 +1,10 @@
 #include <drogon/drogon.h>
 
 #include <functional>
+#include <iostream>
 
+#include "MockOpleidingRepository.hpp"
+#include "OpleidingHandler.hpp"
 #include "status.hpp"
 
 namespace {
@@ -18,6 +21,13 @@ void status(const drogon::HttpRequestPtr&, Callback&& callback) {
 // Here the use cases will create the repositories and hand them to the handlers.
 int main() {
     drogon::app().registerHandler("/api/status", &status, {drogon::Get});
+
+    // Mock: one call through the layers at startup, so the log shows them work together.
+    const icde::datalaag::MockOpleidingRepository opleidingen;
+    const icde::applicatie::OpleidingHandler handler{opleidingen};
+    if (const auto opleiding = handler.geefOpleiding("HBO-ICT")) {
+        std::cout << "main: found Opleiding " << opleiding->naam() << std::endl;
+    }
 
     // Only /tmp is writable in the container.
     drogon::app().setUploadPath("/tmp/uploads");
