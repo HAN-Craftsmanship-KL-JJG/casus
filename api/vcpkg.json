@@ -1,6 +1,6 @@
 {
   "name": "icde-api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "builtin-baseline": "5d4a3dc90c0b3773f3bac81bf41297b54328f471",
   "dependencies": [{ "name": "drogon", "features": ["postgres"] }, "gtest"]
 }
