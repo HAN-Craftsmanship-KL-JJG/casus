@@ -115,15 +115,6 @@ soort : SoortDocument,\n    \
 onderdelen : List<String>,\n    \
 opmaak : String) : void
   }
-  class VergrendelVeldHandler {
-    - vergrendelingen : VergrendelingRepository
-    + vergrendel(oweCode : String,\n    \
-onderdeelId : UUID,\n    \
-veld : String) : boolean
-    + ontgrendel(oweCode : String,\n    \
-onderdeelId : UUID,\n    \
-veld : String) : void
-  }
 }
 
 package domein {
@@ -148,20 +139,6 @@ package domein {
 opmaak : String,\n    \
 bestandstype : Bestandstype) : byte[]
   }
-  interface VergrendelingRepository <<interface>> {
-    + zoek(oweCode : String,\n    \
-onderdeelId : UUID,\n    \
-veld : String) : Vergrendeling
-    + bewaar(vergrendeling : Vergrendeling) : void
-    + verwijder(vergrendeling : Vergrendeling) : void
-  }
-  class Vergrendeling {
-    - oweCode : String
-    - onderdeelId : UUID
-    - veld : String
-    - gebruiker : String
-    - sinds : Instant
-  }
   interface Consistentieregel <<interface>> #E4DFEC {
     + controleer(owe : OWE) : List<Overtreding>
   }
@@ -182,6 +159,4 @@ HergebruikOnderdeelHandler -[hidden]-> OWERepository
 OpvragenDekkingHandler -[hidden]-> OpleidingRepository
 DeelOnderdeelHandler -[hidden]-> OWERepository
 BeheerDocumentsjabloonHandler -[hidden]-> DocumentsjabloonRepository
-VergrendelVeldHandler -[hidden]-> VergrendelingRepository
-VergrendelingRepository ..> Vergrendeling
 @enduml
