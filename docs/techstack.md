@@ -28,8 +28,7 @@ The prototype must work the same on macOS and Windows.
 | Typst | PDF files from a template | Fast, and one program |
 | `pandoc/typst` | Image of the document server | Official image with both programs |
 
-Pandoc and Typst run on their own document server, see
-[Architectuur](design/06-architectuur.md#a2-waar-wordt-het-bestand-gemaakt).
+Pandoc and Typst run on their own document server.
 A small C++ service with Drogon starts them, so the backend has one language and one framework.
 The design document is built with the same three tools.
 
@@ -84,8 +83,6 @@ The design document is built with the same three tools.
 | Dependabot | Weekly pull request for new versions | Built into GitHub, one file |
 | Beszel | Monitoring of the server and its containers | Small, with its own login |
 | Pocket ID | Accounts and passkeys for Beszel | Has a screen to manage users |
-
-The servers follow [Architectuur](design/06-architectuur.md#architectuur).
 
 ## Optional
 
