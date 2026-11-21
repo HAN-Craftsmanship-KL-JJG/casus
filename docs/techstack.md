@@ -29,7 +29,7 @@ The prototype must work the same on macOS and Windows.
 | `pandoc/typst` | Image of the document server | Official image with both programs |
 
 Pandoc and Typst run on their own document server, see
-[Architectuur](design/06-architectuur.md#a2-waar-wordt-het-bestand-gemaakt).
+[Ontwerpkeuzes](design/09-ontwerpkeuzes.md#a2-waar-wordt-het-bestand-gemaakt).
 A small C++ service with Drogon starts them, so the backend has one language and one framework.
 The design document is built with the same three tools.
 

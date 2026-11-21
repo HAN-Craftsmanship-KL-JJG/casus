@@ -2,6 +2,8 @@
 
 Dit hoofdstuk legt de begrippen uit de use cases en hun verbanden vast, en controleert het model
 tegen de use cases.
+De ontwerpkeuzes D1 tot en met D4 staan in het hoofdstuk
+[Ontwerpkeuzes](09-ontwerpkeuzes.md#domeinmodel).
 
 ## Diagram
 
@@ -93,58 +95,6 @@ Een onderdeel van de OWE is een eigen of een hergebruikt onderdeel.
 - Een les en een toetsmoment koppelen alleen criteria van hun OWE (BR11, BR14).
 - onderwijsweek, startweek en deadlineweek liggen binnen aantalWeken van de OWE (BR11, BR14).
 - Een OWE hergebruikt alleen onderdelen van een andere OWE met gedeeld = ja.
-
-## Keuzes
-
-### D1 Minimum 0 bij de consistentieregels
-
-Probleem: BR1 tot en met BR4 zeggen "minstens één".
-Welke multipliciteit krijgen die associaties?
-
-Alternatief: 1..*, zoals de regels zeggen.
-Dan kan ICDE een OWE met een inconsistentie niet bewaren, en kan UC05 die niet melden.
-
-Keuze: 0..*.
-Een ontwikkelaar legt eerst een les vast en koppelt later de criteria.
-UC04 waarschuwt dan, maar slaat de les wel op (flow 6A).
-
-### D2 Generalisatie OWE-onderdeel
-
-Probleem: UC09 deelt "een onderdeel, zoals een leeruitkomst of een rubric".
-Leeruitkomst, Beoordelingsdimensie, Les en Toetsmoment zijn allemaal te delen.
-Hoe toont het model dat?
-
-Alternatief: een aparte associatie hergebruikt per soort onderdeel.
-Dat zijn vier lijnen die hetzelfde zeggen.
-
-Keuze: een abstract concept OWE-onderdeel met vier specialisaties.
-De generalisatie laat zien dat delen (UC09) en hergebruiken (UC07) voor alle vier hetzelfde
-werken.
-Een gedeelde dimensie neemt haar criteria en niveaus mee.
-Een kopie (UC07, flow 3A) is een nieuw onderdeel van de eigen OWE, geen hergebruik.
-
-### D3 Geen concept Profiel
-
-Probleem: de casus noemt delen "tussen opleidingen en profielen".
-
-Alternatief: een concept Profiel, als specialisatie binnen een opleiding.
-De HAN kent zulke profielen niet, en Opleiding dekt dit al.
-
-Keuze: geen concept Profiel.
-ICDE deelt alleen binnen HBO-ICT, dus een onderdeel is gedeeld of niet.
-Het attribuut gedeeld legt dat vast, en een gedeeld onderdeel is zichtbaar voor elke andere OWE.
-
-### D4 Les en Toetsmoment hangen aan de OWE, niet aan een EVL
-
-Probleem: [Begrippen](02-systeemgrenzen.md#begrippen) zegt dat een EVL leeruitkomsten groepeert
-en de toetsen die ze beoordelen.
-In de lesplanning van OOSE-DT staat ook per les een EVL.
-
-Alternatief: een directe associatie van Les en Toetsmoment naar EVL.
-Die EVL volgt al uit de criteria: criterium, leeruitkomst, EVL.
-Een directe associatie is dus dubbel en kan tegenspreken.
-
-Keuze: Les en Toetsmoment hangen aan de OWE, zonder redundante associatie.
 
 ## Validatie
 
