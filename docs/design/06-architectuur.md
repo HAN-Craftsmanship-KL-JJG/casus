@@ -5,8 +5,6 @@ Dit hoofdstuk verdeelt ICDE in lagen en zet elke laag op een server.
 De hoofdstukken [Klassendiagram](07-klassendiagram.md#klassendiagram) en
 [Sequence diagrams](08-sequencediagrammen.md#sequence-diagrams) werken de applicatie en het domein
 uit.
-De ontwerpkeuzes A1 en A2 staan in het hoofdstuk
-[Ontwerpkeuzes](09-ontwerpkeuzes.md#architectuur).
 
 ## Component diagram
 

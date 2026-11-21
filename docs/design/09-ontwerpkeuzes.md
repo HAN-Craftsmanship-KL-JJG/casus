@@ -1,9 +1,6 @@
 # Ontwerpkeuzes
 
-Dit hoofdstuk bundelt de ontwerpkeuzes uit de hoofdstukken
-[Domeinmodel](05-domeinmodel.md#domeinmodel), [Architectuur](06-architectuur.md#architectuur),
-[Klassendiagram](07-klassendiagram.md#klassendiagram) en
-[Sequence diagrams](08-sequencediagrammen.md#sequence-diagrams).
+Dit hoofdstuk bevat alle ontwerpkeuzes.
 Elke keuze noemt het probleem, de alternatieven met hun nadeel, en de keuze.
 De code van een keuze toont het hoofdstuk waar ze bij hoort: D voor het domeinmodel, A voor de
 architectuur, K voor het klassendiagram en S voor de sequence diagrams.
@@ -195,7 +192,7 @@ Deze opzet lijkt op het Strategy pattern.
 Probleem: ICDE scheidt inhoud en vorm (UC06).
 De functioneel beheerder wil sjablonen aanpassen zonder programmeur (UC10).
 Het bestand zelf maakt de documentserver
-([A2](09-ontwerpkeuzes.md#a2-waar-wordt-het-bestand-gemaakt)).
+(A2).
 
 Alternatieven:
 
@@ -256,7 +253,7 @@ hun eigen manier uitwerken (Polymorphism).
   Les.kopieerNaar roept planning.toevoegenLes aan, Toetsmoment.kopieerNaar
   planning.toevoegenToetsmoment.
   Zo controleert Planning BR11 en BR14 net als bij toevoegen, zonder de soort te testen
-  ([S3](09-ontwerpkeuzes.md#s3-kopie-via-toevoegen)).
+  (S3).
 - De kopie heeft geen criteria, want die horen bij de andere OWE.
   UC05 meldt dat (BR2, BR4), en de ontwikkelaar koppelt daarna eigen criteria.
 - Flow 4A: OWERepository.zoekGedeeldOnderdeel vindt een verwijderd origineel niet, en de handler

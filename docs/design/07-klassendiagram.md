@@ -1,8 +1,6 @@
 # Klassendiagram
 
 Dit hoofdstuk werkt de applicatie- en domeinlaag uit als design class diagram (DCD).
-De ontwerpkeuzes K1 tot en met K9 staan in het hoofdstuk
-[Ontwerpkeuzes](09-ontwerpkeuzes.md#klassendiagram).
 
 ## Aanpak
 

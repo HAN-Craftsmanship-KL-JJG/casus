@@ -23,8 +23,4 @@ ICDE heeft veel interactie tussen objecten, dus het ontwerp toont ook dynamische
 | SDD | [Ontwerpkeuzes](09-ontwerpkeuzes.md#ontwerpkeuzes) | Keuzes met alternatieven, D, A, K, S | 3.2 |
 | SDD | [Verantwoording](10-verantwoording.md#verantwoording) | Eisen, consistentie | 3.1, 4 |
 
-Alle ontwerpkeuzes staan samen in het hoofdstuk
-[Ontwerpkeuzes](09-ontwerpkeuzes.md#ontwerpkeuzes).
-Een code als K4 in een ander hoofdstuk verwijst naar een keuze daar.
-
 De bron van elk diagram staat in PlantUML in `docs/design/diagrams/`, met dezelfde naam als de afbeelding.

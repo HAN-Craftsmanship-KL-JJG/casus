@@ -2,8 +2,6 @@
 
 Dit hoofdstuk legt de begrippen uit de use cases en hun verbanden vast, en controleert het model
 tegen de use cases.
-De ontwerpkeuzes D1 tot en met D4 staan in het hoofdstuk
-[Ontwerpkeuzes](09-ontwerpkeuzes.md#domeinmodel).
 
 ## Diagram
 

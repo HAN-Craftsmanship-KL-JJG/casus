@@ -1,8 +1,6 @@
 # Sequence diagrams
 
 Dit hoofdstuk toont hoe de klassen samenwerken, en controleert zo het klassendiagram.
-De ontwerpkeuzes S1 tot en met S3 staan in het hoofdstuk
-[Ontwerpkeuzes](09-ontwerpkeuzes.md#sequence-diagrams).
 
 ## Aanpak
 
