@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -7,7 +8,7 @@
 
 namespace icde {
 
-enum class Format { Pdf, Docx };
+enum class Format : std::uint8_t { Pdf, Docx };
 
 // "pdf" or "docx", empty for any other name.
 std::optional<Format> parseFormat(const std::string& name);

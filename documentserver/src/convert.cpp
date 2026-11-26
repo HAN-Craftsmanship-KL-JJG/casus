@@ -1,23 +1,31 @@
 #include "convert.hpp"
 
 #include <spawn.h>
+// POSIX mkdtemp and WIFEXITED, which <cstdlib> does not promise.
+#include <stdlib.h> // NOLINT(modernize-deprecated-headers)
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <filesystem>
 #include <fstream>
+#include <ios>
 #include <iterator>
-
-extern char** environ;
+#include <optional>
+#include <string>
+#include <vector>
 
 namespace icde {
 
 namespace {
 
 // No shell, so text from a request never becomes a command.
-bool run(const std::vector<std::string>& command) {
+// A copy of the command, because posix_spawnp wants text it may change.
+bool run(std::vector<std::string> command) {
     std::vector<char*> arguments;
-    for (const std::string& argument : command) {
-        arguments.push_back(const_cast<char*>(argument.c_str()));
+    arguments.reserve(command.size() + 1);
+    for (std::string& argument : command) {
+        arguments.push_back(argument.data());
     }
     arguments.push_back(nullptr);
 

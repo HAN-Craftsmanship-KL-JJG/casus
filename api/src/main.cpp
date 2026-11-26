@@ -1,7 +1,12 @@
-#include <drogon/drogon.h>
+#include <drogon/HttpAppFramework.h>
+#include <drogon/HttpRequest.h>
+#include <drogon/HttpResponse.h>
+#include <drogon/HttpTypes.h>
 
+#include <cstdint>
 #include <functional>
 #include <iostream>
+#include <utility>
 
 #include "OpleidingHandler.hpp"
 #include "PostgresOpleidingRepository.hpp"
@@ -11,8 +16,12 @@ namespace {
 
 using Callback = std::function<void(const drogon::HttpResponsePtr&)>;
 
-void status(const drogon::HttpRequestPtr&, Callback&& callback) {
-    callback(drogon::HttpResponse::newHttpJsonResponse(icde::rest::makeStatus()));
+constexpr std::uint16_t port = 8080;
+
+void status(const drogon::HttpRequestPtr& /*request*/, Callback&& callback) {
+    // Drogon hands the callback over, so this function takes it over.
+    const Callback respond = std::move(callback);
+    respond(drogon::HttpResponse::newHttpJsonResponse(icde::rest::makeStatus()));
 }
 
 } // namespace
@@ -26,12 +35,12 @@ int main() {
     const icde::datalaag::PostgresOpleidingRepository opleidingen;
     const icde::applicatie::OpleidingHandler handler{opleidingen};
     if (const auto opleiding = handler.geefOpleiding("HBO-ICT")) {
-        std::cout << "main: found Opleiding " << opleiding->naam() << std::endl;
+        std::cout << "main: found Opleiding " << opleiding->naam() << '\n' << std::flush;
     }
 
     // Only /tmp is writable in the container.
     drogon::app().setUploadPath("/tmp/uploads");
-    drogon::app().addListener("0.0.0.0", 8080);
+    drogon::app().addListener("0.0.0.0", port);
     drogon::app().run();
     return 0;
 }

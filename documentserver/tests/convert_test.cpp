@@ -9,7 +9,7 @@
 namespace {
 
 bool contains(const std::vector<std::string>& command, const std::string& argument) {
-    return std::find(command.begin(), command.end(), argument) != command.end();
+    return std::ranges::find(command, argument) != command.end();
 }
 
 } // namespace
