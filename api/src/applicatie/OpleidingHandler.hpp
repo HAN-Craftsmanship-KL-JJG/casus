@@ -17,7 +17,8 @@ public:
     [[nodiscard]] std::optional<domein::Opleiding> geefOpleiding(const std::string& naam) const;
 
 private:
-    const domein::OpleidingRepository& opleidingen_;
+    // A pointer, not a reference, so the handler can be copied (C.12).
+    const domein::OpleidingRepository* opleidingen_;
 };
 
-}  // namespace icde::applicatie
+} // namespace icde::applicatie

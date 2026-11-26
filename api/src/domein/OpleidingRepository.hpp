@@ -23,4 +23,4 @@ public:
     [[nodiscard]] virtual std::optional<Opleiding> zoek(const std::string& naam) const = 0;
 };
 
-}  // namespace icde::domein
+} // namespace icde::domein

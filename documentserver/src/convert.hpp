@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -7,7 +8,7 @@
 
 namespace icde {
 
-enum class Format { Pdf, Docx };
+enum class Format : std::uint8_t { Pdf, Docx };
 
 // "pdf" or "docx", empty for any other name.
 std::optional<Format> parseFormat(const std::string& name);
@@ -21,4 +22,4 @@ std::vector<std::string> pandocCommand(Format format, const std::filesystem::pat
 // Turns Markdown into a PDF or Word file with Pandoc. Empty when Pandoc fails.
 std::optional<std::string> convert(Format format, const std::string& markdown);
 
-}  // namespace icde
+} // namespace icde

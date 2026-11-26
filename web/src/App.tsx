@@ -13,8 +13,12 @@ export function App() {
   useEffect(() => {
     fetch("/api/status")
       .then((response) => response.json() as Promise<Status>)
-      .then((status) => setState({ kind: "loaded", status }))
-      .catch(() => setState({ kind: "failed" }));
+      .then((status) => {
+        setState({ kind: "loaded", status });
+      })
+      .catch(() => {
+        setState({ kind: "failed" });
+      });
   }, []);
 
   return (

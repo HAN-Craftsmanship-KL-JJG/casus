@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include "Opleiding.hpp"
 #include "PostgresOpleidingRepository.hpp"
 
 TEST(OpleidingHandlerTest, FindsAKnownOpleiding) {
@@ -11,7 +12,8 @@ TEST(OpleidingHandlerTest, FindsAKnownOpleiding) {
     const auto opleiding = handler.geefOpleiding("HBO-ICT");
 
     ASSERT_TRUE(opleiding.has_value());
-    EXPECT_EQ(opleiding->naam(), "HBO-ICT");
+    // value_or, because clang-tidy does not see that ASSERT_TRUE ends the test.
+    EXPECT_EQ(opleiding.value_or(icde::domein::Opleiding{""}).naam(), "HBO-ICT");
 }
 
 TEST(OpleidingHandlerTest, FindsNoUnknownOpleiding) {

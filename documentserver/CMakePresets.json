@@ -13,9 +13,19 @@
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_CXX_COMPILER": "clang++"
       }
+    },
+    {
+      "name": "lint",
+      "displayName": "Release build that runs clang-tidy on every file",
+      "inherits": "release",
+      "binaryDir": "${sourceDir}/build-lint",
+      "cacheVariables": { "CMAKE_CXX_CLANG_TIDY": "clang-tidy" }
     }
   ],
-  "buildPresets": [{ "name": "release", "configurePreset": "release" }],
+  "buildPresets": [
+    { "name": "release", "configurePreset": "release" },
+    { "name": "lint", "configurePreset": "lint" }
+  ],
   "testPresets": [
     {
       "name": "release",

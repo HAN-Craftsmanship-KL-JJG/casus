@@ -1,0 +1,20 @@
+# Lints the C++ code of api/ and documentserver/ with the lint preset of CMakePresets.json.
+# Every warning is an error, so a build with a finding fails.
+Checks:
+  - bugprone-*
+  - cert-*
+  - clang-analyzer-*
+  - concurrency-*
+  - cppcoreguidelines-*
+  - misc-*
+  - modernize-*
+  - performance-*
+  - portability-*
+  - readability-*
+  # Write `int f()`, not `auto f() -> int`: the form the course examples use.
+  - -modernize-use-trailing-return-type
+WarningsAsErrors: "*"
+HeaderFilterRegex: ".*"
+CheckOptions:
+  # An interface declares only a virtual destructor (docs/werkafspraken.md).
+  cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor: true

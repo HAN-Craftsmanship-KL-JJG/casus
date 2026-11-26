@@ -1,0 +1,119 @@
+name: CI
+
+# Lints the code, then builds the images with their unit tests.
+# Pushes nothing: deploy.yml builds and pushes after a merge.
+on:
+  pull_request:
+    paths:
+      - .clang-format
+      - .clang-tidy
+      - .github/workflows/ci.yml
+      - api/**
+      - documentserver/**
+      - web/**
+
+permissions:
+  contents: read
+
+# A new push to a pull request stops the run of the older push.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  clang-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v7
+      - name: Install uv
+        # setup-uv has no major tag such as v10, only full versions.
+        uses: astral-sh/setup-uv@v10.4.0
+      # The version of Debian 13, the base of the Dockerfiles.
+      - name: Check the C++ formatting
+        run: >-
+          find api documentserver \( -name '*.cpp' -o -name '*.hpp' \)
+          -exec uvx clang-format@19.1.7 --dry-run --Werror {} +
+
+  clang-tidy:
+    runs-on: ubuntu-latest
+    # The base image of the Dockerfiles, so the same Clang version.
+    container: debian:13-slim
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [api, documentserver]
+    env:
+      VCPKG_ROOT: /opt/vcpkg
+      CC: clang
+      CXX: clang++
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v7
+      - name: Install the build tools of the Dockerfile, plus clang-tidy and jq
+        run: >-
+          apt-get update && apt-get install -y --no-install-recommends
+          autoconf automake bison ca-certificates clang clang-tidy cmake curl flex git jq libtool
+          make ninja-build perl pkg-config python3 python3-venv tar unzip zip
+      - name: Install vcpkg at the builtin-baseline of vcpkg.json
+        run: |
+          baseline=$(jq -r '."builtin-baseline"' ${{ matrix.app }}/vcpkg.json)
+          git init -q "$VCPKG_ROOT"
+          git -C "$VCPKG_ROOT" fetch -q --depth 1 https://github.com/microsoft/vcpkg "$baseline"
+          git -C "$VCPKG_ROOT" checkout -q FETCH_HEAD
+          "$VCPKG_ROOT/bootstrap-vcpkg.sh" -disableMetrics
+      # vcpkg keeps each built library here, so it builds Drogon only once.
+      - name: Restore the libraries that vcpkg built before
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/vcpkg/archives
+          key: vcpkg-${{ matrix.app }}-${{ hashFiles(format('{0}/vcpkg.json', matrix.app)) }}
+          restore-keys: vcpkg-${{ matrix.app }}-
+      - name: Lint with clang-tidy
+        working-directory: ${{ matrix.app }}
+        run: cmake --preset lint && cmake --build --preset lint
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v7
+      - name: Install Node.js
+        uses: actions/setup-node@v7
+        with:
+          # Keep equal to the node image in web/Dockerfile.
+          node-version: 24.22.3
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install the packages
+        run: npm ci
+      - name: Lint with ESLint and check the formatting with Prettier
+        run: npm run lint
+      # ESLint does not report type errors.
+      - name: Check the types
+        run: npx tsc --noEmit
+
+  # Runs only when every check above passes.
+  build:
+    needs: [clang-format, clang-tidy, web]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [api, documentserver, web]
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v7
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      # The C++ builds run the unit tests, so a failing test stops here.
+      - name: Build the image
+        uses: docker/build-push-action@v7
+        with:
+          context: ${{ matrix.app }}
+          push: false
+          # Reads the cache that deploy.yml writes, so vcpkg does not build Drogon again.
+          cache-from: type=gha,scope=${{ matrix.app }}

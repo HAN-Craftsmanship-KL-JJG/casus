@@ -1,6 +1,7 @@
 #include "status.hpp"
 
 #include <gtest/gtest.h>
+#include <json/value.h>
 
 TEST(StatusTest, ReportsNameAndVersion) {
     const Json::Value status = icde::rest::makeStatus();
