@@ -1,5 +1,6 @@
 # Build output
 build/
+build-lint/
 dist/
 node_modules/
 

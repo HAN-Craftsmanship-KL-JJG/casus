@@ -1,0 +1,10 @@
+# Formats the C++ code of api/ and documentserver/. Check: clang-format --dry-run --Werror
+BasedOnStyle: LLVM
+IndentWidth: 4
+# public: and private: start at the column of the class.
+AccessModifierOffset: -4
+ColumnLimit: 100
+# Write `const std::string& naam`, as the C++ Core Guidelines do (NL.18).
+PointerAlignment: Left
+# A function body starts on its own line, also when it is short.
+AllowShortFunctionsOnASingleLine: Empty
