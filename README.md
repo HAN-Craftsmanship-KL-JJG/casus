@@ -38,7 +38,7 @@ Naast ICDE zelf gebruikt de hosting deze programma's:
 | Programma      | Functie                                                                      |
 | -------------- | ---------------------------------------------------------------------------- |
 | Caddy          | Proxy: regelt HTTPS en stuurt elke naam naar de juiste container             |
-| GitHub Actions | Bouwt de images en draait de unittests                                       |
+| GitHub Actions | Bouwt de images, draait de unittests en controleert lint en opmaak           |
 | doco-cd        | Rolt een nieuwe versie uit na een merge                                      |
 | Beszel         | Monitoring van de server en de containers, op <https://monitor.icde.nl>      |
 | Pocket ID      | Accounts en inloggen met een passkey, voor Beszel, op <https://auth.icde.nl> |
@@ -54,6 +54,25 @@ docker compose up -d --build
 
 De eerste keer duurt het bouwen enkele minuten.
 Draai hetzelfde commando opnieuw na een wijziging in de code.
+
+## Lint en opmaak
+
+Elke pull request draait de workflow Lint: clang-format en clang-tidy voor C++,
+ESLint en Prettier voor TypeScript.
+Een melding laat de workflow falen.
+VS Code met de aanbevolen extensies formatteert een bestand bij het opslaan.
+
+Controleer de frontend zelf, of herstel de opmaak met `npm run format`:
+
+```sh
+cd web && npm run lint
+```
+
+Controleer een C++-programma zelf, in `api/` of `documentserver/`:
+
+```sh
+cmake --preset lint && cmake --build --preset lint
+```
 
 ## Documentatie
 
