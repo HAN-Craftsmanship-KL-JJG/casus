@@ -12,4 +12,4 @@ std::optional<domein::Opleiding> PostgresOpleidingRepository::zoek(const std::st
     return std::nullopt;
 }
 
-}  // namespace icde::datalaag
+} // namespace icde::datalaag

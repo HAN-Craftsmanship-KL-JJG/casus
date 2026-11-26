@@ -13,4 +13,4 @@ const std::string& Opleiding::naam() const {
     return naam_;
 }
 
-}  // namespace icde::domein
+} // namespace icde::domein

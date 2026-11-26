@@ -36,7 +36,7 @@ void convert(const drogon::HttpRequestPtr& request, Callback&& callback,
     callback(response);
 }
 
-}  // namespace
+} // namespace
 
 int main() {
     drogon::app().registerHandler("/convert/{format}", &convert, {drogon::Post});

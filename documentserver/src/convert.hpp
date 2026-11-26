@@ -21,4 +21,4 @@ std::vector<std::string> pandocCommand(Format format, const std::filesystem::pat
 // Turns Markdown into a PDF or Word file with Pandoc. Empty when Pandoc fails.
 std::optional<std::string> convert(Format format, const std::string& markdown);
 
-}  // namespace icde
+} // namespace icde

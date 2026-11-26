@@ -12,4 +12,4 @@ Json::Value makeStatus() {
     return status;
 }
 
-}  // namespace icde::rest
+} // namespace icde::rest

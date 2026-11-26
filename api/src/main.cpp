@@ -3,8 +3,8 @@
 #include <functional>
 #include <iostream>
 
-#include "PostgresOpleidingRepository.hpp"
 #include "OpleidingHandler.hpp"
+#include "PostgresOpleidingRepository.hpp"
 #include "status.hpp"
 
 namespace {
@@ -15,7 +15,7 @@ void status(const drogon::HttpRequestPtr&, Callback&& callback) {
     callback(drogon::HttpResponse::newHttpJsonResponse(icde::rest::makeStatus()));
 }
 
-}  // namespace
+} // namespace
 
 // The only file that knows both rest and datalaag.
 // Here the use cases will create the repositories and hand them to the handlers.

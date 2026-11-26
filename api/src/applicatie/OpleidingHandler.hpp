@@ -20,4 +20,4 @@ private:
     const domein::OpleidingRepository& opleidingen_;
 };
 
-}  // namespace icde::applicatie
+} // namespace icde::applicatie

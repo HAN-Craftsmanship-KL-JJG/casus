@@ -12,7 +12,7 @@ bool contains(const std::vector<std::string>& command, const std::string& argume
     return std::find(command.begin(), command.end(), argument) != command.end();
 }
 
-}  // namespace
+} // namespace
 
 TEST(ConvertTest, ParsesTheTwoFormats) {
     EXPECT_EQ(icde::parseFormat("pdf"), icde::Format::Pdf);

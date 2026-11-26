@@ -12,4 +12,4 @@ std::optional<domein::Opleiding> OpleidingHandler::geefOpleiding(const std::stri
     return opleidingen_.zoek(naam);
 }
 
-}  // namespace icde::applicatie
+} // namespace icde::applicatie

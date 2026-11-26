@@ -16,4 +16,4 @@ private:
     std::string naam_;
 };
 
-}  // namespace icde::domein
+} // namespace icde::domein

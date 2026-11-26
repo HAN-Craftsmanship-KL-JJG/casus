@@ -26,11 +26,10 @@ bool run(const std::vector<std::string>& command) {
         return false;
     }
     int status = 0;
-    return waitpid(process, &status, 0) == process && WIFEXITED(status) &&
-           WEXITSTATUS(status) == 0;
+    return waitpid(process, &status, 0) == process && WIFEXITED(status) && WEXITSTATUS(status) == 0;
 }
 
-}  // namespace
+} // namespace
 
 std::optional<Format> parseFormat(const std::string& name) {
     if (name == "pdf") {
@@ -79,4 +78,4 @@ std::optional<std::string> convert(Format format, const std::string& markdown) {
     return result;
 }
 
-}  // namespace icde
+} // namespace icde

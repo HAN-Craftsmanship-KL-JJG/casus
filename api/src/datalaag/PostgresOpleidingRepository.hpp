@@ -15,4 +15,4 @@ public:
     [[nodiscard]] std::optional<domein::Opleiding> zoek(const std::string& naam) const override;
 };
 
-}  // namespace icde::datalaag
+} // namespace icde::datalaag
