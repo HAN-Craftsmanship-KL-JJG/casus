@@ -57,9 +57,10 @@ Draai hetzelfde commando opnieuw na een wijziging in de code.
 
 ## Lint en opmaak
 
-Elke pull request draait de workflow Lint: clang-format en clang-tidy voor C++,
+Elke pull request draait de workflow CI: clang-format en clang-tidy voor C++,
 ESLint en Prettier voor TypeScript.
 Een melding laat de workflow falen.
+Daarna bouwt de workflow de images, met de unittests.
 VS Code met de aanbevolen extensies formatteert een bestand bij het opslaan.
 
 Controleer de frontend zelf, of herstel de opmaak met `npm run format`:
@@ -68,7 +69,14 @@ Controleer de frontend zelf, of herstel de opmaak met `npm run format`:
 cd web && npm run lint
 ```
 
-Controleer een C++-programma zelf, in `api/` of `documentserver/`:
+Herstel de opmaak van een C++-bestand met dezelfde clang-format als CI,
+via [uv](https://docs.astral.sh/uv/):
+
+```sh
+uvx clang-format@19.1.7 -i api/src/main.cpp
+```
+
+Controleer een C++-programma met clang-tidy, in `api/` of `documentserver/`:
 
 ```sh
 cmake --preset lint && cmake --build --preset lint

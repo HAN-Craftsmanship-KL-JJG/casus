@@ -1,4 +1,5 @@
-# Formats the C++ code of api/ and documentserver/. Check: clang-format --dry-run --Werror
+# Formats the C++ code of api/ and documentserver/.
+# CI uses clang-format 19.1.7, the version of Debian 13: `uvx clang-format@19.1.7`.
 BasedOnStyle: LLVM
 IndentWidth: 4
 # public: and private: start at the column of the class.
