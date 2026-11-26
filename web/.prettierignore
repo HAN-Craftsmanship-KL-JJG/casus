@@ -1,0 +1,3 @@
+# Build output of `npm run build`.
+dist/
+package-lock.json
