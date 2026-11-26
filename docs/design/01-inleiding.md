@@ -20,10 +20,7 @@ ICDE heeft veel interactie tussen objecten, dus het ontwerp toont ook dynamische
 | SDD | [Architectuur](06-architectuur.md#architectuur) | Component diagram, lagen en servers | 3.2 |
 | SDD | [Klassendiagram](07-klassendiagram.md#klassendiagram) | Statisch ontwerp, traceerbaarheid | 3.1, 3.2 |
 | SDD | [Sequence diagrams](08-sequencediagrammen.md#sequence-diagrams) | Dynamisch ontwerp | 3.1, 3.2 |
-| SDD | [Verantwoording](09-verantwoording.md#verantwoording) | Eisen, consistentie | 3.1, 4 |
-
-Elke ontwerpkeuze heeft een code: D voor het domeinmodel, A voor de architectuur, K voor het
-klassendiagram en S voor de sequence diagrams.
-Elke keuze noemt het probleem, de alternatieven met hun nadeel, en de keuze.
+| SDD | [Ontwerpkeuzes](09-ontwerpkeuzes.md#ontwerpkeuzes) | Keuzes met alternatieven, D, A, K, S | 3.2 |
+| SDD | [Verantwoording](10-verantwoording.md#verantwoording) | Eisen, consistentie | 3.1, 4 |
 
 De bron van elk diagram staat in PlantUML in `docs/design/diagrams/`, met dezelfde naam als de afbeelding.
