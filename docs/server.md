@@ -40,6 +40,7 @@ Three things to know:
 | --- | --- | --- |
 | SSH | Keys only, no passwords | `/etc/ssh/sshd_config.d/00-keys-only.conf` |
 | fail2ban | One hour block after five failed SSH logins | `/etc/fail2ban/jail.d/icde.conf` |
+| Firewall | From the internet only SSH, HTTP and HTTPS | `/etc/nftables.conf` |
 | Docker | Engine and Compose from Docker's repository | `/etc/apt/sources.list.d/` |
 | Container logs | At most 3 files of 10 MB per container | `/etc/docker/daemon.json` |
 | IPv6 | On for containers | `/etc/docker/daemon.json` |
@@ -48,6 +49,16 @@ Three things to know:
 | Secrets | Readable by root only | `/srv/infra/.env` |
 
 A restart or a Docker update takes the sites down for about a minute.
+
+The firewall is the nftables table `inet host-firewall`.
+It lets in TCP ports 22, 80 and 443, and UDP port 443 for HTTP/3.
+Traffic between containers, and from containers to the server, stays open.
+A port that a Compose file publishes stays closed to the internet, unless it is 80 or 443.
+Docker and fail2ban keep their own tables.
+For that reason, `/etc/nftables.conf` has no `flush ruleset`, and
+`/etc/systemd/system/nftables.service.d/icde.conf` makes `systemctl stop nftables` remove only
+`host-firewall`.
+Check a change with `nft -c -f /etc/nftables.conf` and load it with `systemctl reload nftables`.
 
 The proxy passes each name to one container, as set in `infra/Caddyfile`:
 
